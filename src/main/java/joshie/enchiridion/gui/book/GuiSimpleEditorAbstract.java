@@ -2,7 +2,7 @@ package joshie.enchiridion.gui.book;
 
 import joshie.enchiridion.EConfig;
 import joshie.enchiridion.api.EnchiridionAPI;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public abstract class GuiSimpleEditorAbstract extends AbstractGuiOverlay {
     public void drawImage(ResourceLocation location, int x, int y, int x2, int y2) {

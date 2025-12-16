@@ -2,15 +2,15 @@ package joshie.enchiridion.util;
 
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.lib.EInfo;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
-public class EItemGroup extends ItemGroup {
+public class EItemGroup extends CreativeModeTab {
     public static final EItemGroup ENCHIRIDION = new EItemGroup(EInfo.MODID);
     public ItemStack stack = ItemStack.EMPTY;
 
@@ -20,15 +20,15 @@ public class EItemGroup extends ItemGroup {
 
     @Override
     @Nonnull
-    public ItemStack createIcon() {
+    public ItemStack makeIcon() {
         return new ItemStack(Items.WRITABLE_BOOK);
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
     @Nonnull
-    public ItemStack getIcon() {
-        if (this.stack.isEmpty()) return super.getIcon();
+    public ItemStack getIconItem() {
+        if (this.stack.isEmpty()) return super.getIconItem();
         else return this.stack;
     }
 
@@ -39,7 +39,7 @@ public class EItemGroup extends ItemGroup {
     @Override
     @OnlyIn(Dist.CLIENT)
     @Nonnull
-    public String getTranslationKey() {
+    public String getRecipeFolderName() {
         return Enchiridion.format("creative");
     }
 }

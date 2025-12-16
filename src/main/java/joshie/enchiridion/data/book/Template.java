@@ -4,7 +4,7 @@ import joshie.enchiridion.api.book.IFeatureProvider;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.api.book.ITemplate;
 import joshie.enchiridion.lib.EInfo;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;

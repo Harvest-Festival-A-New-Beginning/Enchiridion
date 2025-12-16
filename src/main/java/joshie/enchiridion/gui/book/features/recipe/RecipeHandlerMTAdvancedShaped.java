@@ -4,7 +4,7 @@ import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.oredict.IOreDictEntry;
 import crafttweaker.api.recipes.ShapedRecipe;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 
 import java.lang.reflect.Field;

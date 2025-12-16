@@ -3,7 +3,7 @@ package joshie.enchiridion.helpers;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 

@@ -1,11 +1,11 @@
 package joshie.enchiridion.library;
 
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.common.thread.EffectiveSide;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.fml.LogicalSide;
+import net.neoforged.fml.common.thread.EffectiveSide;
 
 import java.util.Collection;
 
@@ -33,7 +33,7 @@ public class LibraryHelper {
         return EffectiveSide.get() == LogicalSide.SERVER;
     }
 
-    public static LibraryInventory getLibraryContents(PlayerEntity player) {
+    public static LibraryInventory getLibraryContents(Player player) {
         return getHandler().getLibraryInventory(player);
     }
 
@@ -42,7 +42,7 @@ public class LibraryHelper {
         return theClient.getLibraryInventory(null);
     }
 
-    public static LibraryInventory getServerLibraryContents(PlayerEntity player) {
+    public static LibraryInventory getServerLibraryContents(Player player) {
         return theServer.getLibraryInventory(player);
     }
 

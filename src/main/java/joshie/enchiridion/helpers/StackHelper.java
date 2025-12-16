@@ -1,14 +1,14 @@
 package joshie.enchiridion.helpers;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Component;
+import net.neoforged.neoforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -50,7 +50,7 @@ public class StackHelper {
         return str;
     }
 
-    private static CompoundNBT getTag(String[] str, int pos) {
+    private static CompoundTag getTag(String[] str, int pos) {
         String s = formatNBT(str, pos).getUnformattedComponentText();
         try {
             return JsonToNBT.getTagFromJson(s);
@@ -74,7 +74,7 @@ public class StackHelper {
 
         int amount = 1;
         ItemStack stack = new ItemStack(item, 1);
-        CompoundNBT tag = null;
+        CompoundTag tag = null;
 
         for (int i = 1; i <= 3; i++) {
             if (str.length > i) {
@@ -100,15 +100,15 @@ public class StackHelper {
         return item;
     }
 
-    private static ITextComponent formatNBT(String[] str, int start) {
-        StringTextComponent textComponentString = new StringTextComponent("");
+    private static Component formatNBT(String[] str, int start) {
+        StringTextComponent textComponentString = Component.literal("");
 
         for (int j = start; j < str.length; ++j) {
             if (j > start) {
                 textComponentString.appendText(" ");
             }
-            Object object = new StringTextComponent(str[j]);
-            textComponentString.appendSibling((ITextComponent) object);
+            Object object = Component.literal(str[j]);
+            textComponentString.appendSibling((Component) object);
         }
 
         return textComponentString;

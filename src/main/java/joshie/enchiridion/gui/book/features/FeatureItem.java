@@ -7,9 +7,9 @@ import joshie.enchiridion.gui.book.GuiSimpleEditorItem;
 import joshie.enchiridion.helpers.MCClientHelper;
 import joshie.enchiridion.helpers.StackHelper;
 import joshie.enchiridion.util.IItemSelectable;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -64,7 +64,7 @@ public class FeatureItem extends FeatureAbstract implements IItemSelectable {
     @Override
     public void addTooltip(List<String> list, int mouseX, int mouseY) {
         if (!hideTooltip && !this.stack.isEmpty()) {
-            for (ITextComponent textComponent : stack.getTooltip(MCClientHelper.getPlayer(), ITooltipFlag.TooltipFlags.NORMAL)) {
+            for (Component textComponent : stack.getTooltip(MCClientHelper.getPlayer(), TooltipFlag.TooltipFlags.NORMAL)) {
                 list.add(textComponent.getString());
             }
         }

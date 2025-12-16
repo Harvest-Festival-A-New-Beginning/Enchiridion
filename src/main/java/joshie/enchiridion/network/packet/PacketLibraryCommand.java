@@ -4,10 +4,10 @@ import joshie.enchiridion.library.LibraryHelper;
 import joshie.enchiridion.library.LibraryInventory;
 import joshie.enchiridion.library.ModSupport;
 import joshie.enchiridion.network.PacketHandler;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.neoforged.neoforge.common.util.FakePlayer;
+import net.neoforged.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
@@ -30,14 +30,14 @@ public class PacketLibraryCommand {
 
     public static class Handler {
         public static void handle(PacketLibraryCommand message, Supplier<NetworkEvent.Context> ctx) {
-            ServerPlayerEntity playerMP = ctx.get().getSender();
+            ServerPlayer playerMP = ctx.get().getSender();
             if (playerMP != null && !(playerMP instanceof FakePlayer)) {
                 //Refresh command resets the modded books allowed
                 //Reset command resets whether players have received books or not
                 //Clear command clears the inventory of all the players libraries
                 switch (message.command) {
                     case "refresh":
-                        if (!playerMP.world.isRemote) {
+                        if (!playerMP.level().isClientSide) {
                             ModSupport.reset(); //Reset the modded data, then tell clients to reset it and request data
                             PacketHandler.sendToEveryone(new PacketLibraryCommand("refresh"), playerMP);
                         } else {
@@ -46,12 +46,12 @@ public class PacketLibraryCommand {
                         }
                         break;
                     case "reset":
-                        if (!playerMP.world.isRemote) {
+                        if (!playerMP.level().isClientSide) {
                             LibraryHelper.getAllInventories().forEach(LibraryInventory::reset);
                         }
                         break;
                     case "clear":
-                        if (!playerMP.world.isRemote) {
+                        if (!playerMP.level().isClientSide) {
                             LibraryHelper.getAllInventories().forEach(LibraryInventory::clear);
                         }
                         break;

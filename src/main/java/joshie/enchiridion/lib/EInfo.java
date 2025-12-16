@@ -1,6 +1,6 @@
 package joshie.enchiridion.lib;
 
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 
 public class EInfo {
     public static final String JAVAPATH = "joshie.enchiridion.";

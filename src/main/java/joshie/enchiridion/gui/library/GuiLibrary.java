@@ -9,10 +9,10 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiLibrary extends ContainerScreen<ContainerLibrary> {
@@ -22,7 +22,7 @@ public class GuiLibrary extends ContainerScreen<ContainerLibrary> {
     public IInventory library;
     public int x, y;
 
-    public GuiLibrary(ContainerLibrary containerLibrary, PlayerInventory playerInventory, ITextComponent name) {
+    public GuiLibrary(ContainerLibrary containerLibrary, PlayerInventory playerInventory, Component name) {
         super(containerLibrary, playerInventory, name);
     }
 

@@ -5,29 +5,28 @@ import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.data.book.BookRegistry;
 import joshie.enchiridion.gui.book.GuiBook;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.level.Level;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static net.minecraft.util.text.TextFormatting.DARK_GREEN;
-import static net.minecraft.util.text.TextFormatting.RESET;
+import static net.minecraft.ChatFormatting.DARK_GREEN;
+import static net.minecraft.ChatFormatting.RESET;
 
 public class ItemBook extends Item {
 
@@ -42,15 +41,15 @@ public class ItemBook extends Item {
 
     @Override
     @Nonnull
-    public ITextComponent getDisplayName(@Nonnull ItemStack stack) {
+    public Component getName(@Nonnull ItemStack stack) {
         IBook book = BookRegistry.INSTANCE.getBook(stack);
-        return book == null ? new TranslationTextComponent(Enchiridion.format("new", DARK_GREEN, RESET)) : new StringTextComponent(book.getDisplayName());
+        return book == null ? Component.translatable(Enchiridion.format("new", DARK_GREEN, RESET)) : Component.literal(book.getDisplayName());
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(@Nonnull ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
-        super.addInformation(stack, world, tooltip, flag);
+    public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, world, tooltip, flag);
         IBook book = BookRegistry.INSTANCE.getBook(stack);
         if (book != null) {
             book.addInformation(tooltip);
@@ -59,32 +58,32 @@ public class ItemBook extends Item {
 
     @Override
     @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, @Nonnull Hand hand) {
-        ItemStack held = player.getHeldItem(hand);
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, @Nonnull InteractionHand hand) {
+        ItemStack held = player.getItemInHand(hand);
 
         if (!held.isEmpty()) {
             IBook book = BookRegistry.INSTANCE.getBook(held);
             if (book != null) {
-                if (world.isRemote) {
-                    GuiBook.INSTANCE.setBook(book, player.isSneaking());
+                if (world.isClientSide) {
+                    GuiBook.INSTANCE.setBook(book, player.isShiftKeyDown());
                     EClientHandler.openGuiBook();
                 }
             } else {
-                if (world.isRemote) {
+                if (world.isClientSide) {
                     EClientHandler.openGuiBookCreate();
                 }
             }
         }
-        return new ActionResult<>(ActionResultType.SUCCESS, held);
+        return InteractionResultHolder.success(held);
     }
 
     @Override
-    public void fillItemGroup(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> list) {
-        if (this.isInGroup(group)) {
-            super.fillItemGroup(group, list);
+    public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> list) {
+        if (this.allowedIn(group)) {
+            super.fillItemCategory(group, list);
             for (String uniqueName : BookRegistry.INSTANCE.getUniqueNames()) {
                 ItemStack stack = new ItemStack(this);
-                stack.setTag(new CompoundNBT());
+                stack.setTag(new CompoundTag());
                 if (stack.getTag() != null) {
                     stack.getTag().putString("identifier", uniqueName);
                 }

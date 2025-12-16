@@ -22,25 +22,25 @@ import joshie.enchiridion.util.EItemGroup;
 import joshie.enchiridion.util.ELocation;
 import joshie.enchiridion.util.EResourcePack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Hand;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import org.lwjgl.glfw.GLFW;
 
 public class EClientHandler {
-    public static KeyBinding libraryKeyBinding;
+    public static KeyMapping libraryKeyBinding;
 
     public static void setupClient() {
         Minecraft.getInstance().getResourceManager().addResourcePack(EResourcePack.INSTANCE);
-        ScreenManager.registerFactory(EGuis.LIBRARY_CONTAINER, GuiLibrary::new);
+        MenuScreens.register(EGuis.LIBRARY_CONTAINER, GuiLibrary::new);
         LibraryHelper.resetClient();
-        MinecraftForge.EVENT_BUS.register(new SmartLibrary());
+        NeoForge.EVENT_BUS.register(new SmartLibrary());
         EnchiridionAPI.book = GuiBook.INSTANCE;
         EnchiridionAPI.draw = GuiBook.INSTANCE;
         EnchiridionAPI.editor = new EditHelper();
@@ -95,12 +95,12 @@ public class EClientHandler {
 
         //Register the keybinding
         if (EConfig.SETTINGS.libraryAsHotkey.get()) {
-            libraryKeyBinding = new KeyBinding("enchiridion.key.library", GLFW.GLFW_KEY_I, "key.categories.misc");
-            ClientRegistry.registerKeyBinding(libraryKeyBinding);
+            libraryKeyBinding = new KeyMapping("enchiridion.key.library", GLFW.GLFW_KEY_I, "key.categories.misc");
+            // Note: Key mapping registration now happens via RegisterKeyMappingsEvent
         }
 
         ItemStack book = new ItemStack(EItems.BOOK);
-        book.setTag(new CompoundNBT());
+        book.setTag(new CompoundTag());
         if (book.getTag() != null) {
             book.getTag().putString("identifier", "enchiridion");
         }
@@ -117,16 +117,16 @@ public class EClientHandler {
     }
 
     public static void openGuiBook() {
-        Minecraft.getInstance().displayGuiScreen(GuiBook.INSTANCE);
+        Minecraft.getInstance().setScreen(GuiBook.INSTANCE);
     }
 
     public static void openGuiBookCreate() {
-        Minecraft.getInstance().displayGuiScreen(GuiBookCreate.INSTANCE);
+        Minecraft.getInstance().setScreen(GuiBookCreate.INSTANCE);
     }
 
-    public static void openWriteableBook(PlayerEntity player, int slot, Hand hand) {
-        if (player instanceof ServerPlayerEntity) {
-            Minecraft.getInstance().displayGuiScreen(new WritableBookHandler.GuiScreenWritable((ServerPlayerEntity) player, slot, hand));
+    public static void openWriteableBook(Player player, int slot, InteractionHand hand) {
+        if (player instanceof ServerPlayer) {
+            Minecraft.getInstance().setScreen(new WritableBookHandler.GuiScreenWritable((ServerPlayer) player, slot, hand));
         }
     }
 }

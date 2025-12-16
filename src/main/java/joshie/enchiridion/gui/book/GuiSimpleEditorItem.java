@@ -7,8 +7,8 @@ import joshie.enchiridion.api.gui.IBookEditorOverlay;
 import joshie.enchiridion.helpers.ItemListHelper;
 import joshie.enchiridion.util.ELocation;
 import joshie.enchiridion.util.IItemSelectable;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 

@@ -3,7 +3,7 @@ package joshie.enchiridion.gui.book;
 import joshie.enchiridion.api.gui.IBookEditorOverlay;
 import joshie.enchiridion.util.ELocation;
 import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 

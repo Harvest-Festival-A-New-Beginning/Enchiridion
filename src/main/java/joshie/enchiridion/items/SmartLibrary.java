@@ -9,12 +9,12 @@ import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.util.Direction;
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraft.world.level.Level;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.common.Mod.EventBusSubscriber;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -44,7 +44,7 @@ public class SmartLibrary implements IBakedModel { //TODO
 
         @Override
         @Nonnull
-        public IBakedModel getModelWithOverrides(@Nonnull IBakedModel originalModel, @Nonnull ItemStack stack, @Nullable World world, @Nullable LivingEntity entity) {
+        public IBakedModel getModelWithOverrides(@Nonnull IBakedModel originalModel, @Nonnull ItemStack stack, @Nullable Level world, @Nullable LivingEntity entity) {
             IBakedModel ret;
             //Setup
             /*if (mesher == null) mesher = Minecraft.getInstance().getItemRenderer().getItemModelMesher(); //TODO

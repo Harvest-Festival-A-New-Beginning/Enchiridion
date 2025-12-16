@@ -1,14 +1,14 @@
 package joshie.enchiridion.api.recipe;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
 public interface IRecipeHandler {
     /** Add recipes that are valid for this output item **/
-    void addRecipes(@Nonnull ItemStack output, List<IRecipeHandler> list, World world);
+    void addRecipes(@Nonnull ItemStack output, List<IRecipeHandler> list, Level world);
 
     /** Draw this recipe in the book, You can make use of the
      *  the helper functions in @IDrawHelper with access to an instance

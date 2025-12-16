@@ -1,36 +1,36 @@
 package joshie.enchiridion;
 
 import joshie.enchiridion.helpers.StackHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import javax.annotation.Nonnull;
 
 public class EConfig {
-    private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
     public static final Settings SETTINGS = new Settings(BUILDER);
 
     public static class Settings {
         public static final String CATEGORY = "settings";
         public boolean debugMode = false;
-        public ForgeConfigSpec.BooleanValue enableEditing;
-        public ForgeConfigSpec.BooleanValue resourceReload;
-        public ForgeConfigSpec.BooleanValue offlineMode;
-        public ForgeConfigSpec.BooleanValue allowDataAndImagesFromServers;
-        public ForgeConfigSpec.BooleanValue syncDataAndImagesToClients;
-        public ForgeConfigSpec.BooleanValue libraryAsItem;
-        public ForgeConfigSpec.BooleanValue libraryAsHotkey;
-        public ForgeConfigSpec.BooleanValue addWrittenBookRecipeForLibrary;
-        public ForgeConfigSpec.ConfigValue<String> defaultText;
-        public ForgeConfigSpec.ConfigValue<String> defaultItem;
+        public ModConfigSpec.BooleanValue enableEditing;
+        public ModConfigSpec.BooleanValue resourceReload;
+        public ModConfigSpec.BooleanValue offlineMode;
+        public ModConfigSpec.BooleanValue allowDataAndImagesFromServers;
+        public ModConfigSpec.BooleanValue syncDataAndImagesToClients;
+        public ModConfigSpec.BooleanValue libraryAsItem;
+        public ModConfigSpec.BooleanValue libraryAsHotkey;
+        public ModConfigSpec.BooleanValue addWrittenBookRecipeForLibrary;
+        public ModConfigSpec.ConfigValue<String> defaultText;
+        public ModConfigSpec.ConfigValue<String> defaultItem;
 
         public int editorXPos = -100;
-        public ForgeConfigSpec.IntValue toolbarYPos;
-        public ForgeConfigSpec.IntValue timelineYPos;
-        public ForgeConfigSpec.IntValue layersXPos;
+        public ModConfigSpec.IntValue toolbarYPos;
+        public ModConfigSpec.IntValue timelineYPos;
+        public ModConfigSpec.IntValue layersXPos;
 
-        public Settings(ForgeConfigSpec.Builder builder) {
+        public Settings(ModConfigSpec.Builder builder) {
             builder.push(CATEGORY);
             enableEditing = builder.comment("Enables editing of books that aren't locked").define("Enable Editing", true);
             resourceReload = builder.comment("Reloads resources whenever you change a books icon, causes long delays, the more mods you have the longer").define("Reload Resources", false);
@@ -49,7 +49,7 @@ public class EConfig {
         }
     }
 
-    public static final ForgeConfigSpec spec = BUILDER.build();
+    public static final ModConfigSpec spec = BUILDER.build();
 
     private static ItemStack stack = ItemStack.EMPTY;
 

@@ -9,7 +9,7 @@ import joshie.enchiridion.lib.EInfo;
 import net.minecraft.resources.IResourcePack;
 import net.minecraft.resources.ResourcePackType;
 import net.minecraft.resources.data.IMetadataSectionSerializer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Level;
 

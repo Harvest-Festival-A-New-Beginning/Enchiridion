@@ -7,7 +7,7 @@ import joshie.enchiridion.gui.book.buttons.ButtonChangeIcon;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nonnull;

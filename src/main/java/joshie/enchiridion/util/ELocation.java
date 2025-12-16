@@ -1,7 +1,7 @@
 package joshie.enchiridion.util;
 
 import joshie.enchiridion.lib.EInfo;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public class ELocation extends ResourceLocation {
     public ELocation(String resource) {

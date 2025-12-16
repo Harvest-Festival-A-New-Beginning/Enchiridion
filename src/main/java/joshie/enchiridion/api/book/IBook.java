@@ -1,7 +1,7 @@
 package joshie.enchiridion.api.book;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
 
 import java.util.Collection;
 import java.util.List;
@@ -86,7 +86,7 @@ public interface IBook {
     void setDisplayName(String name);
 
     /** Adds tooltip info **/
-    void addInformation(List<ITextComponent> tooltip);
+    void addInformation(List<Component> tooltip);
 
     /** Set the color of this book **/
     void setColorAsInt(int color);

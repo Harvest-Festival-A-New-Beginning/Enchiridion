@@ -6,12 +6,12 @@ import joshie.enchiridion.api.book.IBookHandler;
 import joshie.enchiridion.network.PacketHandler;
 import joshie.enchiridion.network.packet.PacketSetLibraryBook;
 import net.minecraft.client.gui.screen.EditBookScreen;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
-import net.minecraft.util.Hand;
+import net.minecraft.world.InteractionHand;
 
 import javax.annotation.Nonnull;
 
@@ -22,8 +22,8 @@ public class WritableBookHandler implements IBookHandler {
     }
 
     @Override
-    public void handle(@Nonnull ItemStack stack, PlayerEntity player, Hand hand, int slotID, boolean isShiftPressed) {
-        if (player.world.isRemote) {
+    public void handle(@Nonnull ItemStack stack, Player player, InteractionHand hand, int slotID, boolean isShiftPressed) {
+        if (player.level().isClientSide) {
             EClientHandler.openWriteableBook(player, slotID, hand);
         }
     }
@@ -32,7 +32,7 @@ public class WritableBookHandler implements IBookHandler {
     public static class GuiScreenWritable extends EditBookScreen {
         private int slot;
 
-        public GuiScreenWritable(ServerPlayerEntity player, int slot, Hand hand) {
+        public GuiScreenWritable(ServerPlayer player, int slot, InteractionHand hand) {
             super(player, EnchiridionAPI.library.getLibraryInventory(player).getStackInSlot(slot), hand);
             this.slot = slot;
         }

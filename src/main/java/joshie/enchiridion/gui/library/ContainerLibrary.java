@@ -2,21 +2,21 @@ package joshie.enchiridion.gui.library;
 
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.lib.EGuis;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionHand;
 
 import javax.annotation.Nonnull;
 
 public class ContainerLibrary extends Container {
     public IInventory library;
 
-    public ContainerLibrary(int windowID, PlayerInventory playerInventory, IInventory library, Hand hand) {
+    public ContainerLibrary(int windowID, PlayerInventory playerInventory, IInventory library, InteractionHand hand) {
         super(EGuis.LIBRARY_CONTAINER, windowID);
         this.library = library;
 
@@ -59,13 +59,13 @@ public class ContainerLibrary extends Container {
     }
 
     @Override
-    public boolean canInteractWith(@Nonnull PlayerEntity player) {
+    public boolean canInteractWith(@Nonnull Player player) {
         return true;
     }
 
     @Override
     @Nonnull
-    public ItemStack transferStackInSlot(PlayerEntity player, int slotID) {
+    public ItemStack transferStackInSlot(Player player, int slotID) {
         int size = library.getSizeInventory();
         int low = size + 27;
         int high = low + 9;
@@ -103,7 +103,7 @@ public class ContainerLibrary extends Container {
 
     @Override
     @Nonnull
-    public ItemStack slotClick(int slotID, int mouseButton, ClickType type, PlayerEntity player) {
+    public ItemStack slotClick(int slotID, int mouseButton, ClickType type, Player player) {
         Slot slot = slotID < 0 || slotID > inventorySlots.size() ? null : inventorySlots.get(slotID);
         return mouseButton == 1 && slot instanceof SlotBook && ((SlotBook) slot).handle(player, mouseButton, slot).isEmpty() ? ItemStack.EMPTY : super.slotClick(slotID, mouseButton, type, player);
     }

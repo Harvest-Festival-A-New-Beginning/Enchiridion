@@ -4,8 +4,8 @@ import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.library.LibraryConditionFactory;
 import joshie.enchiridion.library.LibraryRegistry;
 import joshie.enchiridion.library.handlers.*;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.common.crafting.CraftingHelper;
 
 import static joshie.enchiridion.lib.EInfo.MODID;
 

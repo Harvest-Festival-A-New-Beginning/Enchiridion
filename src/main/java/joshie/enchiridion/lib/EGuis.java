@@ -3,18 +3,18 @@ package joshie.enchiridion.lib;
 import joshie.enchiridion.gui.library.ContainerLibrary;
 import joshie.enchiridion.items.EItems;
 import joshie.enchiridion.library.LibraryHelper;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Component;
+import net.neoforged.neoforge.event.RegistryEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.registries.ObjectHolder;
 
 import javax.annotation.Nonnull;
 
@@ -38,19 +38,19 @@ public class EGuis {
         return new INamedContainerProvider() {
             @Override
             @Nonnull
-            public ITextComponent getDisplayName() {
-                return new TranslationTextComponent(EInfo.MODID + ".container.library");
+            public Component getDisplayName() {
+                return Component.translatable(EInfo.MODID + ".container.library");
             }
 
             @Override
-            public Container createMenu(int windowId, @Nonnull PlayerInventory playerInventory, @Nonnull PlayerEntity playerEntity) {
+            public Container createMenu(int windowId, @Nonnull PlayerInventory playerInventory, @Nonnull Player playerEntity) {
                 return createLibraryContainer(windowId, playerInventory);
             }
         };
     }
 
     private static ContainerLibrary createLibraryContainer(int windowId, PlayerInventory playerInventory) {
-        Hand hand = playerInventory.player.getHeldItemMainhand().getItem() == EItems.LIBRARY ? Hand.MAIN_HAND : Hand.OFF_HAND;
+        InteractionHand hand = playerInventory.player.getHeldItemMainhand().getItem() == EItems.LIBRARY ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
         return new ContainerLibrary(windowId, playerInventory, LibraryHelper.getLibraryContents(playerInventory.player), hand);
     }
 }

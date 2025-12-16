@@ -3,10 +3,10 @@ package joshie.enchiridion.gui.book.features.recipe;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.recipe.IRecipeHandler;
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.world.World;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -80,7 +80,7 @@ public abstract class RecipeHandlerRecipeBase extends RecipeHandlerBase {
     }
 
     @Override
-    public void addRecipes(@Nonnull ItemStack output, List<IRecipeHandler> list, World world) {
+    public void addRecipes(@Nonnull ItemStack output, List<IRecipeHandler> list, Level world) {
         for (IRecipe check : world.getRecipeManager().getRecipes()) {
             ItemStack stack = check.getRecipeOutput();
             //CHECK -- > EXTENDS the class

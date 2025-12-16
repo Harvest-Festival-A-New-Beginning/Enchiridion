@@ -9,7 +9,7 @@ import joshie.enchiridion.gui.book.GuiSimpleEditorButton;
 import joshie.enchiridion.helpers.JSONHelper;
 import joshie.enchiridion.helpers.MCClientHelper;
 import joshie.enchiridion.util.ELocation;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 

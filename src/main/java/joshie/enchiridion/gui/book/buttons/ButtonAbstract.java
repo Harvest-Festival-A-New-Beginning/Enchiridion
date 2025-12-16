@@ -3,7 +3,7 @@ package joshie.enchiridion.gui.book.buttons;
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.gui.IToolbarButton;
 import joshie.enchiridion.lib.EInfo;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public abstract class ButtonAbstract implements IToolbarButton {
     protected ResourceLocation dflt;

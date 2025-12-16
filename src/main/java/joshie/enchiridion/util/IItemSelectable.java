@@ -1,6 +1,6 @@
 package joshie.enchiridion.util;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public interface IItemSelectable {
     void setItemStack(ItemStack stack);

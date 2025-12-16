@@ -5,7 +5,7 @@ import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IFeatureProvider;
 import joshie.enchiridion.lib.EInfo;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 

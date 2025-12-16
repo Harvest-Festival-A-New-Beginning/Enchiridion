@@ -1,9 +1,9 @@
 package joshie.enchiridion.library;
 
 import joshie.enchiridion.helpers.MCClientHelper;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.world.entity.player.Player;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class LibraryProxyClient extends LibraryProxy {
@@ -14,7 +14,7 @@ public class LibraryProxyClient extends LibraryProxy {
     }
 
     @Override
-    public LibraryInventory getLibraryInventory(PlayerEntity player) {
+    public LibraryInventory getLibraryInventory(Player player) {
         return contents;
     }
 }

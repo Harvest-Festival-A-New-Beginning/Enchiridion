@@ -4,21 +4,21 @@ import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IBookHandler;
 import joshie.enchiridion.library.LibraryHelper;
 import joshie.enchiridion.library.LibraryInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.Hand;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.world.InteractionHand;
+import net.neoforged.neoforge.common.util.FakePlayer;
+import net.neoforged.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
 public class PacketHandleBook {
     private int slot;
     private boolean isShiftPressed;
-    private Hand hand;
+    private InteractionHand hand;
 
-    public PacketHandleBook(int slot, Hand hand, boolean isShiftPressed) {
+    public PacketHandleBook(int slot, InteractionHand hand, boolean isShiftPressed) {
         this.slot = slot;
         this.hand = hand;
         this.isShiftPressed = isShiftPressed;
@@ -31,12 +31,12 @@ public class PacketHandleBook {
     }
 
     public static PacketHandleBook decode(PacketBuffer buf) {
-        return new PacketHandleBook(buf.readInt(), Hand.values()[buf.readInt()], buf.readBoolean());
+        return new PacketHandleBook(buf.readInt(), InteractionHand.values()[buf.readInt()], buf.readBoolean());
     }
 
     public static class Handler {
         public static void handle(PacketHandleBook message, Supplier<NetworkEvent.Context> ctx) {
-            ServerPlayerEntity playerMP = ctx.get().getSender();
+            ServerPlayer playerMP = ctx.get().getSender();
             if (playerMP != null && !(playerMP instanceof FakePlayer)) {
                 ItemStack stack = EnchiridionAPI.library.getLibraryInventory(playerMP).getStackInSlot(message.slot);
                 if (!stack.isEmpty()) {

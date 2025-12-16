@@ -17,7 +17,7 @@ import joshie.enchiridion.util.TextEditor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.util.InputMappings;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 

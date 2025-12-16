@@ -1,11 +1,11 @@
 package joshie.enchiridion.network.packet;
 
 import joshie.enchiridion.lib.EGuis;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.neoforged.neoforge.common.util.FakePlayer;
+import net.neoforged.fml.network.NetworkEvent;
+import net.neoforged.fml.network.NetworkHooks;
 
 import java.util.function.Supplier;
 
@@ -23,9 +23,9 @@ public class PacketOpenLibrary {
 
     public static class Handler {
         public static void handle(PacketOpenLibrary message, Supplier<NetworkEvent.Context> ctx) {
-            ServerPlayerEntity playerMP = ctx.get().getSender();
+            ServerPlayer playerMP = ctx.get().getSender();
             if (playerMP != null && !(playerMP instanceof FakePlayer)) {
-                ctx.get().enqueueWork(() -> NetworkHooks.openGui(playerMP, EGuis.getLibraryProvider(playerMP.getActiveHand()), buf -> buf.writeInt(playerMP.getActiveHand().ordinal())));
+                ctx.get().enqueueWork(() -> NetworkHooks.openScreen(playerMP, EGuis.getLibraryProvider(playerMP.getActiveHand()), buf -> buf.writeInt(playerMP.getActiveHand().ordinal())));
                 ctx.get().setPacketHandled(true);
             }
         }

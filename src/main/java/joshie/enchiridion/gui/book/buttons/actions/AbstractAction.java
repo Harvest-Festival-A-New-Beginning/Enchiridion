@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.book.IButtonAction;
 import joshie.enchiridion.util.ELocation;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.Comparator;
 

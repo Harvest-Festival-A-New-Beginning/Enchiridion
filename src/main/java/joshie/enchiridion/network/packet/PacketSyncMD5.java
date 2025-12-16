@@ -6,8 +6,8 @@ import joshie.enchiridion.helpers.SyncHelper;
 import joshie.enchiridion.network.PacketHandler;
 import joshie.enchiridion.network.core.PacketPart;
 import joshie.enchiridion.network.core.PacketSyncStringArray;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.network.PacketBuffer;
 import org.apache.logging.log4j.Level;
 
@@ -18,7 +18,7 @@ import static joshie.enchiridion.network.core.PacketPart.SEND_DATA;
 
 public class PacketSyncMD5 extends PacketSyncStringArray {
     private volatile static String[] tempClient;
-    private volatile static HashMap<PlayerEntity, String[]> tempServer = new HashMap<>();
+    private volatile static HashMap<Player, String[]> tempServer = new HashMap<>();
 
     public PacketSyncMD5(PacketPart part) {
         super(part);
@@ -39,9 +39,9 @@ public class PacketSyncMD5 extends PacketSyncStringArray {
     }
 
     @Override
-    public void receivedStringLength(ServerPlayerEntity player) {
+    public void receivedStringLength(ServerPlayer player) {
         //Stop the system if no images are allowed
-        if (player.world.isRemote && EConfig.SETTINGS.allowDataAndImagesFromServers.get()) { //Receive the md5 list from the server and build it
+        if (player.level().isClientSide && EConfig.SETTINGS.allowDataAndImagesFromServers.get()) { //Receive the md5 list from the server and build it
             tempClient = new String[integer]; //Build up the string value from the name
             PacketHandler.sendToServer(new PacketSyncMD5(REQUEST_DATA));
             if (EConfig.SETTINGS.debugMode)
@@ -56,8 +56,8 @@ public class PacketSyncMD5 extends PacketSyncStringArray {
     }
 
     @Override
-    public void receivedDataRequest(ServerPlayerEntity player) {
-        if (player.world.isRemote && EConfig.SETTINGS.allowDataAndImagesFromServers.get()) {
+    public void receivedDataRequest(ServerPlayer player) {
+        if (player.level().isClientSide && EConfig.SETTINGS.allowDataAndImagesFromServers.get()) {
             if (EConfig.SETTINGS.debugMode) Enchiridion.log(Level.INFO, "Client received this request for data");
             for (int i = 0; i < SyncHelper.md5requests.length; i++) {
                 PacketHandler.sendToServer(new PacketSyncMD5(SEND_DATA, SyncHelper.md5requests[i], i));
@@ -71,8 +71,8 @@ public class PacketSyncMD5 extends PacketSyncStringArray {
     }
 
     @Override
-    public void receivedData(ServerPlayerEntity player) {
-        if (player.world.isRemote && EConfig.SETTINGS.allowDataAndImagesFromServers.get()) {
+    public void receivedData(ServerPlayer player) {
+        if (player.level().isClientSide && EConfig.SETTINGS.allowDataAndImagesFromServers.get()) {
             if (tempClient.length > integer) {
                 tempClient[integer] = text;
                 //Now check if any parts are null

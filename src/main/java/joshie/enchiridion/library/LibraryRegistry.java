@@ -3,9 +3,9 @@ package joshie.enchiridion.library;
 import joshie.enchiridion.api.book.IBookHandler;
 import joshie.enchiridion.api.library.ILibraryRegistry;
 import joshie.enchiridion.util.SafeStack;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -44,7 +44,7 @@ public class LibraryRegistry implements ILibraryRegistry {
     }
 
     @Override
-    public IInventory getLibraryInventory(PlayerEntity player) {
+    public IInventory getLibraryInventory(Player player) {
         return LibraryHelper.getLibraryContents(player);
     }
 

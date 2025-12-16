@@ -2,7 +2,7 @@ package joshie.enchiridion.api.book;
 
 import com.google.gson.JsonObject;
 import joshie.enchiridion.api.gui.ISimpleEditorFieldProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public interface IButtonAction extends ISimpleEditorFieldProvider {
     /** Create a copy of this action **/

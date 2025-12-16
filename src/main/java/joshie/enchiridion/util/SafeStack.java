@@ -1,10 +1,10 @@
 package joshie.enchiridion.util;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 
@@ -67,7 +67,7 @@ public class SafeStack {
     }
 
     public static class SafeStackNBT extends SafeStack {
-        CompoundNBT tag;
+        CompoundTag tag;
 
         SafeStackNBT(@Nonnull ItemStack stack) {
             super(stack);
@@ -78,7 +78,7 @@ public class SafeStack {
         @Nonnull
         public ItemStack toStack() {
             ItemStack result = new ItemStack(ForgeRegistries.ITEMS.getValue(location));
-            CompoundNBT copy = tag.copy();
+            CompoundTag copy = tag.copy();
             result.setTag(copy);
             return result;
         }

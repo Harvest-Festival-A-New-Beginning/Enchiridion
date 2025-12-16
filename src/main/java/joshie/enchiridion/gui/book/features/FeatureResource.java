@@ -4,7 +4,7 @@ import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IFeatureProvider;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.Level;
 
 import javax.imageio.ImageIO;

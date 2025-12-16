@@ -3,12 +3,12 @@ package joshie.enchiridion.network.packet;
 import joshie.enchiridion.library.LibraryHelper;
 import joshie.enchiridion.library.LibraryInventory;
 import joshie.enchiridion.network.core.PacketNBT;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.NonNullList;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.core.NonNullList;
+import net.neoforged.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
@@ -41,13 +41,13 @@ public class PacketSyncLibraryContents extends PacketNBT {
             NonNullList<ItemStack> inventory = NonNullList.withSize(LibraryInventory.MAX, ItemStack.EMPTY);
             ListNBT tagList = message.nbt.getList("Inventory", 10);
             for (int i = 0; i < tagList.size(); i++) {
-                CompoundNBT tag = tagList.getCompound(i);
+                CompoundTag tag = tagList.getCompound(i);
                 byte slot = tag.getByte("Slot");
                 if (slot > inventory.size() || slot < 0) continue;
                 if (tag.getBoolean("NULLItemStack")) {
                     inventory.set(slot, ItemStack.EMPTY);
                 } else if (slot >= 0 && slot < inventory.size()) {
-                    inventory.set(slot, ItemStack.read(tag));
+                    inventory.set(slot, ItemStack.of(tag));
                 }
             }
 

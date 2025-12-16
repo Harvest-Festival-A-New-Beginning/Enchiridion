@@ -13,7 +13,7 @@ import joshie.enchiridion.lib.EInfo;
 import joshie.enchiridion.util.ELocation;
 import joshie.enchiridion.util.TextEditor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

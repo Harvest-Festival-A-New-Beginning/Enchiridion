@@ -1,6 +1,6 @@
 package joshie.enchiridion.api.gui;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public interface IToolbarButton {
     /** @return the resource location for this button **/

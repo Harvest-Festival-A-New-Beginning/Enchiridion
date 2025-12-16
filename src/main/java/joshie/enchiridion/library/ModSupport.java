@@ -6,7 +6,7 @@ import joshie.enchiridion.data.library.ModdedBooks.ModdedBook;
 import joshie.enchiridion.helpers.FileHelper;
 import joshie.enchiridion.helpers.GsonHelper;
 import joshie.enchiridion.helpers.StackHelper;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 import java.io.File;
 import java.io.FileOutputStream;

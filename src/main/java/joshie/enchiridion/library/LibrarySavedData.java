@@ -1,9 +1,9 @@
 package joshie.enchiridion.library;
 
 import joshie.enchiridion.helpers.UUIDHelper;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.world.storage.WorldSavedData;
 
@@ -24,7 +24,7 @@ public class LibrarySavedData extends WorldSavedData {
         return players.values();
     }
 
-    public LibraryInventory getLibraryContents(PlayerEntity player) {
+    public LibraryInventory getLibraryContents(Player player) {
         UUID uuid = UUIDHelper.getPlayerUUID(player);
         if (players.containsKey(uuid)) {
             return players.get(uuid);
@@ -48,17 +48,17 @@ public class LibrarySavedData extends WorldSavedData {
         if (players.containsKey(uuid)) {
             return players.get(uuid);
         } else {
-            ServerPlayerEntity player = UUIDHelper.getPlayerFromUUID(uuid);
+            ServerPlayer player = UUIDHelper.getPlayerFromUUID(uuid);
             if (player == null) return null;
             else return getLibraryContents(player);
         }
     }
 
     @Override
-    public void read(@Nonnull CompoundNBT nbt) {
+    public void read(@Nonnull CompoundTag nbt) {
         ListNBT tag_list_players = nbt.getList("LibraryInventory", 10);
         for (int i = 0; i < tag_list_players.size(); i++) {
-            CompoundNBT tag = tag_list_players.getCompound(i);
+            CompoundTag tag = tag_list_players.getCompound(i);
             LibraryInventory data = new LibraryInventory();
             boolean success;
             try {
@@ -76,10 +76,10 @@ public class LibrarySavedData extends WorldSavedData {
 
     @Override
     @Nonnull
-    public CompoundNBT write(@Nonnull CompoundNBT nbt) {
+    public CompoundTag write(@Nonnull CompoundTag nbt) {
         ListNBT tag_list_players = new ListNBT();
         players.entrySet().stream().filter(entry -> entry.getKey() != null && entry.getValue() != null).forEach(entry -> {
-            CompoundNBT tag = new CompoundNBT();
+            CompoundTag tag = new CompoundTag();
             entry.getValue().writeToNBT(tag);
             tag_list_players.add(tag);
         });

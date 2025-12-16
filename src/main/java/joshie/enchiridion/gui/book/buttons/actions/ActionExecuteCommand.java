@@ -37,7 +37,7 @@ public class ActionExecuteCommand extends AbstractAction {
         }
 
         if (close) {
-            mc.displayGuiScreen(null);
+            mc.setScreen(null);
         }
         return true;
     }

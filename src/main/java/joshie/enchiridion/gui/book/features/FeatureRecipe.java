@@ -4,9 +4,9 @@ import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IFeatureProvider;
 import joshie.enchiridion.api.recipe.IRecipeHandler;
 import joshie.enchiridion.helpers.StackHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.dimension.DimensionType;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class FeatureRecipe extends FeatureItem {
     private boolean buildRecipe(boolean isLoading) {
         ArrayList<IRecipeHandler> recipes = new ArrayList<>();
         for (IRecipeHandler handler : HANDLERS) {
-            handler.addRecipes(stack, recipes, ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.OVERWORLD)); //TODO Test
+            handler.addRecipes(stack, recipes, ServerLifecycleHooks.getCurrentServer().getLevel(Level.OVERWORLD)); //TODO Test
         }
 
         //Basic loop checking type and recipe

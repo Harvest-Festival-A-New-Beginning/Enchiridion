@@ -5,7 +5,7 @@ import joshie.enchiridion.helpers.SyncHelper;
 import joshie.enchiridion.network.PacketHandler;
 import joshie.enchiridion.network.core.PacketPart;
 import joshie.enchiridion.network.core.PacketSyncByteArray;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.network.PacketBuffer;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
@@ -50,14 +50,14 @@ public class PacketSyncFile extends PacketSyncByteArray {
     }
 
     @Override
-    public void receivedStringLength(ServerPlayerEntity player) {
+    public void receivedStringLength(ServerPlayer player) {
         byte[][] bites = new byte[length][];
         SyncHelper.bytesClient.put(directory, bites);
         PacketHandler.sendToServer(new PacketSyncFile(directory, REQUEST_DATA));
     }
 
     @Override
-    public void receivedDataRequest(ServerPlayerEntity player) {
+    public void receivedDataRequest(ServerPlayer player) {
         byte[][] bites = SyncHelper.bytesServer.get(directory);
         for (int index = 0; index < bites.length; index++) {
             PacketHandler.sendToClient(new PacketSyncFile(directory, SEND_DATA, index, bites[index]), player);
@@ -65,7 +65,7 @@ public class PacketSyncFile extends PacketSyncByteArray {
     }
 
     @Override
-    public void receivedData(ServerPlayerEntity player) {
+    public void receivedData(ServerPlayer player) {
         byte[][] bites = SyncHelper.bytesClient.get(directory);
         bites[length] = this.bites;
 

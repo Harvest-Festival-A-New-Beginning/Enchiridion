@@ -5,16 +5,16 @@ import joshie.enchiridion.items.EItems;
 import joshie.enchiridion.lib.EInfo;
 import joshie.enchiridion.util.SafeStack;
 import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.SpecialRecipe;
 import net.minecraft.item.crafting.SpecialRecipeSerializer;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.event.RegistryEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
 
 import javax.annotation.Nonnull;
 import java.util.HashSet;
@@ -49,7 +49,7 @@ public class LibraryRecipe extends SpecialRecipe {
     }
 
     @Override
-    public boolean matches(@Nonnull CraftingInventory inv, @Nonnull World world) {
+    public boolean matches(@Nonnull CraftingInventory inv, @Nonnull Level world) {
         for (int i = 0; i < 3; i++) {
             ItemStack stack = inv.getStackInSlot(i);
             if (stack.isEmpty() || !isWood(stack)) return false;

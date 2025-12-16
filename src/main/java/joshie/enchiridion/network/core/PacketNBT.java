@@ -1,31 +1,31 @@
 package joshie.enchiridion.network.core;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.NonNullList;
+import net.minecraft.core.NonNullList;
 
 public class PacketNBT {
-    public CompoundNBT nbt;
+    public CompoundTag nbt;
 
     public PacketNBT() {
     }
 
     public PacketNBT(NonNullList<ItemStack> inventory) {
-        nbt = new CompoundNBT();
+        nbt = new CompoundTag();
         nbt.putInt("length", inventory.size());
         ListNBT itemList = new ListNBT();
         for (int i = 0; i < inventory.size(); i++) {
             ItemStack stack = inventory.get(i);
             if (!stack.isEmpty()) {
-                CompoundNBT tag = new CompoundNBT();
+                CompoundTag tag = new CompoundTag();
                 tag.putByte("Slot", (byte) i);
                 tag.putBoolean("NULLItemStack", false);
                 stack.write(tag);
                 itemList.add(tag);
             } else {
-                CompoundNBT tag = new CompoundNBT();
+                CompoundTag tag = new CompoundTag();
                 tag.putByte("Slot", (byte) i);
                 tag.putBoolean("NULLItemStack", true);
                 itemList.add(tag);

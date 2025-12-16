@@ -1,6 +1,6 @@
 package joshie.enchiridion.api.book;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package joshie.enchiridion.helpers;
 
 
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.fml.server.ServerLifecycleHooks;
 
 public class MCServerHelper {
 

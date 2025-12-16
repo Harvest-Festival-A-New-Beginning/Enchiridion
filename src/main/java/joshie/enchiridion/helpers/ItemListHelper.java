@@ -2,11 +2,11 @@ package joshie.enchiridion.helpers;
 
 import joshie.enchiridion.Enchiridion;
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.NonNullList;
+import net.neoforged.neoforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.Level;
 
 import java.util.stream.Collectors;

@@ -16,10 +16,10 @@ import joshie.enchiridion.gui.book.GuiToolbar;
 import joshie.enchiridion.gui.book.features.FeatureRecipe;
 import joshie.enchiridion.network.PacketHandler;
 import joshie.enchiridion.network.packet.PacketOpenBook;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.fml.loading.moddiscovery.ModInfo;
 import org.apache.logging.log4j.Level;
 
 import java.io.File;
@@ -81,18 +81,18 @@ public class EAPIHandler implements IEnchiridionAPI {
     }
 
     @Override
-    public void openBook(PlayerEntity player, String bookID, int page) {
-        if (player.world.isRemote) {
+    public void openBook(Player player, String bookID, int page) {
+        if (player.level().isClientSide) {
             IBook book = BookRegistry.INSTANCE.getBookByName(bookID);
             if (book != null) {
                 GuiBook.INSTANCE.setBook(book, false);
                 EnchiridionAPI.book.jumpToPageIfExists(page - 1);
-                if (player.world.isRemote) {
+                if (player.level().isClientSide) {
                     EClientHandler.openGuiBook();
                 }
             }
         } else {
-            PacketHandler.sendToClient(new PacketOpenBook(bookID, page), (ServerPlayerEntity) player);
+            PacketHandler.sendToClient(new PacketOpenBook(bookID, page), (ServerPlayer) player);
         }
     }
 

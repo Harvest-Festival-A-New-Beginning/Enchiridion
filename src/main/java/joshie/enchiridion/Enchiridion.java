@@ -6,23 +6,23 @@ import joshie.enchiridion.helpers.SyncHelper;
 import joshie.enchiridion.library.LibraryCommand;
 import joshie.enchiridion.library.LibraryHelper;
 import joshie.enchiridion.network.PacketHandler;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.dimension.DimensionType;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.event.lifecycle.InterModProcessEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,7 +32,7 @@ import java.io.File;
 import static joshie.enchiridion.lib.EInfo.MODID;
 import static joshie.enchiridion.lib.EInfo.MODNAME;
 
-@Mod(value = MODID)
+@Mod(MODID)
 public class Enchiridion {
     private static final Logger LOGGER = LogManager.getLogger(MODNAME);
     public static File root = new File(FMLPaths.CONFIGDIR.get().toFile(), MODID);
@@ -42,7 +42,7 @@ public class Enchiridion {
         eventBus.addListener(this::setupCommon);
         eventBus.addListener(this::setupClient);
         eventBus.addListener(this::handleIMCMessages);
-        MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
+        NeoForge.EVENT_BUS.addListener(this::onServerStarting);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, EConfig.spec, FileHelper.getConfigFile().getAbsolutePath());
     }
 
@@ -56,8 +56,8 @@ public class Enchiridion {
     }
 
     @SubscribeEvent
-    public void onServerStarting(FMLServerStartingEvent event) {
-        LibraryHelper.resetServer(ServerLifecycleHooks.getCurrentServer().getWorld(DimensionType.OVERWORLD));
+    public void onServerStarting(ServerStartingEvent event) {
+        LibraryHelper.resetServer(ServerLifecycleHooks.getCurrentServer().getLevel(Level.OVERWORLD));
         SyncHelper.resetSyncing();
 
         //Register commands
@@ -66,9 +66,9 @@ public class Enchiridion {
 
     public void handleIMCMessages(final InterModProcessEvent event) {
         event.getIMCStream().filter(message -> message.getMethod().equalsIgnoreCase("registerBook")).forEach(message -> { //TODO Test
-            CompoundNBT tag = new CompoundNBT();
+            CompoundTag tag = new CompoundTag();
             String handlerType = tag.getString("handlerType");
-            ItemStack stack = ItemStack.read(tag.getCompound("stack"));
+            ItemStack stack = ItemStack.of(tag.getCompound("stack"));
             boolean matchNBT = tag.contains("matchNBT") && tag.getBoolean("matchNBT");
             EnchiridionAPI.library.registerBookHandlerForStack(handlerType, stack, matchNBT);
         });
@@ -81,6 +81,6 @@ public class Enchiridion {
 
     //Universal helper translation
     public static String format(String string, Object... format) {
-        return new TranslationTextComponent("enchiridion." + string, format).getString();
+        return Component.translatable("enchiridion." + string, format).getString();
     }
 }

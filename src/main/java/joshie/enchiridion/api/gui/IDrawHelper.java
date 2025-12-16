@@ -1,8 +1,8 @@
 package joshie.enchiridion.api.gui;
 
 import joshie.enchiridion.api.recipe.IItemStack;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nonnull;
 

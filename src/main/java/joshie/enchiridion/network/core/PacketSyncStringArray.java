@@ -1,9 +1,9 @@
 package joshie.enchiridion.network.core;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.neoforged.neoforge.common.util.FakePlayer;
+import net.neoforged.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
@@ -45,7 +45,7 @@ public class PacketSyncStringArray implements IPacketArray {
 
     public static class Handler {
         public static void handle(PacketSyncStringArray message, Supplier<NetworkEvent.Context> ctx) {
-            ServerPlayerEntity playerMP = ctx.get().getSender();
+            ServerPlayer playerMP = ctx.get().getSender();
             if (playerMP != null && !(playerMP instanceof FakePlayer)) {
                 if (message.part == SEND_HASH) message.receivedHashcode(playerMP);
                 else if (message.part == REQUEST_SIZE) message.receivedLengthRequest(playerMP);

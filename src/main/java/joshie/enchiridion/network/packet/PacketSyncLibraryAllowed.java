@@ -7,7 +7,7 @@ import joshie.enchiridion.library.ModSupport;
 import joshie.enchiridion.network.PacketHandler;
 import joshie.enchiridion.network.core.PacketPart;
 import joshie.enchiridion.network.core.PacketSyncStringArray;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.network.PacketBuffer;
 
 import static joshie.enchiridion.network.core.PacketPart.*;
@@ -38,7 +38,7 @@ public class PacketSyncLibraryAllowed extends PacketSyncStringArray {
     }
 
     @Override
-    public void receivedHashcode(ServerPlayerEntity player) {
+    public void receivedHashcode(ServerPlayer player) {
         int clientHash = ModSupport.getHashcode(text);
         if (integer != clientHash) {
             PacketHandler.sendToServer(new PacketSyncLibraryAllowed(REQUEST_SIZE));
@@ -46,7 +46,7 @@ public class PacketSyncLibraryAllowed extends PacketSyncStringArray {
     }
 
     @Override
-    public void receivedLengthRequest(ServerPlayerEntity player) {
+    public void receivedLengthRequest(ServerPlayer player) {
         String json = FileHelper.getLibraryJson(MCServerHelper.getHostName());
         int length = SplitHelper.splitStringEvery(json, 5000).length;
         String serverName = MCServerHelper.getHostName();
@@ -54,14 +54,14 @@ public class PacketSyncLibraryAllowed extends PacketSyncStringArray {
     }
 
     @Override
-    public void receivedStringLength(ServerPlayerEntity player) {
+    public void receivedStringLength(ServerPlayer player) {
         client = new String[integer]; //Build up the string value from the name
         serverNameClient = text; //Receive the server name
         PacketHandler.sendToServer(new PacketSyncLibraryAllowed(REQUEST_DATA));
     }
 
     @Override
-    public void receivedDataRequest(ServerPlayerEntity player) {
+    public void receivedDataRequest(ServerPlayer player) {
         //Grab the data and send it
         String json = FileHelper.getLibraryJson(MCServerHelper.getHostName());
         String[] server = SplitHelper.splitStringEvery(json, 5000);
@@ -71,7 +71,7 @@ public class PacketSyncLibraryAllowed extends PacketSyncStringArray {
     }
 
     @Override
-    public void receivedData(ServerPlayerEntity player) {
+    public void receivedData(ServerPlayer player) {
         if (client.length > integer) {
             client[integer] = text;
             //Now check if any parts are null

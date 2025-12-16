@@ -11,9 +11,9 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class GuiBase extends Screen implements IDrawHelper {
     private float renderSize;
 
     protected GuiBase() {
-        super(new TranslationTextComponent("enchiridion.guiBase.title"));
+        super(Component.translatable("enchiridion.guiBase.title"));
     }
 
     @Override

@@ -1,11 +1,11 @@
 package joshie.enchiridion.util;
 
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.NonNullList;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.NonNullList;
 
 import javax.annotation.Nonnull;
 
@@ -70,7 +70,7 @@ public abstract class InventoryStorage implements IInventory {
     }
 
     @Override
-    public boolean isUsableByPlayer(@Nonnull PlayerEntity player) {
+    public boolean isUsableByPlayer(@Nonnull Player player) {
         return true;
     }
 
@@ -79,14 +79,14 @@ public abstract class InventoryStorage implements IInventory {
         inventory.clear();
     }
 
-    public void readFromNBT(CompoundNBT nbt) {
+    public void readFromNBT(CompoundTag nbt) {
         //Save Inventory
         inventory = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
 
         ItemStackHelper.loadAllItems(nbt, inventory);
     }
 
-    public void writeToNBT(CompoundNBT nbt) {
+    public void writeToNBT(CompoundTag nbt) {
         //Load Inventory
         ItemStackHelper.saveAllItems(nbt, inventory);
     }

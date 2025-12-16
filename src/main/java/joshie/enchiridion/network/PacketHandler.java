@@ -2,12 +2,12 @@ package joshie.enchiridion.network;
 
 import joshie.enchiridion.lib.EInfo;
 import joshie.enchiridion.network.packet.*;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.network.NetworkDirection;
+import net.neoforged.neoforge.network.NetworkRegistry;
+import net.neoforged.neoforge.network.simple.SimpleChannel;
 
 public class PacketHandler {
     public static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder
@@ -29,18 +29,18 @@ public class PacketHandler {
         CHANNEL.registerMessage(8, PacketSetLibraryBook.class, PacketSetLibraryBook::encode, PacketSetLibraryBook::decode, PacketSetLibraryBook.Handler::handle);
     }
 
-    public static void sendToClient(Object packet, ServerPlayerEntity playerServer) {
-        CHANNEL.sendTo(packet, playerServer.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+    public static void sendToClient(Object packet, ServerPlayer playerServer) {
+        CHANNEL.sendTo(packet, playerServer.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
     }
 
     public static void sendToServer(Object packet) {
         CHANNEL.sendToServer(packet);
     }
 
-    public static void sendToEveryone(Object packet, ServerPlayerEntity playerServer) {
-        for (PlayerEntity player : playerServer.world.getPlayers()) {
-            if (player instanceof ServerPlayerEntity) {
-                CHANNEL.sendTo(packet, ((ServerPlayerEntity) player).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+    public static void sendToEveryone(Object packet, ServerPlayer playerServer) {
+        for (Player player : playerServer.level().players()) {
+            if (player instanceof ServerPlayer) {
+                CHANNEL.sendTo(packet, ((ServerPlayer) player).connection.connection, NetworkDirection.PLAY_TO_CLIENT);
             }
         }
     }

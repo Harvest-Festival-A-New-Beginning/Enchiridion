@@ -16,15 +16,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.MultiplayerScreen;
 import net.minecraft.client.gui.screen.WorldSelectionScreen;
 import net.minecraft.client.util.InputMappings;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.event.GuiOpenEvent;
+import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import org.apache.logging.log4j.Level;
 import org.lwjgl.glfw.GLFW;
 
@@ -42,9 +42,9 @@ public class LibraryEvents {
     //Sync the library
     @SubscribeEvent
     public static void onPlayerLogin(PlayerLoggedInEvent event) {
-        PlayerEntity player = event.getPlayer();
-        if (player instanceof ServerPlayerEntity) { //Sync what's in the library
-            ServerPlayerEntity mp = (ServerPlayerEntity) player;
+        Player player = event.getPlayer();
+        if (player instanceof ServerPlayer) { //Sync what's in the library
+            ServerPlayer mp = (ServerPlayer) player;
             if (!SyncHelper.playersSynced.contains(mp)) {
                 if (EConfig.SETTINGS.debugMode) Enchiridion.log(Level.INFO, "Did you call me?");
                 //Sync what's allowed in the library

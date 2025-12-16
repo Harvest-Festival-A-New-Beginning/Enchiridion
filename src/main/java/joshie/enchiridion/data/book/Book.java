@@ -4,9 +4,9 @@ import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.helpers.DefaultHelper;
 import joshie.enchiridion.helpers.MCClientHelper;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -56,7 +56,7 @@ public class Book implements IBook {
     //Cached information
     private transient ResourceLocation resourceLocation;
     private transient boolean convertedColor;
-    private transient List<ITextComponent> information;
+    private transient List<Component> information;
 
     /**
      * CONSTRUCTOR
@@ -261,13 +261,13 @@ public class Book implements IBook {
     }
 
     @Override
-    public void addInformation(List<ITextComponent> tooltip) {
+    public void addInformation(List<Component> tooltip) {
         if (information == null) {
             if (displayInfo == null) displayInfo = "";
             String[] split = displayInfo.split("/n");
             information = new ArrayList<>();
             for (String s : split) {
-                if (!s.equals("")) information.add(new StringTextComponent(s));
+                if (!s.equals("")) information.add(Component.literal(s));
             }
         }
         tooltip.addAll(information);

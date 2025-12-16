@@ -1,8 +1,8 @@
 package joshie.enchiridion.gui.book.features.recipe;
 
 import joshie.enchiridion.helpers.ItemListHelper;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.tileentity.FurnaceTileEntity;
 
 import java.util.stream.Collectors;
@@ -23,7 +23,7 @@ public class WrappedFuelStack extends WrappedStack {
         } else {
             Item item = stack.getItem();
             int ret = stack.getBurnTime();
-            return net.minecraftforge.event.ForgeEventFactory.getItemBurnTime(stack, ret == -1 ? FurnaceTileEntity.getBurnTimes().getOrDefault(item, 0) : ret);
+            return net.neoforged.neoforge.event.EventHooks.getItemBurnTime(stack, ret == -1 ? FurnaceTileEntity.getBurnTimes().getOrDefault(item, 0) : ret);
         }
     }
 }

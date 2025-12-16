@@ -1,9 +1,9 @@
 package joshie.enchiridion.gui.book.features.recipe;
 
 import joshie.enchiridion.api.recipe.IItemStack;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.NonNullList;
+import net.minecraft.core.NonNullList;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;

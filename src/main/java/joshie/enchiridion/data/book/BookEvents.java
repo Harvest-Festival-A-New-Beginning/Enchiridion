@@ -5,8 +5,8 @@ import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.api.event.FeatureVisibleEvent;
 import joshie.enchiridion.lib.EInfo;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod.EventBusSubscriber;
 
 import java.util.Collection;
 import java.util.HashMap;

@@ -4,20 +4,20 @@ import joshie.enchiridion.helpers.UUIDHelper;
 import joshie.enchiridion.network.PacketHandler;
 import joshie.enchiridion.network.packet.PacketSyncLibraryContents;
 import joshie.enchiridion.util.InventoryStorage;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.NonNullList;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.common.thread.EffectiveSide;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.NonNullList;
+import net.neoforged.fml.LogicalSide;
+import net.neoforged.fml.common.thread.EffectiveSide;
 
 import javax.annotation.Nonnull;
 import java.util.UUID;
 
 public class LibraryInventory extends InventoryStorage {
     public static final int MAX = 65;
-    private PlayerEntity player; //No Direct calling, it's a cache value
+    private Player player; //No Direct calling, it's a cache value
     private UUID uuid; //SHOULD NOT BE CALLED, EXCEPT BY GET AND CREATE PLAYER
     private boolean receivedBooks;
     private int currentBook;
@@ -26,7 +26,7 @@ public class LibraryInventory extends InventoryStorage {
         super(MAX); //Create the inventory
     }
 
-    public LibraryInventory(PlayerEntity player) {
+    public LibraryInventory(Player player) {
         super(MAX); //Create the inventory
 
         if (player != null) { //Creation before the server has started
@@ -82,13 +82,13 @@ public class LibraryInventory extends InventoryStorage {
     public void clear() {
         inventory.clear();
         markDirty();
-        PlayerEntity player = getAndCreatePlayer();
+        Player player = getAndCreatePlayer();
         if (player != null) {
-            PacketHandler.sendToClient(new PacketSyncLibraryContents(this), (ServerPlayerEntity) getAndCreatePlayer());
+            PacketHandler.sendToClient(new PacketSyncLibraryContents(this), (ServerPlayer) getAndCreatePlayer());
         }
     }
 
-    public PlayerEntity getAndCreatePlayer() {
+    public Player getAndCreatePlayer() {
         if (player == null) {
             player = UUIDHelper.getPlayerFromUUID(uuid);
         }
@@ -112,7 +112,7 @@ public class LibraryInventory extends InventoryStorage {
     }
 
     @Override
-    public void readFromNBT(CompoundNBT nbt) {
+    public void readFromNBT(CompoundTag nbt) {
         currentBook = nbt.getInt("CurrentBook");
         uuid = UUID.fromString(nbt.getString("UUID")); //Read UUID
         super.readFromNBT(nbt); //Read NBT
@@ -120,7 +120,7 @@ public class LibraryInventory extends InventoryStorage {
     }
 
     @Override
-    public void writeToNBT(CompoundNBT nbt) {
+    public void writeToNBT(CompoundTag nbt) {
         nbt.putInt("CurrentBook", currentBook);
         nbt.putString("UUID", uuid.toString()); //Write UUID
         super.writeToNBT(nbt); //Write Items

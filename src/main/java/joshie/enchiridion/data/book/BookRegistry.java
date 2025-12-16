@@ -196,7 +196,7 @@ public class BookRegistry {
         if (identifier.equals("")) return null;
         HashMap<String, IBook> translations = books.get(identifier);
         if (translations == null) return null;
-        String language = MCClientHelper.getLang().getCode();
+        String language = MCClientHelper.getLang();
         IBook translated = translations.get(language);
         if (translated != null) return translated;
         else return translations.get("en_us");

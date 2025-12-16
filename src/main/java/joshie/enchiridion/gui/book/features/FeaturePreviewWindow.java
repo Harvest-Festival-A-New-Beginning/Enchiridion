@@ -1,7 +1,9 @@
 package joshie.enchiridion.gui.book.features;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlConst;
+import com.mojang.blaze3d.vertex.PoseStack;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IFeatureProvider;
@@ -13,9 +15,6 @@ import joshie.enchiridion.gui.book.GuiSimpleEditorGeneric;
 import joshie.enchiridion.helpers.JumpHelper;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
-
-import static org.lwjgl.opengl.GL11.GL_SCISSOR_TEST;
-import static org.lwjgl.opengl.GL11.glDisable;
 
 public class FeaturePreviewWindow extends FeatureAbstract implements ISimpleEditorFieldProvider {
     public int pageNumber;
@@ -114,10 +113,12 @@ public class FeaturePreviewWindow extends FeatureAbstract implements ISimpleEdit
                 startY = GuiBook.INSTANCE.mouseY;
             }
 
-            GlStateManager.pushMatrix();
-            int scale = (int) Minecraft.getInstance().mainWindow.getGuiScaleFactor();
-            GL11.glEnable(GL_SCISSOR_TEST);
-            GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT, false);
+            // TODO: This needs major refactoring for GuiGraphics in 1.20.4
+            PoseStack poseStack = new PoseStack();
+            poseStack.pushPose();
+            int scale = (int) Minecraft.getInstance().getWindow().getGuiScale();
+            GL11.glEnable(GL11.GL_SCISSOR_TEST);
+            RenderSystem.clear(GlConst.GL_DEPTH_BUFFER_BIT, false);
             GL11.glScissor((GuiBook.INSTANCE.x + position.getLeft()) * scale, (int) (GuiBook.INSTANCE.y + 217 - position.getTop() - position.getHeight()) * scale, (int) position.getWidth() * scale, (int) position.getHeight() * scale);
 
             for (IFeatureProvider feature : Lists.reverse(page.getFeatures())) {
@@ -142,14 +143,14 @@ public class FeaturePreviewWindow extends FeatureAbstract implements ISimpleEdit
                 }
 
                 GuiBook.INSTANCE.y = y;
-                GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT, false);
+                RenderSystem.clear(GlConst.GL_DEPTH_BUFFER_BIT, false);
             }
 
 
-            glDisable(GL_SCISSOR_TEST);
-            GlStateManager.popMatrix();
+            GL11.glDisable(GL11.GL_SCISSOR_TEST);
+            poseStack.popPose();
 
-            GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT, false);
+            RenderSystem.clear(GlConst.GL_DEPTH_BUFFER_BIT, false);
             int minY = Short.MAX_VALUE;
             for (IFeatureProvider provider : page.getFeatures()) {
                 if (provider.getTop() < minY) {

@@ -20,6 +20,7 @@ public class ECommonHandler {
         EnchiridionAPI.library.registerBookHandler(new TemporarySwitchHandler()); //Default Handler
         EnchiridionAPI.library.registerBookHandler(new RightClickHandler()); //Kept for backwards compatibility
         EnchiridionAPI.library.registerBookHandler(new CopyNBTHandler()); //Copy NBT Handler
-        CraftingHelper.register(new ResourceLocation(MODID, "library_writable_enabled"), new LibraryConditionFactory());
+        // TODO: Condition system changed in 1.20.4 - CraftingHelper.register() may need to use RegisterEvent or be removed
+        // CraftingHelper.register(new ResourceLocation(MODID, "library_writable_enabled"), new LibraryConditionFactory());
     }
 }

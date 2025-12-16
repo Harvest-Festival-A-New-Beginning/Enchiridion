@@ -68,7 +68,7 @@ public class RecipeHandlerFurnace extends RecipeHandlerBase {
     }
 
     protected void drawBackground() {
-        Minecraft.getInstance().getTextureManager().bindTexture(LOCATION);
+        com.mojang.blaze3d.systems.RenderSystem.setShaderTexture(0, LOCATION);
         EnchiridionAPI.draw.drawTexturedRectangle(55D, 38D, 1, 63, 20, 14, 1.75F);
         int i1 = getBurnTimeRemainingScaled(13);
         EnchiridionAPI.draw.drawTexturedReversedRectangle(44D, 56D, 0, 85, 14, 14, 1.75F);

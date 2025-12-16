@@ -82,7 +82,7 @@ public class FeatureRecipe extends FeatureItem {
 
     @Override
     public void setItemStack(@Nonnull ItemStack stack) {
-        if (stack.isItemEqual(this.stack)) {
+        if (ItemStack.isSameItem(stack, this.stack)) {
             index++;
         } else index = 0;
 

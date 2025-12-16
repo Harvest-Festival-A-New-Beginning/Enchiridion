@@ -1,7 +1,7 @@
 package joshie.enchiridion.util;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.SharedConstants;
+import net.minecraft.SharedConstants;
 
 import java.util.HashMap;
 

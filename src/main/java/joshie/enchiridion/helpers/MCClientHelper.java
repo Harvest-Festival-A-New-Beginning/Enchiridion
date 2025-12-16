@@ -1,7 +1,6 @@
 package joshie.enchiridion.helpers;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.language.LanguageInfo;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -13,7 +12,7 @@ public class MCClientHelper {
         return InputConstants.isKeyDown(handle, GLFW.GLFW_KEY_LEFT_SHIFT) || InputConstants.isKeyDown(handle, GLFW.GLFW_KEY_RIGHT_SHIFT);
     }
 
-    public static LanguageInfo getLang() {
+    public static String getLang() {
         return Minecraft.getInstance().getLanguageManager().getSelected();
     }
 

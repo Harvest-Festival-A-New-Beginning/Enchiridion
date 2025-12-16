@@ -2,6 +2,7 @@ package joshie.enchiridion.gui.book;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlConst;
 import joshie.enchiridion.EConfig;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IBook;
@@ -15,11 +16,11 @@ import joshie.enchiridion.helpers.*;
 import joshie.enchiridion.util.ELocation;
 import joshie.enchiridion.util.TextEditor;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -60,27 +61,28 @@ public class GuiBook extends GuiBase implements IBookHelper {
     }
 
     @Override
-    public void render(int x2, int y2, float partialTicks) {
-        super.render(x2, y2, partialTicks);
+    public void render(GuiGraphics guiGraphics, int x2, int y2, float partialTicks) {
+        super.render(guiGraphics, x2, y2, partialTicks);
 
         Minecraft mc = Minecraft.getInstance();
         if (book.isBackgroundVisible()) {
             //Display the left side
             if (book.isBackgroundLegacy()) {
-                GlStateManager.color3f(red, green, blue);
-                mc.getTextureManager().bindTexture(LEGACY_COVER_L);
-                blit(x - 9, y, 35, 0, 212 + 9, ySize);
-                GlStateManager.color3f(1F, 1F, 1F);
-                mc.getTextureManager().bindTexture(LEGACY_LEFT);
-                blit(x, y, 44, 0, 212, ySize);
+                RenderSystem.setShaderColor(red, green, blue, 1F);
+                RenderSystem.setShaderTexture(0, LEGACY_COVER_L);
+                // TODO: Use guiGraphics.blit() instead
+                // guiGraphics.blit(LEGACY_COVER_L, x - 9, y, 35, 0, 212 + 9, ySize);
+                RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+                RenderSystem.setShaderTexture(0, LEGACY_LEFT);
+                // guiGraphics.blit(LEGACY_LEFT, x, y, 44, 0, 212, ySize);
 
                 //Display the right side
-                GlStateManager.color3f(red, green, blue);
-                mc.getTextureManager().bindTexture(LEGACY_COVER_R);
-                blit(x + 212, y, 0, 0, 218 + 9, ySize);
-                GlStateManager.color3f(1F, 1F, 1F);
-                mc.getTextureManager().bindTexture(LEGACY_RIGHT);
-                blit(x + 212, y, 0, 0, 218, ySize);
+                RenderSystem.setShaderColor(red, green, blue, 1F);
+                RenderSystem.setShaderTexture(0, LEGACY_COVER_R);
+                // guiGraphics.blit(LEGACY_COVER_R, x + 212, y, 0, 0, 218 + 9, ySize);
+                RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+                RenderSystem.setShaderTexture(0, LEGACY_RIGHT);
+                // guiGraphics.blit(LEGACY_RIGHT, x + 212, y, 0, 0, 218, ySize);
             } else
                 EnchiridionAPI.draw.drawImage(book.getBackgroundResource(), book.getBackgroundStartX(), book.getBackgroundStartY(), book.getBackgroundEndX(), book.getBackgroundEndY());
         }
@@ -98,7 +100,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
             feature.addTooltip(TOOLTIP, mouseX, mouseY);
             this.mouseY = prevMouseY;
             this.y = y;
-            GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT, false);
+            RenderSystem.clear(GlConst.GL_DEPTH_BUFFER_BIT, false);
         }
 
         //Draw all the overlays

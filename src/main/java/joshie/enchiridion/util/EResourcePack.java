@@ -6,9 +6,9 @@ import joshie.enchiridion.EConfig;
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.helpers.FileHelper;
 import joshie.enchiridion.lib.EInfo;
-import net.minecraft.resources.IResourcePack;
-import net.minecraft.resources.ResourcePackType;
-import net.minecraft.resources.data.IMetadataSectionSerializer;
+import net.minecraft.server.packs.PackResources;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.metadata.MetadataSectionSerializer;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Level;
@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.function.Predicate;
 
-public class EResourcePack implements IResourcePack {
+public class EResourcePack implements PackResources {
     public static final EResourcePack INSTANCE = new EResourcePack();
 
     private EResourcePack() {
@@ -45,7 +45,7 @@ public class EResourcePack implements IResourcePack {
 
     @Override
     @Nonnull
-    public InputStream getResourceStream(@Nonnull ResourcePackType type, @Nonnull ResourceLocation location) throws IOException {
+    public InputStream getResourceStream(@Nonnull PackType type, @Nonnull ResourceLocation location) throws IOException {
         if (location.getPath().equals("textures/wiki/enchiridion_logo.png")) //special case the logo
             return EResourcePack.class.getResourceAsStream("/assets/enchiridion/textures/books/enchiridion_logo.png");
         return FileUtils.openInputStream(getFileLocationFromResource(location));
@@ -53,12 +53,12 @@ public class EResourcePack implements IResourcePack {
 
     @Override
     @Nonnull
-    public Collection<ResourceLocation> getAllResourceLocations(@Nonnull ResourcePackType type, @Nonnull String path, int maxDepth, @Nonnull Predicate<String> filter) {
+    public Collection<ResourceLocation> getAllResourceLocations(@Nonnull PackType type, @Nonnull String path, int maxDepth, @Nonnull Predicate<String> filter) {
         return Sets.newHashSet();
     }
 
     @Override
-    public boolean resourceExists(@Nonnull ResourcePackType type, @Nonnull ResourceLocation location) {
+    public boolean resourceExists(@Nonnull PackType type, @Nonnull ResourceLocation location) {
         if (!isValidLocation(location)) return false;
         String path = location.getPath();
         if (path.startsWith("models") || path.startsWith("textures") || path.startsWith("images") || path.startsWith("templates")) {
@@ -81,13 +81,13 @@ public class EResourcePack implements IResourcePack {
 
     @Override
     @Nonnull
-    public Set<String> getResourceNamespaces(@Nonnull ResourcePackType type) {
+    public Set<String> getResourceNamespaces(@Nonnull PackType type) {
         return DOMAINS;
     }
 
     @Override
     @Nullable
-    public <T> T getMetadata(@Nonnull IMetadataSectionSerializer<T> deserializer) {
+    public <T> T getMetadata(@Nonnull MetadataSectionSerializer<T> deserializer) {
         return null;
     }
 

@@ -60,7 +60,7 @@ public class Enchiridion {
         SyncHelper.resetSyncing();
 
         //Register commands
-        LibraryCommand.register(event.getCommandDispatcher());
+        LibraryCommand.register(event.getServer().getCommands().getDispatcher());
     }
 
     public void handleIMCMessages(final InterModProcessEvent event) {

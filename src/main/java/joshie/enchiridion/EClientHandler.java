@@ -37,8 +37,9 @@ public class EClientHandler {
     public static KeyMapping libraryKeyBinding;
 
     public static void setupClient() {
-        Minecraft.getInstance().getResourceManager().addResourcePack(EResourcePack.INSTANCE);
-        MenuScreens.register(EGuis.LIBRARY_CONTAINER, GuiLibrary::new);
+        // TODO: Resource pack system changed in 1.20.4 - addResourcePack() was removed
+        // Minecraft.getInstance().getResourceManager().addResourcePack(EResourcePack.INSTANCE);
+        MenuScreens.register(EGuis.LIBRARY_CONTAINER.get(), GuiLibrary::new);
         LibraryHelper.resetClient();
         NeoForge.EVENT_BUS.register(new SmartLibrary());
         EnchiridionAPI.book = GuiBook.INSTANCE;

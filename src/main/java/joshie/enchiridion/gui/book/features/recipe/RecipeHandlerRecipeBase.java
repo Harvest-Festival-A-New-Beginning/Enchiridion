@@ -122,7 +122,7 @@ public abstract class RecipeHandlerRecipeBase extends RecipeHandlerBase {
 
     @Override
     protected void drawBackground() {
-        Minecraft.getInstance().getTextureManager().bindTexture(LOCATION);
+        com.mojang.blaze3d.systems.RenderSystem.setShaderTexture(0, LOCATION);
         EnchiridionAPI.draw.drawTexturedRectangle(0D, 0D, 0, 0, 58, 58, 1F);
         EnchiridionAPI.draw.drawTexturedRectangle(84D, 42D, 1, 63, 20, 14, 1F);
     }

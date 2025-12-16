@@ -37,7 +37,7 @@ public class FeatureItem extends FeatureAbstract implements IItemSelectable {
 
     @Override
     public String getName() {
-        return stack.isEmpty() ? super.getName() : stack.getDisplayName().getFormattedText();
+        return stack.isEmpty() ? super.getName() : stack.getDisplayName().getString();
     }
 
     @Override
@@ -64,7 +64,7 @@ public class FeatureItem extends FeatureAbstract implements IItemSelectable {
     @Override
     public void addTooltip(List<String> list, int mouseX, int mouseY) {
         if (!hideTooltip && !this.stack.isEmpty()) {
-            for (Component textComponent : stack.getTooltip(MCClientHelper.getPlayer(), TooltipFlag.TooltipFlags.NORMAL)) {
+            for (Component textComponent : stack.getTooltip(MCClientHelper.getPlayer(), TooltipFlag.Default.NORMAL)) {
                 list.add(textComponent.getString());
             }
         }

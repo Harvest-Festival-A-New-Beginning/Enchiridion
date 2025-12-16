@@ -5,43 +5,45 @@ import joshie.enchiridion.network.packet.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.network.NetworkDirection;
-import net.neoforged.neoforge.network.NetworkRegistry;
-import net.neoforged.neoforge.network.simple.SimpleChannel;
 
+/**
+ * TODO: Networking system changed completely in 1.20.4/NeoForge
+ *
+ * The old SimpleChannel system was replaced with a payload-based system.
+ * To fix this properly:
+ *
+ * 1. Each packet class needs to implement CustomPacketPayload
+ * 2. Register using PayloadRegistrar during the RegisterPayloadHandlerEvent
+ * 3. Use PlayPayloadContext instead of NetworkEvent.Context
+ * 4. Sending packets uses PacketDistributor instead of CHANNEL.sendTo()
+ *
+ * For now, this is stubbed out to allow compilation.
+ * Networking features will not work until this is properly implemented.
+ */
 public class PacketHandler {
-    public static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder
-            .named(new ResourceLocation(EInfo.MODID, "channel"))
-            .clientAcceptedVersions(v -> true)
-            .serverAcceptedVersions(v -> true)
-            .networkProtocolVersion(() -> "ENCHIRIDION1")
-            .simpleChannel();
+    // TODO: Replace with payload-based registration
+    // public static final SimpleChannel CHANNEL = ...
 
     public static void registerPackets() {
-        CHANNEL.registerMessage(0, PacketSyncLibraryAllowed.class, PacketSyncLibraryAllowed::encode, PacketSyncLibraryAllowed::decode, PacketSyncLibraryAllowed.Handler::handle);
-        CHANNEL.registerMessage(1, PacketLibraryCommand.class, PacketLibraryCommand::encode, PacketLibraryCommand::decode, PacketLibraryCommand.Handler::handle);
-        CHANNEL.registerMessage(2, PacketSyncMD5.class, PacketSyncMD5::encode, PacketSyncMD5::decode, PacketSyncMD5.Handler::handle);
-        CHANNEL.registerMessage(3, PacketSyncFile.class, PacketSyncFile::encode, PacketSyncFile::decode, PacketSyncFile.Handler::handle);
-        CHANNEL.registerMessage(4, PacketOpenBook.class, PacketOpenBook::encode, PacketOpenBook::decode, PacketOpenBook.Handler::handle);
-        CHANNEL.registerMessage(5, PacketSyncLibraryContents.class, PacketSyncLibraryContents::encode, PacketSyncLibraryContents::decode, PacketSyncLibraryContents.Handler::handle);
-        CHANNEL.registerMessage(6, PacketOpenLibrary.class, PacketOpenLibrary::encode, PacketOpenLibrary::decode, PacketOpenLibrary.Handler::handle);
-        CHANNEL.registerMessage(7, PacketHandleBook.class, PacketHandleBook::encode, PacketHandleBook::decode, PacketHandleBook.Handler::handle);
-        CHANNEL.registerMessage(8, PacketSetLibraryBook.class, PacketSetLibraryBook::encode, PacketSetLibraryBook::decode, PacketSetLibraryBook.Handler::handle);
+        // TODO: Implement payload-based packet registration
+        // Example:
+        // registrar.play(PACKET_ID, PacketClass.class, PacketClass::write, PacketClass::new, PacketClass::handle);
+
+        System.err.println("WARNING: Packet registration is stubbed out - networking will not work!");
     }
 
     public static void sendToClient(Object packet, ServerPlayer playerServer) {
-        CHANNEL.sendTo(packet, playerServer.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+        // TODO: Use PacketDistributor.PLAYER.with(() -> playerServer).send(payload);
+        System.err.println("WARNING: sendToClient is stubbed out");
     }
 
     public static void sendToServer(Object packet) {
-        CHANNEL.sendToServer(packet);
+        // TODO: Use PacketDistributor.SERVER.noArg().send(payload);
+        System.err.println("WARNING: sendToServer is stubbed out");
     }
 
     public static void sendToEveryone(Object packet, ServerPlayer playerServer) {
-        for (Player player : playerServer.level().players()) {
-            if (player instanceof ServerPlayer) {
-                CHANNEL.sendTo(packet, ((ServerPlayer) player).connection.connection, NetworkDirection.PLAY_TO_CLIENT);
-            }
-        }
+        // TODO: Use PacketDistributor.ALL.noArg().send(payload);
+        System.err.println("WARNING: sendToEveryone is stubbed out");
     }
 }

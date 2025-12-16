@@ -69,7 +69,7 @@ public class Book implements IBook {
         this.uniqueName = name;
         this.saveName = name;
         this.colorHex = "FFFFFFFF";
-        this.language = MCClientHelper.getLang().getCode();
+        this.language = MCClientHelper.getLang();
         this.hasCustomIcon = true;
         this.showBackground = true;
         this.book = new ArrayList<>();

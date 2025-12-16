@@ -32,7 +32,12 @@ public class ActionExecuteCommand extends AbstractAction {
         Minecraft mc = Minecraft.getInstance();
         try {
             String parsedCommand = command.replace("@p", mc.player.getName().getString());
-            mc.player.sendChatMessage(parsedCommand);
+            // In 1.20.4, sendChatMessage() was replaced with connection.sendCommand() for commands
+            if (parsedCommand.startsWith("/")) {
+                mc.player.connection.sendCommand(parsedCommand.substring(1));
+            } else {
+                mc.player.connection.sendCommand(parsedCommand);
+            }
         } catch (Exception ignored) {
         }
 

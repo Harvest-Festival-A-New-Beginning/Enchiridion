@@ -5,7 +5,7 @@ import joshie.enchiridion.library.LibraryInventory;
 import joshie.enchiridion.network.core.PacketNBT;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.core.NonNullList;
 
@@ -39,7 +39,7 @@ public class PacketSyncLibraryContents extends PacketNBT {
         public static void handle(PacketSyncLibraryContents message, Supplier<NetworkEvent.Context> ctx) {
             //Reload the info in from the packet that was sent
             NonNullList<ItemStack> inventory = NonNullList.withSize(LibraryInventory.MAX, ItemStack.EMPTY);
-            ListNBT tagList = message.nbt.getList("Inventory", 10);
+            ListTag tagList = message.nbt.getList("Inventory", 10);
             for (int i = 0; i < tagList.size(); i++) {
                 CompoundTag tag = tagList.getCompound(i);
                 byte slot = tag.getByte("Slot");

@@ -1,18 +1,33 @@
 plugins {
     id 'java-library'
+    id 'eclipse'
+    id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.1.11'
+    id 'net.neoforged.gradle.userdev' version '7.0.57'
 }
 
-tasks.named('wrapper', Wrapper).configure {
-    distributionType = Wrapper.DistributionType.BIN
+ext.build_number=""
+if (System.getenv().BUILD_NUMBER) {
+    ext.build_number="-" + System.getenv().BUILD_NUMBER
 }
 
-version = mod_version
+version = "${minecraft_version}-${mod_version}${build_number}"
 group = mod_group_id
 
 repositories {
-    // Add here additional repositories if required by some of the dependencies below.
+    mavenLocal()
+    maven {
+        // Jared's Maven (JEI)
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
+    }
+    maven {
+        // saps.dev Maven (KubeJS and Rhino)
+        url = "https://maven.latvian.dev/releases"
+        content {
+            includeGroup "dev.latvian.mods"
+        }
+    }
 }
 
 base {
@@ -43,7 +58,7 @@ runs {
     }
 
     data {
-        arguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+        programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
     }
 }
 
@@ -80,17 +95,15 @@ tasks.withType(ProcessResources).configureEach {
 publishing {
     publications {
         register('mavenJava', MavenPublication) {
-            artifactId "enchiridion_${minecraft_version}"
+            artifactId = mod_name.replace(" ", "-")
             from components.java
         }
     }
     repositories {
-        if (project.hasProperty('maven_repo')) {
-            maven { url maven_repo }
+        if (project.hasProperty('mavenRepository')) {
+            maven { url mavenRepository }
         } else {
-            maven {
-                url "file://${project.projectDir}/repo"
-            }
+            mavenLocal()
         }
     }
 }

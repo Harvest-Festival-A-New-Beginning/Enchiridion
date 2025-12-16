@@ -5,7 +5,7 @@ import joshie.enchiridion.api.recipe.IRecipeHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -22,7 +22,7 @@ public class RecipeHandlerFurnace extends RecipeHandlerBase {
 
         if (fuels == null) fuels = new WrappedFuelStack(0D, 65D, 2.5F);
         stackList.add(fuels);
-        addToUnique(ForgeRegistries.ITEMS.getKey(input.getItem()));
+        addToUnique(BuiltInRegistries.ITEM.getKey(input.getItem()));
     }
 
     @Override

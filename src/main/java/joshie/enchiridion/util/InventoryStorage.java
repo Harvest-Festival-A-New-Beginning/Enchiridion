@@ -1,15 +1,15 @@
 package joshie.enchiridion.util;
 
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.world.Container;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.NonNullList;
 
 import javax.annotation.Nonnull;
 
-public abstract class InventoryStorage implements IInventory {
+public abstract class InventoryStorage implements Container {
     protected NonNullList<ItemStack> inventory;
 
     public InventoryStorage(int size) {
@@ -17,7 +17,7 @@ public abstract class InventoryStorage implements IInventory {
     }
 
     @Override
-    public int getSizeInventory() {
+    public int getContainerSize() {
         return inventory.size();
     }
 
@@ -33,44 +33,44 @@ public abstract class InventoryStorage implements IInventory {
 
     @Override
     @Nonnull
-    public ItemStack getStackInSlot(int index) {
+    public ItemStack getItem(int index) {
         return inventory.get(index);
     }
 
     @Override
     @Nonnull
-    public ItemStack decrStackSize(int index, int count) {
-        ItemStack stack = ItemStackHelper.getAndSplit(inventory, index, count);
+    public ItemStack removeItem(int index, int count) {
+        ItemStack stack = ContainerHelper.removeItem(inventory, index, count);
 
         if (!stack.isEmpty()) {
-            this.markDirty();
+            this.setChanged();
         }
         return stack;
     }
 
     @Override
     @Nonnull
-    public ItemStack removeStackFromSlot(int index) {
-        return ItemStackHelper.getAndRemove(inventory, index);
+    public ItemStack removeItemNoUpdate(int index) {
+        return ContainerHelper.takeItem(inventory, index);
     }
 
     @Override
-    public void setInventorySlotContents(int index, @Nonnull ItemStack stack) {
+    public void setItem(int index, @Nonnull ItemStack stack) {
         inventory.set(index, stack);
 
         this.inventory.set(index, stack);
-        if (stack.getCount() > this.getInventoryStackLimit()) {
-            stack.setCount(this.getInventoryStackLimit());
+        if (stack.getCount() > this.getMaxStackSize()) {
+            stack.setCount(this.getMaxStackSize());
         }
-        markDirty();
+        setChanged();
     }
 
     @Override
-    public void markDirty() {
+    public void setChanged() {
     }
 
     @Override
-    public boolean isUsableByPlayer(@Nonnull Player player) {
+    public boolean stillValid(@Nonnull Player player) {
         return true;
     }
 
@@ -81,13 +81,13 @@ public abstract class InventoryStorage implements IInventory {
 
     public void readFromNBT(CompoundTag nbt) {
         //Save Inventory
-        inventory = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
+        inventory = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
 
-        ItemStackHelper.loadAllItems(nbt, inventory);
+        ContainerHelper.loadAllItems(nbt, inventory);
     }
 
     public void writeToNBT(CompoundTag nbt) {
         //Load Inventory
-        ItemStackHelper.saveAllItems(nbt, inventory);
+        ContainerHelper.saveAllItems(nbt, inventory);
     }
 }

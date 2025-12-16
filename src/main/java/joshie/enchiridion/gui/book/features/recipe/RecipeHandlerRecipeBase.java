@@ -4,9 +4,10 @@ import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.recipe.IRecipeHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -74,20 +75,21 @@ public abstract class RecipeHandlerRecipeBase extends RecipeHandlerBase {
 
         for (Object o : input) {
             if (o instanceof ItemStack) {
-                addToUnique(ForgeRegistries.ITEMS.getKey(((ItemStack) o).getItem()));
+                addToUnique(BuiltInRegistries.ITEM.getKey(((ItemStack) o).getItem()));
             }
         }
     }
 
     @Override
     public void addRecipes(@Nonnull ItemStack output, List<IRecipeHandler> list, Level world) {
-        for (IRecipe check : world.getRecipeManager().getRecipes()) {
-            ItemStack stack = check.getRecipeOutput();
+        for (RecipeHolder<?> holder : world.getRecipeManager().getRecipes()) {
+            Recipe<?> check = holder.value();
+            ItemStack stack = check.getResultItem(world.registryAccess());
             //CHECK -- > EXTENDS the class
             if (stack.isEmpty() || (!getRecipeClass().isAssignableFrom(check.getClass()))) continue;
-            if (stack.isItemEqual(output)) {
+            if (ItemStack.isSameItemSameTags(stack, output)) {
                 try {
-                    list.add((IRecipeHandler) Class.forName(getHandlerClass().getName()).getConstructor(IRecipe.class).newInstance(check));
+                    list.add((IRecipeHandler) Class.forName(getHandlerClass().getName()).getConstructor(Recipe.class).newInstance(check));
                 } catch (Exception ignored) {
                 }
             }

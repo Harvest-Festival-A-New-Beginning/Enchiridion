@@ -2,7 +2,7 @@ package joshie.enchiridion.api.library;
 
 import joshie.enchiridion.api.book.IBookHandler;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -22,8 +22,8 @@ public interface ILibraryRegistry {
     /** Gets the book handler instance for this stack **/
     IBookHandler getBookHandlerForStack(@Nonnull ItemStack stack);
 
-    /** @return Returns the IInventory for this players library **/
-    IInventory getLibraryInventory(Player player);
+    /** @return Returns the Container for this players library **/
+    Container getLibraryInventory(Player player);
 
     /** Register wood as being able to be used to craft the library **/
     void registerWood(@Nonnull ItemStack stack, boolean matchNBT);

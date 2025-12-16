@@ -19,7 +19,7 @@ import joshie.enchiridion.network.packet.PacketOpenBook;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.fml.ModList;
-import net.neoforged.neoforge.fml.loading.moddiscovery.ModInfo;
+import net.neoforged.neoforgespi.language.IModInfo;
 import org.apache.logging.log4j.Level;
 
 import java.io.File;
@@ -37,8 +37,8 @@ public class EAPIHandler implements IEnchiridionAPI {
         }
 
         /* Find this mods container */
-        ModInfo mod = null;
-        for (ModInfo info : ModList.get().getMods()) {
+        IModInfo mod = null;
+        for (IModInfo info : ModList.get().getMods()) {
             if (info.getModId().equals(modid)) {
                 mod = info;
                 break;

@@ -2,7 +2,7 @@ package joshie.enchiridion.gui.book;
 
 import joshie.enchiridion.api.gui.IBookEditorOverlay;
 import joshie.enchiridion.util.ELocation;
-import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
@@ -45,7 +45,7 @@ public abstract class AbstractGuiOverlay implements IBookEditorOverlay {
     }
 
     @Override
-    public IGuiEventListener getFocused() {
+    public GuiEventListener getFocused() {
         return null;
     }
 }

@@ -4,7 +4,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 import javax.annotation.Nonnull;
 
@@ -13,13 +13,13 @@ public class SafeStack {
 
     protected SafeStack(@Nonnull ItemStack stack) {
         if (!stack.isEmpty()) {
-            location = ForgeRegistries.ITEMS.getKey(stack.getItem());
+            location = BuiltInRegistries.ITEM.getKey(stack.getItem());
         }
     }
 
     @Nonnull
     public ItemStack toStack() {
-        return new ItemStack(ForgeRegistries.ITEMS.getValue(location));
+        return new ItemStack(BuiltInRegistries.ITEM.get(location));
     }
 
     public static NonNullList<SafeStack> allInstances(@Nonnull ItemStack stack) {
@@ -44,7 +44,7 @@ public class SafeStack {
         protected SafeStackMod(@Nonnull ItemStack stack) {
             super(stack);
 
-            ResourceLocation key = ForgeRegistries.ITEMS.getKey(stack.getItem());
+            ResourceLocation key = BuiltInRegistries.ITEM.getKey(stack.getItem());
             modid = key.getPath();
         }
 
@@ -77,7 +77,7 @@ public class SafeStack {
         @Override
         @Nonnull
         public ItemStack toStack() {
-            ItemStack result = new ItemStack(ForgeRegistries.ITEMS.getValue(location));
+            ItemStack result = new ItemStack(BuiltInRegistries.ITEM.get(location));
             CompoundTag copy = tag.copy();
             result.setTag(copy);
             return result;

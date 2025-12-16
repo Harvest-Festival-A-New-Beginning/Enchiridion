@@ -3,20 +3,20 @@ package joshie.enchiridion.gui.library;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.lib.EGuis;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.ClickType;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.Slot;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.InteractionHand;
 
 import javax.annotation.Nonnull;
 
-public class ContainerLibrary extends Container {
-    public IInventory library;
+public class ContainerLibrary extends AbstractContainerMenu {
+    public Container library;
 
-    public ContainerLibrary(int windowID, PlayerInventory playerInventory, IInventory library, InteractionHand hand) {
+    public ContainerLibrary(int windowID, Inventory playerInventory, Container library, InteractionHand hand) {
         super(EGuis.LIBRARY_CONTAINER, windowID);
         this.library = library;
 
@@ -46,7 +46,7 @@ public class ContainerLibrary extends Container {
         bindPlayerInventory(playerInventory, 30);
     }
 
-    protected void bindPlayerInventory(PlayerInventory inventory, int yOffset) {
+    protected void bindPlayerInventory(Inventory inventory, int yOffset) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 9; j++) {
                 addSlot(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18 + yOffset));
@@ -59,39 +59,39 @@ public class ContainerLibrary extends Container {
     }
 
     @Override
-    public boolean canInteractWith(@Nonnull Player player) {
+    public boolean stillValid(@Nonnull Player player) {
         return true;
     }
 
     @Override
     @Nonnull
-    public ItemStack transferStackInSlot(Player player, int slotID) {
-        int size = library.getSizeInventory();
+    public ItemStack quickMoveStack(Player player, int slotID) {
+        int size = library.getContainerSize();
         int low = size + 27;
         int high = low + 9;
         ItemStack returnStack = ItemStack.EMPTY;
-        Slot slot = inventorySlots.get(slotID);
+        Slot slot = slots.get(slotID);
 
-        if (slot != null && slot.getHasStack()) {
-            ItemStack stack = slot.getStack();
+        if (slot != null && slot.hasItem()) {
+            ItemStack stack = slot.getItem();
             returnStack = stack.copy();
 
             if (slotID < size) {
-                if (!mergeItemStack(stack, size, high, true)) return ItemStack.EMPTY;
-                slot.onSlotChange(stack, returnStack);
+                if (!moveItemStackTo(stack, size, high, true)) return ItemStack.EMPTY;
+                slot.setChanged();
             } else if (slotID >= size) {
                 if (EnchiridionAPI.library.getBookHandlerForStack(stack) != null) {
-                    if (!mergeItemStack(stack, 0, 65, false)) return ItemStack.EMPTY; //Slots 0-64 for Books
+                    if (!moveItemStackTo(stack, 0, 65, false)) return ItemStack.EMPTY; //Slots 0-64 for Books
                 } else if (slotID >= size && slotID < low) {
-                    if (!mergeItemStack(stack, low, high, false)) return ItemStack.EMPTY;
-                } else if (slotID >= low && slotID < high && !mergeItemStack(stack, high, low, false))
+                    if (!moveItemStackTo(stack, low, high, false)) return ItemStack.EMPTY;
+                } else if (slotID >= low && slotID < high && !moveItemStackTo(stack, high, low, false))
                     return ItemStack.EMPTY;
-            } else if (!mergeItemStack(stack, size, high, false)) return ItemStack.EMPTY;
+            } else if (!moveItemStackTo(stack, size, high, false)) return ItemStack.EMPTY;
 
             if (stack.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
-                slot.onSlotChanged();
+                slot.setChanged();
             }
 
             if (stack.getCount() == returnStack.getCount()) return ItemStack.EMPTY;
@@ -103,8 +103,10 @@ public class ContainerLibrary extends Container {
 
     @Override
     @Nonnull
-    public ItemStack slotClick(int slotID, int mouseButton, ClickType type, Player player) {
-        Slot slot = slotID < 0 || slotID > inventorySlots.size() ? null : inventorySlots.get(slotID);
-        return mouseButton == 1 && slot instanceof SlotBook && ((SlotBook) slot).handle(player, mouseButton, slot).isEmpty() ? ItemStack.EMPTY : super.slotClick(slotID, mouseButton, type, player);
+    public void clicked(int slotID, int mouseButton, ClickType type, Player player) {
+        Slot slot = slotID < 0 || slotID > slots.size() ? null : slots.get(slotID);
+        if (!(mouseButton == 1 && slot instanceof SlotBook && ((SlotBook) slot).handle(player, mouseButton, slot).isEmpty())) {
+            super.clicked(slotID, mouseButton, type, player);
+        }
     }
 }

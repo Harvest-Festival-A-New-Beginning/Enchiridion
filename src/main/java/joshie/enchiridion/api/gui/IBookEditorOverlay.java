@@ -1,6 +1,6 @@
 package joshie.enchiridion.api.gui;
 
-import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 
 import java.util.List;
 
@@ -14,5 +14,5 @@ public interface IBookEditorOverlay {
     void updateSearch(String string);
     void init();
     void tick();
-    IGuiEventListener getFocused();
+    GuiEventListener getFocused();
 }

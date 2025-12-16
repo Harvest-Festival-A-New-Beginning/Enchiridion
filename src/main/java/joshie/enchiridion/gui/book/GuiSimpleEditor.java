@@ -4,15 +4,16 @@ import joshie.enchiridion.EConfig;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.gui.IBookEditorOverlay;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.network.chat.Component;
 
 import java.util.List;
 
 public class GuiSimpleEditor extends AbstractGuiOverlay {
     public static final GuiSimpleEditor INSTANCE = new GuiSimpleEditor();
-    private TextFieldWidget textField;
+    private EditBox textField;
     private String text = "";
     private IBookEditorOverlay editor = null;
 
@@ -27,12 +28,12 @@ public class GuiSimpleEditor extends AbstractGuiOverlay {
     @Override
     public void init() {
         Minecraft mc = Minecraft.getInstance();
-        Screen currentScreen = mc.currentScreen;
+        Screen currentScreen = mc.screen;
         if (currentScreen != null) {
-            this.textField = new TextFieldWidget(mc.fontRenderer, mc.mainWindow.getScaledWidth() / 4 + (EConfig.SETTINGS.editorXPos + 27), mc.mainWindow.getScaledHeight() / 4 + (EConfig.SETTINGS.toolbarYPos.get() + 17), 80, 7, "enchiridion.simpleEditor.search");
-            this.textField.setMaxStringLength(32);
-            this.textField.setEnableBackgroundDrawing(false); //TODO Set to false when done
-            this.textField.setText(text != null && !text.isEmpty() ? text : "");
+            this.textField = new EditBox(mc.font, mc.getWindow().getGuiScaledWidth() / 4 + (EConfig.SETTINGS.editorXPos + 27), mc.getWindow().getGuiScaledHeight() / 4 + (EConfig.SETTINGS.toolbarYPos.get() + 17), 80, 7, Component.literal("enchiridion.simpleEditor.search"));
+            this.textField.setMaxLength(32);
+            this.textField.setBordered(false); //TODO Set to false when done
+            this.textField.setValue(text != null && !text.isEmpty() ? text : "");
         }
     }
 
@@ -45,7 +46,7 @@ public class GuiSimpleEditor extends AbstractGuiOverlay {
     }
 
     @Override
-    public IGuiEventListener getFocused() {
+    public GuiEventListener getFocused() {
         if (editor != null) {
             return this.textField;
         }
@@ -62,7 +63,7 @@ public class GuiSimpleEditor extends AbstractGuiOverlay {
             EnchiridionAPI.draw.drawBorderedRectangle(EConfig.SETTINGS.editorXPos, EConfig.SETTINGS.toolbarYPos.get() - 3, EConfig.SETTINGS.editorXPos + 84, EConfig.SETTINGS.toolbarYPos.get() + 7, 0xFF312921, 0xFF191511);
             editor.draw(mouseX, mouseY);
             if (textField.isFocused()) {
-                textField.renderButton(mouseX, mouseY, 0);
+                textField.render(new net.minecraft.client.gui.GuiGraphics(mc, mc.renderBuffers().bufferSource()), mouseX, mouseY, 0);
             }
         }
     }
@@ -71,7 +72,7 @@ public class GuiSimpleEditor extends AbstractGuiOverlay {
     public void charTyped(char character, int key) {
         if (editor != null) {
             if (this.textField.charTyped(character, key)) {
-                text = textField.getText().trim();
+                text = textField.getValue().trim();
             }
         }
     }
@@ -81,10 +82,10 @@ public class GuiSimpleEditor extends AbstractGuiOverlay {
         if (editor != null) {
             if (mouseX >= EConfig.SETTINGS.editorXPos && mouseX <= EConfig.SETTINGS.editorXPos + 84 && mouseY >= EConfig.SETTINGS.toolbarYPos.get() - 3 && mouseY <= EConfig.SETTINGS.toolbarYPos.get() + 7) {
                 this.textField.mouseClicked(mouseX, mouseY, 0);
-                this.textField.setFocused2(true);
+                this.textField.setFocused(true);
                 return true;
             } else {
-                this.textField.setFocused2(false);
+                this.textField.setFocused(false);
                 return editor.mouseClicked(mouseX, mouseY);
 
             }
@@ -108,6 +109,6 @@ public class GuiSimpleEditor extends AbstractGuiOverlay {
     }
 
     public String getText() {
-        return textField.getText();
+        return textField.getValue();
     }
 }

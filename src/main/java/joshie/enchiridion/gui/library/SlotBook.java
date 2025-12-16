@@ -8,8 +8,8 @@ import joshie.enchiridion.library.LibraryHelper;
 import joshie.enchiridion.network.PacketHandler;
 import joshie.enchiridion.network.packet.PacketHandleBook;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Slot;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.InteractionHand;
@@ -20,7 +20,7 @@ public class SlotBook extends Slot {
     private static final ItemStack DUMMY = new ItemStack(Items.BOOK);
     private InteractionHand hand;
 
-    public SlotBook(IInventory inventory, InteractionHand hand, int index, int xPosition, int yPosition) {
+    public SlotBook(Container inventory, InteractionHand hand, int index, int xPosition, int yPosition) {
         super(inventory, index, xPosition, yPosition);
         this.hand = hand;
     }
@@ -33,7 +33,7 @@ public class SlotBook extends Slot {
 
     @Nonnull
     public ItemStack handle(Player player, int mouseButton, Slot slot) {
-        ItemStack stack = slot.getStack();
+        ItemStack stack = slot.getItem();
         IBookHandler handler = EnchiridionAPI.library.getBookHandlerForStack(stack);
         if (handler != null) {
             if (player.level().isClientSide) {

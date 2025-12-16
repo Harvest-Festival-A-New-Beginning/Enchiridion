@@ -1,7 +1,7 @@
 package joshie.enchiridion.gui.book;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import joshie.enchiridion.EConfig;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IBook;
@@ -15,8 +15,8 @@ import joshie.enchiridion.helpers.*;
 import joshie.enchiridion.util.ELocation;
 import joshie.enchiridion.util.TextEditor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.util.InputMappings;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;

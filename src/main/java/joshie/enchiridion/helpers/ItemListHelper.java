@@ -6,7 +6,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.NonNullList;
-import net.neoforged.neoforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import org.apache.logging.log4j.Level;
 
 import java.util.stream.Collectors;
@@ -19,14 +19,15 @@ public class ItemListHelper {
         items = NonNullList.create();
         allItems = NonNullList.create();
 
-        for (Item item : ForgeRegistries.ITEMS) {
+        for (Item item : BuiltInRegistries.ITEM) {
             if (item == null) {
                 continue;
             }
             try {
-                item.fillItemGroup(ItemGroup.SEARCH, items);
+                // Note: fillItemGroup was removed in 1.19+. This needs to use CreativeModeTabs differently
+                items.add(new ItemStack(item));
             } catch (Exception e) {
-                Enchiridion.log(Level.ERROR, "Enchiridion had an issue when trying to load the item: " + item.getClass());
+                Enchiridion.log(org.apache.logging.log4j.Level.ERROR, "Enchiridion had an issue when trying to load the item: " + item.getClass());
             }
         }
         allItems.addAll(items);
@@ -43,7 +44,7 @@ public class ItemListHelper {
 
     public static void addInventory() {
         try {
-            allItems.addAll(Minecraft.getInstance().player.inventory.mainInventory.stream().filter(stack -> !stack.isEmpty()).filter(stack -> !allItems().contains(stack)).collect(Collectors.toList()));
+            allItems.addAll(Minecraft.getInstance().player.getInventory().items.stream().filter(stack -> !stack.isEmpty()).filter(stack -> !allItems().contains(stack)).collect(Collectors.toList()));
         } catch (Exception ignored) {
         }
     }

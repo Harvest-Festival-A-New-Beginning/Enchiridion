@@ -1,16 +1,17 @@
 package joshie.enchiridion.gui.book;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import joshie.enchiridion.api.gui.IDrawHelper;
 import joshie.enchiridion.api.recipe.IItemStack;
 import joshie.enchiridion.helpers.ClientStackHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
@@ -49,8 +50,8 @@ public class GuiBase extends Screen implements IDrawHelper {
     @Override
     public void mouseMoved(double mX, double mY) {
         Minecraft mc = Minecraft.getInstance();
-        final double x = mc.mouseHelper.getMouseX() * ((double) mc.mainWindow.getScaledWidth() / mc.mainWindow.getWidth());
-        final double y = mc.mouseHelper.getMouseY() * ((double) mc.mainWindow.getScaledHeight() / mc.mainWindow.getHeight());
+        final double x = mc.mouseHandler.xpos() * ((double) mc.getWindow().getGuiScaledWidth() / mc.getWindow().getScreenWidth());
+        final double y = mc.mouseHandler.ypos() * ((double) mc.getWindow().getGuiScaledHeight() / mc.getWindow().getScreenHeight());
 
         mouseX = (int) (x - (width - xSize) / 2);
         mouseY = (int) (y - (height - ySize) / 2);
@@ -249,12 +250,9 @@ public class GuiBase extends Screen implements IDrawHelper {
     }
 
     @Override //From vanilla, switching to my font renderer though
-    public void renderTooltip(List<String> textLines, int x, int y, @Nonnull FontRenderer font) {
+    public void renderTooltip(List<String> textLines, int x, int y, @Nonnull Font font) {
         if (!textLines.isEmpty()) {
-            GlStateManager.disableRescaleNormal();
-            RenderHelper.disableStandardItemLighting();
-            GlStateManager.disableLighting();
-            GlStateManager.disableDepthTest();
+            RenderSystem.disableDepthTest();
             int i = 0;
 
             for (String s : textLines) {

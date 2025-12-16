@@ -1,14 +1,13 @@
 package joshie.enchiridion.helpers;
 
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Component;
-import net.neoforged.neoforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -35,7 +34,7 @@ public class StackHelper {
     }
 
     public static String getStringFromStack(@Nonnull ItemStack stack) {
-        String str = String.valueOf(ForgeRegistries.ITEMS.getKey(stack.getItem())).replace(" ", "%20");
+        String str = String.valueOf(BuiltInRegistries.ITEM.getKey(stack.getItem())).replace(" ", "%20");
         if (stack.isDamageable()) {
             str = str + " " + stack.getDamage();
         }
@@ -51,9 +50,9 @@ public class StackHelper {
     }
 
     private static CompoundTag getTag(String[] str, int pos) {
-        String s = formatNBT(str, pos).getUnformattedComponentText();
+        String s = formatNBT(str, pos).getString();
         try {
-            return JsonToNBT.getTagFromJson(s);
+            return TagParser.parseTag(s);
         } catch (Exception e) {
             return null;
         }
@@ -90,25 +89,19 @@ public class StackHelper {
 
     private static Item getItemByText(String str) {
         str = str.replace("%20", " ");
-        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(str));
-        if (item == null) {
-            try {
-                item = Item.getItemById(Integer.parseInt(str));
-            } catch (NumberFormatException ignored) {
-            }
-        }
+        Item item = BuiltInRegistries.ITEM.get(new ResourceLocation(str));
         return item;
     }
 
     private static Component formatNBT(String[] str, int start) {
-        StringTextComponent textComponentString = Component.literal("");
+        net.minecraft.network.chat.MutableComponent textComponentString = Component.literal("");
 
         for (int j = start; j < str.length; ++j) {
             if (j > start) {
-                textComponentString.appendText(" ");
+                textComponentString.append(" ");
             }
-            Object object = Component.literal(str[j]);
-            textComponentString.appendSibling((Component) object);
+            Component object = Component.literal(str[j]);
+            textComponentString.append(object);
         }
 
         return textComponentString;

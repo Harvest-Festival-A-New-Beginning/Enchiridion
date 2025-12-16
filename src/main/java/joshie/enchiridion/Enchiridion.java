@@ -23,7 +23,6 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -75,7 +74,7 @@ public class Enchiridion {
     }
 
     //Universal log helper
-    public static void log(Level level, String message) {
+    public static void log(org.apache.logging.log4j.Level level, String message) {
         LOGGER.log(level, message);
     }
 

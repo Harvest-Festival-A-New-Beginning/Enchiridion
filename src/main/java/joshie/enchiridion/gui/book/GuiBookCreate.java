@@ -5,8 +5,8 @@ import joshie.enchiridion.data.book.Book;
 import joshie.enchiridion.data.book.BookRegistry;
 import joshie.enchiridion.gui.book.buttons.ButtonChangeIcon;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.world.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
 
@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 
 public class GuiBookCreate extends GuiBase {
     public static final GuiBookCreate INSTANCE = new GuiBookCreate();
-    private TextFieldWidget textField;
+    private EditBox textField;
     private String text;
 
     private GuiBookCreate() {
@@ -33,24 +33,24 @@ public class GuiBookCreate extends GuiBase {
 
     @Nullable
     @Override
-    public IGuiEventListener getFocused() {
+    public GuiEventListener getFocused() {
         return this.textField;
     }
 
     @Override
     public void init() {
-        Minecraft.getInstance().keyboardListener.enableRepeatEvents(true);
+        Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(true);
 
-        this.textField = new TextFieldWidget(this.font, this.width / 2 - 101, height / 2 - 57, 202, 20, "enchiridion.bookCreate.title");
-        this.textField.setMaxStringLength(32767);
-        this.textField.changeFocus(true);
+        this.textField = new EditBox(this.font, this.width / 2 - 101, height / 2 - 57, 202, 20, Component.literal("enchiridion.bookCreate.title"));
+        this.textField.setMaxLength(32767);
+        this.textField.setFocused(true);
         this.textField.setCanLoseFocus(false);
-        this.textField.setText(text != null && !text.isEmpty() ? text : "");
+        this.textField.setValue(text != null && !text.isEmpty() ? text : "");
     }
 
     @Override
     public void removed() {
-        Minecraft.getInstance().keyboardListener.enableRepeatEvents(false);
+        Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(false);
         ButtonChangeIcon.refreshResources();
     }
 
@@ -74,13 +74,13 @@ public class GuiBookCreate extends GuiBase {
 
     @Override
     public void onClose() {
-        Minecraft.getInstance().player.closeScreen();
+        Minecraft.getInstance().player.closeContainer();
     }
 
     @Override
     public boolean charTyped(char key, int keycode) {
         if (this.textField.charTyped(key, keycode)) {
-            text = textField.getText().trim();
+            text = textField.getValue().trim();
             return true;
         }
         return false;

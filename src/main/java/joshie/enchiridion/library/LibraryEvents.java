@@ -13,18 +13,18 @@ import joshie.enchiridion.network.packet.PacketSyncLibraryAllowed;
 import joshie.enchiridion.network.packet.PacketSyncLibraryContents;
 import joshie.enchiridion.network.packet.PacketSyncMD5;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.MultiplayerScreen;
-import net.minecraft.client.gui.screen.WorldSelectionScreen;
-import net.minecraft.client.util.InputMappings;
+import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
+import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.event.GuiOpenEvent;
+import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod.EventBusSubscriber;
-import net.neoforged.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import org.apache.logging.log4j.Level;
 import org.lwjgl.glfw.GLFW;
 
@@ -33,16 +33,16 @@ public class LibraryEvents {
     //Setup the Client
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public static void onOpenGui(GuiOpenEvent event) {
-        if (event.getGui() instanceof WorldSelectionScreen || event.getGui() instanceof MultiplayerScreen) {
+    public static void onOpenGui(ScreenEvent.Opening event) {
+        if (event.getNewScreen() instanceof SelectWorldScreen || event.getNewScreen() instanceof JoinMultiplayerScreen) {
             LibraryHelper.resetClient();
         }
     }
 
     //Sync the library
     @SubscribeEvent
-    public static void onPlayerLogin(PlayerLoggedInEvent event) {
-        Player player = event.getPlayer();
+    public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        Player player = event.getEntity();
         if (player instanceof ServerPlayer) { //Sync what's in the library
             ServerPlayer mp = (ServerPlayer) player;
             if (!SyncHelper.playersSynced.contains(mp)) {
@@ -67,10 +67,10 @@ public class LibraryEvents {
 
     //Opening the key binding
     @SubscribeEvent
-    public static void onKeyPress(InputEvent.KeyInputEvent event) {
+    public static void onKeyPress(InputEvent.Key event) {
         if (EClientHandler.libraryKeyBinding == null) return; //If the keybinding was never created, skip this
-        long handle = Minecraft.getInstance().mainWindow.getHandle();
-        if (EClientHandler.libraryKeyBinding.isKeyDown() && Minecraft.getInstance().isGameFocused() && !InputMappings.isKeyDown(handle, GLFW.GLFW_KEY_F3)) {
+        long handle = Minecraft.getInstance().getWindow().getWindow();
+        if (EClientHandler.libraryKeyBinding.isDown() && Minecraft.getInstance().isWindowActive() && !InputConstants.isKeyDown(handle, GLFW.GLFW_KEY_F3)) {
             PacketHandler.sendToServer(new PacketOpenLibrary());
         }
     }

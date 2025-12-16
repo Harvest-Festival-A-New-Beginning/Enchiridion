@@ -4,40 +4,32 @@ import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.items.EItems;
 import joshie.enchiridion.lib.EInfo;
 import joshie.enchiridion.util.SafeStack;
-import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.SpecialRecipe;
-import net.minecraft.item.crafting.SpecialRecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.event.RegistryEvent;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.minecraft.core.HolderLookup;
 
 import javax.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.Set;
 
-@Mod.EventBusSubscriber(modid = EInfo.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class LibraryRecipe extends SpecialRecipe {
+public class LibraryRecipe extends CustomRecipe {
     public static final Set<SafeStack> VALID_WOODS = new HashSet<>();
-    static final SpecialRecipeSerializer<LibraryRecipe> LIBRARY_SERIALIZER = IRecipeSerializer.register(EInfo.MODID + ":crafting_special_library", new SpecialRecipeSerializer<>(LibraryRecipe::new));
+    public static final SimpleCraftingRecipeSerializer<LibraryRecipe> LIBRARY_SERIALIZER = new SimpleCraftingRecipeSerializer<>(LibraryRecipe::new);
 
-    public LibraryRecipe(ResourceLocation location) {
-        super(location);
+    public LibraryRecipe(CraftingBookCategory category) {
+        super(category);
     }
 
     @Override
     @Nonnull
-    public ResourceLocation getId() {
-        return new ResourceLocation(EInfo.MODID, "library");
-    }
-
-    @Override
-    @Nonnull
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return LIBRARY_SERIALIZER;
     }
 
@@ -49,14 +41,14 @@ public class LibraryRecipe extends SpecialRecipe {
     }
 
     @Override
-    public boolean matches(@Nonnull CraftingInventory inv, @Nonnull Level world) {
+    public boolean matches(@Nonnull CraftingContainer inv, @Nonnull Level world) {
         for (int i = 0; i < 3; i++) {
-            ItemStack stack = inv.getStackInSlot(i);
+            ItemStack stack = inv.getItem(i);
             if (stack.isEmpty() || !isWood(stack)) return false;
         }
 
         for (int i = 0; i < 3; i++) {
-            ItemStack stack = inv.getStackInSlot(i + 3);
+            ItemStack stack = inv.getItem(i + 3);
             if (stack.isEmpty()) return false;
             else {
                 if (EnchiridionAPI.library.getBookHandlerForStack(stack) == null) return false;
@@ -64,7 +56,7 @@ public class LibraryRecipe extends SpecialRecipe {
         }
 
         for (int i = 0; i < 3; i++) {
-            ItemStack stack = inv.getStackInSlot(i + 6);
+            ItemStack stack = inv.getItem(i + 6);
             if (stack.isEmpty()) return false;
             if (!isWood(stack)) return false;
         }
@@ -74,25 +66,25 @@ public class LibraryRecipe extends SpecialRecipe {
 
     @Override
     @Nonnull
-    public ItemStack getCraftingResult(@Nonnull CraftingInventory inv) {
-        return getRecipeOutput();
+    public ItemStack assemble(@Nonnull CraftingContainer inv, @Nonnull HolderLookup.Provider registries) {
+        return getResultItem(registries);
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return width * height >= 3;
     }
 
     @Override
     @Nonnull
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem(@Nonnull HolderLookup.Provider registries) {
         return new ItemStack(EItems.LIBRARY);
     }
 
     @Override
     @Nonnull
-    public NonNullList<ItemStack> getRemainingItems(@Nonnull CraftingInventory inv) {
-        NonNullList<ItemStack> list = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
+    public NonNullList<ItemStack> getRemainingItems(@Nonnull CraftingContainer inv) {
+        NonNullList<ItemStack> list = NonNullList.withSize(inv.getContainerSize(), ItemStack.EMPTY);
 
         list.set(3, getStackOfOne(inv, 3));
         list.set(4, getStackOfOne(inv, 4));
@@ -102,14 +94,9 @@ public class LibraryRecipe extends SpecialRecipe {
     }
 
     @Nonnull
-    private ItemStack getStackOfOne(CraftingInventory inv, int index) {
-        ItemStack ret = inv.getStackInSlot(index).copy();
+    private ItemStack getStackOfOne(CraftingContainer inv, int index) {
+        ItemStack ret = inv.getItem(index).copy();
         ret.setCount(1);
         return ret;
-    }
-
-    @SubscribeEvent
-    public static void registerRecipe(RegistryEvent.Register<IRecipeSerializer<?>> event) {
-        event.getRegistry().register(LIBRARY_SERIALIZER);
     }
 }

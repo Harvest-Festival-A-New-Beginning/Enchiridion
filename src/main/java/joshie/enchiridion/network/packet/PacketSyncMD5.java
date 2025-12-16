@@ -8,7 +8,7 @@ import joshie.enchiridion.network.core.PacketPart;
 import joshie.enchiridion.network.core.PacketSyncStringArray;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import org.apache.logging.log4j.Level;
 
 import java.util.HashMap;
@@ -28,11 +28,11 @@ public class PacketSyncMD5 extends PacketSyncStringArray {
         super(part, text, index);
     }
 
-    public static void encode(PacketSyncMD5 packet, PacketBuffer buf) {
+    public static void encode(PacketSyncMD5 packet, FriendlyByteBuf buf) {
         toBytes(packet, buf);
     }
 
-    public static PacketSyncMD5 decode(PacketBuffer buf) {
+    public static PacketSyncMD5 decode(FriendlyByteBuf buf) {
         PacketSyncMD5 packet = new PacketSyncMD5(PacketPart.valueOf(buf.readString(32767)), buf.readString(32767), buf.readInt());
         fromBytes(packet, buf);
         return packet;

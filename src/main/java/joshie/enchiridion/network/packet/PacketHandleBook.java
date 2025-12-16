@@ -6,10 +6,10 @@ import joshie.enchiridion.library.LibraryHelper;
 import joshie.enchiridion.library.LibraryInventory;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.InteractionHand;
 import net.neoforged.neoforge.common.util.FakePlayer;
-import net.neoforged.fml.network.NetworkEvent;
+
 
 import java.util.function.Supplier;
 
@@ -24,13 +24,13 @@ public class PacketHandleBook {
         this.isShiftPressed = isShiftPressed;
     }
 
-    public static void encode(PacketHandleBook packet, PacketBuffer buf) {
+    public static void encode(PacketHandleBook packet, FriendlyByteBuf buf) {
         buf.writeInt(packet.slot);
         buf.writeInt(packet.hand.ordinal());
         buf.writeBoolean(packet.isShiftPressed);
     }
 
-    public static PacketHandleBook decode(PacketBuffer buf) {
+    public static PacketHandleBook decode(FriendlyByteBuf buf) {
         return new PacketHandleBook(buf.readInt(), InteractionHand.values()[buf.readInt()], buf.readBoolean());
     }
 

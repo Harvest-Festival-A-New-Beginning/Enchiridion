@@ -5,13 +5,13 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import joshie.enchiridion.network.PacketHandler;
 import joshie.enchiridion.network.packet.PacketLibraryCommand;
 import net.minecraft.client.Minecraft;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 
 public class LibraryCommand {
 
-    public static void register(CommandDispatcher<CommandSource> dispatcher) {
-        dispatcher.register((LiteralArgumentBuilder) ((LiteralArgumentBuilder) Commands.literal("enchiridion").requires((command) -> command.hasPermissionLevel(0)))
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+        dispatcher.register((LiteralArgumentBuilder) ((LiteralArgumentBuilder) Commands.literal("enchiridion").requires((command) -> command.hasPermission(0)))
                 .then(Commands.literal("refresh").executes((command) -> refresh()))
                 .then(Commands.literal("resources").executes((command) -> resources()))
                 .then(Commands.literal("reset").executes((command) -> reset()))
@@ -24,7 +24,7 @@ public class LibraryCommand {
     }
 
     private static int resources() {
-        Minecraft.getInstance().getResourcePackList().reloadPacksFromFinders();
+        Minecraft.getInstance().getResourcePackRepository().reload();
         return 0;
     }
 

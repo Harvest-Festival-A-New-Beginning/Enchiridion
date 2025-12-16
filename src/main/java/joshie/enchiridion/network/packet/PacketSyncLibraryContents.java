@@ -6,9 +6,9 @@ import joshie.enchiridion.network.core.PacketNBT;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.core.NonNullList;
-import net.neoforged.fml.network.NetworkEvent;
+
 
 import java.util.function.Supplier;
 
@@ -24,12 +24,12 @@ public class PacketSyncLibraryContents extends PacketNBT {
         this.currentBook = contents.getCurrentBook();
     }
 
-    public static void encode(PacketSyncLibraryContents packet, PacketBuffer buf) {
+    public static void encode(PacketSyncLibraryContents packet, FriendlyByteBuf buf) {
         buf.writeInt(packet.currentBook);
         toBytes(packet, buf);
     }
 
-    public static PacketSyncLibraryContents decode(PacketBuffer buf) {
+    public static PacketSyncLibraryContents decode(FriendlyByteBuf buf) {
         PacketSyncLibraryContents packet = new PacketSyncLibraryContents(buf.readInt());
         fromBytes(packet, buf);
         return packet;

@@ -3,9 +3,9 @@ package joshie.enchiridion.network.packet;
 import joshie.enchiridion.api.EnchiridionAPI;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.neoforged.neoforge.common.util.FakePlayer;
-import net.neoforged.fml.network.NetworkEvent;
+
 
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
@@ -19,12 +19,12 @@ public class PacketSetLibraryBook {
         this.slot = slot;
     }
 
-    public static void encode(PacketSetLibraryBook packet, PacketBuffer buf) {
+    public static void encode(PacketSetLibraryBook packet, FriendlyByteBuf buf) {
         buf.writeItemStack(packet.stack);
         buf.writeInt(packet.slot);
     }
 
-    public static PacketSetLibraryBook decode(PacketBuffer buf) {
+    public static PacketSetLibraryBook decode(FriendlyByteBuf buf) {
         return new PacketSetLibraryBook(buf.readItemStack(), buf.readInt());
     }
 

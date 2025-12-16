@@ -2,8 +2,8 @@ package joshie.enchiridion.network.core;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.core.NonNullList;
 
 public class PacketNBT {
@@ -15,14 +15,14 @@ public class PacketNBT {
     public PacketNBT(NonNullList<ItemStack> inventory) {
         nbt = new CompoundTag();
         nbt.putInt("length", inventory.size());
-        ListNBT itemList = new ListNBT();
+        ListTag itemList = new ListTag();
         for (int i = 0; i < inventory.size(); i++) {
             ItemStack stack = inventory.get(i);
             if (!stack.isEmpty()) {
                 CompoundTag tag = new CompoundTag();
                 tag.putByte("Slot", (byte) i);
                 tag.putBoolean("NULLItemStack", false);
-                stack.write(tag);
+                stack.save(tag);
                 itemList.add(tag);
             } else {
                 CompoundTag tag = new CompoundTag();
@@ -34,17 +34,17 @@ public class PacketNBT {
         nbt.put("Inventory", itemList);
     }
 
-    public static void toBytes(PacketNBT packet, PacketBuffer buf) {
+    public static void toBytes(PacketNBT packet, FriendlyByteBuf buf) {
         try {
-            new PacketBuffer(buf).writeCompoundTag(packet.nbt);
+            buf.writeNbt(packet.nbt);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void fromBytes(PacketNBT packet, PacketBuffer buf) {
+    public static void fromBytes(PacketNBT packet, FriendlyByteBuf buf) {
         try {
-            packet.nbt = buf.readCompoundTag();
+            packet.nbt = buf.readNbt();
         } catch (Exception e) {
             e.printStackTrace();
         }

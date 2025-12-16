@@ -5,12 +5,12 @@ import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IBookHandler;
 import joshie.enchiridion.network.PacketHandler;
 import joshie.enchiridion.network.packet.PacketSetLibraryBook;
-import net.minecraft.client.gui.screen.EditBookScreen;
+import net.minecraft.client.gui.screens.inventory.BookEditScreen;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.StringNBT;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.world.InteractionHand;
 
 import javax.annotation.Nonnull;
@@ -29,7 +29,7 @@ public class WritableBookHandler implements IBookHandler {
     }
 
     //Our own version for the writeable so that we send packets to the library instead of the hand
-    public static class GuiScreenWritable extends EditBookScreen {
+    public static class GuiScreenWritable extends BookEditScreen {
         private int slot;
 
         public GuiScreenWritable(ServerPlayer player, int slot, InteractionHand hand) {
@@ -39,22 +39,22 @@ public class WritableBookHandler implements IBookHandler {
 
         //Overwrite mc behaviour and send a custom packet instead
         @Override
-        public void sendBookToServer(boolean publish) {
-            if (this.field_214234_c) {
-                this.func_214213_e();
-                ListNBT nbtList = new ListNBT();
-                this.field_214238_g.stream().map(StringNBT::new).forEach(nbtList::add);
-                if (!this.field_214238_g.isEmpty()) {
-                    this.book.setTagInfo("pages", nbtList);
+        public void saveChanges(boolean publish) {
+            if (this.isModified) {
+                this.updateLocalCopy();
+                ListTag nbtList = new ListTag();
+                this.pages.stream().map(StringTag::valueOf).forEach(nbtList::add);
+                if (!this.pages.isEmpty()) {
+                    this.book.addTagElement("pages", nbtList);
                 }
 
                 if (publish) {
-                    this.book.setTagInfo("author", new StringNBT(this.editingPlayer.getGameProfile().getName()));
-                    this.book.setTagInfo("title", new StringNBT(this.field_214239_h.trim()));
+                    this.book.addTagElement("author", StringTag.valueOf(this.owner.getGameProfile().getName()));
+                    this.book.addTagElement("title", StringTag.valueOf(this.title.trim()));
                 }
 
                 //Set the book in the library
-                EnchiridionAPI.library.getLibraryInventory(this.editingPlayer).setInventorySlotContents(slot, this.book);
+                EnchiridionAPI.library.getLibraryInventory(this.owner).setInventorySlotContents(slot, this.book);
                 PacketHandler.sendToServer(new PacketSetLibraryBook(this.book, slot));
             }
         }

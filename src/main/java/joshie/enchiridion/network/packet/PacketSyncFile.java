@@ -6,7 +6,7 @@ import joshie.enchiridion.network.PacketHandler;
 import joshie.enchiridion.network.core.PacketPart;
 import joshie.enchiridion.network.core.PacketSyncByteArray;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import java.io.File;
@@ -37,13 +37,13 @@ public class PacketSyncFile extends PacketSyncByteArray {
         this.bites = bites;
     }
 
-    public static void encode(PacketSyncFile packet, PacketBuffer buf) {
+    public static void encode(PacketSyncFile packet, FriendlyByteBuf buf) {
         buf.writeString(packet.directory);
         buf.writeInt(packet.length);
         toBytes(packet, buf);
     }
 
-    public static PacketSyncFile decode(PacketBuffer buf) {
+    public static PacketSyncFile decode(FriendlyByteBuf buf) {
         PacketSyncFile syncFile = new PacketSyncFile(buf.readString(32767), PacketPart.SEND_SIZE, buf.readInt());
         fromBytes(syncFile, buf);
         return syncFile;

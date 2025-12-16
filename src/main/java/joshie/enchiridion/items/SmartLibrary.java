@@ -2,41 +2,41 @@ package joshie.enchiridion.items;
 
 import joshie.enchiridion.lib.EInfo;
 import joshie.enchiridion.library.LibraryHelper;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.renderer.model.BakedQuad;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ItemOverrideList;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.client.renderer.ItemModelShaper;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.minecraft.util.RandomSource;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @EventBusSubscriber(modid = EInfo.MODID, value = Dist.CLIENT)
-public class SmartLibrary implements IBakedModel { //TODO
-    private static IBakedModel library;
+public class SmartLibrary implements BakedModel { //TODO
+    private static BakedModel library;
 
     @Override
     @Nonnull
-    public ItemOverrideList getOverrides() {
+    public ItemOverrides getOverrides() {
         return LibraryOverride.INSTANCE;
     }
 
-    private static class LibraryOverride extends ItemOverrideList {
+    private static class LibraryOverride extends ItemOverrides {
         private static LibraryOverride INSTANCE = new LibraryOverride();
         private ItemStack broken = new ItemStack(Items.ENCHANTED_BOOK);
 
-        private ItemModelMesher mesher;
+        private ItemModelShaper mesher;
 
         public LibraryOverride() {
             super();
@@ -44,12 +44,12 @@ public class SmartLibrary implements IBakedModel { //TODO
 
         @Override
         @Nonnull
-        public IBakedModel getModelWithOverrides(@Nonnull IBakedModel originalModel, @Nonnull ItemStack stack, @Nullable Level world, @Nullable LivingEntity entity) {
-            IBakedModel ret;
+        public BakedModel resolve(@Nonnull BakedModel originalModel, @Nonnull ItemStack stack, @Nullable Level world, @Nullable LivingEntity entity, int seed) {
+            BakedModel ret;
             //Setup
-            /*if (mesher == null) mesher = Minecraft.getInstance().getItemRenderer().getItemModelMesher(); //TODO
+            /*if (mesher == null) mesher = Minecraft.getInstance().getItemRenderer().getItemModelShaper(); //TODO
             library = mesher.getModelManager().getModel(EClientHandler.library);
-            if (stack.getDamage() == 0) { //If we're a book
+            if (stack.getDamageValue() == 0) { //If we're a book
                 ret = mesher.getModelManager().getModel(BookMeshDefinition.INSTANCE.getModelLocation(stack));
             } else {*/
                 ItemStack book = LibraryHelper.getClientLibraryContents().getCurrentBookItem();
@@ -65,12 +65,12 @@ public class SmartLibrary implements IBakedModel { //TODO
      **/
     @Override
     @Nonnull
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand) {
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull RandomSource rand) {
         return new ArrayList<>();
     }
 
     @Override
-    public boolean isAmbientOcclusion() {
+    public boolean useAmbientOcclusion() {
         return false;
     }
 
@@ -80,13 +80,13 @@ public class SmartLibrary implements IBakedModel { //TODO
     }
 
     @Override
-    public boolean isBuiltInRenderer() {
+    public boolean isCustomRenderer() {
         return false;
     }
 
     @Override
     @Nonnull
-    public TextureAtlasSprite getParticleTexture() {
-        return library.getParticleTexture();
+    public TextureAtlasSprite getParticleIcon() {
+        return library.getParticleIcon();
     }
 }

@@ -2,7 +2,7 @@ package joshie.enchiridion.gui.book.features.recipe;
 
 import joshie.enchiridion.api.recipe.IItemStack;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.core.NonNullList;
 
 import javax.annotation.Nonnull;
@@ -33,7 +33,7 @@ public class WrappedStack implements IItemStack {
                 if (object == Ingredient.EMPTY) {
                     permutations.add(ItemStack.EMPTY);
                 } else {
-                    Collections.addAll(permutations, ((Ingredient) object).getMatchingStacks());
+                    Collections.addAll(permutations, ((Ingredient) object).getItems());
                 }
             } else if (object instanceof ItemStack) {
                 stack = ((ItemStack) object).copy();
@@ -43,7 +43,7 @@ public class WrappedStack implements IItemStack {
                 if (first instanceof Ingredient) {
                     List<Ingredient> ingredients = new ArrayList<>((List) object);
                     for (Ingredient stacky : ingredients) {
-                        Collections.addAll(permutations, stacky.getMatchingStacks());
+                        Collections.addAll(permutations, stacky.getItems());
                     }
                 } else if (first instanceof ItemStack) {
                     List<ItemStack> stacks = new ArrayList<ItemStack>((List) object);

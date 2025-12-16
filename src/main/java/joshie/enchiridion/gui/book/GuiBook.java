@@ -136,7 +136,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     @Nullable
-    public IGuiEventListener getFocused() {
+    public GuiEventListener getFocused() {
         return GuiSimpleEditor.INSTANCE.getFocused(); //TODO?
     }
 
@@ -172,8 +172,8 @@ public class GuiBook extends GuiBase implements IBookHelper {
             });
 
             //Copy to clipboard
-            long handle = Minecraft.getInstance().mainWindow.getHandle();
-            if (MCClientHelper.isCtrlPressed() && (InputMappings.isKeyDown(handle, GLFW.GLFW_KEY_C) || InputMappings.isKeyDown(handle, GLFW.GLFW_KEY_X))) {
+            long handle = Minecraft.getInstance().getWindow().getWindow();
+            if (MCClientHelper.isCtrlPressed() && (InputConstants.isKeyDown(handle, GLFW.GLFW_KEY_C) || InputConstants.isKeyDown(handle, GLFW.GLFW_KEY_X))) {
                 clipboard.clear();
                 for (IFeatureProvider provider : group) {
                     IFeatureProvider copy = provider.copy();
@@ -181,12 +181,12 @@ public class GuiBook extends GuiBase implements IBookHelper {
                     clipboard.add(copy);
                 }
 
-                if (InputMappings.isKeyDown(handle, GLFW.GLFW_KEY_X)) {
+                if (InputConstants.isKeyDown(handle, GLFW.GLFW_KEY_X)) {
                     for (IFeatureProvider provider : group) {
                         page.removeFeature(provider);
                     }
                 }
-            } else if (MCClientHelper.isCtrlPressed() && InputMappings.isKeyDown(handle, GLFW.GLFW_KEY_V)) { //Paste features
+            } else if (MCClientHelper.isCtrlPressed() && InputConstants.isKeyDown(handle, GLFW.GLFW_KEY_V)) { //Paste features
                 for (IFeatureProvider provider : clipboard) {
                     page.addFeature(provider.getFeature().copy(), provider.getLeft(), provider.getTop(), provider.getWidth(), provider.getHeight(), provider.isLocked(), !provider.isVisible(), provider.isFromTemplate());
                 }

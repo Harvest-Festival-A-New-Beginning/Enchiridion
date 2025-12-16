@@ -5,9 +5,9 @@ import joshie.enchiridion.library.LibraryInventory;
 import joshie.enchiridion.library.ModSupport;
 import joshie.enchiridion.network.PacketHandler;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.neoforged.neoforge.common.util.FakePlayer;
-import net.neoforged.fml.network.NetworkEvent;
+
 
 import java.util.function.Supplier;
 
@@ -20,11 +20,11 @@ public class PacketLibraryCommand {
         command = string;
     }
 
-    public static void encode(PacketLibraryCommand packet, PacketBuffer buf) {
+    public static void encode(PacketLibraryCommand packet, FriendlyByteBuf buf) {
         buf.writeString(packet.command);
     }
 
-    public static PacketLibraryCommand decode(PacketBuffer buf) {
+    public static PacketLibraryCommand decode(FriendlyByteBuf buf) {
         return new PacketLibraryCommand(buf.readString(32767));
     }
 

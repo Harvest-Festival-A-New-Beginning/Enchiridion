@@ -2,18 +2,15 @@ package joshie.enchiridion.library;
 
 import com.google.gson.JsonObject;
 import joshie.enchiridion.EConfig;
-import net.minecraft.util.JSONUtils;
-import net.neoforged.neoforge.common.crafting.IConditionSerializer;
+import net.minecraft.util.GsonHelper;
+import net.neoforged.neoforge.common.conditions.ICondition;
 
 import javax.annotation.Nonnull;
-import java.util.function.BooleanSupplier;
 
-public class LibraryConditionFactory implements IConditionSerializer {
+public class LibraryConditionFactory implements ICondition {
 
     @Override
-    @Nonnull
-    public BooleanSupplier parse(@Nonnull JsonObject json) {
-        boolean value = JSONUtils.getBoolean(json, "value", true);
-        return () -> EConfig.SETTINGS.addWrittenBookRecipeForLibrary.get() == value;
+    public boolean test(@Nonnull IContext context) {
+        return EConfig.SETTINGS.addWrittenBookRecipeForLibrary.get();
     }
 }

@@ -8,7 +8,7 @@ import joshie.enchiridion.network.PacketHandler;
 import joshie.enchiridion.network.core.PacketPart;
 import joshie.enchiridion.network.core.PacketSyncStringArray;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 
 import static joshie.enchiridion.network.core.PacketPart.*;
 
@@ -27,11 +27,11 @@ public class PacketSyncLibraryAllowed extends PacketSyncStringArray {
         super(part, text, index);
     }
 
-    public static void encode(PacketSyncLibraryAllowed packet, PacketBuffer buf) {
+    public static void encode(PacketSyncLibraryAllowed packet, FriendlyByteBuf buf) {
         toBytes(packet, buf);
     }
 
-    public static PacketSyncLibraryAllowed decode(PacketBuffer buf) {
+    public static PacketSyncLibraryAllowed decode(FriendlyByteBuf buf) {
         PacketSyncLibraryAllowed libraryAllowed = new PacketSyncLibraryAllowed();
         fromBytes(libraryAllowed, buf);
         return libraryAllowed;

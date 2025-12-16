@@ -2,9 +2,9 @@ package joshie.enchiridion.network.packet;
 
 import joshie.enchiridion.api.EnchiridionAPI;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.neoforged.neoforge.common.util.FakePlayer;
-import net.neoforged.fml.network.NetworkEvent;
+
 
 import java.util.function.Supplier;
 
@@ -17,12 +17,12 @@ public class PacketOpenBook{
         this.page = page;
     }
 
-    public static void encode(PacketOpenBook packet, PacketBuffer buf) {
+    public static void encode(PacketOpenBook packet, FriendlyByteBuf buf) {
         buf.writeString(packet.bookID);
         buf.writeInt(packet.page);
     }
 
-    public static PacketOpenBook decode(PacketBuffer buf) {
+    public static PacketOpenBook decode(FriendlyByteBuf buf) {
         return new PacketOpenBook(buf.readString(32767), buf.readInt());
     }
 

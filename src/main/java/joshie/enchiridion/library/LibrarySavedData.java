@@ -4,20 +4,21 @@ import joshie.enchiridion.helpers.UUIDHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.world.storage.WorldSavedData;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraft.core.HolderLookup;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class LibrarySavedData extends WorldSavedData {
+public class LibrarySavedData extends SavedData {
     public static final String DATA_NAME = "Enchiridion-Library";
     private HashMap<UUID, LibraryInventory> players = new HashMap<>();
 
-    public LibrarySavedData(String string) {
-        super(string);
+    public LibrarySavedData() {
+        super();
     }
 
     public Collection<LibraryInventory> getPlayerData() {
@@ -35,7 +36,7 @@ public class LibrarySavedData extends WorldSavedData {
                 LibraryInventory data = new LibraryInventory(player);
                 players.put(uuid, data);
 
-                markDirty();
+                setDirty();
                 return players.get(uuid);
             }
         }
@@ -54,30 +55,31 @@ public class LibrarySavedData extends WorldSavedData {
         }
     }
 
-    @Override
-    public void read(@Nonnull CompoundTag nbt) {
-        ListNBT tag_list_players = nbt.getList("LibraryInventory", 10);
+    public static LibrarySavedData load(CompoundTag nbt, HolderLookup.Provider provider) {
+        LibrarySavedData data = new LibrarySavedData();
+        ListTag tag_list_players = nbt.getList("LibraryInventory", 10);
         for (int i = 0; i < tag_list_players.size(); i++) {
             CompoundTag tag = tag_list_players.getCompound(i);
-            LibraryInventory data = new LibraryInventory();
+            LibraryInventory inventory = new LibraryInventory();
             boolean success;
             try {
-                data.readFromNBT(tag);
+                inventory.readFromNBT(tag);
                 success = true;
             } catch (Exception e) {
                 success = false;
             }
             //Only add non failed loads
             if (success) {
-                players.put(data.getUUID(), data);
+                data.players.put(inventory.getUUID(), inventory);
             }
         }
+        return data;
     }
 
     @Override
     @Nonnull
-    public CompoundTag write(@Nonnull CompoundTag nbt) {
-        ListNBT tag_list_players = new ListNBT();
+    public CompoundTag save(@Nonnull CompoundTag nbt, @Nonnull HolderLookup.Provider provider) {
+        ListTag tag_list_players = new ListTag();
         players.entrySet().stream().filter(entry -> entry.getKey() != null && entry.getValue() != null).forEach(entry -> {
             CompoundTag tag = new CompoundTag();
             entry.getValue().writeToNBT(tag);

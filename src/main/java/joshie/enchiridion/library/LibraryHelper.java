@@ -1,11 +1,11 @@
 package joshie.enchiridion.library;
 
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.fml.LogicalSide;
-import net.neoforged.fml.common.thread.EffectiveSide;
+import net.neoforged.fml.util.thread.EffectiveSide;
 
 import java.util.Collection;
 
@@ -14,7 +14,7 @@ public class LibraryHelper {
     private static LibraryProxy theClient;
     private static LibraryProxyServer theServer;
 
-    public static void resetServer(ServerWorld world) {
+    public static void resetServer(ServerLevel world) {
         if (world != null) {
             theServer = (new LibraryProxyServer(world));
         }
@@ -50,7 +50,7 @@ public class LibraryHelper {
         return theServer.getAllInventories();
     }
 
-    public static void markDirty() {
-        theServer.markDirty();
+    public static void setDirty() {
+        theServer.setDirty();
     }
 }

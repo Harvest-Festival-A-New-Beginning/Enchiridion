@@ -1,9 +1,9 @@
 package joshie.enchiridion.network.core;
 
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.neoforged.neoforge.common.util.FakePlayer;
-import net.neoforged.fml.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
 import java.util.function.Supplier;
 
@@ -27,7 +27,7 @@ public class PacketSyncStringArray implements IPacketArray {
         this.integer = index;
     }
 
-    public static void toBytes(PacketSyncStringArray packet, PacketBuffer buf) {
+    public static void toBytes(PacketSyncStringArray packet, FriendlyByteBuf buf) {
         buf.writeByte(packet.part.ordinal());
         if (packet.part.sends()) {
             buf.writeInt(packet.integer);
@@ -35,7 +35,7 @@ public class PacketSyncStringArray implements IPacketArray {
         }
     }
 
-    public static void fromBytes(PacketSyncStringArray packet, PacketBuffer buf) {
+    public static void fromBytes(PacketSyncStringArray packet, FriendlyByteBuf buf) {
         packet.part = PacketPart.values()[buf.readByte()];
         if (packet.part.sends()) {
             packet.integer = buf.readInt();

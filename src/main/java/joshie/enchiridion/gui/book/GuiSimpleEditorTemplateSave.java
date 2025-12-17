@@ -39,10 +39,10 @@ public class GuiSimpleEditorTemplateSave extends GuiSimpleEditorAbstract impleme
     private void saveScreenshot(String name) {
         GL11.glReadBuffer(GL11.GL_FRONT);
         Minecraft mc = Minecraft.getInstance();
-        int screenWidth = mc.mainWindow.getWidth();
-        int screenHeight = mc.mainWindow.getHeight();
+        int screenWidth = mc.getWindow().getWidth();
+        int screenHeight = mc.getWindow().getHeight();
 
-        int scale = (int) mc.mainWindow.getGuiScaleFactor();
+        int scale = (int) mc.getWindow().getGuiScale();
         int width = 450 * scale;
         int height = 255 * scale;
 

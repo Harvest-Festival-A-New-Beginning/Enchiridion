@@ -7,6 +7,7 @@ import joshie.enchiridion.lib.EGuis;
 import joshie.enchiridion.library.LibraryCommand;
 import joshie.enchiridion.library.LibraryHelper;
 import joshie.enchiridion.network.PacketHandler;
+import joshie.enchiridion.util.EItemGroup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -42,6 +43,7 @@ public class Enchiridion {
 
         // Register DeferredRegisters
         EGuis.MENUS.register(eventBus);
+        EItemGroup.CREATIVE_MODE_TABS.register(eventBus);
 
         eventBus.addListener(this::setupCommon);
         eventBus.addListener(this::setupClient);

@@ -100,13 +100,6 @@ public class EClientHandler {
             // Note: Key mapping registration now happens via RegisterKeyMappingsEvent
         }
 
-        ItemStack book = new ItemStack(EItems.BOOK);
-        book.setTag(new CompoundTag());
-        if (book.getTag() != null) {
-            book.getTag().putString("identifier", "enchiridion");
-        }
-        EItemGroup.ENCHIRIDION.setItemStack(book);
-
         /* Colorize the books */
         /*Minecraft.getInstance().getItemColors().register((stack, tintIndex) -> { //TODO
                 ItemStack current = LibraryHelper.getLibraryContents(MCClientHelper.getPlayer()).getCurrentBookItem();

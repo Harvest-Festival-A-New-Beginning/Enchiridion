@@ -53,4 +53,11 @@ public class LibraryHelper {
     public static void setDirty() {
         theServer.setDirty();
     }
+
+    public static void markDirty() {
+        if (theServer != null) {
+            theServer.setDirty();
+        }
+    }
+
 }

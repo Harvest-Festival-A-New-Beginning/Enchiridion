@@ -16,6 +16,9 @@ import javax.annotation.Nonnull;
 import java.util.UUID;
 
 public class LibraryInventory extends InventoryStorage {
+    @Override
+    public void clearContent() { }
+
     public static final int MAX = 65;
     private Player player; //No Direct calling, it's a cache value
     private UUID uuid; //SHOULD NOT BE CALLED, EXCEPT BY GET AND CREATE PLAYER

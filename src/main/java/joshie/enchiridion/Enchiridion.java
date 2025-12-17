@@ -3,6 +3,7 @@ package joshie.enchiridion;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.helpers.FileHelper;
 import joshie.enchiridion.helpers.SyncHelper;
+import joshie.enchiridion.lib.EGuis;
 import joshie.enchiridion.library.LibraryCommand;
 import joshie.enchiridion.library.LibraryHelper;
 import joshie.enchiridion.network.PacketHandler;
@@ -38,6 +39,10 @@ public class Enchiridion {
 
     public Enchiridion() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        // Register DeferredRegisters
+        EGuis.MENUS.register(eventBus);
+
         eventBus.addListener(this::setupCommon);
         eventBus.addListener(this::setupClient);
         eventBus.addListener(this::handleIMCMessages);

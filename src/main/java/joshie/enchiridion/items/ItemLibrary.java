@@ -29,10 +29,7 @@ public class ItemLibrary extends Item {
         super(properties);
     }
 
-    @Override
-    public int getItemStackLimit(@Nonnull ItemStack stack) {
-        return 1;
-    }
+    // getItemStackLimit removed in 1.20.4 - set in Item.Properties instead
 
     @Override
     @Nonnull

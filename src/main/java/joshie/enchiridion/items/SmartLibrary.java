@@ -89,4 +89,9 @@ public class SmartLibrary implements BakedModel { //TODO
     public TextureAtlasSprite getParticleIcon() {
         return library.getParticleIcon();
     }
+
+    @Override
+    public boolean usesBlockLight() {
+        return false;
+    }
 }

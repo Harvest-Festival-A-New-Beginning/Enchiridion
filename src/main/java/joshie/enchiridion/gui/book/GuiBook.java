@@ -144,7 +144,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public void removed() {
-        Minecraft.getInstance().keyboardHandler.setRepeatEvents(false);
+        Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(false);
         if (!book.doesBookForgetClose() && page != null) pageCache.put(book.getUniqueName(), page.getPageNumber());
         if (isEditMode) {
             if (selected != null) selected.deselect();
@@ -163,7 +163,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public boolean charTyped(char character, int key) {
-        Minecraft.getInstance().keyboardHandler.setRepeatEvents(true);
+        Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(true);
 
         //super.charTyped(character, key);
 

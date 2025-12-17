@@ -54,7 +54,7 @@ public class ItemLibrary extends Item {
             }
         } else {
             int currentBook = LibraryHelper.getLibraryContents(player).getCurrentBook();
-            ItemStack book = LibraryHelper.getLibraryContents(player).getStackInSlot(currentBook);
+            ItemStack book = LibraryHelper.getLibraryContents(player).getItem(currentBook);
             if (!book.isEmpty()) {
                 IBookHandler handler = EnchiridionAPI.library.getBookHandlerForStack(book);
                 if (handler != null && player instanceof ServerPlayer) {
@@ -75,7 +75,7 @@ public class ItemLibrary extends Item {
     public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, world, tooltip, flag);
         /*int currentBook = LibraryHelper.getClientLibraryContents().getCurrentBook(); //TODO Crashes on client startup
-        ItemStack internal = LibraryHelper.getClientLibraryContents().getStackInSlot(currentBook);
+        ItemStack internal = LibraryHelper.getClientLibraryContents().getItem(currentBook);
         if (!internal.isEmpty()) {
             tooltip.addAll(internal.getTooltip(Minecraft.getInstance().player, flag));
         }*/

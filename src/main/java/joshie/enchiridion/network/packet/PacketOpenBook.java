@@ -18,12 +18,12 @@ public class PacketOpenBook{
     }
 
     public static void encode(PacketOpenBook packet, FriendlyByteBuf buf) {
-        buf.writeString(packet.bookID);
+        buf.writeUtf(packet.bookID);
         buf.writeInt(packet.page);
     }
 
     public static PacketOpenBook decode(FriendlyByteBuf buf) {
-        return new PacketOpenBook(buf.readString(32767), buf.readInt());
+        return new PacketOpenBook(buf.readUtf(32767), buf.readInt());
     }
 
     public static class Handler {

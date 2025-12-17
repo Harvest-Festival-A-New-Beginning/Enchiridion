@@ -92,7 +92,7 @@ public class BookRegistry {
 
     private final HashMap<String, HashMap<String, IBook>> books = new HashMap<>();
     public final HashMap<String, ModelResourceLocation> locations = new HashMap<>();
-    public final ModelResourceLocation DFLT = new ModelResourceLocation("minecraft:book", "inventory");
+    public final ModelResourceLocation DFLT = new ModelResourceLocation(new ResourceLocation("minecraft", "book"), "inventory");
 
     public Collection<ModelResourceLocation> getModels() {
         return locations.values();

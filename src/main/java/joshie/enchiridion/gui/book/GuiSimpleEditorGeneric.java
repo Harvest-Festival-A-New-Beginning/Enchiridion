@@ -81,7 +81,7 @@ public class GuiSimpleEditorGeneric extends GuiSimpleEditorAbstract {
         while (text.endsWith("\n")) {
             text = text.substring(0, text.length() - 1);
         }
-        return Minecraft.getInstance().fontRenderer.getWordWrappedHeight(text, 155);
+        return Minecraft.getInstance().font.getWordWrappedHeight(text, 155);
     }
 
     public String[] getFieldNames() {

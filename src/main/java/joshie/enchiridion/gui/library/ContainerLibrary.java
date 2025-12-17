@@ -17,7 +17,7 @@ public class ContainerLibrary extends AbstractContainerMenu {
     public Container library;
 
     public ContainerLibrary(int windowID, Inventory playerInventory, Container library, InteractionHand hand) {
-        super(EGuis.LIBRARY_CONTAINER, windowID);
+        super(EGuis.LIBRARY_CONTAINER.get(), windowID);
         this.library = library;
 
         //Left hand side slots

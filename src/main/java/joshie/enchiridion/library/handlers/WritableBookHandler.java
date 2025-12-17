@@ -33,7 +33,7 @@ public class WritableBookHandler implements IBookHandler {
         private int slot;
 
         public GuiScreenWritable(ServerPlayer player, int slot, InteractionHand hand) {
-            super(player, EnchiridionAPI.library.getLibraryInventory(player).getStackInSlot(slot), hand);
+            super(player, EnchiridionAPI.library.getLibraryInventory(player).getItem(slot), hand);
             this.slot = slot;
         }
 
@@ -54,7 +54,7 @@ public class WritableBookHandler implements IBookHandler {
                 }
 
                 //Set the book in the library
-                EnchiridionAPI.library.getLibraryInventory(this.owner).setInventorySlotContents(slot, this.book);
+                EnchiridionAPI.library.getLibraryInventory(this.owner).setItem(slot, this.book);
                 PacketHandler.sendToServer(new PacketSetLibraryBook(this.book, slot));
             }
         }

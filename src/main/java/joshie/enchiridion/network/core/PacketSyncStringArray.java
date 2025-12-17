@@ -31,7 +31,7 @@ public class PacketSyncStringArray implements IPacketArray {
         buf.writeByte(packet.part.ordinal());
         if (packet.part.sends()) {
             buf.writeInt(packet.integer);
-            buf.writeString(packet.text);
+            buf.writeUtf(packet.text);
         }
     }
 
@@ -39,7 +39,7 @@ public class PacketSyncStringArray implements IPacketArray {
         packet.part = PacketPart.values()[buf.readByte()];
         if (packet.part.sends()) {
             packet.integer = buf.readInt();
-            packet.text = buf.readString(32767);
+            packet.text = buf.readUtf(32767);
         }
     }
 

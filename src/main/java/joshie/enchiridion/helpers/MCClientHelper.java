@@ -26,6 +26,6 @@ public class MCClientHelper {
     }
 
     public static Level getWorld() {
-        return Minecraft.getInstance().level();
+        return Minecraft.getInstance().level;
     }
 }

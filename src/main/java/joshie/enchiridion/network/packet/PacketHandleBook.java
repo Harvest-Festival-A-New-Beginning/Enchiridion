@@ -38,7 +38,7 @@ public class PacketHandleBook {
         public static void handle(PacketHandleBook message, Supplier<NetworkEvent.Context> ctx) {
             ServerPlayer playerMP = ctx.get().getSender();
             if (playerMP != null && !(playerMP instanceof FakePlayer)) {
-                ItemStack stack = EnchiridionAPI.library.getLibraryInventory(playerMP).getStackInSlot(message.slot);
+                ItemStack stack = EnchiridionAPI.library.getLibraryInventory(playerMP).getItem(message.slot);
                 if (!stack.isEmpty()) {
                     IBookHandler handler = EnchiridionAPI.library.getBookHandlerForStack(stack);
                     if (handler != null) {

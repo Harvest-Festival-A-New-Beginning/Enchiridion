@@ -38,13 +38,13 @@ public class PacketSyncFile extends PacketSyncByteArray {
     }
 
     public static void encode(PacketSyncFile packet, FriendlyByteBuf buf) {
-        buf.writeString(packet.directory);
+        buf.writeUtf(packet.directory);
         buf.writeInt(packet.length);
         toBytes(packet, buf);
     }
 
     public static PacketSyncFile decode(FriendlyByteBuf buf) {
-        PacketSyncFile syncFile = new PacketSyncFile(buf.readString(32767), PacketPart.SEND_SIZE, buf.readInt());
+        PacketSyncFile syncFile = new PacketSyncFile(buf.readUtf(32767), PacketPart.SEND_SIZE, buf.readInt());
         fromBytes(syncFile, buf);
         return syncFile;
     }

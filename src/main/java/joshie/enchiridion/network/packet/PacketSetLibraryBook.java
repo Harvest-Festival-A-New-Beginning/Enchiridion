@@ -20,19 +20,19 @@ public class PacketSetLibraryBook {
     }
 
     public static void encode(PacketSetLibraryBook packet, FriendlyByteBuf buf) {
-        buf.writeItemStack(packet.stack);
+        ItemStack.STREAM_CODEC.encode(buf, packet.stack);
         buf.writeInt(packet.slot);
     }
 
     public static PacketSetLibraryBook decode(FriendlyByteBuf buf) {
-        return new PacketSetLibraryBook(buf.readItemStack(), buf.readInt());
+        return new PacketSetLibraryBook(ItemStack.STREAM_CODEC.decode(buf), buf.readInt());
     }
 
     public static class Handler {
         public static void handle(PacketSetLibraryBook message, Supplier<NetworkEvent.Context> ctx) {
             ServerPlayer playerMP = ctx.get().getSender();
             if (playerMP != null && !(playerMP instanceof FakePlayer)) {
-                ctx.get().enqueueWork(() -> EnchiridionAPI.library.getLibraryInventory(playerMP).setInventorySlotContents(message.slot, message.stack));
+                ctx.get().enqueueWork(() -> EnchiridionAPI.library.getLibraryInventory(playerMP).setItem(message.slot, message.stack));
                 ctx.get().setPacketHandled(true);
             }
         }

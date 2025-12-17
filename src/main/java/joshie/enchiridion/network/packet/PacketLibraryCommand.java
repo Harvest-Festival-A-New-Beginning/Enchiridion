@@ -21,11 +21,11 @@ public class PacketLibraryCommand {
     }
 
     public static void encode(PacketLibraryCommand packet, FriendlyByteBuf buf) {
-        buf.writeString(packet.command);
+        buf.writeUtf(packet.command);
     }
 
     public static PacketLibraryCommand decode(FriendlyByteBuf buf) {
-        return new PacketLibraryCommand(buf.readString(32767));
+        return new PacketLibraryCommand(buf.readUtf(32767));
     }
 
     public static class Handler {

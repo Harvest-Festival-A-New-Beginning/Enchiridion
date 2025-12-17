@@ -2,13 +2,13 @@ package joshie.enchiridion.helpers;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
-import net.neoforged.fml.server.ServerLifecycleHooks;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.util.UUID;
 
 public class UUIDHelper {
     public static UUID getPlayerUUID(Player player) {
-        return Player.getUUID(player.getGameProfile());
+        return player.getUUID();
     }
 
     /**

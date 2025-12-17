@@ -144,7 +144,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public void removed() {
-        Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(false);
+        Minecraft.getInstance().keyboardHandler.setRepeatEvents(false);
         if (!book.doesBookForgetClose() && page != null) pageCache.put(book.getUniqueName(), page.getPageNumber());
         if (isEditMode) {
             if (selected != null) selected.deselect();
@@ -163,7 +163,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public boolean charTyped(char character, int key) {
-        Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(true);
+        Minecraft.getInstance().keyboardHandler.setRepeatEvents(true);
 
         //super.charTyped(character, key);
 
@@ -288,9 +288,9 @@ public class GuiBook extends GuiBase implements IBookHelper {
     }
 
     @Override
-    public boolean mouseScrolled(double mX, double mY, double wheel) {
-        if (wheel != 0) {
-            boolean down = wheel < 0;
+    public boolean mouseScrolled(double mX, double mY, double deltaX, double deltaY) {
+        if (deltaY != 0) {
+            boolean down = deltaY < 0;
             if (isEditMode) {
                 for (IBookEditorOverlay overlay : overlays) {
                     overlay.scroll(down, mouseX, mouseY);
@@ -304,7 +304,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
             page.updateMaximumScroll(0); //Called constantly
             page.scroll(down, 10);
         }
-        return super.mouseScrolled(mX, mY, wheel);
+        return super.mouseScrolled(mX, mY, deltaX, deltaY);
     }
 
     // Helper methods

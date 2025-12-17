@@ -41,7 +41,7 @@ public class GuiBookCreate extends GuiBase {
 
     @Override
     public void init() {
-        Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(true);
+        Minecraft.getInstance().keyboardHandler.setRepeatEvents(true);
 
         this.textField = new EditBox(this.font, this.width / 2 - 101, height / 2 - 57, 202, 20, Component.literal("enchiridion.bookCreate.title"));
         this.textField.setMaxLength(32767);
@@ -52,7 +52,7 @@ public class GuiBookCreate extends GuiBase {
 
     @Override
     public void removed() {
-        Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(false);
+        Minecraft.getInstance().keyboardHandler.setRepeatEvents(false);
         ButtonChangeIcon.refreshResources();
     }
 

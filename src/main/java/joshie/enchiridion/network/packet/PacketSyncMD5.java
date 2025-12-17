@@ -33,7 +33,7 @@ public class PacketSyncMD5 extends PacketSyncStringArray {
     }
 
     public static PacketSyncMD5 decode(FriendlyByteBuf buf) {
-        PacketSyncMD5 packet = new PacketSyncMD5(PacketPart.valueOf(buf.readString(32767)), buf.readString(32767), buf.readInt());
+        PacketSyncMD5 packet = new PacketSyncMD5(PacketPart.valueOf(buf.readUtf(32767)), buf.readUtf(32767), buf.readInt());
         fromBytes(packet, buf);
         return packet;
     }

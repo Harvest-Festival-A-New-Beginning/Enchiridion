@@ -4,8 +4,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerLevel;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.fml.LogicalSide;
-import net.neoforged.fml.util.thread.EffectiveSide;
+import net.neoforged.fml.loading.FMLEnvironment;
 
 import java.util.Collection;
 
@@ -30,7 +29,9 @@ public class LibraryHelper {
     }
 
     private static boolean isServer() {
-        return EffectiveSide.get() == LogicalSide.SERVER;
+        // On the server, theClient will be null (due to @OnlyIn(Dist.CLIENT))
+        // On the client in single-player, both may exist, so check environment
+        return FMLEnvironment.dist.isDedicatedServer() || theClient == null;
     }
 
     public static LibraryInventory getLibraryContents(Player player) {

@@ -9,8 +9,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.NonNullList;
-import net.neoforged.fml.LogicalSide;
-import net.neoforged.fml.common.thread.EffectiveSide;
 
 import javax.annotation.Nonnull;
 import java.util.UUID;
@@ -44,7 +42,7 @@ public class LibraryInventory extends InventoryStorage {
 
     @Nonnull
     public ItemStack getCurrentBookItem() {
-        return getStackInSlot(getCurrentBook());
+        return getItem(getCurrentBook());
     }
 
     public void setCurrentBook(int slot) {
@@ -109,7 +107,12 @@ public class LibraryInventory extends InventoryStorage {
 
     @Override
     public void markDirty() {
-        if (EffectiveSide.get() == LogicalSide.SERVER) {
+        // Check if we're on the server side
+        Player p = getAndCreatePlayer();
+        if (p != null && !p.level().isClientSide) {
+            LibraryHelper.markDirty();
+        } else if (p == null) {
+            // If no player available, try to mark dirty anyway (has null check)
             LibraryHelper.markDirty();
         }
     }

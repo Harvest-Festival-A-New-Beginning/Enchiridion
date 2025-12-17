@@ -16,7 +16,7 @@ public class WrittenBookHandler implements IBookHandler {
     @Override
     public void handle(@Nonnull ItemStack stack, Player player, InteractionHand hand, int slotID, boolean isShiftPressed) {
         if (player.level().isClientSide) {
-            player.openBook(stack, hand);
+            player.openItemGui(stack, hand);
         }
     }
 }

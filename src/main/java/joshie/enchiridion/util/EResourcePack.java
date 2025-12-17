@@ -104,6 +104,12 @@ public class EResourcePack implements PackResources {
     }
 
     @Override
+    @Nonnull
+    public String packId() {
+        return EInfo.MODID;
+    }
+
+    @Override
     public void close() {
     }
 }

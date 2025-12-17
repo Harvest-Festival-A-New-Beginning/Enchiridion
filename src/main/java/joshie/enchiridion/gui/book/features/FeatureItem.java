@@ -64,7 +64,7 @@ public class FeatureItem extends FeatureAbstract implements IItemSelectable {
     @Override
     public void addTooltip(List<String> list, int mouseX, int mouseY) {
         if (!hideTooltip && !this.stack.isEmpty()) {
-            for (Component textComponent : stack.getTooltip(net.minecraft.world.item.Item.TooltipContext.EMPTY, MCClientHelper.getPlayer(), TooltipFlag.NORMAL)) {
+            for (Component textComponent : stack.getTooltipLines(net.minecraft.world.item.Item.TooltipContext.of(MCClientHelper.getWorld()), MCClientHelper.getPlayer(), TooltipFlag.NORMAL)) {
                 list.add(textComponent.getString());
             }
         }

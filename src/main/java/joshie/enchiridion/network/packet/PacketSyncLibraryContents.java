@@ -2,6 +2,7 @@ package joshie.enchiridion.network.packet;
 
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.library.LibraryInventory;
+import joshie.enchiridion.library.LibraryHelper;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
@@ -29,7 +30,7 @@ public class PacketSyncLibraryContents {
     }
 
     private void sync() {
-        LibraryInventory library = EnchiridionAPI.library.getClientLibraryContents();
+        LibraryInventory library = LibraryHelper.getClientLibraryContents();
         library.readFromNBT(tag);
     }
 

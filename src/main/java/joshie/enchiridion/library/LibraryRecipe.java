@@ -14,6 +14,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 
 import javax.annotation.Nonnull;
 import java.util.HashSet;
@@ -64,21 +65,20 @@ public class LibraryRecipe extends CustomRecipe {
         return true;
     }
 
-    // TODO: Recipe interface changed in 1.20.4 - assemble() signature may be different
-    // @Override
+    @Override
     @Nonnull
-    public ItemStack assemble(@Nonnull CraftingContainer inv, @Nonnull HolderLookup.Provider registries) {
+    public ItemStack assemble(@Nonnull CraftingContainer inv, @Nonnull RegistryAccess registries) {
         return getResultItem(registries);
     }
 
-    // @Override
+    @Override
     public boolean canCraftInDimensions(int width, int height) {
         return width * height >= 3;
     }
 
-    // @Override
+    @Override
     @Nonnull
-    public ItemStack getResultItem(@Nonnull HolderLookup.Provider registries) {
+    public ItemStack getResultItem(@Nonnull RegistryAccess registries) {
         return new ItemStack(EItems.LIBRARY);
     }
 

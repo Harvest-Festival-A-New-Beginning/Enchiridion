@@ -92,7 +92,8 @@ public class EAPIHandler implements IEnchiridionAPI {
                 }
             }
         } else {
-            PacketHandler.sendToClient(new PacketOpenBook(bookID, page), (ServerPlayer) player);
+            // TODO: PacketOpenBook no longer supports page parameter - page navigation will need to be added back
+            PacketHandler.sendToClient(new PacketOpenBook(bookID), (ServerPlayer) player);
         }
     }
 

@@ -34,16 +34,10 @@ public abstract class RecipeHandlerBase implements IRecipeHandler {
         for (IItemStack stack : stackList) {
             if (stack == null || stack.getItemStack().isEmpty()) continue;
             if (EnchiridionAPI.draw.isMouseOverIItemStack(stack)) {
-                try {
-                    var tooltipLines = stack.getItemStack().getTooltipLines(Item.TooltipContext.EMPTY, Minecraft.getInstance().player, TooltipFlag.Default.NORMAL);
-                    for (Component textComponent : tooltipLines) {
-                        list.add(textComponent.getString());
-                        break; //Only permit one item to display
-                    }
-                } catch (Exception e) {
-                    list.add(stack.getItemStack().getHoverName().getString());
-                    break;
-                }
+                // TODO: TooltipContext API changed in 1.20.4 - needs proper Item.TooltipContext
+                // For now, just use the display name as a simple fallback
+                list.add(stack.getItemStack().getHoverName().getString());
+                break; //Only permit one item to display
             }
         }
     }

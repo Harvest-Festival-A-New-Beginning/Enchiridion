@@ -22,7 +22,8 @@ public class EResourcePack implements PackResources {
         this.root = root;
     }
 
-    @Override
+    // TODO: getName() may have been removed from PackResources interface
+    // @Override
     @Nonnull
     public String getName() {
         return EInfo.MODID;

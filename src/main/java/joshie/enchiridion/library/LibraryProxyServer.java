@@ -14,7 +14,7 @@ public class LibraryProxyServer extends LibraryProxy {
         data = world.getDataStorage().computeIfAbsent(
             new SavedData.Factory<LibrarySavedData>(
                 LibrarySavedData::new,
-                LibrarySavedData::load
+                (nbt, provider) -> LibrarySavedData.load(nbt, provider)
             ),
             LibrarySavedData.DATA_NAME
         );

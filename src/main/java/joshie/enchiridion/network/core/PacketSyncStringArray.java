@@ -9,6 +9,9 @@ import java.util.function.Supplier;
 import static joshie.enchiridion.network.core.PacketPart.*;
 
 public class PacketSyncStringArray extends PacketSyncByteArray {
+    protected String text;
+    protected int integer;
+
     public PacketSyncStringArray() {
     }
 
@@ -18,6 +21,12 @@ public class PacketSyncStringArray extends PacketSyncByteArray {
 
     public PacketSyncStringArray(PacketPart part, String[] strings) {
         super(part, getStringBytesFromArray(strings));
+    }
+
+    public PacketSyncStringArray(PacketPart part, String text, int index) {
+        super(part);
+        this.text = text;
+        this.integer = index;
     }
 
     public static void encode(PacketSyncStringArray packet, FriendlyByteBuf buf) {

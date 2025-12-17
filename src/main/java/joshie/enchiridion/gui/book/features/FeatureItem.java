@@ -10,7 +10,6 @@ import joshie.enchiridion.util.IItemSelectable;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.component.TooltipProvider;
 import net.minecraft.network.chat.Component;
 
 import javax.annotation.Nonnull;
@@ -66,17 +65,9 @@ public class FeatureItem extends FeatureAbstract implements IItemSelectable {
     @Override
     public void addTooltip(List<String> list, int mouseX, int mouseY) {
         if (!hideTooltip && !this.stack.isEmpty()) {
-            // TODO: TooltipContext API changed in 1.20.4
-            // Using deprecated method or find correct context creation
-            try {
-                var tooltipLines = stack.getTooltipLines(Item.TooltipContext.EMPTY, MCClientHelper.getPlayer(), TooltipFlag.Default.NORMAL);
-                for (Component textComponent : tooltipLines) {
-                    list.add(textComponent.getString());
-                }
-            } catch (Exception e) {
-                // Fallback if TooltipContext doesn't work
-                list.add(stack.getHoverName().getString());
-            }
+            // TODO: TooltipContext API changed in 1.20.4 - needs proper Item.TooltipContext
+            // For now, just use the display name as a simple fallback
+            list.add(stack.getHoverName().getString());
         }
     }
 

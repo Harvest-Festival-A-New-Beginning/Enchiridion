@@ -1,5 +1,7 @@
 package joshie.enchiridion.gui.book.features;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IFeatureProvider;
 import joshie.enchiridion.data.book.FeatureProvider;
@@ -16,6 +18,15 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 public class FeatureText extends FeatureProvider implements ITextEditable {
+    public static final Codec<FeatureText> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        Codec.STRING.optionalFieldOf("text", "").forGetter(f -> f.text),
+        Codec.FLOAT.optionalFieldOf("size", 1F).forGetter(f -> f.size)
+    ).apply(instance, (text, size) -> {
+        FeatureText feature = new FeatureText(text);
+        feature.size = size;
+        return feature;
+    }));
+
     protected transient boolean readTemp = false;
     protected transient double cachedWidth = 0;
     public transient int wrap = 100; //Default wrap to 100 to avoid errors

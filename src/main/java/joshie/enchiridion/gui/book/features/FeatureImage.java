@@ -1,5 +1,7 @@
 package joshie.enchiridion.gui.book.features;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IFeatureProvider;
 import joshie.enchiridion.lib.EInfo;
@@ -7,6 +9,14 @@ import joshie.enchiridion.lib.EInfo;
 import java.io.IOException;
 
 public class FeatureImage extends FeatureResource {
+    public static final Codec<FeatureImage> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        Codec.STRING.optionalFieldOf("path", "").forGetter(f -> f.path)
+    ).apply(instance, (path) -> {
+        FeatureImage feature = new FeatureImage();
+        feature.path = path;
+        return feature;
+    }));
+
     public transient String name;
 
     public FeatureImage() {

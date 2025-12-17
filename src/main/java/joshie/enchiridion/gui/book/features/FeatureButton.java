@@ -1,6 +1,8 @@
 package joshie.enchiridion.gui.book.features;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IButtonAction;
 import joshie.enchiridion.api.book.IButtonActionProvider;
@@ -14,6 +16,37 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.List;
 
 public class FeatureButton extends FeatureJump implements IButtonActionProvider {
+    // TODO: Complete codec implementation with IButtonAction support
+    public static final Codec<FeatureButton> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        Codec.FLOAT.optionalFieldOf("size", 1F).forGetter(f -> f.size),
+        Codec.BOOL.optionalFieldOf("leftClick", true).forGetter(f -> f.leftClick),
+        Codec.BOOL.optionalFieldOf("rightClick", true).forGetter(f -> f.rightClick),
+        Codec.BOOL.optionalFieldOf("otherClick", false).forGetter(f -> f.otherClick),
+        Codec.STRING.optionalFieldOf("tooltip", "").forGetter(f -> f.tooltip),
+        Codec.STRING.optionalFieldOf("hoverText", "").forGetter(f -> f.hoverText),
+        Codec.INT.optionalFieldOf("hoverXOffset", 0).forGetter(f -> f.hoverXOffset),
+        Codec.INT.optionalFieldOf("hoverYOffset", 0).forGetter(f -> f.hoverYOffset),
+        Codec.STRING.optionalFieldOf("unhoveredText", "").forGetter(f -> f.unhoveredText),
+        Codec.INT.optionalFieldOf("unhoveredXOffset", 0).forGetter(f -> f.unhoveredXOffset),
+        Codec.INT.optionalFieldOf("unhoveredYOffset", 0).forGetter(f -> f.unhoveredYOffset)
+        // action field will be added when IButtonAction codec system is complete
+    ).apply(instance, (size, leftClick, rightClick, otherClick, tooltip, hoverText, hoverXOffset, hoverYOffset, unhoveredText, unhoveredXOffset, unhoveredYOffset) -> {
+        FeatureButton feature = new FeatureButton();
+        feature.size = size;
+        feature.leftClick = leftClick;
+        feature.rightClick = rightClick;
+        feature.otherClick = otherClick;
+        feature.tooltip = tooltip;
+        feature.hoverText = hoverText;
+        feature.hoverXOffset = hoverXOffset;
+        feature.hoverYOffset = hoverYOffset;
+        feature.unhoveredText = unhoveredText;
+        feature.unhoveredXOffset = unhoveredXOffset;
+        feature.unhoveredYOffset = unhoveredYOffset;
+        // action will be null for now - TODO: deserialize from codec
+        return feature;
+    }));
+
     protected transient ResourceLocation hovered;
     protected transient ResourceLocation unhovered;
     protected transient boolean isInit = false;

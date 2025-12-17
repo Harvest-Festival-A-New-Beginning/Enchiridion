@@ -13,16 +13,16 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Page implements IPage {
-    // TODO: Complete codec implementation with full feature support
     public static final Codec<Page> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.INT.optionalFieldOf("pageNumber", 0).forGetter(page -> page.pageNumber),
-        Codec.BOOL.optionalFieldOf("isScrollable", false).forGetter(page -> page.isScrollable)
-        // features list will be added when FeatureProvider.CODEC is complete
-    ).apply(instance, (pageNumber, isScrollable) -> {
+        Codec.BOOL.optionalFieldOf("isScrollable", false).forGetter(page -> page.isScrollable),
+        FeatureProvider.CODEC.listOf().optionalFieldOf("features", new ArrayList<>()).forGetter(page ->
+            new ArrayList<>(page.features))
+    ).apply(instance, (pageNumber, isScrollable, features) -> {
         Page page = new Page();
         page.pageNumber = pageNumber;
         page.isScrollable = isScrollable;
-        page.features = new ArrayList<>(); // Empty for now
+        page.features = new ArrayList<>(features);
         return page;
     }));
     public List<IFeatureProvider> features = new ArrayList<>();

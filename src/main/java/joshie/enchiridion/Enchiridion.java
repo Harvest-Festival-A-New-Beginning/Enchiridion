@@ -4,6 +4,7 @@ import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.helpers.FileHelper;
 import joshie.enchiridion.helpers.SyncHelper;
 import joshie.enchiridion.lib.EGuis;
+import joshie.enchiridion.lib.EnchiridionRegistries;
 import joshie.enchiridion.library.LibraryCommand;
 import joshie.enchiridion.library.LibraryHelper;
 import joshie.enchiridion.network.PacketHandler;
@@ -44,6 +45,7 @@ public class Enchiridion {
         // Register DeferredRegisters
         EGuis.MENUS.register(eventBus);
         EItemGroup.CREATIVE_MODE_TABS.register(eventBus);
+        EnchiridionRegistries.register(eventBus);
 
         eventBus.addListener(this::setupCommon);
         eventBus.addListener(this::setupClient);

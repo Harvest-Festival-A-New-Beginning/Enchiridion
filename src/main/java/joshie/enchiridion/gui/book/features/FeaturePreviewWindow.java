@@ -4,6 +4,8 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.platform.GlConst;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IFeatureProvider;
@@ -17,6 +19,14 @@ import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
 public class FeaturePreviewWindow extends FeatureAbstract implements ISimpleEditorFieldProvider {
+    public static final Codec<FeaturePreviewWindow> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        Codec.INT.optionalFieldOf("pageNumber", 0).forGetter(f -> f.pageNumber)
+    ).apply(instance, (pageNumber) -> {
+        FeaturePreviewWindow feature = new FeaturePreviewWindow();
+        feature.pageNumber = pageNumber;
+        return feature;
+    }));
+
     public int pageNumber;
     public transient IPage page;
     public transient IBook book;

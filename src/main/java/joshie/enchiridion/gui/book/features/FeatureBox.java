@@ -1,5 +1,7 @@
 package joshie.enchiridion.gui.book.features;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IFeatureProvider;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
@@ -7,6 +9,14 @@ import joshie.enchiridion.gui.book.GuiSimpleEditorColor;
 import joshie.enchiridion.util.IColorable;
 
 public class FeatureBox extends FeatureAbstract implements IColorable {
+    public static final Codec<FeatureBox> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        Codec.STRING.optionalFieldOf("color", "FFFFFFFF").forGetter(f -> f.color)
+    ).apply(instance, (color) -> {
+        FeatureBox feature = new FeatureBox();
+        feature.color = color;
+        return feature;
+    }));
+
     public String color;
     public transient int colorI;
 

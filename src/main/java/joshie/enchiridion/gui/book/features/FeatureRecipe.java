@@ -1,5 +1,7 @@
 package joshie.enchiridion.gui.book.features;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IFeatureProvider;
 import joshie.enchiridion.api.recipe.IRecipeHandler;
@@ -13,6 +15,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FeatureRecipe extends FeatureItem {
+    public static final Codec<FeatureRecipe> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        Codec.STRING.optionalFieldOf("itemString", "").forGetter(f -> f.itemString),
+        Codec.BOOL.optionalFieldOf("hideTooltip", false).forGetter(f -> f.hideTooltip),
+        Codec.STRING.optionalFieldOf("ingredients", "plankWood:plankWood:plankWood:cobblestone:ingotAluminum:cobblestone:cobblestone:dustRedstone:cobblestone").forGetter(f -> f.ingredients),
+        Codec.STRING.optionalFieldOf("recipeType", "ShapedOreRecipe").forGetter(f -> f.recipeType)
+    ).apply(instance, (itemString, hideTooltip, ingredients, recipeType) -> {
+        FeatureRecipe feature = new FeatureRecipe();
+        feature.itemString = itemString;
+        feature.hideTooltip = hideTooltip;
+        feature.ingredients = ingredients;
+        feature.recipeType = recipeType;
+        return feature;
+    }));
+
     public transient static final ArrayList<IRecipeHandler> HANDLERS = new ArrayList<>();
 
     protected String ingredients = "plankWood:plankWood:plankWood:cobblestone:ingotAluminum:cobblestone:cobblestone:dustRedstone:cobblestone";

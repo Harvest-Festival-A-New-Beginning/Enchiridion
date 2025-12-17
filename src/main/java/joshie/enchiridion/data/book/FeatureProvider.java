@@ -1,5 +1,7 @@
 package joshie.enchiridion.data.book;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.api.book.IFeatureProvider;
@@ -7,6 +9,7 @@ import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.gui.book.GuiGrid;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
 import joshie.enchiridion.helpers.EventHelper;
+import joshie.enchiridion.lib.EnchiridionRegistries;
 import joshie.enchiridion.util.TextEditor;
 import net.minecraft.client.Minecraft;
 import com.mojang.blaze3d.platform.InputConstants;
@@ -19,6 +22,56 @@ import org.lwjgl.glfw.GLFW;
 import java.util.List;
 
 public class FeatureProvider extends AbstractWidget implements IFeatureProvider {
+    // Helper method to get codec for a feature instance
+    private static com.mojang.serialization.Codec<? extends IFeature> getCodecForFeature(IFeature feature) {
+        // Map feature class to codec - this will be populated as we add more features
+        if (feature instanceof joshie.enchiridion.gui.book.features.FeatureText) {
+            return joshie.enchiridion.gui.book.features.FeatureText.CODEC;
+        } else if (feature instanceof joshie.enchiridion.gui.book.features.FeatureImage) {
+            return joshie.enchiridion.gui.book.features.FeatureImage.CODEC;
+        } else if (feature instanceof joshie.enchiridion.gui.book.features.FeatureRecipe) {
+            return joshie.enchiridion.gui.book.features.FeatureRecipe.CODEC;
+        } else if (feature instanceof joshie.enchiridion.gui.book.features.FeatureItem) {
+            return joshie.enchiridion.gui.book.features.FeatureItem.CODEC;
+        } else if (feature instanceof joshie.enchiridion.gui.book.features.FeatureButton) {
+            return joshie.enchiridion.gui.book.features.FeatureButton.CODEC;
+        } else if (feature instanceof joshie.enchiridion.gui.book.features.FeatureBox) {
+            return joshie.enchiridion.gui.book.features.FeatureBox.CODEC;
+        } else if (feature instanceof joshie.enchiridion.gui.book.features.FeaturePreviewWindow) {
+            return joshie.enchiridion.gui.book.features.FeaturePreviewWindow.CODEC;
+        } else if (feature instanceof joshie.enchiridion.gui.book.features.FeatureError) {
+            return joshie.enchiridion.gui.book.features.FeatureError.CODEC;
+        }
+        // Fallback to error codec
+        return joshie.enchiridion.gui.book.features.FeatureError.CODEC;
+    }
+
+    // Codec with dispatch for polymorphic IFeature
+    public static final Codec<FeatureProvider> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        Codec.INT.fieldOf("x").forGetter(AbstractWidget::getX),
+        Codec.INT.fieldOf("y").forGetter(AbstractWidget::getY),
+        Codec.INT.fieldOf("width").forGetter(p -> p.width),
+        Codec.INT.fieldOf("height").forGetter(p -> p.height),
+        Codec.BOOL.optionalFieldOf("isLocked", true).forGetter(p -> p.isLocked),
+        Codec.BOOL.optionalFieldOf("isHidden", false).forGetter(p -> p.isHidden),
+        Codec.BOOL.optionalFieldOf("isFromTemplate", false).forGetter(p -> p.isFromTemplate),
+        Codec.INT.optionalFieldOf("layerIndex", 0).forGetter(p -> p.layerIndex),
+        EnchiridionRegistries.Features.FEATURE.byNameCodec().dispatch(
+            feature -> {
+                com.mojang.serialization.Codec<? extends IFeature> codec = getCodecForFeature(feature);
+                return EnchiridionRegistries.Features.FEATURE.getKey(codec);
+            },
+            codec -> (com.mojang.serialization.Codec<IFeature>) codec
+        ).fieldOf("feature").forGetter(p -> p.feature)
+    ).apply(instance, (x, y, width, height, isLocked, isHidden, isFromTemplate, layerIndex, feature) -> {
+        FeatureProvider provider = new FeatureProvider(feature, x, y, width, height);
+        provider.isLocked = isLocked;
+        provider.isHidden = isHidden;
+        provider.isFromTemplate = isFromTemplate;
+        provider.layerIndex = layerIndex;
+        return provider;
+    }));
+
     public IFeature feature;
     public boolean isLocked;
     public boolean isHidden;

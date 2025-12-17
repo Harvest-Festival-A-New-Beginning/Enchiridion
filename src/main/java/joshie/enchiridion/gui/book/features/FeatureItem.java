@@ -1,5 +1,7 @@
 package joshie.enchiridion.gui.book.features;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IFeatureProvider;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
@@ -16,6 +18,16 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public class FeatureItem extends FeatureAbstract implements IItemSelectable {
+    public static final Codec<FeatureItem> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        Codec.STRING.optionalFieldOf("itemString", "").forGetter(f -> f.itemString),
+        Codec.BOOL.optionalFieldOf("hideTooltip", false).forGetter(f -> f.hideTooltip)
+    ).apply(instance, (itemString, hideTooltip) -> {
+        FeatureItem feature = new FeatureItem();
+        feature.itemString = itemString;
+        feature.hideTooltip = hideTooltip;
+        return feature;
+    }));
+
     public String itemString;
     public boolean hideTooltip;
     public transient float size;

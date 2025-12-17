@@ -78,7 +78,7 @@ public class LibrarySavedData extends SavedData {
 
     @Override
     @Nonnull
-    public CompoundTag save(@Nonnull CompoundTag nbt, @Nonnull HolderLookup.Provider provider) {
+    public CompoundTag save(@Nonnull CompoundTag nbt) {
         ListTag tag_list_players = new ListTag();
         players.entrySet().stream().filter(entry -> entry.getKey() != null && entry.getValue() != null).forEach(entry -> {
             CompoundTag tag = new CompoundTag();

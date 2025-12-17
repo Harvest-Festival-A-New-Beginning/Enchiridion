@@ -16,16 +16,23 @@ public class PacketOpenBook{
         this.bookID = bookID;
         this.page = page;
     }
+    */
 
     public static void encode(PacketOpenBook packet, FriendlyByteBuf buf) {
         buf.writeUtf(packet.bookID);
         buf.writeInt(packet.page);
     }
+    */
 
     public static PacketOpenBook decode(FriendlyByteBuf buf) {
         return new PacketOpenBook(buf.readUtf(32767), buf.readInt());
     }
+    */
 
+    // TODO: NetworkEvent.Context removed in 1.20.4 - need to rewrite for CustomPacketPayload
+    /*
+    // TODO: NetworkEvent.Context removed in 1.20.4 - need to rewrite for CustomPacketPayload
+    /*
     public static class Handler {
         public static void handle(PacketOpenBook message, Supplier<NetworkEvent.Context> ctx) {
             ServerPlayer playerMP = ctx.get().getSender();
@@ -35,4 +42,6 @@ public class PacketOpenBook{
             }
         }
     }
+    */
+    */
 }

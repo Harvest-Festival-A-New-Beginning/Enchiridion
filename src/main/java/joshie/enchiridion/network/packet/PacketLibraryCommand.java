@@ -19,15 +19,22 @@ public class PacketLibraryCommand {
     public PacketLibraryCommand(String string) {
         command = string;
     }
+    */
 
     public static void encode(PacketLibraryCommand packet, FriendlyByteBuf buf) {
         buf.writeUtf(packet.command);
     }
+    */
 
     public static PacketLibraryCommand decode(FriendlyByteBuf buf) {
         return new PacketLibraryCommand(buf.readUtf(32767));
     }
+    */
 
+    // TODO: NetworkEvent.Context removed in 1.20.4 - need to rewrite for CustomPacketPayload
+    /*
+    // TODO: NetworkEvent.Context removed in 1.20.4 - need to rewrite for CustomPacketPayload
+    /*
     public static class Handler {
         public static void handle(PacketLibraryCommand message, Supplier<NetworkEvent.Context> ctx) {
             ServerPlayer playerMP = ctx.get().getSender();
@@ -60,4 +67,6 @@ public class PacketLibraryCommand {
             }
         }
     }
+    */
+    */
 }

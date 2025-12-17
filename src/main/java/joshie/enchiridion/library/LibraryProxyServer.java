@@ -12,7 +12,7 @@ public class LibraryProxyServer extends LibraryProxy {
 
     public LibraryProxyServer(ServerLevel world) {
         data = world.getDataStorage().computeIfAbsent(
-            new SavedData.Factory<>(
+            new SavedData.Factory<LibrarySavedData>(
                 LibrarySavedData::new,
                 LibrarySavedData::load
             ),

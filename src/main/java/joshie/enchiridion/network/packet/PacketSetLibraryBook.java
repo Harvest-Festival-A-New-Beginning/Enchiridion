@@ -30,6 +30,8 @@ public class PacketSetLibraryBook {
         return new PacketSetLibraryBook(buf.readItem(), buf.readInt());
     }
 
+    // TODO: NetworkEvent.Context removed in 1.20.4 - need to rewrite for CustomPacketPayload
+    /*
     public static class Handler {
         public static void handle(PacketSetLibraryBook message, Supplier<NetworkEvent.Context> ctx) {
             ServerPlayer playerMP = ctx.get().getSender();
@@ -39,4 +41,5 @@ public class PacketSetLibraryBook {
             }
         }
     }
+    */
 }

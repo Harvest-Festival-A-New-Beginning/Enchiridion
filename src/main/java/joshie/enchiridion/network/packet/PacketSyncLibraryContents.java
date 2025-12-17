@@ -18,23 +18,31 @@ public class PacketSyncLibraryContents extends PacketNBT {
     public PacketSyncLibraryContents(int currentBook) {
         this.currentBook = currentBook;
     }
+    */
 
     public PacketSyncLibraryContents(LibraryInventory contents) {
         super(contents.getInventory());
         this.currentBook = contents.getCurrentBook();
     }
+    */
 
     public static void encode(PacketSyncLibraryContents packet, FriendlyByteBuf buf) {
         buf.writeInt(packet.currentBook);
         toBytes(packet, buf);
     }
+    */
 
     public static PacketSyncLibraryContents decode(FriendlyByteBuf buf) {
         PacketSyncLibraryContents packet = new PacketSyncLibraryContents(buf.readInt());
         fromBytes(packet, buf);
         return packet;
     }
+    */
 
+    // TODO: NetworkEvent.Context removed in 1.20.4 - need to rewrite for CustomPacketPayload
+    /*
+    // TODO: NetworkEvent.Context removed in 1.20.4 - need to rewrite for CustomPacketPayload
+    /*
     public static class Handler {
         public static void handle(PacketSyncLibraryContents message, Supplier<NetworkEvent.Context> ctx) {
             //Reload the info in from the packet that was sent
@@ -59,4 +67,6 @@ public class PacketSyncLibraryContents extends PacketNBT {
             ctx.get().setPacketHandled(true);
         }
     }
+    */
+    */
 }

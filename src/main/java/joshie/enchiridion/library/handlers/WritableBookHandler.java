@@ -38,6 +38,8 @@ public class WritableBookHandler implements IBookHandler {
         }
 
         //Overwrite mc behaviour and send a custom packet instead
+        // TODO: saveChanges() - BookEditScreen fields are now private, need to rewrite this
+        /*
         @Override
         public void saveChanges(boolean publish) {
             if (this.isModified) {
@@ -58,5 +60,6 @@ public class WritableBookHandler implements IBookHandler {
                 PacketHandler.sendToServer(new PacketSetLibraryBook(this.book, slot));
             }
         }
+        */
     }
 }

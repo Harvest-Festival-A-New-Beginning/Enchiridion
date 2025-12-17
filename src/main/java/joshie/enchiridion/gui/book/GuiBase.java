@@ -264,7 +264,8 @@ public class GuiBase extends Screen implements IDrawHelper {
         poseStack.popPose();
     }
 
-    @Override //From vanilla, switching to my font renderer though
+    // TODO: renderTooltip() signature changed in 1.20.4
+    // @Override //From vanilla, switching to my font renderer though
     public void renderTooltip(List<String> textLines, int x, int y, @Nonnull Font font) {
         if (!textLines.isEmpty()) {
             RenderSystem.disableDepthTest();

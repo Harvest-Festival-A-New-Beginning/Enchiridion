@@ -16,16 +16,19 @@ public class PacketSyncStringArray implements IPacketArray {
 
     public PacketSyncStringArray() {
     }
+    */
 
     public PacketSyncStringArray(PacketPart part) {
         this.part = part;
     }
+    */
 
     public PacketSyncStringArray(PacketPart part, String text, int index) {
         this.part = part;
         this.text = text;
         this.integer = index;
     }
+    */
 
     public static void toBytes(PacketSyncStringArray packet, FriendlyByteBuf buf) {
         buf.writeByte(packet.part.ordinal());
@@ -34,6 +37,7 @@ public class PacketSyncStringArray implements IPacketArray {
             buf.writeUtf(packet.text);
         }
     }
+    */
 
     public static void fromBytes(PacketSyncStringArray packet, FriendlyByteBuf buf) {
         packet.part = PacketPart.values()[buf.readByte()];
@@ -42,7 +46,12 @@ public class PacketSyncStringArray implements IPacketArray {
             packet.text = buf.readUtf(32767);
         }
     }
+    */
 
+    // TODO: NetworkEvent.Context removed in 1.20.4 - need to rewrite for CustomPacketPayload
+    /*
+    // TODO: NetworkEvent.Context removed in 1.20.4 - need to rewrite for CustomPacketPayload
+    /*
     public static class Handler {
         public static void handle(PacketSyncStringArray message, Supplier<NetworkEvent.Context> ctx) {
             ServerPlayer playerMP = ctx.get().getSender();
@@ -56,4 +65,6 @@ public class PacketSyncStringArray implements IPacketArray {
             ctx.get().setPacketHandled(true);
         }
     }
+    */
+    */
 }

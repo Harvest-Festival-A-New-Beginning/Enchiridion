@@ -64,18 +64,19 @@ public class LibraryRecipe extends CustomRecipe {
         return true;
     }
 
-    @Override
+    // TODO: Recipe interface changed in 1.20.4 - assemble() signature may be different
+    // @Override
     @Nonnull
     public ItemStack assemble(@Nonnull CraftingContainer inv, @Nonnull HolderLookup.Provider registries) {
         return getResultItem(registries);
     }
 
-    @Override
+    // @Override
     public boolean canCraftInDimensions(int width, int height) {
         return width * height >= 3;
     }
 
-    @Override
+    // @Override
     @Nonnull
     public ItemStack getResultItem(@Nonnull HolderLookup.Provider registries) {
         return new ItemStack(EItems.LIBRARY);

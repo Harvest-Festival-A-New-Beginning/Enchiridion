@@ -23,17 +23,24 @@ public class PacketHandleBook {
         this.hand = hand;
         this.isShiftPressed = isShiftPressed;
     }
+    */
 
     public static void encode(PacketHandleBook packet, FriendlyByteBuf buf) {
         buf.writeInt(packet.slot);
         buf.writeInt(packet.hand.ordinal());
         buf.writeBoolean(packet.isShiftPressed);
     }
+    */
 
     public static PacketHandleBook decode(FriendlyByteBuf buf) {
         return new PacketHandleBook(buf.readInt(), InteractionHand.values()[buf.readInt()], buf.readBoolean());
     }
+    */
 
+    // TODO: NetworkEvent.Context removed in 1.20.4 - need to rewrite for CustomPacketPayload
+    /*
+    // TODO: NetworkEvent.Context removed in 1.20.4 - need to rewrite for CustomPacketPayload
+    /*
     public static class Handler {
         public static void handle(PacketHandleBook message, Supplier<NetworkEvent.Context> ctx) {
             ServerPlayer playerMP = ctx.get().getSender();
@@ -51,4 +58,6 @@ public class PacketHandleBook {
             }
         }
     }
+    */
+    */
 }

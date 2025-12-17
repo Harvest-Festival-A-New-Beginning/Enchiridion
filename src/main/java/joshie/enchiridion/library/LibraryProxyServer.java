@@ -1,8 +1,10 @@
 package joshie.enchiridion.library;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraft.core.HolderLookup;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -12,12 +14,16 @@ public class LibraryProxyServer extends LibraryProxy {
 
     public LibraryProxyServer(ServerLevel world) {
         data = world.getDataStorage().computeIfAbsent(
-            new SavedData.Factory<LibrarySavedData>(
+            new SavedData.Factory<>(
                 LibrarySavedData::new,
-                (nbt, provider) -> LibrarySavedData.load(nbt, provider)
+                LibraryProxyServer::loadData
             ),
             LibrarySavedData.DATA_NAME
         );
+    }
+
+    private static LibrarySavedData loadData(CompoundTag nbt, HolderLookup.Provider provider) {
+        return LibrarySavedData.load(nbt, provider);
     }
 
     @Override

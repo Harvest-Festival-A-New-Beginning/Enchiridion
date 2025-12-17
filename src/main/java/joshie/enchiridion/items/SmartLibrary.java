@@ -42,7 +42,8 @@ public class SmartLibrary implements BakedModel { //TODO
             super();
         }
 
-        @Override
+        // TODO: resolve() method signature changed in 1.20.4
+        // @Override
         @Nonnull
         public BakedModel resolve(@Nonnull BakedModel originalModel, @Nonnull ItemStack stack, @Nullable Level world, @Nullable LivingEntity entity, int seed) {
             BakedModel ret;

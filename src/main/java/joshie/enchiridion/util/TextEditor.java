@@ -49,7 +49,7 @@ public class TextEditor {
             } else if (key == 205) {
                 cursorRight(1);
             } else if (character == 22) {
-                add(Minecraft.getInstance().keyboardHandler.getClipboardString());
+                add(Minecraft.getInstance().keyboardHandler.getClipboard());
             } else if (key == 14) {
                 delete(-1);
             } else if (key == 211) {

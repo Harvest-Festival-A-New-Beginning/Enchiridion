@@ -122,7 +122,7 @@ public class BookRegistry {
                         DefaultHelper.addArrows(page);
                     }
                     page.setPageNumber(i);
-                    if (book.getHoverName() == null || book.getHoverName().equals("")) {
+                    if (book.getDisplayName() == null || book.getDisplayName().equals("")) {
                         book.setDisplayName(book.getUniqueName());
                     }
                 }

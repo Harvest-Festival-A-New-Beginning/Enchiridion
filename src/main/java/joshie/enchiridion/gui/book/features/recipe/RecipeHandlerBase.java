@@ -34,9 +34,15 @@ public abstract class RecipeHandlerBase implements IRecipeHandler {
         for (IItemStack stack : stackList) {
             if (stack == null || stack.getItemStack().isEmpty()) continue;
             if (EnchiridionAPI.draw.isMouseOverIItemStack(stack)) {
-                for (Component textComponent : stack.getItemStack().getTooltipLines(Item.TooltipContext.of(Minecraft.getInstance().level), Minecraft.getInstance().player, TooltipFlag.Default.NORMAL)) {
-                    list.add(textComponent.getString());
-                    break; //Only permit one item to display
+                try {
+                    var tooltipLines = stack.getItemStack().getTooltipLines(Item.TooltipContext.EMPTY, Minecraft.getInstance().player, TooltipFlag.Default.NORMAL);
+                    for (Component textComponent : tooltipLines) {
+                        list.add(textComponent.getString());
+                        break; //Only permit one item to display
+                    }
+                } catch (Exception e) {
+                    list.add(stack.getItemStack().getHoverName().getString());
+                    break;
                 }
             }
         }

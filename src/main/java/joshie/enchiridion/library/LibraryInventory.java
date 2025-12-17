@@ -105,7 +105,8 @@ public class LibraryInventory extends InventoryStorage {
         return inventory;
     }
 
-    @Override
+    // TODO: markDirty() method doesn't exist in parent - use setChanged() instead
+    // @Override
     public void markDirty() {
         // Check if we're on the server side
         Player p = getAndCreatePlayer();

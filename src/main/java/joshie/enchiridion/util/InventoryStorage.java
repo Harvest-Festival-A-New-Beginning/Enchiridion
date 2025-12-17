@@ -74,7 +74,8 @@ public abstract class InventoryStorage implements Container {
         return true;
     }
 
-    @Override
+    // TODO: clear() method signature may have changed in 1.20.4
+    // @Override
     public void clear() {
         inventory.clear();
     }

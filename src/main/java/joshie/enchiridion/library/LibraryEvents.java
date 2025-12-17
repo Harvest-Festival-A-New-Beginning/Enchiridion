@@ -23,12 +23,12 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.bus.api.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import org.apache.logging.log4j.Level;
 import org.lwjgl.glfw.GLFW;
 
-@EventBusSubscriber(modid = EInfo.MODID)
+@Mod.EventBusSubscriber(modid = EInfo.MODID)
 public class LibraryEvents {
     //Setup the Client
     @OnlyIn(Dist.CLIENT)

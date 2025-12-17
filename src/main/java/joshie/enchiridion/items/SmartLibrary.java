@@ -14,7 +14,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
 import net.minecraft.util.RandomSource;
 
 import javax.annotation.Nonnull;
@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-@EventBusSubscriber(modid = EInfo.MODID, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = EInfo.MODID, value = Dist.CLIENT)
 public class SmartLibrary implements BakedModel { //TODO
     private static BakedModel library;
 

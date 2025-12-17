@@ -15,18 +15,15 @@ public class PacketSyncByteArray implements IPacketArray {
 
     public PacketSyncByteArray() {
     }
-    */
 
     public PacketSyncByteArray(PacketPart part) {
         this.part = part;
     }
-    */
 
     public PacketSyncByteArray(PacketPart part, byte[] bites) {
         this.part = part;
         this.bites = bites;
     }
-    */
 
     protected static void toBytes(PacketSyncByteArray packet, FriendlyByteBuf buf) {
         buf.writeByte(packet.part.ordinal());
@@ -39,7 +36,6 @@ public class PacketSyncByteArray implements IPacketArray {
             } else buf.writeInt(0);
         }
     }
-    */
 
     protected static void fromBytes(PacketSyncByteArray packet, FriendlyByteBuf buf) {
         packet.part = PacketPart.values()[buf.readByte()];
@@ -53,10 +49,7 @@ public class PacketSyncByteArray implements IPacketArray {
             }
         }
     }
-    */
 
-    // TODO: NetworkEvent.Context removed in 1.20.4 - need to rewrite for CustomPacketPayload
-    /*
     // TODO: NetworkEvent.Context removed in 1.20.4 - need to rewrite for CustomPacketPayload
     /*
     public static class Handler {
@@ -72,6 +65,5 @@ public class PacketSyncByteArray implements IPacketArray {
             }
         }
     }
-    */
     */
 }

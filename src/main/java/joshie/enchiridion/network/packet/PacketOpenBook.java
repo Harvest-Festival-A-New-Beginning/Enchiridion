@@ -1,47 +1,36 @@
 package joshie.enchiridion.network.packet;
 
-import joshie.enchiridion.api.EnchiridionAPI;
-import net.minecraft.server.level.ServerPlayer;
+import joshie.enchiridion.EClientHandler;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
-import net.neoforged.neoforge.common.util.FakePlayer;
-
 
 import java.util.function.Supplier;
 
-public class PacketOpenBook{
-    private String bookID;
-    private int page;
+public class PacketOpenBook {
+    private String uniqueName;
 
-    public PacketOpenBook(String bookID, int page) {
-        this.bookID = bookID;
-        this.page = page;
+    public PacketOpenBook(String uniqueName) {
+        this.uniqueName = uniqueName;
     }
-    */
 
     public static void encode(PacketOpenBook packet, FriendlyByteBuf buf) {
-        buf.writeUtf(packet.bookID);
-        buf.writeInt(packet.page);
+        buf.writeUtf(packet.uniqueName);
     }
-    */
 
     public static PacketOpenBook decode(FriendlyByteBuf buf) {
-        return new PacketOpenBook(buf.readUtf(32767), buf.readInt());
+        return new PacketOpenBook(buf.readUtf());
     }
-    */
 
-    // TODO: NetworkEvent.Context removed in 1.20.4 - need to rewrite for CustomPacketPayload
-    /*
     // TODO: NetworkEvent.Context removed in 1.20.4 - need to rewrite for CustomPacketPayload
     /*
     public static class Handler {
         public static void handle(PacketOpenBook message, Supplier<NetworkEvent.Context> ctx) {
-            ServerPlayer playerMP = ctx.get().getSender();
-            if (playerMP != null && !(playerMP instanceof FakePlayer)) {
-                ctx.get().enqueueWork(() -> EnchiridionAPI.instance.openBook(playerMP, message.bookID, message.page));
+            LocalPlayer player = EClientHandler.getPlayer();
+            if (player != null) {
+                ctx.get().enqueueWork(() -> EClientHandler.openBookByName(message.uniqueName));
                 ctx.get().setPacketHandled(true);
             }
         }
     }
-    */
     */
 }

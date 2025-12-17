@@ -3,53 +3,42 @@ package joshie.enchiridion.network.core;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.neoforged.neoforge.common.util.FakePlayer;
-import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
 import java.util.function.Supplier;
 
 import static joshie.enchiridion.network.core.PacketPart.*;
 
-public class PacketSyncStringArray implements IPacketArray {
-    protected PacketPart part;
-    protected String text = "";
-    protected int integer = -1;
-
+public class PacketSyncStringArray extends PacketSyncByteArray {
     public PacketSyncStringArray() {
     }
-    */
 
     public PacketSyncStringArray(PacketPart part) {
-        this.part = part;
+        super(part);
     }
-    */
 
-    public PacketSyncStringArray(PacketPart part, String text, int index) {
-        this.part = part;
-        this.text = text;
-        this.integer = index;
+    public PacketSyncStringArray(PacketPart part, String[] strings) {
+        super(part, getStringBytesFromArray(strings));
     }
-    */
 
-    public static void toBytes(PacketSyncStringArray packet, FriendlyByteBuf buf) {
-        buf.writeByte(packet.part.ordinal());
-        if (packet.part.sends()) {
-            buf.writeInt(packet.integer);
-            buf.writeUtf(packet.text);
-        }
+    public static void encode(PacketSyncStringArray packet, FriendlyByteBuf buf) {
+        toBytes(packet, buf);
     }
-    */
 
-    public static void fromBytes(PacketSyncStringArray packet, FriendlyByteBuf buf) {
-        packet.part = PacketPart.values()[buf.readByte()];
-        if (packet.part.sends()) {
-            packet.integer = buf.readInt();
-            packet.text = buf.readUtf(32767);
-        }
+    public static PacketSyncStringArray decode(FriendlyByteBuf buf) {
+        PacketSyncStringArray packet = new PacketSyncStringArray();
+        fromBytes(packet, buf);
+        return packet;
     }
-    */
 
-    // TODO: NetworkEvent.Context removed in 1.20.4 - need to rewrite for CustomPacketPayload
-    /*
+    private static byte[] getStringBytesFromArray(String[] array) {
+        String combined = String.join("\n", array);
+        return combined.getBytes();
+    }
+
+    private String[] getStringArrayFromBytes() {
+        return new String(bites).split("\n");
+    }
+
     // TODO: NetworkEvent.Context removed in 1.20.4 - need to rewrite for CustomPacketPayload
     /*
     public static class Handler {
@@ -61,10 +50,9 @@ public class PacketSyncStringArray implements IPacketArray {
                 else if (message.part == SEND_SIZE) message.receivedStringLength(playerMP);
                 else if (message.part == REQUEST_DATA) message.receivedDataRequest(playerMP);
                 else if (message.part == SEND_DATA) message.receivedData(playerMP);
+                ctx.get().setPacketHandled(true);
             }
-            ctx.get().setPacketHandled(true);
         }
     }
-    */
     */
 }

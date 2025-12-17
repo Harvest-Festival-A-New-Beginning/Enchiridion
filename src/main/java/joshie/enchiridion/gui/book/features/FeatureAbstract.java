@@ -4,15 +4,20 @@ import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.api.book.IFeatureProvider;
+import joshie.enchiridion.data.book.FeatureProvider;
+import net.minecraft.network.chat.Component;
 
 import java.util.List;
 
-public abstract class FeatureAbstract implements IFeature {
-    protected transient IFeatureProvider position;
+public abstract class FeatureAbstract extends FeatureProvider implements IFeature {
+    public FeatureAbstract() {
+        super(null, 0, 0, 0, 0);  // Default constructor - feature field will be null since we ARE the feature
+    }
 
     @Override
     public void update(IFeatureProvider position) {
-        this.position = position;
+        // Override IFeature.update() - no-op since we are the provider
+        // Subclasses can override if they need custom update logic
     }
 
     @Override

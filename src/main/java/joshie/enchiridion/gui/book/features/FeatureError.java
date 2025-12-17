@@ -13,4 +13,9 @@ public class FeatureError extends FeatureAbstract {
     public IFeature copy() {
         return new FeatureError();
     }
+
+    @Override
+    public Codec<? extends IFeature> getCodec() {
+        return CODEC;
+    }
 }

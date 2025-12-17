@@ -98,4 +98,9 @@ public class FeatureItem extends FeatureAbstract implements IItemSelectable {
     public void setTooltips(boolean value) {
         hideTooltip = !value;
     }
+
+    @Override
+    public Codec<? extends joshie.enchiridion.api.book.IFeature> getCodec() {
+        return CODEC;
+    }
 }

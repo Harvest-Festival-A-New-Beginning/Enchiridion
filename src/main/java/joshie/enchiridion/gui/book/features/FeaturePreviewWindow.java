@@ -183,4 +183,9 @@ public class FeaturePreviewWindow extends FeatureAbstract implements ISimpleEdit
             page.scroll(down, amount);
         }
     }
+
+    @Override
+    public Codec<? extends joshie.enchiridion.api.book.IFeature> getCodec() {
+        return CODEC;
+    }
 }

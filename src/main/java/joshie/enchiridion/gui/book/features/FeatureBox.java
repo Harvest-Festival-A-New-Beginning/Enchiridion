@@ -89,4 +89,9 @@ public class FeatureBox extends FeatureAbstract implements IColorable {
             this.color = color;
         } else this.color = previous;
     }
+
+    @Override
+    public Codec<? extends joshie.enchiridion.api.book.IFeature> getCodec() {
+        return CODEC;
+    }
 }

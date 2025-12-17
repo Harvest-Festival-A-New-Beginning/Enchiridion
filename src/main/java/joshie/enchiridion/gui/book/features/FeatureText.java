@@ -132,4 +132,9 @@ public class FeatureText extends FeatureProvider implements ITextEditable {
     public void setTextField(String text) {
         this.text = text;
     }
+
+    @Override
+    public Codec<? extends joshie.enchiridion.api.book.IFeature> getCodec() {
+        return CODEC;
+    }
 }

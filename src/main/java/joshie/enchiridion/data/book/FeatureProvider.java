@@ -22,30 +22,6 @@ import org.lwjgl.glfw.GLFW;
 import java.util.List;
 
 public class FeatureProvider extends AbstractWidget implements IFeatureProvider {
-    // Helper method to get codec for a feature instance
-    private static com.mojang.serialization.Codec<? extends IFeature> getCodecForFeature(IFeature feature) {
-        // Map feature class to codec - this will be populated as we add more features
-        if (feature instanceof joshie.enchiridion.gui.book.features.FeatureText) {
-            return joshie.enchiridion.gui.book.features.FeatureText.CODEC;
-        } else if (feature instanceof joshie.enchiridion.gui.book.features.FeatureImage) {
-            return joshie.enchiridion.gui.book.features.FeatureImage.CODEC;
-        } else if (feature instanceof joshie.enchiridion.gui.book.features.FeatureRecipe) {
-            return joshie.enchiridion.gui.book.features.FeatureRecipe.CODEC;
-        } else if (feature instanceof joshie.enchiridion.gui.book.features.FeatureItem) {
-            return joshie.enchiridion.gui.book.features.FeatureItem.CODEC;
-        } else if (feature instanceof joshie.enchiridion.gui.book.features.FeatureButton) {
-            return joshie.enchiridion.gui.book.features.FeatureButton.CODEC;
-        } else if (feature instanceof joshie.enchiridion.gui.book.features.FeatureBox) {
-            return joshie.enchiridion.gui.book.features.FeatureBox.CODEC;
-        } else if (feature instanceof joshie.enchiridion.gui.book.features.FeaturePreviewWindow) {
-            return joshie.enchiridion.gui.book.features.FeaturePreviewWindow.CODEC;
-        } else if (feature instanceof joshie.enchiridion.gui.book.features.FeatureError) {
-            return joshie.enchiridion.gui.book.features.FeatureError.CODEC;
-        }
-        // Fallback to error codec
-        return joshie.enchiridion.gui.book.features.FeatureError.CODEC;
-    }
-
     // Codec with dispatch for polymorphic IFeature
     public static final Codec<FeatureProvider> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.INT.fieldOf("x").forGetter(AbstractWidget::getX),
@@ -58,7 +34,7 @@ public class FeatureProvider extends AbstractWidget implements IFeatureProvider 
         Codec.INT.optionalFieldOf("layerIndex", 0).forGetter(p -> p.layerIndex),
         EnchiridionRegistries.Features.FEATURE.byNameCodec().dispatch(
             feature -> {
-                com.mojang.serialization.Codec<? extends IFeature> codec = getCodecForFeature(feature);
+                com.mojang.serialization.Codec<? extends IFeature> codec = feature.getCodec();
                 return EnchiridionRegistries.Features.FEATURE.getKey(codec);
             },
             codec -> (com.mojang.serialization.Codec<IFeature>) codec

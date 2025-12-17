@@ -146,4 +146,9 @@ public class FeatureRecipe extends FeatureItem {
             handler.addTooltip(list);
         }
     }
+
+    @Override
+    public Codec<? extends joshie.enchiridion.api.book.IFeature> getCodec() {
+        return CODEC;
+    }
 }

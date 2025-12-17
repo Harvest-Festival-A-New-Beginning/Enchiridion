@@ -1,6 +1,7 @@
 package joshie.enchiridion.gui.book.features;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
 import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.api.book.IFeatureProvider;
 
@@ -63,5 +64,10 @@ public abstract class FeatureAbstract implements IFeature {
     @Override
     public String getName() {
         return getClass().getSimpleName();
+    }
+
+    @Override
+    public Codec<? extends IFeature> getCodec() {
+        return FeatureError.CODEC; // Default fallback
     }
 }

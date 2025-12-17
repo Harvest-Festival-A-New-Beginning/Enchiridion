@@ -313,4 +313,9 @@ public class FeatureButton extends FeatureJump implements IButtonActionProvider 
     public String getName() {
         return action != null && action.isVisible() ? this.getAction().getName().replace(" ", "") : super.getName();
     }
+
+    @Override
+    public Codec<? extends joshie.enchiridion.api.book.IFeature> getCodec() {
+        return CODEC;
+    }
 }

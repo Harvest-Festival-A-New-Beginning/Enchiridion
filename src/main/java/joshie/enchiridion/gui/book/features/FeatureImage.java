@@ -60,4 +60,9 @@ public class FeatureImage extends FeatureResource {
     @Override
     protected void readImage(String[] split) throws IOException {
     }
+
+    @Override
+    public Codec<? extends joshie.enchiridion.api.book.IFeature> getCodec() {
+        return CODEC;
+    }
 }

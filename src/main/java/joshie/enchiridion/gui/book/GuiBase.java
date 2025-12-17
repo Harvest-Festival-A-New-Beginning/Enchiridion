@@ -172,7 +172,6 @@ public class GuiBase extends Screen implements IDrawHelper {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuilder();
         RenderSystem.enableBlend();
-        RenderSystem.disableTexture();
         RenderSystem.blendFuncSeparate(770, 771, 1, 0);
         RenderSystem.setShaderColor(f, f1, f2, f3);
 
@@ -205,7 +204,6 @@ public class GuiBase extends Screen implements IDrawHelper {
         buffer.vertex((double) left, (double) top + 5, 0.0D).color(f, f1, f2, f3).endVertex();
         tessellator.end();
 
-        RenderSystem.enableTexture();
         RenderSystem.disableBlend();
     }
 

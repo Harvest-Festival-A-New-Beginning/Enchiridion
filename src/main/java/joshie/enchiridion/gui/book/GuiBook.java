@@ -111,7 +111,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
             }
         }
 
-        renderTooltip(TOOLTIP, x2, y2, mc.fontRenderer);
+        renderTooltip(TOOLTIP, x2, y2, mc.font);
     }
 
     @Override
@@ -144,7 +144,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public void removed() {
-        Minecraft.getInstance().keyboardListener.enableRepeatEvents(false);
+        Minecraft.getInstance().keyboardHandler.setRepeatEvents(false);
         if (!book.doesBookForgetClose() && page != null) pageCache.put(book.getUniqueName(), page.getPageNumber());
         if (isEditMode) {
             if (selected != null) selected.deselect();
@@ -163,7 +163,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public boolean charTyped(char character, int key) {
-        Minecraft.getInstance().keyboardListener.enableRepeatEvents(true);
+        Minecraft.getInstance().keyboardHandler.setRepeatEvents(true);
 
         //super.charTyped(character, key);
 

@@ -40,7 +40,7 @@ public class GuiSimpleEditor extends AbstractGuiOverlay {
     @Override
     public void tick() {
         if (editor != null) {
-            textField.tick();
+            // textField.tick() was removed in 1.20.4
             this.editor.updateSearch(this.getText());
         }
     }
@@ -62,9 +62,11 @@ public class GuiSimpleEditor extends AbstractGuiOverlay {
             EnchiridionAPI.draw.drawBorderedRectangle(EConfig.SETTINGS.editorXPos + 2, EConfig.SETTINGS.toolbarYPos.get() + 9, EConfig.SETTINGS.editorXPos + 83, EConfig.SETTINGS.timelineYPos.get() + 9, 0xFFE4D6AE, 0x5579725A);
             EnchiridionAPI.draw.drawBorderedRectangle(EConfig.SETTINGS.editorXPos, EConfig.SETTINGS.toolbarYPos.get() - 3, EConfig.SETTINGS.editorXPos + 84, EConfig.SETTINGS.toolbarYPos.get() + 7, 0xFF312921, 0xFF191511);
             editor.draw(mouseX, mouseY);
-            if (textField.isFocused()) {
-                textField.render(new net.minecraft.client.gui.GuiGraphics(mc, mc.renderBuffers().bufferSource()), mouseX, mouseY, 0);
-            }
+            // TODO: textField.render() needs GuiGraphics parameter passed from parent
+            // For now, textField rendering is disabled until proper GuiGraphics is available
+            /*if (textField.isFocused()) {
+                textField.render(guiGraphics, mouseX, mouseY, 0);
+            }*/
         }
     }
 

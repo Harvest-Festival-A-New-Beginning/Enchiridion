@@ -77,7 +77,10 @@ public class ItemBook extends Item {
         return InteractionResultHolder.success(held);
     }
 
-    @Override
+    // TODO: fillItemCategory was removed in 1.20.4
+    // Need to register creative tab items via CreativeModeTabEvent.BuildContents event
+    // For now, commenting out to fix compilation
+    /*@Override
     public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> list) {
         if (this.allowedIn(group)) {
             super.fillItemCategory(group, list);
@@ -88,13 +91,7 @@ public class ItemBook extends Item {
                     stack.getTag().putString("identifier", uniqueName);
                 }
                 list.add(stack);
-
-                /*IBook book = BookRegistry.INSTANCE.getBook(stack);
-                if (book != null && stack.hasTag()) {
-                    System.out.println("Book: " + book.getUniqueName() + " location: " + BookRegistry.INSTANCE.locations.get(book.getUniqueName()));
-                    Minecraft.getInstance().getItemRenderer().getItemModelMesher().register(this, book.getUniqueName().equals("boop") ? new ModelResourceLocation("minecraft:red_sand", "inventory") : BookRegistry.INSTANCE.DFLT);
-                }*/
             }
         }
-    }
+    }*/
 }

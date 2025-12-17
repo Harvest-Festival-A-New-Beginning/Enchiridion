@@ -18,7 +18,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -49,8 +48,8 @@ public class ItemLibrary extends Item {
         if (world.isClientSide) return InteractionResultHolder.fail(stack);
 
         if (player.isShiftKeyDown()) {
-            if (player instanceof ServerPlayer) {
-                NetworkHooks.openScreen((ServerPlayer) player, EGuis.getLibraryProvider(), buf -> buf.writeInt(hand.ordinal()));
+            if (player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.openMenu(EGuis.getLibraryProvider(), buf -> buf.writeInt(hand.ordinal()));
                 return InteractionResultHolder.success(stack);
             }
         } else {
@@ -62,8 +61,8 @@ public class ItemLibrary extends Item {
                     handler.handle(book, (ServerPlayer) player, hand, currentBook, player.isShiftKeyDown());
                 }
             } else {
-                if (player instanceof ServerPlayer) {
-                    NetworkHooks.openScreen((ServerPlayer) player, EGuis.getLibraryProvider(), buf -> buf.writeInt(hand.ordinal()));
+                if (player instanceof ServerPlayer serverPlayer) {
+                    serverPlayer.openMenu(EGuis.getLibraryProvider(), buf -> buf.writeInt(hand.ordinal()));
                     return InteractionResultHolder.success(stack);
                 }
             }

@@ -38,10 +38,10 @@ public class SlotBook extends Slot {
         if (handler != null) {
             if (player.level().isClientSide) {
                 boolean isShiftPressed = MCClientHelper.isShiftPressed();
-                PacketHandler.sendToServer(new PacketHandleBook(slot.slotNumber, hand, isShiftPressed));
-                handler.handle(stack, player, hand, slot.slotNumber, isShiftPressed);
+                PacketHandler.sendToServer(new PacketHandleBook(slot.getContainerSlot(), hand, isShiftPressed));
+                handler.handle(stack, player, hand, slot.getContainerSlot(), isShiftPressed);
                 System.out.println("Potato");
-                LibraryHelper.getClientLibraryContents().setCurrentBook(slot.slotNumber);
+                LibraryHelper.getClientLibraryContents().setCurrentBook(slot.getContainerSlot());
             }
             System.out.println("Empty");
 

@@ -19,7 +19,7 @@ public class PacketOpenLibrary {
 
     public static void handle(PacketOpenLibrary message, ServerPlayer playerMP) {
         if (playerMP != null && !(playerMP instanceof FakePlayer)) {
-            playerMP.openMenu(EGuis.getLibraryProvider(playerMP.getUsedItemHand()));
+            playerMP.openMenu(EGuis.getLibraryProvider(), buf -> buf.writeInt(playerMP.getUsedItemHand().ordinal()));
         }
     }
 }

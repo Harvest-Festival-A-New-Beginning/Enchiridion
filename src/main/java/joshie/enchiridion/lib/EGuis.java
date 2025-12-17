@@ -30,7 +30,7 @@ public class EGuis {
     public static final DeferredHolder<MenuType<?>, MenuType<ContainerLibrary>> LIBRARY_CONTAINER = MENUS.register(LIBRARY,
             () -> new MenuType<>(EGuis::createLibraryContainer, net.minecraft.world.flag.FeatureFlags.VANILLA_SET));
 
-    public static MenuProvider getLibraryProvider(InteractionHand hand) {
+    public static MenuProvider getLibraryProvider() {
         return new MenuProvider() {
             @Override
             @Nonnull
@@ -40,6 +40,7 @@ public class EGuis {
 
             @Override
             public AbstractContainerMenu createMenu(int windowId, @Nonnull Inventory playerInventory, @Nonnull Player playerEntity) {
+                InteractionHand hand = playerEntity.getItemInHand(InteractionHand.MAIN_HAND).getItem() == EItems.LIBRARY ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
                 return new ContainerLibrary(windowId, playerInventory, LibraryHelper.getLibraryContents(playerInventory.player), hand);
             }
         };

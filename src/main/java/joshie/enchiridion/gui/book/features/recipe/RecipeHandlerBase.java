@@ -33,7 +33,7 @@ public abstract class RecipeHandlerBase implements IRecipeHandler {
         for (IItemStack stack : stackList) {
             if (stack == null || stack.getItemStack().isEmpty()) continue;
             if (EnchiridionAPI.draw.isMouseOverIItemStack(stack)) {
-                for (Component textComponent : stack.getItemStack().getTooltip(Minecraft.getInstance().player, TooltipFlag.Default.NORMAL)) {
+                for (Component textComponent : stack.getItemStack().getTooltip(net.minecraft.world.item.Item.TooltipContext.EMPTY, Minecraft.getInstance().player, TooltipFlag.NORMAL)) {
                     list.add(textComponent.getString());
                     break; //Only permit one item to display
                 }

@@ -5,6 +5,8 @@ import joshie.enchiridion.data.book.Book;
 import joshie.enchiridion.data.book.BookRegistry;
 import joshie.enchiridion.gui.book.buttons.ButtonChangeIcon;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.world.item.ItemStack;
@@ -28,7 +30,7 @@ public class GuiBookCreate extends GuiBase {
 
     @Override
     public void tick() {
-        textField.tick();
+        // textField.tick() was removed in 1.20.4
     }
 
     @Nullable
@@ -39,7 +41,7 @@ public class GuiBookCreate extends GuiBase {
 
     @Override
     public void init() {
-        Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(true);
+        Minecraft.getInstance().keyboardHandler.setRepeatEvents(true);
 
         this.textField = new EditBox(this.font, this.width / 2 - 101, height / 2 - 57, 202, 20, Component.literal("enchiridion.bookCreate.title"));
         this.textField.setMaxLength(32767);
@@ -50,7 +52,7 @@ public class GuiBookCreate extends GuiBase {
 
     @Override
     public void removed() {
-        Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(false);
+        Minecraft.getInstance().keyboardHandler.setRepeatEvents(false);
         ButtonChangeIcon.refreshResources();
     }
 
@@ -74,7 +76,7 @@ public class GuiBookCreate extends GuiBase {
 
     @Override
     public void onClose() {
-        Minecraft.getInstance().player.closeContainer();
+        super.onClose();
     }
 
     @Override
@@ -93,9 +95,9 @@ public class GuiBookCreate extends GuiBase {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partial) {
-        super.render(mouseX, mouseY, partial);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partial) {
+        super.render(guiGraphics, mouseX, mouseY, partial);
 
-        this.textField.render(mouseX, mouseY, partial);
+        this.textField.render(guiGraphics, mouseX, mouseY, partial);
     }
 }

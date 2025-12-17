@@ -1,7 +1,7 @@
 package joshie.enchiridion.helpers;
 
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.InteractionHand;
 
@@ -16,15 +16,15 @@ public class HeldHelper {
     @Nonnull
     public static ItemStack getStackFromHand(Player player, InteractionHand hand) {
         if (hand == InteractionHand.MAIN_HAND)
-            return player.getHeldItemMainhand();
+            return player.getMainHandItem();
         if (hand == InteractionHand.OFF_HAND)
-            return player.getHeldItemOffhand();
+            return player.getOffhandItem();
 
         return ItemStack.EMPTY;
     }
 
-    public static EquipmentSlotType getSlotFromHand(InteractionHand hand) {
-        return hand == InteractionHand.MAIN_HAND ? EquipmentSlotType.MAINHAND : EquipmentSlotType.OFFHAND;
+    public static EquipmentSlot getSlotFromHand(InteractionHand hand) {
+        return hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
     }
 
     public static InteractionHand getHandFromOrdinal(int id) {

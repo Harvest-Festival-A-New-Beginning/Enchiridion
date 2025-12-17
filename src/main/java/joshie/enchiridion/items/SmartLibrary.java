@@ -14,7 +14,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.EventBusSubscriber;
 import net.minecraft.util.RandomSource;
 
 import javax.annotation.Nonnull;

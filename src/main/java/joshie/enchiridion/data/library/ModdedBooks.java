@@ -5,10 +5,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.NonNullList;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class ModdedBooks {
-    private NonNullList<ModdedBook> books = NonNullList.create();
-    private NonNullList<String> freeBooks = NonNullList.create();
+    // Changed to List to allow Gson deserialization - Gson creates ArrayList instances
+    private List<ModdedBook> books = new ArrayList<>();
+    private List<String> freeBooks = new ArrayList<>();
 
     public ModdedBooks() {
     }

@@ -20,12 +20,14 @@ public class PacketSetLibraryBook {
     }
 
     public static void encode(PacketSetLibraryBook packet, FriendlyByteBuf buf) {
-        ItemStack.STREAM_CODEC.encode(buf, packet.stack);
+        // TODO: ItemStack.STREAM_CODEC doesn't exist - network system needs rewrite
+        buf.writeItem(packet.stack);
         buf.writeInt(packet.slot);
     }
 
     public static PacketSetLibraryBook decode(FriendlyByteBuf buf) {
-        return new PacketSetLibraryBook(ItemStack.STREAM_CODEC.decode(buf), buf.readInt());
+        // TODO: ItemStack.STREAM_CODEC doesn't exist - network system needs rewrite
+        return new PacketSetLibraryBook(buf.readItem(), buf.readInt());
     }
 
     public static class Handler {

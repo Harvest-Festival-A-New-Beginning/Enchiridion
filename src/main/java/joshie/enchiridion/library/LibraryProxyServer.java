@@ -4,7 +4,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
-import net.minecraft.core.HolderLookup;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -22,8 +21,8 @@ public class LibraryProxyServer extends LibraryProxy {
         );
     }
 
-    private static LibrarySavedData loadData(CompoundTag nbt, HolderLookup.Provider provider) {
-        return LibrarySavedData.load(nbt, provider);
+    private static LibrarySavedData loadData(CompoundTag nbt) {
+        return LibrarySavedData.load(nbt);
     }
 
     @Override

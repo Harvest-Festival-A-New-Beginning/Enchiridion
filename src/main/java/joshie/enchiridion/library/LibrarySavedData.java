@@ -6,7 +6,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.level.saveddata.SavedData;
-import net.minecraft.core.HolderLookup;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
@@ -55,7 +54,7 @@ public class LibrarySavedData extends SavedData {
         }
     }
 
-    public static LibrarySavedData load(CompoundTag nbt, HolderLookup.Provider provider) {
+    public static LibrarySavedData load(CompoundTag nbt) {
         LibrarySavedData data = new LibrarySavedData();
         ListTag tag_list_players = nbt.getList("LibraryInventory", 10);
         for (int i = 0; i < tag_list_players.size(); i++) {

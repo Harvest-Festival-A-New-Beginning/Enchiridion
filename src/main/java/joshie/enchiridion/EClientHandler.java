@@ -41,7 +41,7 @@ public class EClientHandler {
         // Minecraft.getInstance().getResourceManager().addResourcePack(EResourcePack.INSTANCE);
         MenuScreens.register(EGuis.LIBRARY_CONTAINER.get(), GuiLibrary::new);
         LibraryHelper.resetClient();
-        NeoForge.EVENT_BUS.register(new SmartLibrary());
+        //NeoForge.EVENT_BUS.register(new SmartLibrary());
         EnchiridionAPI.book = GuiBook.INSTANCE;
         EnchiridionAPI.draw = GuiBook.INSTANCE;
         EnchiridionAPI.editor = new EditHelper();

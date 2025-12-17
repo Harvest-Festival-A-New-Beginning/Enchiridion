@@ -44,7 +44,7 @@ public class FeatureItem extends FeatureAbstract implements IItemSelectable {
     @Override
     public void update(IFeatureProvider position) {
         super.update(position);
-        double width = position.getWidth();
+        int width = position.getWidth();
         position.setHeight(width);
         size = (float) (width / 16D);
     }

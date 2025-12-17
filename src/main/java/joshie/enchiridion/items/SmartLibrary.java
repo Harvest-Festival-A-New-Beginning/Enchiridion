@@ -22,7 +22,6 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = EInfo.MODID, value = Dist.CLIENT)
 public class SmartLibrary implements BakedModel { //TODO
     private static BakedModel library;
 

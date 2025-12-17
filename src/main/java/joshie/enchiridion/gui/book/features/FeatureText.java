@@ -2,9 +2,11 @@ package joshie.enchiridion.gui.book.features;
 
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IFeatureProvider;
+import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.helpers.MCClientHelper;
 import joshie.enchiridion.util.ITextEditable;
 import joshie.enchiridion.util.TextEditor;
+import net.minecraft.client.gui.components.AbstractWidget;
 import org.apache.commons.compress.utils.IOUtils;
 
 import java.awt.*;
@@ -13,7 +15,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-public class FeatureText extends FeatureAbstract implements ITextEditable {
+public class FeatureText extends FeatureProvider implements ITextEditable {
     protected transient boolean readTemp = false;
     protected transient double cachedWidth = 0;
     public transient int wrap = 100; //Default wrap to 100 to avoid errors

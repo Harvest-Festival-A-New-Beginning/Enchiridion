@@ -10,15 +10,15 @@ import joshie.enchiridion.helpers.EventHelper;
 import joshie.enchiridion.util.TextEditor;
 import net.minecraft.client.Minecraft;
 import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
 
-public class FeatureProvider implements IFeatureProvider {
-    public int xPos;
-    public int yPos;
-    public double width;
-    public double height;
+public class FeatureProvider extends AbstractWidget implements IFeatureProvider {
     public IFeature feature;
     public boolean isLocked;
     public boolean isHidden;
@@ -41,15 +41,9 @@ public class FeatureProvider implements IFeatureProvider {
     private transient long timestamp;
     private transient IPage pageContainer;
 
-    public FeatureProvider() {
-    }
-
     public FeatureProvider(IFeature feature, int x, int y, double width, double height) {
+        super(x, y, (int) width, (int) height, Component.empty());
         this.feature = feature;
-        this.xPos = x;
-        this.yPos = y;
-        this.width = width;
-        this.height = height;
         this.isLocked = true;
         this.isHidden = false;
         this.isFromTemplate = false;
@@ -69,7 +63,7 @@ public class FeatureProvider implements IFeatureProvider {
 
     @Override
     public IFeatureProvider copy() {
-        IFeatureProvider copy = new FeatureProvider(feature.copy(), xPos, yPos, width, height);
+        IFeatureProvider copy = new FeatureProvider(feature.copy(), getX(), getY(), width, height);
         copy.setLocked(isLocked);
         copy.setVisible(!isHidden);
         copy.setLayerIndex(layerIndex);
@@ -79,15 +73,15 @@ public class FeatureProvider implements IFeatureProvider {
 
     @Override
     public boolean isOverFeature(int x, int y) {
-        return x >= xPos && x <= right && y >= yPos && y <= bottom;
+        return x >= getX() && x <= right && y >= getY() && y <= bottom;
     }
 
     private boolean isOverTopLeftCorner(int x, int y) {
-        return x >= xPos && x <= xPos + 2 && y >= yPos && y <= yPos + 2;
+        return x >= getX() && x <= getX() + 2 && y >= getY() && y <= getY() + 2;
     }
 
     private boolean isOverTopRightCorner(int x, int y) {
-        return x >= right - 2 && x <= right && y >= yPos && y <= yPos + 2;
+        return x >= right - 2 && x <= right && y >= getY() && y <= getY() + 2;
     }
 
     private boolean isOverBottomRightCorner(int x, int y) {
@@ -95,21 +89,21 @@ public class FeatureProvider implements IFeatureProvider {
     }
 
     private boolean isOverBottomLeftCorner(int x, int y) {
-        return x >= xPos && x <= xPos + 2 && y >= bottom - 2 && y <= bottom;
+        return x >= getX() && x <= getX() + 2 && y >= bottom - 2 && y <= bottom;
     }
 
     @Override
     public void draw(int mouseX, int mouseY) {
-        right = (int) (xPos + width);
-        bottom = (int) (yPos + height);
+        right = (int) (getX() + width);
+        bottom = (int) (getY() + height);
         if (EventHelper.isFeatureVisible(getPage(), isVisible(), layerIndex)) {
             feature.draw(mouseX, mouseY);
             if (isSelected) {
                 int color = isEditing ? 0xCCFFFF00 : 0xCC007FFF;
-                EnchiridionAPI.draw.drawRectangle(right - 2, yPos, right, yPos + 2, color);
-                EnchiridionAPI.draw.drawRectangle(xPos, yPos, xPos + 2, yPos + 2, color);
+                EnchiridionAPI.draw.drawRectangle(right - 2, getY(), right, getY() + 2, color);
+                EnchiridionAPI.draw.drawRectangle(getX(), getY(), getX() + 2, getY() + 2, color);
                 EnchiridionAPI.draw.drawRectangle(right - 2, bottom - 2, right, bottom, color);
-                EnchiridionAPI.draw.drawRectangle(xPos, bottom - 2, xPos + 2, bottom, color);
+                EnchiridionAPI.draw.drawRectangle(getX(), bottom - 2, getX() + 2, bottom, color);
             }
         }
     }
@@ -219,23 +213,23 @@ public class FeatureProvider implements IFeatureProvider {
 
             int changeX = (mouseX - prevX);
             int changeY = (mouseY - prevY);
-            xPos += changeX;
-            yPos += changeY;
+            setX(getX() + changeX);
+            setY(getY() + changeY);
 
             if (GuiGrid.INSTANCE.isActivated()) {
                 int large = GuiGrid.INSTANCE.getGridSize();
                 int small = large - 1;
 
                 if (changeX < 0) {
-                    xPos = ((xPos - small) / large * large) - (GuiGrid.INSTANCE.isPixelGrid() ? 1 : 0);
+                    setX(((getX() - small) / large * large) - (GuiGrid.INSTANCE.isPixelGrid() ? 1 : 0));
                 } else if (changeX > 0) {
-                    xPos = ((xPos + small) / large * large) - (GuiGrid.INSTANCE.isPixelGrid() ? 1 : 0);
+                    setX(((getX() + small) / large * large) - (GuiGrid.INSTANCE.isPixelGrid() ? 1 : 0));
                 }
 
                 if (changeY < 0) {
-                    yPos = (yPos - small) / large * large;
+                    setY((getY() - small) / large * large);
                 } else if (changeY > 0) {
-                    yPos = (yPos + small) / large * large;
+                    setY((getY() + small) / large * large);
                 }
             }
         } else if (isDragging) {
@@ -243,33 +237,33 @@ public class FeatureProvider implements IFeatureProvider {
             int changeY = (mouseY - prevY);
             double originalHeight = height;
             double originalWidth = width;
-            int originalY = yPos;
+            int originalY = getY();
 
             if (dragTopLeft) {
-                xPos += changeX;
+                setX(getX() + changeX);
                 updateWidth(-changeX);
-                yPos += changeY;
+                setY(getY() + changeY);
                 updateHeight(-changeY);
             } else if (dragTopRight) {
                 updateWidth(changeX);
-                yPos += changeY;
+                setY(getY() + changeY);
                 updateHeight(-changeY);
             } else if (dragBottomRight) {
                 updateWidth(changeX);
                 updateHeight(changeY);
             } else if (dragBottomLeft) {
-                xPos += changeX;
+                setX(getX() + changeX);
                 updateWidth(-changeX);
                 updateHeight(changeY);
             }
 
             if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
-                if (dragBottomLeft || dragBottomRight) height = (width * originalHeight) / originalWidth;
-                else if (dragTopRight) width = (height * originalWidth) / originalHeight;
+                if (dragBottomLeft || dragBottomRight) height = (int) ((width * originalHeight) / originalWidth);
+                else if (dragTopRight) width = (int) ((height * originalWidth) / originalHeight);
                 else if (dragTopLeft) {
                     //TODO: FIX DRAGGING FROM TOP LEFT WHEN KEEPING RATIO
-                    height = (width * originalHeight) / originalWidth;
-                    yPos = originalY;
+                    height = (int) ((width * originalHeight) / originalWidth);
+                    setY(originalY);
                 }
             }
         }
@@ -302,7 +296,7 @@ public class FeatureProvider implements IFeatureProvider {
 
     @Override
     public int getLeft() {
-        return xPos;
+        return getX();
     }
 
     @Override
@@ -312,7 +306,7 @@ public class FeatureProvider implements IFeatureProvider {
 
     @Override
     public int getTop() {
-        return yPos;
+        return getY();
     }
 
     @Override
@@ -321,13 +315,23 @@ public class FeatureProvider implements IFeatureProvider {
     }
 
     @Override
-    public double getWidth() {
+    public int getWidth() {
         return width;
     }
 
     @Override
-    public double getHeight() {
+    protected void updateWidgetNarration(NarrationElementOutput p_259858_) {
+
+    }
+
+    @Override
+    public int getHeight() {
         return height;
+    }
+
+    @Override
+    protected void renderWidget(GuiGraphics p_282139_, int p_268034_, int p_268009_, float p_268085_) {
+
     }
 
     @Override
@@ -356,22 +360,12 @@ public class FeatureProvider implements IFeatureProvider {
     }
 
     @Override
-    public void setX(int x) {
-        xPos = x;
-    }
-
-    @Override
-    public void setY(int y) {
-        yPos = y;
-    }
-
-    @Override
-    public void setWidth(double w) {
+    public void setWidth(int w) {
         width = w;
     }
 
     @Override
-    public void setHeight(double h) {
+    public void setHeight(int h) {
         height = h;
     }
 

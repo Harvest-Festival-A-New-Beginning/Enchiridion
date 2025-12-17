@@ -1,7 +1,7 @@
 package joshie.enchiridion.gui.book;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.*;
 import joshie.enchiridion.api.gui.IDrawHelper;
 import joshie.enchiridion.api.recipe.IItemStack;
 import joshie.enchiridion.helpers.ClientStackHelper;
@@ -9,10 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.Tessellator;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
@@ -169,7 +165,7 @@ public class GuiBase extends Screen implements IDrawHelper {
         float f = (float) (color >> 16 & 255) / 255.0F;
         float f1 = (float) (color >> 8 & 255) / 255.0F;
         float f2 = (float) (color & 255) / 255.0F;
-        Tessellator tessellator = Tessellator.getInstance();
+        Tesselator tessellator = Tesselator.getInstance();
         BufferBuilder buffer = tessellator.getBuilder();
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(770, 771, 1, 0);
@@ -251,7 +247,7 @@ public class GuiBase extends Screen implements IDrawHelper {
         PoseStack poseStack = new PoseStack();
         poseStack.pushPose();
         RenderSystem.enableBlend();
-        Tessellator tessellator = Tessellator.getInstance();
+        Tesselator tessellator = Tesselator.getInstance();
         BufferBuilder buffer = tessellator.getBuilder();
         RenderSystem.setShaderTexture(0, resource);
         buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);

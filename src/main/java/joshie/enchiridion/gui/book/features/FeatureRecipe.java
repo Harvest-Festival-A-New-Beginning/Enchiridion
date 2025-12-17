@@ -105,7 +105,7 @@ public class FeatureRecipe extends FeatureItem {
         super.update(position);
 
         if (handler != null) {
-            double width = position.getWidth();
+            int width = position.getWidth();
             position.setHeight(handler.getHeight(width));
             size = handler.getSize(width);
         }

@@ -9,8 +9,8 @@ public interface IFeatureProvider {
     int getRight();
     int getTop();
     int getBottom();
-    double getWidth();
-    double getHeight();
+    int getWidth();
+    int getHeight();
     boolean isVisible();
     boolean isLocked();
     int getLayerIndex();
@@ -20,8 +20,8 @@ public interface IFeatureProvider {
     //Setters
     void setX(int x);
     void setY(int y);
-    void setWidth(double w);
-    void setHeight(double h);
+    void setWidth(int w);
+    void setHeight(int h);
     void setVisible(boolean value);
     void setLocked(boolean value);
     void setLayerIndex(int i);

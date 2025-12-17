@@ -16,10 +16,10 @@ public interface IRecipeHandler {
     void draw();
 
     /** @return the height of this recipe handler, based on the width **/
-    double getHeight(double width);
+    int getHeight(int width);
     
     /** @return an adjusted width, based on the original **/
-    double getWidth(double width);
+    int getWidth(int width);
 
     /** @return the scale size, based on the width, for this recipe handler **/
     float getSize(double width);

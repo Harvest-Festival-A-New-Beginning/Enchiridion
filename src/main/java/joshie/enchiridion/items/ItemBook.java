@@ -40,7 +40,7 @@ public class ItemBook extends Item {
     @Nonnull
     public Component getName(@Nonnull ItemStack stack) {
         IBook book = BookRegistry.INSTANCE.getBook(stack);
-        return book == null ? Component.translatable(Enchiridion.format("new", DARK_GREEN, RESET)) : Component.literal(book.getDisplayName());
+        return book == null ? Component.translatable(Enchiridion.format("new", DARK_GREEN, RESET)) : Component.literal(book.getHoverName());
     }
 
     @Override

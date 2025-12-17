@@ -81,7 +81,10 @@ public class GuiSimpleEditorGeneric extends GuiSimpleEditorAbstract {
         while (text.endsWith("\n")) {
             text = text.substring(0, text.length() - 1);
         }
-        return Minecraft.getInstance().font.getWordWrappedHeight(text, 155);
+        // TODO: getWordWrappedHeight() removed in 1.20.4
+        // Use font.split() to get wrapped lines and count them
+        var lines = Minecraft.getInstance().font.split(net.minecraft.network.chat.Component.literal(text), 155);
+        return lines.size();
     }
 
     public String[] getFieldNames() {

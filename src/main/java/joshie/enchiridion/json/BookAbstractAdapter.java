@@ -37,7 +37,7 @@ public class BookAbstractAdapter implements JsonDeserializer<Book> {
         //Add in the book data
         book.create();
         if (EConfig.SETTINGS.debugMode)
-            Enchiridion.log(Level.INFO, "=== Preparing to read the book : " + book.getDisplayName() + " ===");
+            Enchiridion.log(Level.INFO, "=== Preparing to read the book : " + book.getHoverName() + " ===");
         JsonArray array = jsonObject.get("book").getAsJsonArray();
         for (int i = 0; i < array.size(); i++) {
             JsonObject page = array.get(i).getAsJsonObject();
@@ -52,7 +52,7 @@ public class BookAbstractAdapter implements JsonDeserializer<Book> {
             book.setColorAsInt(JSONHelper.getIntegerIfExists(jsonObject, "color"));
         } else book.setMadeIn189();
 
-        if (book.getDisplayName() == null) book.setDisplayName(book.getUniqueName());
+        if (book.getHoverName() == null) book.setDisplayName(book.getUniqueName());
         if (book.getLanguageKey() == null)
             book.setLanguageKey("en_us");
         if (book.getSaveName() == null) book.setSaveName(book.getUniqueName());

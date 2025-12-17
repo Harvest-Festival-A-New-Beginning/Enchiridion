@@ -38,7 +38,7 @@ public class FeatureItem extends FeatureAbstract implements IItemSelectable {
 
     @Override
     public String getName() {
-        return stack.isEmpty() ? super.getName() : stack.getDisplayName().getString();
+        return stack.isEmpty() ? super.getName() : stack.getHoverName().getString();
     }
 
     @Override

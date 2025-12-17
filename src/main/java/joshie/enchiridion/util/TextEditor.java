@@ -49,14 +49,14 @@ public class TextEditor {
             } else if (key == 205) {
                 cursorRight(1);
             } else if (character == 22) {
-                add(Minecraft.getInstance().keyboardListener.getClipboardString());
+                add(Minecraft.getInstance().keyboardHandler.getClipboardString());
             } else if (key == 14) {
                 delete(-1);
             } else if (key == 211) {
                 delete(0);
             } else if (key == 28 || key == 156) {
                 add("\n");
-            } else if (SharedConstants.isAllowedCharacter(character)) {
+            } else if (SharedConstants.isAllowedChatCharacter(character)) {
                 add(Character.toString(character));
             }
 

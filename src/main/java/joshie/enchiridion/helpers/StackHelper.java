@@ -36,7 +36,7 @@ public class StackHelper {
     public static String getStringFromStack(@Nonnull ItemStack stack) {
         String str = String.valueOf(BuiltInRegistries.ITEM.getKey(stack.getItem())).replace(" ", "%20");
         if (stack.isDamageableItem()) {
-            str = str + " " + stack.getDamage();
+            str = str + " " + stack.getDamageValue();
         }
 
         if (stack.getCount() > 1) {

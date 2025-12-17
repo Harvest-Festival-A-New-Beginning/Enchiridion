@@ -1,5 +1,7 @@
- package joshie.enchiridion.data.book;
+package joshie.enchiridion.data.book;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.api.book.IFeatureProvider;
@@ -11,6 +13,18 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Page implements IPage {
+    // TODO: Complete codec implementation with full feature support
+    public static final Codec<Page> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        Codec.INT.optionalFieldOf("pageNumber", 0).forGetter(page -> page.pageNumber),
+        Codec.BOOL.optionalFieldOf("isScrollable", false).forGetter(page -> page.isScrollable)
+        // features list will be added when FeatureProvider.CODEC is complete
+    ).apply(instance, (pageNumber, isScrollable) -> {
+        Page page = new Page();
+        page.pageNumber = pageNumber;
+        page.isScrollable = isScrollable;
+        page.features = new ArrayList<>(); // Empty for now
+        return page;
+    }));
     public List<IFeatureProvider> features = new ArrayList<>();
     public int pageNumber;
     public boolean isScrollable;

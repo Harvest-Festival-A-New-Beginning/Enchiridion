@@ -71,6 +71,7 @@ configurations {
 
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
+    implementation "uk.joshiejack.penguinlib:Penguin-Lib:${minecraft_version}-${penguinlib_version}"
 }
 
 tasks.withType(ProcessResources).configureEach {

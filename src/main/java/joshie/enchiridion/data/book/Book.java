@@ -1,11 +1,12 @@
 package joshie.enchiridion.data.book;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.helpers.DefaultHelper;
 import joshie.enchiridion.helpers.MCClientHelper;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
@@ -13,6 +14,44 @@ import java.util.Collection;
 import java.util.List;
 
 public class Book implements IBook {
+    public static final Codec<Book> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        Codec.STRING.optionalFieldOf("modid", "").forGetter(book -> book.modid),
+        Codec.STRING.fieldOf("uniqueName").forGetter(book -> book.uniqueName),
+        Codec.STRING.optionalFieldOf("saveName", "").forGetter(book -> book.saveName),
+        Codec.STRING.optionalFieldOf("displayName", "").forGetter(book -> book.displayName),
+        Codec.STRING.optionalFieldOf("displayInfo", "").forGetter(book -> book.displayInfo),
+        Codec.STRING.optionalFieldOf("colorHex", "FFFFFFFF").forGetter(book -> book.colorHex),
+        Codec.STRING.optionalFieldOf("language", "en_us").forGetter(book -> book.language),
+        Codec.BOOL.optionalFieldOf("hasCustomIcon", true).forGetter(book -> book.hasCustomIcon),
+        Codec.BOOL.optionalFieldOf("showBackground", true).forGetter(book -> book.showBackground),
+        Codec.BOOL.optionalFieldOf("legacyTexture", false).forGetter(book -> book.legacyTexture),
+        Codec.STRING.optionalFieldOf("backgroundResource", "enchiridion:textures/books/rustic2.png").forGetter(book -> book.backgroundResource),
+        Codec.INT.optionalFieldOf("defaultPage", 0).forGetter(book -> book.defaultPage),
+        Codec.BOOL.optionalFieldOf("isLocked", false).forGetter(book -> book.isLocked),
+        Codec.BOOL.optionalFieldOf("forgetPageOnClose", false).forGetter(book -> book.forgetPageOnClose),
+        Page.CODEC.listOf().optionalFieldOf("pages", new ArrayList<>()).forGetter(book -> book.book != null ? (List<Page>) (List<?>) book.book : new ArrayList<>()),
+        Codec.STRING.listOf().optionalFieldOf("defaultIDs", new ArrayList<>()).forGetter(book -> book.defaultIDs != null ? book.defaultIDs : new ArrayList<>())
+    ).apply(instance, (modid, uniqueName, saveName, displayName, displayInfo, colorHex, language, hasCustomIcon,
+                       showBackground, legacyTexture, backgroundResource, defaultPage, isLocked, forgetPageOnClose, pages, defaultIDs) -> {
+        Book book = new Book();
+        book.modid = modid;
+        book.uniqueName = uniqueName;
+        book.saveName = saveName.isEmpty() ? uniqueName : saveName;
+        book.displayName = displayName;
+        book.displayInfo = displayInfo;
+        book.colorHex = colorHex;
+        book.language = language;
+        book.hasCustomIcon = hasCustomIcon;
+        book.showBackground = showBackground;
+        book.legacyTexture = legacyTexture;
+        book.backgroundResource = backgroundResource;
+        book.defaultPage = defaultPage;
+        book.isLocked = isLocked;
+        book.forgetPageOnClose = forgetPageOnClose;
+        book.book = new ArrayList<>(pages);
+        book.defaultIDs = new ArrayList<>(defaultIDs);
+        return book;
+    }));
     /**
      * VARIABLES
      **/

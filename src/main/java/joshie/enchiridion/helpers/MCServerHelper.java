@@ -7,8 +7,9 @@ import net.neoforged.neoforge.server.ServerLifecycleHooks;
 public class MCServerHelper {
 
     public static String getHostName() {
-        String hostname = FMLEnvironment.dist.isDedicatedServer() ? ServerLifecycleHooks.getCurrentServer().getServerHostname() : "ssp";
-        if (hostname.equals("")) hostname = "smp";
+        // In 1.20.4, getServerHostname() was removed. Use getLocalIp() instead
+        String hostname = FMLEnvironment.dist.isDedicatedServer() ? ServerLifecycleHooks.getCurrentServer().getLocalIp() : "ssp";
+        if (hostname == null || hostname.equals("")) hostname = "smp";
         return hostname;
     }
 }

@@ -8,13 +8,14 @@ import joshie.enchiridion.helpers.DefaultHelper;
 import joshie.enchiridion.helpers.MCClientHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.FriendlyByteBuf;
 import uk.joshiejack.penguinlib.util.registry.ReloadableRegistry;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class Book extends ReloadableRegistry.PenguinRegistry<Book> implements IBook {
+public class Book implements ReloadableRegistry.PenguinRegistry<Book>, IBook {
     public static final Codec<Book> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.STRING.optionalFieldOf("modid", "").forGetter(book -> book.modid),
         Codec.STRING.fieldOf("uniqueName").forGetter(book -> book.uniqueName),
@@ -116,6 +117,32 @@ public class Book extends ReloadableRegistry.PenguinRegistry<Book> implements IB
         this.book.add(DefaultHelper.addDefaults(this, new Page(0).setBook(this)));
         this.defaultIDs = new ArrayList<>();
         this.defaultIDs.add("enchiridion_default_buttons");
+    }
+
+    /**
+     * PENGUINREGISTRY IMPLEMENTATION
+     **/
+    @Override
+    public ResourceLocation id() {
+        // Create ResourceLocation from modid and uniqueName (or saveName if uniqueName is null)
+        String namespace = (modid != null && !modid.isEmpty()) ? modid : "enchiridion";
+        String path = (uniqueName != null && !uniqueName.isEmpty()) ? uniqueName : "default";
+        return new ResourceLocation(namespace, path);
+    }
+
+    @Override
+    public Book fromNetwork(FriendlyByteBuf buf) {
+        // For now, use a simple implementation - can be expanded later if needed
+        // This would typically deserialize the book data from the network buffer
+        // TODO: Implement proper network serialization when needed
+        return this;
+    }
+
+    @Override
+    public void toNetwork(FriendlyByteBuf buf) {
+        // For now, use a simple implementation - can be expanded later if needed
+        // This would typically serialize the book data to the network buffer
+        // TODO: Implement proper network serialization when needed
     }
 
     /**

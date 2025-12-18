@@ -335,11 +335,6 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     }
 
     @Override
-    protected void renderWidget(GuiGraphics p_282139_, int p_268034_, int p_268009_, float p_268085_) {
-
-    }
-
-    @Override
     public boolean isVisible() {
         return !isHidden;
     }

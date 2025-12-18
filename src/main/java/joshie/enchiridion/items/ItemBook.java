@@ -61,10 +61,11 @@ public class ItemBook extends Item {
         if (!held.isEmpty()) {
             IBook book = BookRegistry.INSTANCE.getBook(held);
             if (book != null) {
-                if (world.isClientSide) {
-                    EClientHandler.openGuiBook(book, player.isShiftKeyDown());
-                }
+                // Open menu on server side (will automatically open GUI on client)
+                player.openMenu(joshie.enchiridion.lib.EGuis.getBookProvider(held, player.isShiftKeyDown()));
+                return InteractionResultHolder.success(held);
             } else {
+                // No book found - open book creation GUI (client-side only)
                 if (world.isClientSide) {
                     EClientHandler.openGuiBookCreate();
                 }

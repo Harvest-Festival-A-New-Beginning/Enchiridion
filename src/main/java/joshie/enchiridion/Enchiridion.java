@@ -49,6 +49,7 @@ public class Enchiridion {
         eventBus.addListener(this::setupCommon);
         eventBus.addListener(this::setupClient);
         eventBus.addListener(this::handleIMCMessages);
+        eventBus.addListener(EClientHandler::registerScreens);  // Register book and library screens
         NeoForge.EVENT_BUS.addListener(this::onServerStarting);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, EConfig.spec, FileHelper.getConfigFile().getAbsolutePath());
     }

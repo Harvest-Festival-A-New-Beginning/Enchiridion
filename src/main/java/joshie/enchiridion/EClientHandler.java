@@ -27,21 +27,50 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import uk.joshiejack.penguinlib.world.inventory.AbstractBookMenu;
 import org.lwjgl.glfw.GLFW;
 
 public class EClientHandler {
     public static KeyMapping libraryKeyBinding;
 
+    @SubscribeEvent
+    public static void registerScreens(RegisterMenuScreensEvent event) {
+        // Register book screen using event system (NeoForge pattern)
+        event.register(EGuis.BOOK_CONTAINER.get(),
+            (AbstractBookMenu container, Inventory inv, Component text) -> {
+                GuiBook gui = new GuiBook(container, inv);
+                // Get book and editing state from player's held item
+                Player player = inv.player;
+                ItemStack held = player.getMainHandItem();
+                if (held.getItem() instanceof ItemBook) {
+                    IBook book = joshie.enchiridion.data.book.BookRegistry.INSTANCE.getBook(held);
+                    if (book != null) {
+                        gui.setBook(book, player.isShiftKeyDown());
+                        EnchiridionAPI.book = gui;
+                        EnchiridionAPI.draw = gui;
+                    }
+                }
+                return gui;
+            }
+        );
+
+        // Register library screen using traditional method
+        event.register(EGuis.LIBRARY_CONTAINER.get(), GuiLibrary::new);
+    }
+
     public static void setupClient() {
         // TODO: Resource pack system changed in 1.20.4 - addResourcePack() was removed
         // Minecraft.getInstance().getResourceManager().addResourcePack(EResourcePack.INSTANCE);
-        MenuScreens.register(EGuis.LIBRARY_CONTAINER.get(), GuiLibrary::new);
         LibraryHelper.resetClient();
         //NeoForge.EVENT_BUS.register(new SmartLibrary());
         EnchiridionAPI.editor = new EditHelper();
@@ -105,15 +134,6 @@ public class EClientHandler {
                 }
             return -1;
         }, ECommonHandler.LIBRARY);*/
-    }
-
-    public static void openGuiBook(IBook book, boolean isEditing) {
-        GuiBook gui = new GuiBook(null, null);
-        gui.setBook(book, isEditing);
-        Minecraft.getInstance().setScreen(gui);
-        // Set API reference to current GUI instance
-        EnchiridionAPI.book = gui;
-        EnchiridionAPI.draw = gui;
     }
 
     public static void openGuiBookCreate() {

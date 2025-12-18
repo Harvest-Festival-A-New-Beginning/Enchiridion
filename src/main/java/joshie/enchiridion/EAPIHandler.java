@@ -101,16 +101,13 @@ public class EAPIHandler implements IEnchiridionAPI {
 
     @Override
     public void openBook(Player player, String bookID, int page) {
-        if (player.level().isClientSide) {
-            IBook book = BookRegistry.INSTANCE.getBookByName(bookID);
-            if (book != null) {
-                EClientHandler.openGuiBook(book, false);
-                EnchiridionAPI.book.jumpToPageIfExists(page - 1);
-            }
-        } else {
+        // On server side, send packet to client to open the book
+        // The packet handler will then use the menu system to open the book
+        if (!player.level().isClientSide) {
             // TODO: PacketOpenBook no longer supports page parameter - page navigation will need to be added back
             PacketHandler.sendToClient(new PacketOpenBook(bookID), (ServerPlayer) player);
         }
+        // Client-side handling is done via the menu system when packet is received
     }
 
     @Override

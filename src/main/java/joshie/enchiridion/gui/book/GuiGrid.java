@@ -1,6 +1,6 @@
 package joshie.enchiridion.gui.book;
 
-import joshie.enchiridion.api.EnchiridionAPI;
+import net.minecraft.client.gui.GuiGraphics;
 
 public class GuiGrid extends AbstractGuiOverlay {
     public static final GuiGrid INSTANCE = new GuiGrid();
@@ -55,28 +55,31 @@ public class GuiGrid extends AbstractGuiOverlay {
     }
 
     @Override
-    public void draw(int mouseX, int mouseY) {
+    public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         if (isActivated()) {
+            int offsetX = GuiBook.INSTANCE.x;
+            int offsetY = GuiBook.INSTANCE.y;
+
             if (pixelGrid) {
                 int xOffset = -1;
                 int yOffset = 2;
                 for (int x = -10; x < 440; x += getGridSize()) {
                     for (int y = -15; y < 245; y += getGridSize()) {
-                        EnchiridionAPI.draw.drawRectangle(x + xOffset, y + yOffset, x + 1 + xOffset, y + yOffset + getGridSize(), 0x22000000);
-                        EnchiridionAPI.draw.drawRectangle(x + xOffset, y + yOffset, x + xOffset + getGridSize(), y + 1 + yOffset, 0x22000000);
+                        guiGraphics.fill(offsetX + x + xOffset, offsetY + y + yOffset, offsetX + x + 1 + xOffset, offsetY + y + yOffset + getGridSize(), 0x22000000);
+                        guiGraphics.fill(offsetX + x + xOffset, offsetY + y + yOffset, offsetX + x + xOffset + getGridSize(), offsetY + y + 1 + yOffset, 0x22000000);
                     }
                 }
             } else if (isFullWidth) {
                 for (int x = -10; x < 440; x += getGridSize()) {
                     for (int y = -15; y < 245; y += getGridSize()) {
-                        EnchiridionAPI.draw.drawRectangle(x, y, x + 1, y + getGridSize(), 0x22000000);
-                        EnchiridionAPI.draw.drawRectangle(x, y, x + getGridSize(), y + 1, 0x22000000);
+                        guiGraphics.fill(offsetX + x, offsetY + y, offsetX + x + 1, offsetY + y + getGridSize(), 0x22000000);
+                        guiGraphics.fill(offsetX + x, offsetY + y, offsetX + x + getGridSize(), offsetY + y + 1, 0x22000000);
                     }
                 }
             } else {
                 for (int x = -10; x < 440; x += getGridSize()) {
                     for (int y = -15; y < 245; y += getGridSize()) {
-                        EnchiridionAPI.draw.drawRectangle(x, y, x + 1, y + 1, 0x22000000);
+                        guiGraphics.fill(offsetX + x, offsetY + y, offsetX + x + 1, offsetY + y + 1, 0x22000000);
                     }
                 }
             }

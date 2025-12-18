@@ -1,11 +1,16 @@
 package joshie.enchiridion.gui.book;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import joshie.enchiridion.EConfig;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.helpers.DefaultHelper;
 import joshie.enchiridion.helpers.JumpHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 
 public class GuiTimeLine extends AbstractGuiOverlay {
     public static final GuiTimeLine INSTANCE = new GuiTimeLine();
@@ -50,12 +55,34 @@ public class GuiTimeLine extends AbstractGuiOverlay {
     }
 
     @Override
-    public void draw(int mouseX, int mouseY) {
-        EnchiridionAPI.draw.drawImage(TOOLBAR, -9, EConfig.SETTINGS.timelineYPos.get() - 9, 440, EConfig.SETTINGS.timelineYPos.get() + 13);
-        //EnchiridionAPI.draw.drawBorderedRectangle(-6, EConfig.SETTINGS.timelineYPos - 7, 437, EConfig.SETTINGS.timelineYPos, 0xFF312921, 0xFF191511);
-        EnchiridionAPI.draw.drawBorderedRectangle(-6, EConfig.SETTINGS.timelineYPos.get(), 437, EConfig.SETTINGS.timelineYPos.get() + 11, 0x00000000, 0xFF191511);
+    public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        int offsetX = GuiBook.INSTANCE.x;
+        int offsetY = GuiBook.INSTANCE.y;
+
+        // Draw TOOLBAR image
+        int left = -9;
+        int top = EConfig.SETTINGS.timelineYPos.get() - 9;
+        int right = 440;
+        int bottom = EConfig.SETTINGS.timelineYPos.get() + 13;
+        int w = right - left;
+        int h = bottom - top;
+        guiGraphics.blit(TOOLBAR, offsetX + left, offsetY + top, 0, 0, w, h, w, h);
+
+        // Draw bordered rectangle
+        left = -6;
+        top = EConfig.SETTINGS.timelineYPos.get();
+        right = 437;
+        bottom = EConfig.SETTINGS.timelineYPos.get() + 11;
+        guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + bottom, 0x00000000);
+        guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + top + 1, 0xFF191511);
+        guiGraphics.fill(offsetX + left, offsetY + bottom - 1, offsetX + right, offsetY + bottom, 0xFF191511);
+        guiGraphics.fill(offsetX + left, offsetY + top, offsetX + left + 1, offsetY + bottom, 0xFF191511);
+        guiGraphics.fill(offsetX + right - 1, offsetY + top, offsetX + right, offsetY + bottom, 0xFF191511);
+
         int currentPageNumber = EnchiridionAPI.book.getPage().getPageNumber();
         int hoverX = 0;
+        Font font = Minecraft.getInstance().font;
+        PoseStack poseStack = guiGraphics.pose();
 
         for (int j = 0; j < 110; j++) {
             int thisNumber = startPage + j;
@@ -66,7 +93,13 @@ public class GuiTimeLine extends AbstractGuiOverlay {
             if (exists) fill = 0xFFFFFFFF;
 
             if (isValid(j, thisNumber + 1)) {
-                EnchiridionAPI.draw.drawSplitScaledString("" + (thisNumber + 1), positionX + getOffsetX(j, thisNumber + 1), EConfig.SETTINGS.timelineYPos.get() - 5, 199, 0xFFDDDDDD, 0.5F);
+                left = positionX + getOffsetX(j, thisNumber + 1);
+                top = EConfig.SETTINGS.timelineYPos.get() - 5;
+                poseStack.pushPose();
+                poseStack.translate(offsetX, offsetY, 0);
+                poseStack.scale(0.5F, 0.5F, 0.5F);
+                guiGraphics.drawWordWrap(font, Component.literal("" + (thisNumber + 1)), (int)(left / 0.5F), (int)(top / 0.5F), 199, 0xFFDDDDDD);
+                poseStack.popPose();
                 fill = exists ? 0xFFEEEEEE : 0xFFB0A483;
             }
 
@@ -76,15 +109,24 @@ public class GuiTimeLine extends AbstractGuiOverlay {
                 fill = 0xFFFFFF00;
             }
 
-            EnchiridionAPI.draw.drawRectangle(positionX, EConfig.SETTINGS.timelineYPos.get(), positionX + 5, EConfig.SETTINGS.timelineYPos.get() + 10, fill);
+            left = positionX;
+            top = EConfig.SETTINGS.timelineYPos.get();
+            right = positionX + 5;
+            bottom = EConfig.SETTINGS.timelineYPos.get() + 10;
+            guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + bottom, fill);
         }
 
         //Dragging!
         if (dragged != null) {
             if (held < 30) {
                 held++;
-            } else
-                EnchiridionAPI.draw.drawRectangle(hoverX, EConfig.SETTINGS.timelineYPos.get(), hoverX + 4, EConfig.SETTINGS.timelineYPos.get() + 10, 0xFFFF9326);
+            } else {
+                left = hoverX;
+                top = EConfig.SETTINGS.timelineYPos.get();
+                right = hoverX + 4;
+                bottom = EConfig.SETTINGS.timelineYPos.get() + 10;
+                guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + bottom, 0xFFFF9326);
+            }
         }
     }
 

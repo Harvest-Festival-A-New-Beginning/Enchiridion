@@ -1,5 +1,6 @@
 package joshie.enchiridion.gui.book;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import joshie.enchiridion.EConfig;
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.EnchiridionAPI;
@@ -7,6 +8,10 @@ import joshie.enchiridion.api.gui.IBookEditorOverlay;
 import joshie.enchiridion.helpers.ItemListHelper;
 import joshie.enchiridion.util.ELocation;
 import joshie.enchiridion.util.IItemSelectable;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
 
@@ -29,7 +34,9 @@ public class GuiSimpleEditorItem extends AbstractGuiOverlay {
     }
 
     @Override
-    public void draw(int mouseX, int mouseY) {
+    public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        int offsetX = GuiBook.INSTANCE.x;
+        int offsetY = GuiBook.INSTANCE.y;
         int backgroundColor = 0xFFB0A483; //0xFF48453C
         int fontColor = 0xCE48433D;
         if (mouseX >= EConfig.SETTINGS.editorXPos + 2 && mouseX <= EConfig.SETTINGS.editorXPos + 83) {
@@ -39,9 +46,35 @@ public class GuiSimpleEditorItem extends AbstractGuiOverlay {
             }
         }
 
-        EnchiridionAPI.draw.drawBorderedRectangle(EConfig.SETTINGS.editorXPos + 2, EConfig.SETTINGS.toolbarYPos.get() + 9, EConfig.SETTINGS.editorXPos + 83, EConfig.SETTINGS.toolbarYPos.get() + 23, backgroundColor, 0xCE48433D);
-        EnchiridionAPI.draw.drawSplitScaledString("[b]" + Enchiridion.format("tooltips") + ": [/b]", EConfig.SETTINGS.editorXPos + 4, EConfig.SETTINGS.toolbarYPos.get() + 14, 200, fontColor, 0.5F);
-        EnchiridionAPI.draw.drawSplitScaledString("[b]" + selectable.getTooltipsEnabled() + "[/b]", EConfig.SETTINGS.editorXPos + 4 + 55, EConfig.SETTINGS.toolbarYPos.get() + 14, 200, fontColor, 0.5F);
+        // Draw bordered rectangle
+        int left = EConfig.SETTINGS.editorXPos + 2;
+        int top = EConfig.SETTINGS.toolbarYPos.get() + 9;
+        int right = EConfig.SETTINGS.editorXPos + 83;
+        int bottom = EConfig.SETTINGS.toolbarYPos.get() + 23;
+        guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + bottom, backgroundColor);
+        guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + top + 1, 0xCE48433D);
+        guiGraphics.fill(offsetX + left, offsetY + bottom - 1, offsetX + right, offsetY + bottom, 0xCE48433D);
+        guiGraphics.fill(offsetX + left, offsetY + top, offsetX + left + 1, offsetY + bottom, 0xCE48433D);
+        guiGraphics.fill(offsetX + right - 1, offsetY + top, offsetX + right, offsetY + bottom, 0xCE48433D);
+
+        // Draw scaled strings
+        PoseStack poseStack = guiGraphics.pose();
+        Font font = Minecraft.getInstance().font;
+        left = EConfig.SETTINGS.editorXPos + 4;
+        top = EConfig.SETTINGS.toolbarYPos.get() + 14;
+        poseStack.pushPose();
+        poseStack.translate(offsetX, offsetY, 0);
+        poseStack.scale(0.5F, 0.5F, 0.5F);
+        guiGraphics.drawWordWrap(font, Component.literal("[b]" + Enchiridion.format("tooltips") + ": [/b]"), (int)(left / 0.5F), (int)(top / 0.5F), 200, fontColor);
+        poseStack.popPose();
+
+        left = EConfig.SETTINGS.editorXPos + 4 + 55;
+        poseStack.pushPose();
+        poseStack.translate(offsetX, offsetY, 0);
+        poseStack.scale(0.5F, 0.5F, 0.5F);
+        guiGraphics.drawWordWrap(font, Component.literal("[b]" + selectable.getTooltipsEnabled() + "[/b]"), (int)(left / 0.5F), (int)(top / 0.5F), 200, fontColor);
+        poseStack.popPose();
+
         if (sorted != null) {
             int j = 0;
             int k = 0;

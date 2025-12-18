@@ -1,10 +1,15 @@
 package joshie.enchiridion.gui.book;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import joshie.enchiridion.EConfig;
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.lib.EInfo;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
@@ -35,10 +40,39 @@ public class GuiLayers extends AbstractGuiOverlay {
     }
 
     @Override
-    public void draw(int mouseX, int mouseY) {
-        EnchiridionAPI.draw.drawImage(SIDEBAR, EConfig.SETTINGS.layersXPos.get() - 3, EConfig.SETTINGS.toolbarYPos.get() - 7, EConfig.SETTINGS.layersXPos.get() + 87, EConfig.SETTINGS.timelineYPos.get() + 13);
-        EnchiridionAPI.draw.drawBorderedRectangle(EConfig.SETTINGS.layersXPos.get(), EConfig.SETTINGS.toolbarYPos.get() + 7, EConfig.SETTINGS.layersXPos.get() + 85, EConfig.SETTINGS.timelineYPos.get() + 11, 0xFF312921, 0xFF191511);
-        EnchiridionAPI.draw.drawSplitScaledString(Enchiridion.format("layers"), EConfig.SETTINGS.layersXPos.get() + 20, EConfig.SETTINGS.toolbarYPos.get() - 2, 250, 0xFFFFFFFF, 1F);
+    public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        int offsetX = GuiBook.INSTANCE.x;
+        int offsetY = GuiBook.INSTANCE.y;
+
+        // Draw SIDEBAR image
+        int left = EConfig.SETTINGS.layersXPos.get() - 3;
+        int top = EConfig.SETTINGS.toolbarYPos.get() - 7;
+        int right = EConfig.SETTINGS.layersXPos.get() + 87;
+        int bottom = EConfig.SETTINGS.timelineYPos.get() + 13;
+        int w = right - left;
+        int h = bottom - top;
+        guiGraphics.blit(SIDEBAR, offsetX + left, offsetY + top, 0, 0, w, h, w, h);
+
+        // Draw bordered rectangle
+        left = EConfig.SETTINGS.layersXPos.get();
+        top = EConfig.SETTINGS.toolbarYPos.get() + 7;
+        right = EConfig.SETTINGS.layersXPos.get() + 85;
+        bottom = EConfig.SETTINGS.timelineYPos.get() + 11;
+        guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + bottom, 0xFF312921);
+        guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + top + 1, 0xFF191511);
+        guiGraphics.fill(offsetX + left, offsetY + bottom - 1, offsetX + right, offsetY + bottom, 0xFF191511);
+        guiGraphics.fill(offsetX + left, offsetY + top, offsetX + left + 1, offsetY + bottom, 0xFF191511);
+        guiGraphics.fill(offsetX + right - 1, offsetY + top, offsetX + right, offsetY + bottom, 0xFF191511);
+
+        // Draw "layers" text
+        left = EConfig.SETTINGS.layersXPos.get() + 20;
+        top = EConfig.SETTINGS.toolbarYPos.get() - 2;
+        PoseStack poseStack = guiGraphics.pose();
+        poseStack.pushPose();
+        poseStack.translate(offsetX, offsetY, 0);
+        Font font = Minecraft.getInstance().font;
+        guiGraphics.drawWordWrap(font, Component.literal(Enchiridion.format("layers")), left, top, 250, 0xFFFFFFFF);
+        poseStack.popPose();
         int layerY = 0;
         int hoverY = 0;
         ArrayList<FeatureProvider> features = EnchiridionAPI.book.getPage().getFeatures();
@@ -69,9 +103,23 @@ public class GuiLayers extends AbstractGuiOverlay {
             }
 
             //Draw the lock icons
-            EnchiridionAPI.draw.drawBorderedRectangle(EConfig.SETTINGS.layersXPos.get() + 2, EConfig.SETTINGS.toolbarYPos.get() - 3 + layerY, EConfig.SETTINGS.layersXPos.get() + 11, EConfig.SETTINGS.toolbarYPos.get() + 7 + layerY, color1, color2);
+            left = EConfig.SETTINGS.layersXPos.get() + 2;
+            top = EConfig.SETTINGS.toolbarYPos.get() - 3 + layerY;
+            right = EConfig.SETTINGS.layersXPos.get() + 11;
+            bottom = EConfig.SETTINGS.toolbarYPos.get() + 7 + layerY;
+            guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + bottom, color1);
+            guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + top + 1, color2);
+            guiGraphics.fill(offsetX + left, offsetY + bottom - 1, offsetX + right, offsetY + bottom, color2);
+            guiGraphics.fill(offsetX + left, offsetY + top, offsetX + left + 1, offsetY + bottom, color2);
+            guiGraphics.fill(offsetX + right - 1, offsetY + top, offsetX + right, offsetY + bottom, color2);
             if (feature.isLocked()) {
-                EnchiridionAPI.draw.drawImage(resource, EConfig.SETTINGS.layersXPos.get() + 4, EConfig.SETTINGS.toolbarYPos.get() - 1 + layerY, EConfig.SETTINGS.layersXPos.get() + 9, EConfig.SETTINGS.toolbarYPos.get() + layerY + 5);
+                left = EConfig.SETTINGS.layersXPos.get() + 4;
+                top = EConfig.SETTINGS.toolbarYPos.get() - 1 + layerY;
+                right = EConfig.SETTINGS.layersXPos.get() + 9;
+                bottom = EConfig.SETTINGS.toolbarYPos.get() + layerY + 5;
+                w = right - left;
+                h = bottom - top;
+                guiGraphics.blit(resource, offsetX + left, offsetY + top, 0, 0, w, h, w, h);
             }
             /* END LOCK ICON */
 
@@ -97,14 +145,36 @@ public class GuiLayers extends AbstractGuiOverlay {
                 }
             }
 
-            EnchiridionAPI.draw.drawBorderedRectangle(EConfig.SETTINGS.layersXPos.get() + 11, EConfig.SETTINGS.toolbarYPos.get() - 3 + layerY, EConfig.SETTINGS.layersXPos.get() + 20, EConfig.SETTINGS.toolbarYPos.get() + 7 + layerY, color1, color2);
+            left = EConfig.SETTINGS.layersXPos.get() + 11;
+            top = EConfig.SETTINGS.toolbarYPos.get() - 3 + layerY;
+            right = EConfig.SETTINGS.layersXPos.get() + 20;
+            bottom = EConfig.SETTINGS.toolbarYPos.get() + 7 + layerY;
+            guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + bottom, color1);
+            guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + top + 1, color2);
+            guiGraphics.fill(offsetX + left, offsetY + bottom - 1, offsetX + right, offsetY + bottom, color2);
+            guiGraphics.fill(offsetX + left, offsetY + top, offsetX + left + 1, offsetY + bottom, color2);
+            guiGraphics.fill(offsetX + right - 1, offsetY + top, offsetX + right, offsetY + bottom, color2);
             if (feature.isVisible()) {
-                EnchiridionAPI.draw.drawImage(resource, EConfig.SETTINGS.layersXPos.get() + 12, EConfig.SETTINGS.toolbarYPos.get() - 1 + layerY, EConfig.SETTINGS.layersXPos.get() + 19, EConfig.SETTINGS.toolbarYPos.get() + layerY + 5);
+                left = EConfig.SETTINGS.layersXPos.get() + 12;
+                top = EConfig.SETTINGS.toolbarYPos.get() - 1 + layerY;
+                right = EConfig.SETTINGS.layersXPos.get() + 19;
+                bottom = EConfig.SETTINGS.toolbarYPos.get() + layerY + 5;
+                w = right - left;
+                h = bottom - top;
+                guiGraphics.blit(resource, offsetX + left, offsetY + top, 0, 0, w, h, w, h);
             }
             /* END VISIBILITY ICON */
 
             /* Layer itself */
-            EnchiridionAPI.draw.drawBorderedRectangle(EConfig.SETTINGS.layersXPos.get() + 20, EConfig.SETTINGS.toolbarYPos.get() - 3 + layerY, EConfig.SETTINGS.layersXPos.get() + 83, EConfig.SETTINGS.toolbarYPos.get() + 7 + layerY, color1, color2);
+            left = EConfig.SETTINGS.layersXPos.get() + 20;
+            top = EConfig.SETTINGS.toolbarYPos.get() - 3 + layerY;
+            right = EConfig.SETTINGS.layersXPos.get() + 83;
+            bottom = EConfig.SETTINGS.toolbarYPos.get() + 7 + layerY;
+            guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + bottom, color1);
+            guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + top + 1, color2);
+            guiGraphics.fill(offsetX + left, offsetY + bottom - 1, offsetX + right, offsetY + bottom, color2);
+            guiGraphics.fill(offsetX + left, offsetY + top, offsetX + left + 1, offsetY + bottom, color2);
+            guiGraphics.fill(offsetX + right - 1, offsetY + top, offsetX + right, offsetY + bottom, color2);
 
             if (isOverLayer(layerY, mouseX, mouseY) || EnchiridionAPI.book.isGroupSelected(feature)) {
                 hoverY = layerY;
@@ -115,13 +185,27 @@ public class GuiLayers extends AbstractGuiOverlay {
                     color1 = 0xFFB0A483;
                     color2 = 0xFF48453C;
                 }
-                EnchiridionAPI.draw.drawBorderedRectangle(EConfig.SETTINGS.layersXPos.get() + 20, EConfig.SETTINGS.toolbarYPos.get() - 3 + layerY, EConfig.SETTINGS.layersXPos.get() + 83, EConfig.SETTINGS.toolbarYPos.get() + 7 + layerY, color1, color2);
+                left = EConfig.SETTINGS.layersXPos.get() + 20;
+                top = EConfig.SETTINGS.toolbarYPos.get() - 3 + layerY;
+                right = EConfig.SETTINGS.layersXPos.get() + 83;
+                bottom = EConfig.SETTINGS.toolbarYPos.get() + 7 + layerY;
+                guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + bottom, color1);
+                guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + top + 1, color2);
+                guiGraphics.fill(offsetX + left, offsetY + bottom - 1, offsetX + right, offsetY + bottom, color2);
+                guiGraphics.fill(offsetX + left, offsetY + top, offsetX + left + 1, offsetY + bottom, color2);
+                guiGraphics.fill(offsetX + right - 1, offsetY + top, offsetX + right, offsetY + bottom, color2);
             }
             /* End Layer */
 
             String name = feature.getFeature().getName();
             String truncated = (name.substring(0, Math.min(name.length(), 20))).replace("\n", " ");
-            EnchiridionAPI.draw.drawSplitScaledString(truncated, EConfig.SETTINGS.layersXPos.get() + 25, EConfig.SETTINGS.toolbarYPos.get() + layerY, 250, 0xFF000000, 0.5F);
+            left = EConfig.SETTINGS.layersXPos.get() + 25;
+            top = EConfig.SETTINGS.toolbarYPos.get() + layerY;
+            poseStack.pushPose();
+            poseStack.translate(offsetX, offsetY, 0);
+            poseStack.scale(0.5F, 0.5F, 0.5F);
+            guiGraphics.drawWordWrap(font, Component.literal(truncated), (int)(left / 0.5F), (int)(top / 0.5F), 250, 0xFF000000);
+            poseStack.popPose();
         }
 
 
@@ -132,8 +216,22 @@ public class GuiLayers extends AbstractGuiOverlay {
             } else {
                 String name = dragged.getFeature().getName();
                 String truncated = name.substring(0, Math.min(name.length(), 20));
-                EnchiridionAPI.draw.drawBorderedRectangle(EConfig.SETTINGS.layersXPos.get() + 20, EConfig.SETTINGS.toolbarYPos.get() - 3 + hoverY, EConfig.SETTINGS.layersXPos.get() + 83, EConfig.SETTINGS.toolbarYPos.get() + 7 + hoverY, 0xFFEEEEEE, 0xFF48453C);
-                EnchiridionAPI.draw.drawSplitScaledString(truncated, EConfig.SETTINGS.layersXPos.get() + 25, EConfig.SETTINGS.toolbarYPos.get() + hoverY, 250, 0xFF000000, 0.5F);
+                left = EConfig.SETTINGS.layersXPos.get() + 20;
+                top = EConfig.SETTINGS.toolbarYPos.get() - 3 + hoverY;
+                right = EConfig.SETTINGS.layersXPos.get() + 83;
+                bottom = EConfig.SETTINGS.toolbarYPos.get() + 7 + hoverY;
+                guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + bottom, 0xFFEEEEEE);
+                guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + top + 1, 0xFF48453C);
+                guiGraphics.fill(offsetX + left, offsetY + bottom - 1, offsetX + right, offsetY + bottom, 0xFF48453C);
+                guiGraphics.fill(offsetX + left, offsetY + top, offsetX + left + 1, offsetY + bottom, 0xFF48453C);
+                guiGraphics.fill(offsetX + right - 1, offsetY + top, offsetX + right, offsetY + bottom, 0xFF48453C);
+                left = EConfig.SETTINGS.layersXPos.get() + 25;
+                top = EConfig.SETTINGS.toolbarYPos.get() + hoverY;
+                poseStack.pushPose();
+                poseStack.translate(offsetX, offsetY, 0);
+                poseStack.scale(0.5F, 0.5F, 0.5F);
+                guiGraphics.drawWordWrap(font, Component.literal(truncated), (int)(left / 0.5F), (int)(top / 0.5F), 250, 0xFF000000);
+                poseStack.popPose();
             }
         }
     }

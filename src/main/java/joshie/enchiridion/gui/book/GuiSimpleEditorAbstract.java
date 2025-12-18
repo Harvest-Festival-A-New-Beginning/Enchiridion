@@ -1,23 +1,61 @@
 package joshie.enchiridion.gui.book;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import joshie.enchiridion.EConfig;
-import joshie.enchiridion.api.EnchiridionAPI;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 public abstract class GuiSimpleEditorAbstract extends AbstractGuiOverlay {
-    public void drawImage(ResourceLocation location, int x, int y, int x2, int y2) {
-        EnchiridionAPI.draw.drawImage(location, EConfig.SETTINGS.editorXPos + x, EConfig.SETTINGS.toolbarYPos.get() + y, EConfig.SETTINGS.editorXPos + x2, EConfig.SETTINGS.toolbarYPos.get() + y2);
+    public void drawImage(GuiGraphics guiGraphics, ResourceLocation location, int x, int y, int x2, int y2) {
+        int left = EConfig.SETTINGS.editorXPos + x;
+        int top = EConfig.SETTINGS.toolbarYPos.get() + y;
+        int right = EConfig.SETTINGS.editorXPos + x2;
+        int bottom = EConfig.SETTINGS.toolbarYPos.get() + y2;
+        int w = right - left;
+        int h = bottom - top;
+        int offsetX = GuiBook.INSTANCE.x;
+        int offsetY = GuiBook.INSTANCE.y;
+        guiGraphics.blit(location, offsetX + left, offsetY + top, 0, 0, w, h, w, h);
     }
 
-    public void drawBorderedRectangle(int x, int y, int x2, int y2, int colorI, int colorB) {
-        EnchiridionAPI.draw.drawBorderedRectangle(EConfig.SETTINGS.editorXPos + x, EConfig.SETTINGS.toolbarYPos.get() + y, EConfig.SETTINGS.editorXPos + x2, EConfig.SETTINGS.toolbarYPos.get() + y2, colorI, colorB);
+    public void drawBorderedRectangle(GuiGraphics guiGraphics, int x, int y, int x2, int y2, int colorI, int colorB) {
+        int left = EConfig.SETTINGS.editorXPos + x;
+        int top = EConfig.SETTINGS.toolbarYPos.get() + y;
+        int right = EConfig.SETTINGS.editorXPos + x2;
+        int bottom = EConfig.SETTINGS.toolbarYPos.get() + y2;
+        int offsetX = GuiBook.INSTANCE.x;
+        int offsetY = GuiBook.INSTANCE.y;
+        guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + bottom, colorI);
+        guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + top + 1, colorB);
+        guiGraphics.fill(offsetX + left, offsetY + bottom - 1, offsetX + right, offsetY + bottom, colorB);
+        guiGraphics.fill(offsetX + left, offsetY + top, offsetX + left + 1, offsetY + bottom, colorB);
+        guiGraphics.fill(offsetX + right - 1, offsetY + top, offsetX + right, offsetY + bottom, colorB);
     }
 
-    public void drawRectangle(int x, int y, int x2, int y2, int colorI) {
-        EnchiridionAPI.draw.drawRectangle(EConfig.SETTINGS.editorXPos + x, EConfig.SETTINGS.toolbarYPos.get() + y, EConfig.SETTINGS.editorXPos + x2, EConfig.SETTINGS.toolbarYPos.get() + y2, colorI);
+    public void drawRectangle(GuiGraphics guiGraphics, int x, int y, int x2, int y2, int colorI) {
+        int left = EConfig.SETTINGS.editorXPos + x;
+        int top = EConfig.SETTINGS.toolbarYPos.get() + y;
+        int right = EConfig.SETTINGS.editorXPos + x2;
+        int bottom = EConfig.SETTINGS.toolbarYPos.get() + y2;
+        int offsetX = GuiBook.INSTANCE.x;
+        int offsetY = GuiBook.INSTANCE.y;
+        guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + bottom, colorI);
     }
 
-    public void drawSplitScaledString(String text, int x, int y, int color, float scale) {
-        EnchiridionAPI.draw.drawSplitScaledString(text, EConfig.SETTINGS.editorXPos + x, EConfig.SETTINGS.toolbarYPos.get() + y, 155, color, scale);
+    public void drawSplitScaledString(GuiGraphics guiGraphics, String text, int x, int y, int color, float scale) {
+        int left = EConfig.SETTINGS.editorXPos + x;
+        int top = EConfig.SETTINGS.toolbarYPos.get() + y;
+        int offsetX = GuiBook.INSTANCE.x;
+        int offsetY = GuiBook.INSTANCE.y;
+        PoseStack poseStack = guiGraphics.pose();
+        poseStack.pushPose();
+        poseStack.translate(offsetX, offsetY, 0);
+        poseStack.scale(scale, scale, scale);
+        Font font = Minecraft.getInstance().font;
+        guiGraphics.drawWordWrap(font, Component.literal(text), (int)(left / scale), (int)(top / scale), 155, color);
+        poseStack.popPose();
     }
 }

@@ -68,13 +68,13 @@ public class GuiSimpleEditorTemplate extends GuiSimpleEditorAbstract {
 
     private static final int X_POS_START = 4;
 
-    private void drawBoxLabel(String name, int yPos) {
-        drawBorderedRectangle(X_POS_START - 2, yPos, 83, yPos + 10, 0xFFB0A483, 0xFF48453C);
-        drawSplitScaledString("[b]" + name + "[/b]", X_POS_START, yPos + 3, 0xFF48453C, 0.5F);
+    private void drawBoxLabel(net.minecraft.client.gui.GuiGraphics guiGraphics, String name, int yPos) {
+        drawBorderedRectangle(guiGraphics, X_POS_START - 2, yPos, 83, yPos + 10, 0xFFB0A483, 0xFF48453C);
+        drawSplitScaledString(guiGraphics, "[b]" + name + "[/b]", X_POS_START, yPos + 3, 0xFF48453C, 0.5F);
     }
 
     @Override
-    public void draw(int mouseX, int mouseY) {
+    public void draw(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY) {
         int count = 0;
         int yPlus = 0;
         int xPlus = 0;
@@ -86,13 +86,13 @@ public class GuiSimpleEditorTemplate extends GuiSimpleEditorAbstract {
 
             if (isOverPosition(2 + xPlus, 11 + yPlus, 42 + xPlus, 34 + yPlus, mouseX, mouseY)) {
                 for (FeatureProvider provider : template.getFeatures()) {
-                    provider.draw(mouseX, mouseY);
+                    provider.draw(guiGraphics, mouseX, mouseY);
                 }
             }
 
-            drawImage(template.getIcon(), 2 + xPlus, 11 + yPlus, 42 + xPlus, 34 + yPlus);
+            drawImage(guiGraphics, template.getIcon(), 2 + xPlus, 11 + yPlus, 42 + xPlus, 34 + yPlus);
             if (GuiBook.INSTANCE.getBook().getDefaultFeatures().contains(template.getUniqueName())) {
-                drawBorderedRectangle(2 + xPlus, 11 + yPlus, 42 + xPlus, 34 + yPlus, 0x00000000, 0xFF8C0000);
+                drawBorderedRectangle(guiGraphics, 2 + xPlus, 11 + yPlus, 42 + xPlus, 34 + yPlus, 0x00000000, 0xFF8C0000);
             }
 
             xPlus += 41;

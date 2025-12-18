@@ -1,9 +1,9 @@
 package joshie.enchiridion.gui.book;
 
 import joshie.enchiridion.EConfig;
-import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.gui.IBookEditorOverlay;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.components.EditBox;
@@ -54,19 +54,56 @@ public class GuiSimpleEditor extends AbstractGuiOverlay {
     }
 
     @Override
-    public void draw(int mouseX, int mouseY) {
+    public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         if (editor != null) {
             /* Draw the Background */
-            EnchiridionAPI.draw.drawImage(SIDEBAR, EConfig.SETTINGS.editorXPos - 3, EConfig.SETTINGS.toolbarYPos.get() - 7, EConfig.SETTINGS.editorXPos + 87, EConfig.SETTINGS.timelineYPos.get() + 13);
-            EnchiridionAPI.draw.drawBorderedRectangle(EConfig.SETTINGS.editorXPos, EConfig.SETTINGS.toolbarYPos.get() + 7, EConfig.SETTINGS.editorXPos + 85, EConfig.SETTINGS.timelineYPos.get() + 11, 0xFF312921, 0xFF191511);
-            EnchiridionAPI.draw.drawBorderedRectangle(EConfig.SETTINGS.editorXPos + 2, EConfig.SETTINGS.toolbarYPos.get() + 9, EConfig.SETTINGS.editorXPos + 83, EConfig.SETTINGS.timelineYPos.get() + 9, 0xFFE4D6AE, 0x5579725A);
-            EnchiridionAPI.draw.drawBorderedRectangle(EConfig.SETTINGS.editorXPos, EConfig.SETTINGS.toolbarYPos.get() - 3, EConfig.SETTINGS.editorXPos + 84, EConfig.SETTINGS.toolbarYPos.get() + 7, 0xFF312921, 0xFF191511);
-            editor.draw(mouseX, mouseY);
-            // TODO: textField.render() needs GuiGraphics parameter passed from parent
-            // For now, textField rendering is disabled until proper GuiGraphics is available
-            /*if (textField.isFocused()) {
+            // Draw SIDEBAR image
+            int left = EConfig.SETTINGS.editorXPos - 3;
+            int top = EConfig.SETTINGS.toolbarYPos.get() - 7;
+            int right = EConfig.SETTINGS.editorXPos + 87;
+            int bottom = EConfig.SETTINGS.timelineYPos.get() + 13;
+            int w = right - left;
+            int h = bottom - top;
+            int offsetX = GuiBook.INSTANCE.x;
+            int offsetY = GuiBook.INSTANCE.y;
+            guiGraphics.blit(SIDEBAR, offsetX + left, offsetY + top, 0, 0, w, h, w, h);
+
+            // Draw bordered rectangles
+            left = EConfig.SETTINGS.editorXPos;
+            top = EConfig.SETTINGS.toolbarYPos.get() + 7;
+            right = EConfig.SETTINGS.editorXPos + 85;
+            bottom = EConfig.SETTINGS.timelineYPos.get() + 11;
+            guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + bottom, 0xFF312921);
+            guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + top + 1, 0xFF191511);
+            guiGraphics.fill(offsetX + left, offsetY + bottom - 1, offsetX + right, offsetY + bottom, 0xFF191511);
+            guiGraphics.fill(offsetX + left, offsetY + top, offsetX + left + 1, offsetY + bottom, 0xFF191511);
+            guiGraphics.fill(offsetX + right - 1, offsetY + top, offsetX + right, offsetY + bottom, 0xFF191511);
+
+            left = EConfig.SETTINGS.editorXPos + 2;
+            top = EConfig.SETTINGS.toolbarYPos.get() + 9;
+            right = EConfig.SETTINGS.editorXPos + 83;
+            bottom = EConfig.SETTINGS.timelineYPos.get() + 9;
+            guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + bottom, 0xFFE4D6AE);
+            guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + top + 1, 0x5579725A);
+            guiGraphics.fill(offsetX + left, offsetY + bottom - 1, offsetX + right, offsetY + bottom, 0x5579725A);
+            guiGraphics.fill(offsetX + left, offsetY + top, offsetX + left + 1, offsetY + bottom, 0x5579725A);
+            guiGraphics.fill(offsetX + right - 1, offsetY + top, offsetX + right, offsetY + bottom, 0x5579725A);
+
+            left = EConfig.SETTINGS.editorXPos;
+            top = EConfig.SETTINGS.toolbarYPos.get() - 3;
+            right = EConfig.SETTINGS.editorXPos + 84;
+            bottom = EConfig.SETTINGS.toolbarYPos.get() + 7;
+            guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + bottom, 0xFF312921);
+            guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + top + 1, 0xFF191511);
+            guiGraphics.fill(offsetX + left, offsetY + bottom - 1, offsetX + right, offsetY + bottom, 0xFF191511);
+            guiGraphics.fill(offsetX + left, offsetY + top, offsetX + left + 1, offsetY + bottom, 0xFF191511);
+            guiGraphics.fill(offsetX + right - 1, offsetY + top, offsetX + right, offsetY + bottom, 0xFF191511);
+
+            editor.draw(guiGraphics, mouseX, mouseY);
+
+            if (textField.isFocused()) {
                 textField.render(guiGraphics, mouseX, mouseY, 0);
-            }*/
+            }
         }
     }
 

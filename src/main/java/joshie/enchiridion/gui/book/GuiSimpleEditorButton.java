@@ -70,9 +70,9 @@ public class GuiSimpleEditorButton extends GuiSimpleEditorAbstract {
 
     private static final int xPosStart = 4;
 
-    private void drawBoxLabel(String name, int yPos) {
-        drawBorderedRectangle(xPosStart - 2, yPos, 83, yPos + 10, 0xFFB0A483, 0xFF48453C);
-        drawSplitScaledString("[b]" + name + "[/b]", xPosStart, yPos + 3, 0xFF48453C, 0.5F);
+    private void drawBoxLabel(net.minecraft.client.gui.GuiGraphics guiGraphics, String name, int yPos) {
+        drawBorderedRectangle(guiGraphics, xPosStart - 2, yPos, 83, yPos + 10, 0xFFB0A483, 0xFF48453C);
+        drawSplitScaledString(guiGraphics, "[b]" + name + "[/b]", xPosStart, yPos + 3, 0xFF48453C, 0.5F);
     }
 
     public boolean isTransient(Object object, String fieldName) {
@@ -99,16 +99,16 @@ public class GuiSimpleEditorButton extends GuiSimpleEditorAbstract {
     }
 
     @Override
-    public void draw(int mouseX, int mouseY) {
+    public void draw(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY) {
         if (button == null || button.getAction() == null) return;
         //NO WORK!!!
-        drawBoxLabel(Enchiridion.format("select.action"), 9);
+        drawBoxLabel(guiGraphics, Enchiridion.format("select.action"), 9);
         int xPos = xPosStart;
         int yPos = 13;
         for (IButtonAction action : sorted) {
-            drawImage(action.getResource(), xPos + 1, yPos + 8, xPos + 9, yPos + 16);
+            drawImage(guiGraphics, action.getResource(), xPos + 1, yPos + 8, xPos + 9, yPos + 16);
             if (action.getName().equals(button.getAction().getName())) {
-                drawBorderedRectangle(xPos, yPos + 7, xPos + 10, yPos + 17, 0x00000000, 0xFF48453C);
+                drawBorderedRectangle(guiGraphics, xPos, yPos + 7, xPos + 10, yPos + 17, 0x00000000, 0xFF48453C);
             }
 
             xPos += 10;
@@ -121,63 +121,63 @@ public class GuiSimpleEditorButton extends GuiSimpleEditorAbstract {
         //Draw the unhovered button selector
         int colorI = 0x00000000;
         int colorB = 0xFFB0A483;
-        drawBoxLabel(Enchiridion.format("select.unhover"), yPos + 20);
-        drawImage(ARROW_LEFT_OFF, 4, yPos + 32, 22, yPos + 42);
-        drawImage(ARROW_RIGHT_OFF, 24, yPos + 32, 42, yPos + 42);
+        drawBoxLabel(guiGraphics, Enchiridion.format("select.unhover"), yPos + 20);
+        drawImage(guiGraphics, ARROW_LEFT_OFF, 4, yPos + 32, 22, yPos + 42);
+        drawImage(guiGraphics, ARROW_RIGHT_OFF, 24, yPos + 32, 42, yPos + 42);
         if (ARROW_LEFT_OFF.equals(button.getResource(false)))
-            drawBorderedRectangle(3, yPos + 31, 23, yPos + 43, 0x00000000, 0xFF48453C);
+            drawBorderedRectangle(guiGraphics, 3, yPos + 31, 23, yPos + 43, 0x00000000, 0xFF48453C);
         else if (ARROW_RIGHT_OFF.equals(button.getResource(false)))
-            drawBorderedRectangle(23, yPos + 31, 43, yPos + 43, 0x00000000, 0xFF48453C);
+            drawBorderedRectangle(guiGraphics, 23, yPos + 31, 43, yPos + 43, 0x00000000, 0xFF48453C);
         else {
             //colorI = 0xFF312921;
             colorB = 0xFF191511;
-            drawImage(button.getResource(false), 45, yPos + 31, 80, yPos + 43);
+            drawImage(guiGraphics, button.getResource(false), 45, yPos + 31, 80, yPos + 43);
         }
 
-        drawBorderedRectangle(45, yPos + 31, 80, yPos + 43, colorI, colorB);
-        drawSplitScaledString("[b]" + Enchiridion.format("select.custom") + "[/b]", 53, yPos + 35, 0xFFFFFFFF, 0.5F);
+        drawBorderedRectangle(guiGraphics, 45, yPos + 31, 80, yPos + 43, colorI, colorB);
+        drawSplitScaledString(guiGraphics, "[b]" + Enchiridion.format("select.custom") + "[/b]", 53, yPos + 35, 0xFFFFFFFF, 0.5F);
 
         //Draw the hovered button selector
         yPos += 25;
         colorI = 0x00000000;
         colorB = 0xFFB0A483;
-        drawBoxLabel(Enchiridion.format("select.hover"), yPos + 20);
-        drawImage(ARROW_LEFT_ON, 4, yPos + 32, 22, yPos + 42);
-        drawImage(ARROW_RIGHT_ON, 24, yPos + 32, 42, yPos + 42);
+        drawBoxLabel(guiGraphics, Enchiridion.format("select.hover"), yPos + 20);
+        drawImage(guiGraphics, ARROW_LEFT_ON, 4, yPos + 32, 22, yPos + 42);
+        drawImage(guiGraphics, ARROW_RIGHT_ON, 24, yPos + 32, 42, yPos + 42);
         if (ARROW_LEFT_ON.equals(button.getResource(true)))
-            drawBorderedRectangle(3, yPos + 31, 23, yPos + 43, 0x00000000, 0xFF48453C);
+            drawBorderedRectangle(guiGraphics, 3, yPos + 31, 23, yPos + 43, 0x00000000, 0xFF48453C);
         else if (ARROW_RIGHT_ON.equals(button.getResource(true)))
-            drawBorderedRectangle(23, yPos + 31, 43, yPos + 43, 0x00000000, 0xFF48453C);
+            drawBorderedRectangle(guiGraphics, 23, yPos + 31, 43, yPos + 43, 0x00000000, 0xFF48453C);
         else {
             //colorI = 0xFF312921;
             colorB = 0xFF191511;
-            drawImage(button.getResource(true), 45, yPos + 31, 80, yPos + 43);
+            drawImage(guiGraphics, button.getResource(true), 45, yPos + 31, 80, yPos + 43);
         }
 
-        drawBorderedRectangle(45, yPos + 31, 80, yPos + 43, colorI, colorB);
-        drawSplitScaledString("[b]" + Enchiridion.format("select.custom") + "[/b]", 53, yPos + 35, 0xFFFFFFFF, 0.5F);
+        drawBorderedRectangle(guiGraphics, 45, yPos + 31, 80, yPos + 43, colorI, colorB);
+        drawSplitScaledString(guiGraphics, "[b]" + Enchiridion.format("select.custom") + "[/b]", 53, yPos + 35, 0xFFFFFFFF, 0.5F);
 
         yPos += 25;
         //Draw the extra information for the actions
-        drawBoxLabel("Button Fields", yPos + 20);
-        yPos = drawFields(button, yPos, mouseX, mouseY);
+        drawBoxLabel(guiGraphics, "Button Fields", yPos + 20);
+        yPos = drawFields(guiGraphics, button, yPos, mouseX, mouseY);
         yPos += 10;
 
-        int change = drawFields(button.getAction(), yPos, mouseX, mouseY);
+        int change = drawFields(guiGraphics, button.getAction(), yPos, mouseX, mouseY);
         if (change != yPos) {
-            drawBoxLabel("Action Fields", yPos + 20);
+            drawBoxLabel(guiGraphics, "Action Fields", yPos + 20);
             yPos = change;
         } else yPos -= 10;
 
-        drawBorderedRectangle(2, yPos + 30, 83, yPos + 31, 0xFF312921, 0xFF191511);
+        drawBorderedRectangle(guiGraphics, 2, yPos + 30, 83, yPos + 31, 0xFF312921, 0xFF191511);
     }
 
-    private int drawFields(Object object, int yPos, int mouseX, int mouseY) {
+    private int drawFields(net.minecraft.client.gui.GuiGraphics guiGraphics, Object object, int yPos, int mouseX, int mouseY) {
         for (String f : getFieldNames(object)) {
             if (isTransient(object, f)) continue;
-            drawBorderedRectangle(2, yPos + 30, 83, yPos + 37, 0xFF312921, 0xFF191511);
+            drawBorderedRectangle(guiGraphics, 2, yPos + 30, 83, yPos + 37, 0xFF312921, 0xFF191511);
             String name = Enchiridion.format("button.action.field." + f);
-            drawSplitScaledString("[b]" + name + "[/b]", 4, yPos + 32, 0xFFFFFFFF, 0.5F);
+            drawSplitScaledString(guiGraphics, "[b]" + name + "[/b]", 4, yPos + 32, 0xFFFFFFFF, 0.5F);
 
             WrappedEditable editable;
             if (!fieldCache.containsKey(f)) {
@@ -192,7 +192,7 @@ public class GuiSimpleEditorButton extends GuiSimpleEditorAbstract {
             }
 
             int lines = getLineCount(text) - 1;
-            drawSplitScaledString(text, 4, yPos + 39, 0xFF191511, 0.5F);
+            drawSplitScaledString(guiGraphics, text, 4, yPos + 39, 0xFF191511, 0.5F);
             yPos = yPos + 6 + lines;
         }
 

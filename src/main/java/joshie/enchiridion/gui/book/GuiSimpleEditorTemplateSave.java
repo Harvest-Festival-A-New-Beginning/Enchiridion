@@ -104,11 +104,11 @@ public class GuiSimpleEditorTemplateSave extends GuiSimpleEditorAbstract impleme
     }
 
     @Override
-    public void draw(int mouseX, int mouseY) {
+    public void draw(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY) {
         if (!isTakingScreenshot) {
             TextEditor.INSTANCE.setEditable(this);
-            drawBorderedRectangle(175, 100, 455, 115, 0xFF312921, 0xFF191511);
-            drawSplitScaledString(TextEditor.INSTANCE.getText(this), 180, 104, 0xFFFFFFFF, 1F);
+            drawBorderedRectangle(guiGraphics, 175, 100, 455, 115, 0xFF312921, 0xFF191511);
+            drawSplitScaledString(guiGraphics, TextEditor.INSTANCE.getText(this), 180, 104, 0xFFFFFFFF, 1F);
         } else { //Doing this down here so we don't have the bar in the way
             saveScreenshot(sanitized);
             saveTemplate(sanitized, template);

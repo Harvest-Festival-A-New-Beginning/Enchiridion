@@ -84,8 +84,17 @@ public class GuiBook extends GuiBase implements IBookHelper {
                 RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
                 RenderSystem.setShaderTexture(0, LEGACY_RIGHT);
                 // guiGraphics.blit(LEGACY_RIGHT, x + 212, y, 0, 0, 218, ySize);
-            } else
-                EnchiridionAPI.draw.drawImage(book.getBackgroundResource(), book.getBackgroundStartX(), book.getBackgroundStartY(), book.getBackgroundEndX(), book.getBackgroundEndY());
+            } else {
+                // Draw custom background
+                ResourceLocation bg = book.getBackgroundResource();
+                int left = book.getBackgroundStartX();
+                int top = book.getBackgroundStartY();
+                int right = book.getBackgroundEndX();
+                int bottom = book.getBackgroundEndY();
+                int w = right - left;
+                int h = bottom - top;
+                guiGraphics.blit(bg, x + left, y + top, 0, 0, w, h, w, h);
+            }
         }
 
         // Draw all the features, In reverse
@@ -107,7 +116,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
         //Draw all the overlays
         if (isEditMode) {
             for (IBookEditorOverlay overlay : overlays) {
-                overlay.draw(mouseX, mouseY);
+                overlay.draw(guiGraphics, mouseX, mouseY);
                 overlay.addToolTip(TOOLTIP, mouseX, mouseY);
             }
         }

@@ -1,18 +1,8 @@
 package joshie.enchiridion.lib;
 
-import com.mojang.serialization.Codec;
-import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.Book;
 import joshie.enchiridion.data.book.Template;
 import joshie.enchiridion.data.library.ModdedBook;
-import joshie.enchiridion.gui.book.features.*;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import uk.joshiejack.penguinlib.util.registry.ReloadableRegistry;
 
 import static joshie.enchiridion.lib.EInfo.MODID;
@@ -30,50 +20,5 @@ public class EnchiridionRegistries {
     public static final ReloadableRegistry<Template> TEMPLATES =
         new ReloadableRegistry<>(MODID, "templates", Template.CODEC, new Template(), true);
 
-    public static class Features {
-        public static final DeferredRegister<Codec<? extends IFeature>> FEATURE_TYPES =
-            DeferredRegister.create(
-                ResourceKey.createRegistryKey(new ResourceLocation(MODID, "features")),
-                MODID
-            );
-
-        public static final Registry<Codec<? extends IFeature>> FEATURE =
-            FEATURE_TYPES.makeRegistry(b -> b.sync(true));
-
-        // Register all feature type codecs
-        public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> TEXT =
-            FEATURE_TYPES.register("text", () -> FeatureText.CODEC);
-        public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> IMAGE =
-            FEATURE_TYPES.register("image", () -> FeatureImage.CODEC);
-        public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> ITEM =
-            FEATURE_TYPES.register("item", () -> FeatureItem.CODEC);
-        public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> ICON =
-            FEATURE_TYPES.register("icon", () -> FeatureIcon.CODEC);
-        public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> RECIPE =
-            FEATURE_TYPES.register("recipe", () -> FeatureRecipe.CODEC);
-        public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> BUTTON =
-            FEATURE_TYPES.register("button", () -> FeatureButton.CODEC);
-        public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> BOX =
-            FEATURE_TYPES.register("box", () -> FeatureBox.CODEC);
-        public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> LINE =
-            FEATURE_TYPES.register("line", () -> FeatureLine.CODEC);
-        public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> SHAPE =
-            FEATURE_TYPES.register("shape", () -> FeatureShape.CODEC);
-        public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> ENTITY =
-            FEATURE_TYPES.register("entity", () -> FeatureEntity.CODEC);
-        public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> JS =
-            FEATURE_TYPES.register("js", () -> FeatureJS.CODEC);
-        public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> FLUID =
-            FEATURE_TYPES.register("fluid", () -> FeatureFluid.CODEC);
-        public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> MODEL =
-            FEATURE_TYPES.register("model", () -> FeatureModel.CODEC);
-        public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> SOUND =
-            FEATURE_TYPES.register("sound", () -> FeatureSound.CODEC);
-        public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> PREVIEW_WINDOW =
-            FEATURE_TYPES.register("preview_window", () -> FeaturePreviewWindow.CODEC);
-    }
-
-    public static void register(IEventBus eventBus) {
-        Features.FEATURE_TYPES.register(eventBus);
-    }
+    // Feature codecs are handled via simple dispatch in Page.java - no registry needed
 }

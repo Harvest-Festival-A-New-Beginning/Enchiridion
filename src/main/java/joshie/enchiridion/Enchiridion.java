@@ -45,7 +45,7 @@ public class Enchiridion {
         // Register DeferredRegisters
         EGuis.MENUS.register(eventBus);
         EItemGroup.CREATIVE_MODE_TABS.register(eventBus);
-        EnchiridionRegistries.register(eventBus);
+        // Feature codecs use simple dispatch in Page.java - no registration needed
 
         eventBus.addListener(this::setupCommon);
         eventBus.addListener(this::setupClient);

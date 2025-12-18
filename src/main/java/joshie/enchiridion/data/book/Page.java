@@ -5,22 +5,45 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.api.book.IPage;
-import joshie.enchiridion.lib.EnchiridionRegistries;
+import joshie.enchiridion.gui.book.features.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.function.Function;
+import java.util.*;
 
 public class Page implements IPage {
-    // Polymorphic codec for features using the feature registry
-    // FeatureProvider implements IFeature, so we cast the codec
+    // Simple map-based codec dispatch for features - no custom registry needed
+    // This is similar to how Icon.CODEC works - just a static codec, not registered
+    private static final Map<String, Codec<? extends FeatureProvider>> FEATURE_CODECS = Map.ofEntries(
+        Map.entry("text", FeatureText.CODEC),
+        Map.entry("image", FeatureImage.CODEC),
+        Map.entry("item", FeatureItem.CODEC),
+        Map.entry("icon", FeatureIcon.CODEC),
+        Map.entry("recipe", FeatureRecipe.CODEC),
+        Map.entry("button", FeatureButton.CODEC),
+        Map.entry("box", FeatureBox.CODEC),
+        Map.entry("line", FeatureLine.CODEC),
+        Map.entry("shape", FeatureShape.CODEC),
+        Map.entry("entity", FeatureEntity.CODEC),
+        Map.entry("js", FeatureJS.CODEC),
+        Map.entry("fluid", FeatureFluid.CODEC),
+        Map.entry("model", FeatureModel.CODEC),
+        Map.entry("sound", FeatureSound.CODEC),
+        Map.entry("preview_window", FeaturePreviewWindow.CODEC)
+    );
+
+    // Reverse map for encoding (codec -> type name)
+    private static final Map<Codec<? extends IFeature>, String> CODEC_TO_TYPE = new HashMap<>();
+    static {
+        FEATURE_CODECS.forEach((type, codec) -> CODEC_TO_TYPE.put(codec, type));
+    }
+
+    // Polymorphic codec for features using simple dispatch
     // Package-private for use in Template
     @SuppressWarnings("unchecked")
-    static final Codec<FeatureProvider> FEATURE_CODEC = (Codec<FeatureProvider>) (Codec<?>)
-        EnchiridionRegistries.Features.FEATURE.byNameCodec()
-            .dispatchStable(IFeature::codec, Function.identity());
+    static final Codec<FeatureProvider> FEATURE_CODEC = Codec.STRING.dispatch(
+        "type",
+        feature -> CODEC_TO_TYPE.getOrDefault(feature.codec(), "text"),
+        type -> (Codec<FeatureProvider>) FEATURE_CODECS.getOrDefault(type, FeatureText.CODEC)
+    );
 
     public static final Codec<Page> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.INT.optionalFieldOf("page_number", 0).forGetter(p -> p.pageNumber),

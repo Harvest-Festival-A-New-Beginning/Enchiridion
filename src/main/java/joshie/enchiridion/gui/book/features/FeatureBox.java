@@ -2,7 +2,6 @@ package joshie.enchiridion.gui.book.features;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
@@ -76,7 +75,7 @@ public class FeatureBox extends joshie.enchiridion.data.book.FeatureProvider imp
 
     @Override
     protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        EnchiridionAPI.draw.drawRectangle(getLeft(), getTop(), getRight(), getBottom(), colorI);
+        guiGraphics.fill(getLeft(), getTop(), getRight(), getBottom(), colorI);
     }
 
     @Override

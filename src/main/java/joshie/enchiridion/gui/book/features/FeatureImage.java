@@ -2,7 +2,6 @@ package joshie.enchiridion.gui.book.features;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.api.book.IPage;
@@ -55,8 +54,12 @@ public class FeatureImage extends FeatureResource {
     }
 
     @Override
-    protected void drawResource(int xPos, int yPos, double width, double height) {
-        EnchiridionAPI.draw.drawImage(resource, getLeft(), getTop(), getRight(), getBottom());
+    protected void drawResource(net.minecraft.client.gui.GuiGraphics guiGraphics, int xPos, int yPos, double width, double height) {
+        if (resource != null) {
+            int w = getRight() - getLeft();
+            int h = getBottom() - getTop();
+            guiGraphics.blit(resource, getLeft(), getTop(), 0, 0, w, h, w, h);
+        }
     }
 
     @Override

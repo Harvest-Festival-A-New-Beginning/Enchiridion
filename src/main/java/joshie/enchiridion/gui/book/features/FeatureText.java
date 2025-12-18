@@ -2,15 +2,12 @@ package joshie.enchiridion.gui.book.features;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.api.book.IPage;
-import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.helpers.MCClientHelper;
 import joshie.enchiridion.util.ITextEditable;
 import joshie.enchiridion.util.TextEditor;
-import net.minecraft.client.gui.components.AbstractWidget;
 import org.apache.commons.compress.utils.IOUtils;
 
 import java.awt.*;
@@ -66,7 +63,16 @@ public class FeatureText extends FeatureProvider implements ITextEditable {
     @Override
     protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (text != null) {
-            EnchiridionAPI.draw.drawSplitScaledString(TextEditor.INSTANCE.getText(this), getLeft(), getTop(), wrap, 0x555555, size);
+            String displayText = TextEditor.INSTANCE.getText(this);
+            com.mojang.blaze3d.vertex.PoseStack poseStack = guiGraphics.pose();
+            poseStack.pushPose();
+            poseStack.scale(size, size, size);
+            net.minecraft.client.gui.Font font = net.minecraft.client.Minecraft.getInstance().font;
+            int x = (int)(getLeft() / size);
+            int y = (int)(getTop() / size);
+            // TODO: Handle text formatting codes (e.g., [b] for bold) - might need custom formatting parser
+            guiGraphics.drawWordWrap(font, net.minecraft.network.chat.Component.literal(displayText), x, y, wrap, 0x555555);
+            poseStack.popPose();
         }
     }
 

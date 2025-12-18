@@ -3,12 +3,10 @@ package joshie.enchiridion.gui.book.features;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IButtonAction;
 import joshie.enchiridion.api.book.IButtonActionProvider;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
 import joshie.enchiridion.gui.book.GuiSimpleEditorButton;
-import joshie.enchiridion.helpers.JSONHelper;
 import joshie.enchiridion.helpers.MCClientHelper;
 import joshie.enchiridion.util.ELocation;
 import net.minecraft.resources.ResourceLocation;
@@ -135,10 +133,25 @@ public class FeatureButton extends FeatureJump implements IButtonActionProvider 
         boolean isHovered = isOverFeature(mouseX, mouseY);
         ResourceLocation location = getResource(isHovered);
         if (location != null) {
-            EnchiridionAPI.draw.drawImage(location, getLeft(), getTop(), getRight(), getBottom());
+            // Draw button image
+            int w = getRight() - getLeft();
+            int h = getBottom() - getTop();
+            guiGraphics.blit(location, getLeft(), getTop(), 0, 0, w, h, w, h);
         }
 
-        EnchiridionAPI.draw.drawSplitScaledString(getText(isHovered), getLeft() + getTextOffsetX(isHovered), getTop() + getTextOffsetY(isHovered), 200, 0x555555, size);
+        // Draw button text with scaling
+        String text = getText(isHovered);
+        if (text != null && !text.isEmpty()) {
+            com.mojang.blaze3d.vertex.PoseStack poseStack = guiGraphics.pose();
+            poseStack.pushPose();
+            poseStack.scale(size, size, size);
+            net.minecraft.client.gui.Font font = net.minecraft.client.Minecraft.getInstance().font;
+            int x = (int)((getLeft() + getTextOffsetX(isHovered)) / size);
+            int y = (int)((getTop() + getTextOffsetY(isHovered)) / size);
+            // TODO: Handle text formatting codes (e.g., [b] for bold) - might need custom formatting parser
+            guiGraphics.drawWordWrap(font, net.minecraft.network.chat.Component.literal(text), x, y, 200, 0x555555);
+            poseStack.popPose();
+        }
     }
 
     @Override

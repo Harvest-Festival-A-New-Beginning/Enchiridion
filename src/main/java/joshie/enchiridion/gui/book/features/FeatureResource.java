@@ -3,7 +3,6 @@ package joshie.enchiridion.gui.book.features;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.Enchiridion;
-import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.FeatureProvider;
 import net.minecraft.client.Minecraft;
@@ -59,12 +58,19 @@ public class FeatureResource extends joshie.enchiridion.data.book.FeatureProvide
     @Override
     protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (resource != null) {
-            drawResource(getLeft(), getTop(), getWidth(), getHeight());
+            drawResource(guiGraphics, getLeft(), getTop(), getWidth(), getHeight());
         } else if (!attempted) attempted = loadResource();
     }
 
-    protected void drawResource(int xPos, int yPos, double width, double height) {
-        EnchiridionAPI.draw.drawResource(resource, xPos, yPos, img_width, img_height, (float) width / 250F, (float) height / 250F);
+    protected void drawResource(net.minecraft.client.gui.GuiGraphics guiGraphics, int xPos, int yPos, double width, double height) {
+        // Use GuiGraphics with scaling via PoseStack
+        com.mojang.blaze3d.vertex.PoseStack poseStack = guiGraphics.pose();
+        poseStack.pushPose();
+        float scaleX = (float) width / 250F;
+        float scaleY = (float) height / 250F;
+        poseStack.scale(scaleX, scaleY, 1.0F);
+        guiGraphics.blit(resource, (int) (xPos / scaleX), (int) (yPos / scaleY), 0, 0, img_width, img_height, img_width, img_height);
+        poseStack.popPose();
     }
 
     protected String getResourcePath() {

@@ -2,18 +2,13 @@ package joshie.enchiridion.gui.book.features;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
 import joshie.enchiridion.gui.book.GuiSimpleEditorItem;
-import joshie.enchiridion.helpers.MCClientHelper;
 import joshie.enchiridion.helpers.StackHelper;
 import joshie.enchiridion.util.IItemSelectable;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Item;
-import net.minecraft.network.chat.Component;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -68,7 +63,16 @@ public class FeatureItem extends joshie.enchiridion.data.book.FeatureProvider im
     protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (stack.isEmpty() && itemString != null) {
             stack = StackHelper.getStackFromString(itemString);
-        } else EnchiridionAPI.draw.drawStack(stack, getLeft(), getTop(), size);
+        }
+
+        if (!stack.isEmpty()) {
+            // Use GuiGraphics with scaling via PoseStack
+            com.mojang.blaze3d.vertex.PoseStack poseStack = guiGraphics.pose();
+            poseStack.pushPose();
+            poseStack.scale(size, size, size);
+            guiGraphics.renderItem(stack, (int)(getLeft() / size), (int)(getTop() / size));
+            poseStack.popPose();
+        }
     }
 
     @Override

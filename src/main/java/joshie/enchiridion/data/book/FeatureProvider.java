@@ -96,12 +96,13 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (EventHelper.isFeatureVisible(getPage(), isVisible(), layerIndex)) {
             drawFeature(guiGraphics, mouseX, mouseY, partialTicks);
-            if (isSelected) {
+            if (isSelected && guiGraphics != null) {
                 int color = isEditing ? 0xCCFFFF00 : 0xCC007FFF;
-                EnchiridionAPI.draw.drawRectangle(getRight() - 2, getY(), getRight(), getY() + 2, color);
-                EnchiridionAPI.draw.drawRectangle(getX(), getY(), getX() + 2, getY() + 2, color);
-                EnchiridionAPI.draw.drawRectangle(getRight() - 2, getBottom() - 2, getRight(), getBottom(), color);
-                EnchiridionAPI.draw.drawRectangle(getX(), getBottom() - 2, getX() + 2, getBottom(), color);
+                // Draw selection corners using GuiGraphics
+                guiGraphics.fill(getRight() - 2, getY(), getRight(), getY() + 2, color);
+                guiGraphics.fill(getX(), getY(), getX() + 2, getY() + 2, color);
+                guiGraphics.fill(getRight() - 2, getBottom() - 2, getRight(), getBottom(), color);
+                guiGraphics.fill(getX(), getBottom() - 2, getX() + 2, getBottom(), color);
             }
         }
     }

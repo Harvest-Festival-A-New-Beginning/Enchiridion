@@ -6,7 +6,6 @@ import com.mojang.blaze3d.platform.GlConst;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.FeatureProvider;
@@ -111,7 +110,18 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
     @Override
     protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int xMouse, int yMouse, float partialTicks) {
         if (GuiBook.INSTANCE.isEditMode()) {
-            EnchiridionAPI.draw.drawBorderedRectangle(getLeft(), getTop(), getRight(), getBottom(), 0x00000000, 0xFF48453C);
+            // Draw bordered rectangle for edit mode
+            int left = getLeft();
+            int top = getTop();
+            int right = getRight();
+            int bottom = getBottom();
+            int colorI = 0x00000000;
+            int colorB = 0xFF48453C;
+            guiGraphics.fill(left, top, right, bottom, colorI);
+            guiGraphics.fill(left, top, right, top + 1, colorB);
+            guiGraphics.fill(left, bottom - 1, right, bottom, colorB);
+            guiGraphics.fill(left, top, left + 1, bottom, colorB);
+            guiGraphics.fill(right - 1, top, right, bottom, colorB);
         }
 
         if (page != null && page != thisPage) {
@@ -172,9 +182,32 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
             }
 
             if (getHeight() < (scrollMax + getBottom() - 5 - minY)) {
-                EnchiridionAPI.draw.drawBorderedRectangle(getRight() - 10, getTop(), getRight(), getBottom(), 0xFFB0A483, 0xFF362C24);
+                // Draw scrollbar background
+                int left = getRight() - 10;
+                int top = getTop();
+                int right = getRight();
+                int bottom = getBottom();
+                int colorI = 0xFFB0A483;
+                int colorB = 0xFF362C24;
+                guiGraphics.fill(left, top, right, bottom, colorI);
+                guiGraphics.fill(left, top, right, top + 1, colorB);
+                guiGraphics.fill(left, bottom - 1, right, bottom, colorB);
+                guiGraphics.fill(left, top, left + 1, bottom, colorB);
+                guiGraphics.fill(right - 1, top, right, bottom, colorB);
+
+                // Draw scrollbar thumb
                 int pos = (int) ((page.getScroll() * (getHeight() - 10)) / scrollMax);
-                EnchiridionAPI.draw.drawBorderedRectangle(getRight() - 10, getTop() + pos, getRight(), getTop() + pos + 10, 0xFF2F271F, 0xFF191511);
+                int thumbLeft = getRight() - 10;
+                int thumbTop = getTop() + pos;
+                int thumbRight = getRight();
+                int thumbBottom = getTop() + pos + 10;
+                int thumbColorI = 0xFF2F271F;
+                int thumbColorB = 0xFF191511;
+                guiGraphics.fill(thumbLeft, thumbTop, thumbRight, thumbBottom, thumbColorI);
+                guiGraphics.fill(thumbLeft, thumbTop, thumbRight, thumbTop + 1, thumbColorB);
+                guiGraphics.fill(thumbLeft, thumbBottom - 1, thumbRight, thumbBottom, thumbColorB);
+                guiGraphics.fill(thumbLeft, thumbTop, thumbLeft + 1, thumbBottom, thumbColorB);
+                guiGraphics.fill(thumbRight - 1, thumbTop, thumbRight, thumbBottom, thumbColorB);
             }
         }
     }

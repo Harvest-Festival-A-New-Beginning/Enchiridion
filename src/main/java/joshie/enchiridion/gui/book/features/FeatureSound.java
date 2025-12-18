@@ -2,7 +2,6 @@ package joshie.enchiridion.gui.book.features;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.FeatureProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -188,7 +187,7 @@ public class FeatureSound extends FeatureProvider {
     }
 
     @Override
-    public Codec<? extends IFeature> codec() {
+    public Codec<? extends FeatureProvider> codec() {
         return CODEC;
     }
 }

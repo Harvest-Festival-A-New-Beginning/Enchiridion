@@ -23,6 +23,7 @@ public class GuiBookCreate extends GuiBase {
     private String text;
 
     private GuiBookCreate() {
+        super(EInfo.MODID, null, null, Component.translatable("enchiridion.bookCreate.title"));
     }
 
     public GuiBookCreate setStack(@Nonnull ItemStack stack) {
@@ -31,7 +32,7 @@ public class GuiBookCreate extends GuiBase {
     }
 
     @Override
-    public void tick() {
+    public void containerTick() {
         // textField.tick() was removed in 1.20.4
     }
 

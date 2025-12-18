@@ -3,7 +3,6 @@ package joshie.enchiridion.gui.book.features;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.gui.book.features.script.FeatureJSWrapper;
 import joshie.enchiridion.gui.book.features.script.GraphicsJS;
@@ -326,7 +325,7 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
     }
 
     @Override
-    public Codec<? extends IFeature> codec() {
+    public Codec<? extends FeatureProvider> codec() {
         return CODEC;
     }
 

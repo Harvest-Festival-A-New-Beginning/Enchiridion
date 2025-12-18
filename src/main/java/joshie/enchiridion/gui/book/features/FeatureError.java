@@ -1,7 +1,6 @@
 package joshie.enchiridion.gui.book.features;
 
 import com.mojang.serialization.Codec;
-import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.FeatureProvider;
 
 public class FeatureError extends joshie.enchiridion.data.book.FeatureProvider {
@@ -22,7 +21,7 @@ public class FeatureError extends joshie.enchiridion.data.book.FeatureProvider {
     }
 
     @Override
-    public Codec<? extends IFeature> codec() {
+    public Codec<? extends FeatureProvider> codec() {
         return CODEC;
     }
 }

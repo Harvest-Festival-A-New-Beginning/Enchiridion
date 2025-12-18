@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.book.IButtonAction;
 import joshie.enchiridion.api.book.IButtonActionProvider;
+import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
 import joshie.enchiridion.gui.book.GuiSimpleEditorButton;
 import joshie.enchiridion.helpers.MCClientHelper;
@@ -320,7 +321,7 @@ public class FeatureButton extends FeatureJump implements IButtonActionProvider 
     }
 
     @Override
-    public Codec<? extends joshie.enchiridion.api.book.IFeature> codec() {
+    public Codec<? extends FeatureProvider> codec() {
         return CODEC;
     }
 }

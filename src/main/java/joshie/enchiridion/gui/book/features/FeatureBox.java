@@ -2,7 +2,6 @@ package joshie.enchiridion.gui.book.features;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
 import joshie.enchiridion.gui.book.GuiSimpleEditorColor;
@@ -94,7 +93,7 @@ public class FeatureBox extends joshie.enchiridion.data.book.FeatureProvider imp
     }
 
     @Override
-    public Codec<? extends joshie.enchiridion.api.book.IFeature> codec() {
+    public Codec<? extends FeatureProvider> codec() {
         return CODEC;
     }
 }

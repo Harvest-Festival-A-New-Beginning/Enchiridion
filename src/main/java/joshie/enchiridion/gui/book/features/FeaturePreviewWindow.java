@@ -7,7 +7,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.book.IBook;
-import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.api.gui.ISimpleEditorFieldProvider;
@@ -222,7 +221,7 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
     }
 
     @Override
-    public Codec<? extends joshie.enchiridion.api.book.IFeature> codec() {
+    public Codec<? extends FeatureProvider> codec() {
         return CODEC;
     }
 }

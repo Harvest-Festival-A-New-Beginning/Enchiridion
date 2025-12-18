@@ -2,9 +2,7 @@ package joshie.enchiridion.gui.book.features;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.FeatureProvider;
-import joshie.enchiridion.gui.book.GuiSimpleEditor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import uk.joshiejack.penguinlib.util.icon.Icon;
@@ -113,7 +111,7 @@ public class FeatureIcon extends FeatureProvider {
     }
 
     @Override
-    public Codec<? extends IFeature> codec() {
+    public Codec<? extends FeatureProvider> codec() {
         return CODEC;
     }
 }

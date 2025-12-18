@@ -3,7 +3,6 @@ package joshie.enchiridion.gui.book.features;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
-import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.api.recipe.IRecipeHandler;
@@ -151,7 +150,7 @@ public class FeatureRecipe extends FeatureItem {
     }
 
     @Override
-    public Codec<? extends joshie.enchiridion.api.book.IFeature> codec() {
+    public Codec<? extends FeatureProvider> codec() {
         return CODEC;
     }
 }

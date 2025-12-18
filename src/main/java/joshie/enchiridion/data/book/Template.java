@@ -18,7 +18,7 @@ public class Template implements ReloadableRegistry.PenguinRegistry<Template>, I
         ResourceLocation.CODEC.fieldOf("id").forGetter(Template::id),
         Codec.STRING.fieldOf("template_name").forGetter(t -> t.templatename),
         ResourceLocation.CODEC.optionalFieldOf("icon", new ResourceLocation(EInfo.MODID, "templates/default.png")).forGetter(Template::getIcon),
-        Page.FEATURE_CODEC.listOf().fieldOf("features").forGetter(t -> t.features)
+            FeatureProvider.FEATURE.listOf().fieldOf("features").forGetter(t -> t.features)
     ).apply(instance, (id, templatename, icon, features) -> {
         Template template = new Template();
         template.templateId = id;

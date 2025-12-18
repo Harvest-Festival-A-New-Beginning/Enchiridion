@@ -17,10 +17,37 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
+import uk.joshiejack.penguinlib.data.PenguinRegistries;
+import uk.joshiejack.penguinlib.util.icon.Icon;
 
 import java.util.List;
+import java.util.function.Function;
 
 public abstract class FeatureProvider extends AbstractWidget implements IFeature {
+    public static final Codec<FeatureProvider> CODEC = EnchiridionRegistries.Features.FEATURES.byNameCodec().dispatchStable(FeatureProvider::codec, Function.identity());
+    public static final Codec<FeatureProvider> FEATURE = RecordCodecBuilder.create(instance -> instance.group(
+            FeatureProvider.CODEC.fieldOf("feature").forGetter(f -> f),
+            Codec.BOOL.optionalFieldOf("is_locked", true).forGetter(f -> f.isLocked),
+            Codec.BOOL.optionalFieldOf("is_hidden", false).forGetter(f -> f.isHidden),
+            Codec.BOOL.optionalFieldOf("is_from_template", false).forGetter(f -> f.isFromTemplate),
+            Codec.INT.optionalFieldOf("layer_index", 0).forGetter(f -> f.layerIndex),
+            Codec.INT.optionalFieldOf("relative_x", 0).forGetter(f -> f.relativeX),
+            Codec.INT.optionalFieldOf("relative_y", 0).forGetter(f -> f.relativeY),
+            Codec.INT.fieldOf("width").forGetter(FeatureProvider::getWidth),
+            Codec.INT.fieldOf("height").forGetter(FeatureProvider::getHeight)
+    ).apply(instance, (feature, isLocked, isHidden, isFromTemplate, layerIndex,
+                       relativeX, relativeY, width, height) -> {
+        feature.isLocked = isLocked;
+        feature.isHidden = isHidden;
+        feature.isFromTemplate = isFromTemplate;
+        feature.layerIndex = layerIndex;
+        feature.relativeX = relativeX;
+        feature.relativeY = relativeY;
+        feature.setWidth(width);
+        feature.setHeight(height);
+        return feature;
+    }));
+
     // Base codec fields - subclasses should extend this
     // Note: This codec is not directly used since FeatureProvider is abstract
     // Each concrete feature class creates its own codec that includes these fields
@@ -28,6 +55,8 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     public boolean isHidden;
     public boolean isFromTemplate;
     public int layerIndex;
+    public int relativeX;
+    public int relativeY;
 
     private transient boolean isSelected;
     private transient boolean isEditing;
@@ -44,11 +73,19 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     private transient int left;
     private transient int top;
 
-    public FeatureProvider(int x, int y, double width, double height) {
-        super(x, y, (int) width, (int) height, Component.empty());
+    public FeatureProvider(int x, int y, int width, int height) {
+        super(x, y, width, height, Component.empty());
         this.isLocked = true;
         this.isHidden = false;
         this.isFromTemplate = false;
+    }
+
+    public FeatureProvider init(int left, int top) {
+        setX(left + relativeX); //Sets the actual x and y based on the width and height
+        setY(top + relativeY);
+        this.left = left;
+        this.top = top;
+        return this;
     }
 
     public IPage getPage() {
@@ -60,7 +97,6 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
         this.pageContainer = page;
         this.pageContainer.sort();
         // Subclasses can override if they need custom update logic
-
     }
 
     // Abstract method - each feature type must implement its own copy logic
@@ -426,5 +462,5 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     }
 
     @Override
-    public abstract Codec<? extends IFeature> codec();
+    public abstract Codec<? extends FeatureProvider> codec();
 }

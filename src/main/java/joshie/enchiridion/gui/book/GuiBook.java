@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.platform.GlConst;
 import joshie.enchiridion.EConfig;
+import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IBookHelper;
@@ -14,14 +15,18 @@ import joshie.enchiridion.api.gui.IBookEditorOverlay;
 import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.gui.book.features.FeaturePreviewWindow;
 import joshie.enchiridion.helpers.*;
+import joshie.enchiridion.lib.EInfo;
 import joshie.enchiridion.util.ELocation;
 import joshie.enchiridion.util.TextEditor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 import org.lwjgl.glfw.GLFW;
+import uk.joshiejack.penguinlib.world.inventory.AbstractBookMenu;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -55,6 +60,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
     private boolean isGroupMoveMode = false;
 
     protected GuiBook() {
+        super(EInfo.MODID, null, null, Component.translatable("enchiridion.guiBook.title"));
     }
 
     public void registerOverlay(IBookEditorOverlay overlay) {
@@ -99,7 +105,6 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
         // Draw all the features, In reverse
         for (FeatureProvider feature : Lists.reverse(page.getFeatures())) {
-            feature.setRenderOffset(x, y);
             int y = this.y;
             if (page.getScroll() > 0) {
                 this.y -= page.getScroll();
@@ -138,8 +143,8 @@ public class GuiBook extends GuiBase implements IBookHelper {
     }
 
     @Override
-    public void tick() {
-        super.tick();
+    public void containerTick() {
+        super.containerTick();
         if (isEditMode) {
             for (IBookEditorOverlay overlay : overlays) {
                 overlay.tick();
@@ -207,7 +212,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
             } else if (MCClientHelper.isCtrlPressed() && InputConstants.isKeyDown(handle, GLFW.GLFW_KEY_V)) { //Paste features
                 for (FeatureProvider provider : clipboard) {
                     // copy() returns FeatureProvider which is also an IFeature (FeatureProvider implements both)
-                    page.addFeature((IFeature) provider.copy(), provider.getLeft(), provider.getTop(), provider.getWidth(), provider.getHeight(), provider.isLocked(), !provider.isVisible(), provider.isFromTemplate());
+                    page.addFeature(provider.copy(), provider.getLeft(), provider.getTop(), provider.getWidth(), provider.getHeight(), provider.isLocked(), !provider.isVisible(), provider.isFromTemplate());
                 }
             }
 

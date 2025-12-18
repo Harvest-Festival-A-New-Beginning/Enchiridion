@@ -133,19 +133,13 @@ public class FeatureFluid extends FeatureProvider {
                 int drawWidth = Math.min(texWidth, width - x);
                 int drawHeight = Math.min(texHeight, height - y);
 
-                float u0 = sprite.getU0();
-                float u1 = sprite.getU((float) drawWidth / texWidth * 16.0F);
-                float v0 = sprite.getV0();
-                float v1 = sprite.getV((float) drawHeight / texHeight * 16.0F);
-
-                guiGraphics.blit(
-                    InventoryMenu.BLOCK_ATLAS,
+                // Use blitSprite to render the texture atlas sprite
+                guiGraphics.blitSprite(
+                    stillTexture,
                     left + x,
                     top + y,
-                    0,
                     drawWidth,
-                    drawHeight,
-                    sprite
+                    drawHeight
                 );
             }
         }

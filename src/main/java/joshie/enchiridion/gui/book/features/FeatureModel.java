@@ -153,7 +153,7 @@ public class FeatureModel extends FeatureProvider {
                 model,
                 1.0F, 1.0F, 1.0F,
                 15728880, // Full brightness
-                net.minecraft.client.renderer.LevelRenderer.DIRECTIONS_IN_RENDER_ORDER
+                net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY
             );
         } catch (Exception e) {
             // Fallback - try rendering as item

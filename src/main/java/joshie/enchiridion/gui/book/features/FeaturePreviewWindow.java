@@ -21,7 +21,7 @@ import org.lwjgl.opengl.GL11;
 
 public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeatureProvider implements ISimpleEditorFieldProvider {
     public static final Codec<FeaturePreviewWindow> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-        Codec.INT.optionalFieldOf("pageNumber", 0).forGetter(f -> f.pageNumber)
+        Codec.INT.optionalFieldOf("page_number", 0).forGetter(f -> f.pageNumber)
     ).apply(instance, (pageNumber) -> {
         FeaturePreviewWindow feature = new FeaturePreviewWindow();
         feature.pageNumber = pageNumber;

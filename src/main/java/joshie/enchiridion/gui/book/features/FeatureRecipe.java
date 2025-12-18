@@ -18,10 +18,10 @@ import java.util.List;
 
 public class FeatureRecipe extends FeatureItem {
     public static final Codec<FeatureRecipe> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-        Codec.STRING.optionalFieldOf("itemString", "").forGetter(f -> f.itemString),
-        Codec.BOOL.optionalFieldOf("hideTooltip", false).forGetter(f -> f.hideTooltip),
+        Codec.STRING.optionalFieldOf("item_string", "").forGetter(f -> f.itemString),
+        Codec.BOOL.optionalFieldOf("hide_tooltip", false).forGetter(f -> f.hideTooltip),
         Codec.STRING.optionalFieldOf("ingredients", "plankWood:plankWood:plankWood:cobblestone:ingotAluminum:cobblestone:cobblestone:dustRedstone:cobblestone").forGetter(f -> f.ingredients),
-        Codec.STRING.optionalFieldOf("recipeType", "ShapedOreRecipe").forGetter(f -> f.recipeType)
+        Codec.STRING.optionalFieldOf("recipe_type", "ShapedOreRecipe").forGetter(f -> f.recipeType)
     ).apply(instance, (itemString, hideTooltip, ingredients, recipeType) -> {
         FeatureRecipe feature = new FeatureRecipe();
         feature.itemString = itemString;

@@ -19,16 +19,16 @@ public class FeatureButton extends FeatureJump implements IButtonActionProvider 
     // TODO: Complete codec implementation with IButtonAction support
     public static final Codec<FeatureButton> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.FLOAT.optionalFieldOf("size", 1F).forGetter(f -> f.size),
-        Codec.BOOL.optionalFieldOf("leftClick", true).forGetter(f -> f.leftClick),
-        Codec.BOOL.optionalFieldOf("rightClick", true).forGetter(f -> f.rightClick),
-        Codec.BOOL.optionalFieldOf("otherClick", false).forGetter(f -> f.otherClick),
+        Codec.BOOL.optionalFieldOf("left_click", true).forGetter(f -> f.leftClick),
+        Codec.BOOL.optionalFieldOf("right_click", true).forGetter(f -> f.rightClick),
+        Codec.BOOL.optionalFieldOf("other_click", false).forGetter(f -> f.otherClick),
         Codec.STRING.optionalFieldOf("tooltip", "").forGetter(f -> f.tooltip),
-        Codec.STRING.optionalFieldOf("hoverText", "").forGetter(f -> f.hoverText),
-        Codec.INT.optionalFieldOf("hoverXOffset", 0).forGetter(f -> f.hoverXOffset),
-        Codec.INT.optionalFieldOf("hoverYOffset", 0).forGetter(f -> f.hoverYOffset),
-        Codec.STRING.optionalFieldOf("unhoveredText", "").forGetter(f -> f.unhoveredText),
-        Codec.INT.optionalFieldOf("unhoveredXOffset", 0).forGetter(f -> f.unhoveredXOffset),
-        Codec.INT.optionalFieldOf("unhoveredYOffset", 0).forGetter(f -> f.unhoveredYOffset)
+        Codec.STRING.optionalFieldOf("hover_text", "").forGetter(f -> f.hoverText),
+        Codec.INT.optionalFieldOf("hover_x_offset", 0).forGetter(f -> f.hoverXOffset),
+        Codec.INT.optionalFieldOf("hover_y_offset", 0).forGetter(f -> f.hoverYOffset),
+        Codec.STRING.optionalFieldOf("unhovered_text", "").forGetter(f -> f.unhoveredText),
+        Codec.INT.optionalFieldOf("unhovered_x_offset", 0).forGetter(f -> f.unhoveredXOffset),
+        Codec.INT.optionalFieldOf("unhovered_y_offset", 0).forGetter(f -> f.unhoveredYOffset)
         // action field will be added when IButtonAction codec system is complete
     ).apply(instance, (size, leftClick, rightClick, otherClick, tooltip, hoverText, hoverXOffset, hoverYOffset, unhoveredText, unhoveredXOffset, unhoveredYOffset) -> {
         FeatureButton feature = new FeatureButton();

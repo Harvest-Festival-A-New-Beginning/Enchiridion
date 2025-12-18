@@ -23,8 +23,8 @@ public class Page implements IPage {
             .dispatchStable(IFeature::codec, Function.identity());
 
     public static final Codec<Page> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-        Codec.INT.optionalFieldOf("pageNumber", 0).forGetter(p -> p.pageNumber),
-        Codec.BOOL.optionalFieldOf("isScrollable", false).forGetter(p -> p.isScrollable),
+        Codec.INT.optionalFieldOf("page_number", 0).forGetter(p -> p.pageNumber),
+        Codec.BOOL.optionalFieldOf("is_scrollable", false).forGetter(p -> p.isScrollable),
         FEATURE_CODEC.listOf().optionalFieldOf("features", new ArrayList<>()).forGetter(p ->
             new ArrayList<>(p.features))
     ).apply(instance, (pageNumber, isScrollable, features) -> {

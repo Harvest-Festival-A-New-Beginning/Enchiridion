@@ -14,7 +14,7 @@ import joshie.enchiridion.helpers.JumpHelper;
 public class FeatureJump extends joshie.enchiridion.data.book.FeatureProvider {
     public static final Codec<FeatureJump> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.INT.optionalFieldOf("number", 0).forGetter(f -> f.number),
-        Codec.STRING.optionalFieldOf("jumpTo", "#LEGACY#").forGetter(f -> f.jumpTo)
+        Codec.STRING.optionalFieldOf("jump_to", "#LEGACY#").forGetter(f -> f.jumpTo)
     ).apply(instance, (number, jumpTo) -> {
         FeatureJump feature = new FeatureJump();
         feature.number = number;

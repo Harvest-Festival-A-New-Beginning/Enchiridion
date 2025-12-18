@@ -20,8 +20,8 @@ import java.util.List;
 
 public class FeatureItem extends joshie.enchiridion.data.book.FeatureProvider implements IItemSelectable {
     public static final Codec<FeatureItem> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-        Codec.STRING.optionalFieldOf("itemString", "").forGetter(f -> f.itemString),
-        Codec.BOOL.optionalFieldOf("hideTooltip", false).forGetter(f -> f.hideTooltip)
+        Codec.STRING.optionalFieldOf("item_string", "").forGetter(f -> f.itemString),
+        Codec.BOOL.optionalFieldOf("hide_tooltip", false).forGetter(f -> f.hideTooltip)
     ).apply(instance, (itemString, hideTooltip) -> {
         FeatureItem feature = new FeatureItem();
         feature.itemString = itemString;

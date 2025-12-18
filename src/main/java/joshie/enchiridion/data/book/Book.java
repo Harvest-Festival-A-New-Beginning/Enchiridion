@@ -18,19 +18,19 @@ import java.util.List;
 public class Book implements ReloadableRegistry.PenguinRegistry<Book>, IBook {
     public static final Codec<Book> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         ResourceLocation.CODEC.fieldOf("id").forGetter(Book::id),
-        Codec.STRING.optionalFieldOf("displayName", "").forGetter(book -> book.displayName),
-        Codec.STRING.optionalFieldOf("displayInfo", "").forGetter(book -> book.displayInfo),
-        Codec.STRING.optionalFieldOf("colorHex", "FFFFFFFF").forGetter(book -> book.colorHex),
+        Codec.STRING.optionalFieldOf("display_name", "").forGetter(book -> book.displayName),
+        Codec.STRING.optionalFieldOf("display_info", "").forGetter(book -> book.displayInfo),
+        Codec.STRING.optionalFieldOf("color_hex", "FFFFFFFF").forGetter(book -> book.colorHex),
         Codec.STRING.optionalFieldOf("language", "en_us").forGetter(book -> book.language),
-        Codec.BOOL.optionalFieldOf("hasCustomIcon", true).forGetter(book -> book.hasCustomIcon),
-        Codec.BOOL.optionalFieldOf("showBackground", true).forGetter(book -> book.showBackground),
-        Codec.BOOL.optionalFieldOf("legacyTexture", false).forGetter(book -> book.legacyTexture),
-        Codec.STRING.optionalFieldOf("backgroundResource", "enchiridion:textures/books/rustic2.png").forGetter(book -> book.backgroundResource),
-        Codec.INT.optionalFieldOf("defaultPage", 0).forGetter(book -> book.defaultPage),
-        Codec.BOOL.optionalFieldOf("isLocked", false).forGetter(book -> book.isLocked),
-        Codec.BOOL.optionalFieldOf("forgetPageOnClose", false).forGetter(book -> book.forgetPageOnClose),
+        Codec.BOOL.optionalFieldOf("has_custom_icon", true).forGetter(book -> book.hasCustomIcon),
+        Codec.BOOL.optionalFieldOf("show_background", true).forGetter(book -> book.showBackground),
+        Codec.BOOL.optionalFieldOf("legacy_texture", false).forGetter(book -> book.legacyTexture),
+        Codec.STRING.optionalFieldOf("background_resource", "enchiridion:textures/books/rustic2.png").forGetter(book -> book.backgroundResource),
+        Codec.INT.optionalFieldOf("default_page", 0).forGetter(book -> book.defaultPage),
+        Codec.BOOL.optionalFieldOf("is_locked", false).forGetter(book -> book.isLocked),
+        Codec.BOOL.optionalFieldOf("forget_page_on_close", false).forGetter(book -> book.forgetPageOnClose),
         Page.CODEC.listOf().optionalFieldOf("pages", new ArrayList<>()).forGetter(book -> book.book != null ? (List<Page>) (List<?>) book.book : new ArrayList<>()),
-        Codec.STRING.listOf().optionalFieldOf("defaultIDs", new ArrayList<>()).forGetter(book -> book.defaultIDs != null ? book.defaultIDs : new ArrayList<>())
+        Codec.STRING.listOf().optionalFieldOf("default_ids", new ArrayList<>()).forGetter(book -> book.defaultIDs != null ? book.defaultIDs : new ArrayList<>())
     ).apply(instance, (bookId, displayName, displayInfo, colorHex, language, hasCustomIcon,
                        showBackground, legacyTexture, backgroundResource, defaultPage, isLocked, forgetPageOnClose, pages, defaultIDs) -> {
         Book book = new Book();

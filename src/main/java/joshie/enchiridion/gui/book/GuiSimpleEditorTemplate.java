@@ -2,7 +2,7 @@ package joshie.enchiridion.gui.book;
 
 import joshie.enchiridion.EConfig;
 import joshie.enchiridion.Enchiridion;
-import joshie.enchiridion.api.book.IFeatureProvider;
+import joshie.enchiridion.api.book.FeatureProvider;
 import joshie.enchiridion.api.book.ITemplate;
 import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.helpers.MCClientHelper;
@@ -27,12 +27,12 @@ public class GuiSimpleEditorTemplate extends GuiSimpleEditorAbstract {
     public void registerTemplate(ITemplate template) {
         templates.put(template.getUniqueName(), template);
 
-        for (IFeatureProvider provider : template.getFeatures()) {
+        for (FeatureProvider provider : template.getFeatures()) {
             provider.update(new Page(0));
         }
     }
 
-    public List<IFeatureProvider> getFeaturesFromString(String unique) {
+    public List<FeatureProvider> getFeaturesFromString(String unique) {
         return templates.get(unique).getFeatures();
     }
 
@@ -64,7 +64,7 @@ public class GuiSimpleEditorTemplate extends GuiSimpleEditorAbstract {
             }
 
             if (isOverPosition(2 + xPlus, 11 + yPlus, 42 + xPlus, 34 + yPlus, mouseX, mouseY)) {
-                for (IFeatureProvider provider : template.getFeatures()) {
+                for (FeatureProvider provider : template.getFeatures()) {
                     provider.draw(mouseX, mouseY);
                 }
             }
@@ -142,7 +142,7 @@ public class GuiSimpleEditorTemplate extends GuiSimpleEditorAbstract {
         int yPlus = 0;
         int xPlus = 0;
         for (ITemplate template : sorted) {
-            for (IFeatureProvider provider : template.getFeatures()) {
+            for (FeatureProvider provider : template.getFeatures()) {
                 provider.setFromTemplate(true);
             }
             if (count < position || count > position + 17) {
@@ -154,7 +154,7 @@ public class GuiSimpleEditorTemplate extends GuiSimpleEditorAbstract {
                 if (MCClientHelper.isShiftPressed()) {
                     switchDefaulthood(template);
                 } else {
-                    for (IFeatureProvider provider : template.getFeatures()) {
+                    for (FeatureProvider provider : template.getFeatures()) {
                         GuiBook.INSTANCE.getPage().addFeature(provider.getFeature(), provider.getLeft(), provider.getTop(), provider.getWidth(), provider.getHeight(), provider.isLocked(), !provider.isVisible(), provider.isFromTemplate());
                     }
                 }

@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import joshie.enchiridion.api.book.IButtonAction;
 import joshie.enchiridion.api.book.IFeature;
-import joshie.enchiridion.api.book.IFeatureProvider;
+import joshie.enchiridion.api.book.FeatureProvider;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.data.book.Book;
 import joshie.enchiridion.data.book.FeatureProvider;
@@ -18,7 +18,7 @@ public class GsonHelper {
             // TODO: FeatureProvider is now abstract - legacy adapter removed, use Codec-based serialization
             // builder.registerTypeAdapter(FeatureProvider.class, new FeatureAbstractAdapter());
             builder.registerTypeAdapter(IButtonAction.class, new IButtonActionAbstractAdapter());
-            builder.registerTypeAdapter(IFeatureProvider.class, new IFeatureProviderAbstractAdapter());
+            builder.registerTypeAdapter(FeatureProvider.class, new FeatureProviderAbstractAdapter());
             builder.registerTypeAdapter(IPage.class, new IPageAbstractAdapter());
             builder.registerTypeAdapter(Book.class, new BookAbstractAdapter());
             GsonHelper.gson = builder.create();

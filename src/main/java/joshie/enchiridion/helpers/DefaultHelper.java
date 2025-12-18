@@ -1,7 +1,7 @@
 package joshie.enchiridion.helpers;
 
 import joshie.enchiridion.api.book.IBook;
-import joshie.enchiridion.api.book.IFeatureProvider;
+import joshie.enchiridion.api.book.FeatureProvider;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.gui.book.GuiSimpleEditorTemplate;
 import joshie.enchiridion.gui.book.buttons.actions.ActionNextPage;
@@ -25,15 +25,15 @@ public class DefaultHelper {
     public static IPage addDefaults(IBook book, IPage page) {
         if (book.getDefaultFeatures() != null) {
             for (String unique : book.getDefaultFeatures()) {
-                List<IFeatureProvider> providers = GuiSimpleEditorTemplate.INSTANCE.getFeaturesFromString(unique);
-                for (IFeatureProvider provider : providers) {
+                List<FeatureProvider> providers = GuiSimpleEditorTemplate.INSTANCE.getFeaturesFromString(unique);
+                for (FeatureProvider provider : providers) {
                     page.addFeature(provider.getFeature(), provider.getLeft(), provider.getTop(), provider.getWidth(), provider.getHeight(), provider.isLocked(), !provider.isVisible(), provider.isFromTemplate());
                 }
             }
         } else addArrows(page);
 
         //Initialise everything
-        for (IFeatureProvider feature : page.getFeatures()) {
+        for (FeatureProvider feature : page.getFeatures()) {
             feature.update(page);
         }
 

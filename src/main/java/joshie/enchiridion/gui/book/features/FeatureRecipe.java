@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IFeature;
-import joshie.enchiridion.api.book.IFeatureProvider;
+import joshie.enchiridion.api.book.FeatureProvider;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.api.recipe.IRecipeHandler;
 import joshie.enchiridion.helpers.StackHelper;
@@ -46,7 +46,7 @@ public class FeatureRecipe extends FeatureItem {
     }
 
     @Override
-    public IFeatureProvider copy() {
+    public FeatureProvider copy() {
         FeatureRecipe recipe = new FeatureRecipe();
         recipe.ingredients = ingredients;
         recipe.recipeType = recipeType;

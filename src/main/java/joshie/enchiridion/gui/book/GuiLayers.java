@@ -3,7 +3,7 @@ package joshie.enchiridion.gui.book;
 import joshie.enchiridion.EConfig;
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.EnchiridionAPI;
-import joshie.enchiridion.api.book.IFeatureProvider;
+import joshie.enchiridion.api.book.FeatureProvider;
 import joshie.enchiridion.lib.EInfo;
 import net.minecraft.resources.ResourceLocation;
 
@@ -15,7 +15,7 @@ public class GuiLayers extends AbstractGuiOverlay {
     private static final ResourceLocation LOCK_HOVER = new ResourceLocation(EInfo.MODID, "textures/books/lock_hover.png");
     private static final ResourceLocation VISIBLE_DFLT = new ResourceLocation(EInfo.MODID, "textures/books/layer_dftl.png");
     private static final ResourceLocation VISIBLE_HOVER = new ResourceLocation(EInfo.MODID, "textures/books/layer_hover.png");
-    private IFeatureProvider dragged = null;
+    private FeatureProvider dragged = null;
     private int held = 0;
     private int yStart = 0;
     private int layerPosition = 0;
@@ -41,10 +41,10 @@ public class GuiLayers extends AbstractGuiOverlay {
         EnchiridionAPI.draw.drawSplitScaledString(Enchiridion.format("layers"), EConfig.SETTINGS.layersXPos.get() + 20, EConfig.SETTINGS.toolbarYPos.get() - 2, 250, 0xFFFFFFFF, 1F);
         int layerY = 0;
         int hoverY = 0;
-        ArrayList<IFeatureProvider> features = EnchiridionAPI.book.getPage().getFeatures();
+        ArrayList<FeatureProvider> features = EnchiridionAPI.book.getPage().getFeatures();
         for (int i = layerPosition; i < Math.min(features.size(), layerPosition + 24); i++) {
             layerY += 12;
-            IFeatureProvider feature = features.get(i);
+            FeatureProvider feature = features.get(i);
             /* LOCK ICON */
             //Setup the defaults for the lock icon
             ResourceLocation resource = LOCK_DFLT;
@@ -141,9 +141,9 @@ public class GuiLayers extends AbstractGuiOverlay {
     @Override
     public boolean mouseClicked(int mouseX, int mouseY) {
         int layerY = 0;
-        ArrayList<IFeatureProvider> features = EnchiridionAPI.book.getPage().getFeatures();
+        ArrayList<FeatureProvider> features = EnchiridionAPI.book.getPage().getFeatures();
         for (int i = layerPosition; i < Math.min(features.size(), layerPosition + 20); i++) {
-            IFeatureProvider provider = features.get(i);
+            FeatureProvider provider = features.get(i);
             layerY += 12;
             if (!provider.isLocked() && isOverLayer(layerY, mouseX, mouseY)) {
                 yStart = mouseY;
@@ -174,14 +174,14 @@ public class GuiLayers extends AbstractGuiOverlay {
     public void mouseReleased(int mouseX, int mouseY) {
         boolean placing = held >= 20;
         int layerY = 0;
-        ArrayList<IFeatureProvider> features = EnchiridionAPI.book.getPage().getFeatures();
+        ArrayList<FeatureProvider> features = EnchiridionAPI.book.getPage().getFeatures();
         for (int i = layerPosition; i < Math.min(features.size(), layerPosition + 24); i++) {
             layerY += 12;
             if (isOverLayer(layerY, mouseX, mouseY)) {
                 if (placing) {
                     insertLayerAt(mouseY, features.get(i).getLayerIndex());
                 } else {
-                    IFeatureProvider selected = EnchiridionAPI.book.getSelected();
+                    FeatureProvider selected = EnchiridionAPI.book.getSelected();
                     if (selected != null) selected.deselect();
                     EnchiridionAPI.book.setSelected(features.get(i));
                     selected = EnchiridionAPI.book.getSelected();
@@ -193,13 +193,13 @@ public class GuiLayers extends AbstractGuiOverlay {
 
             /* LOCK */
             if (mouseX >= EConfig.SETTINGS.layersXPos.get() + 4 && mouseX <= EConfig.SETTINGS.layersXPos.get() + 9 && mouseY >= EConfig.SETTINGS.toolbarYPos.get() - 1 + layerY && mouseY <= EConfig.SETTINGS.toolbarYPos.get() + layerY + 5) {
-                IFeatureProvider feature = features.get(i);
+                FeatureProvider feature = features.get(i);
                 feature.setLocked(!feature.isLocked());
             }
             /* END LOCK */
             /* VISIBLE */
             if (mouseX > EConfig.SETTINGS.layersXPos.get() + 9 && mouseX < EConfig.SETTINGS.layersXPos.get() + 20 && mouseY >= EConfig.SETTINGS.toolbarYPos.get() - 1 + layerY && mouseY <= EConfig.SETTINGS.toolbarYPos.get() + layerY + 5) {
-                IFeatureProvider feature = features.get(i);
+                FeatureProvider feature = features.get(i);
                 feature.setVisible(!feature.isVisible());
             }
             /* END VISIBLE */

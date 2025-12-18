@@ -12,17 +12,17 @@ public interface IBookHelper {
     IPage getPage();
 
     /** Returns the current feature that is selected **/
-    IFeatureProvider getSelected();
+    FeatureProvider getSelected();
 
     /** Whether this feature is selected in a group **/
-    boolean isGroupSelected(IFeatureProvider provider);
+    boolean isGroupSelected(FeatureProvider provider);
 
     //SETTERS
     /** Set the current book **/
     IBookHelper setBook(IBook book, boolean isEditing);
 
     /** Set the currently selected feature **/
-    void setSelected(IFeatureProvider provider);
+    void setSelected(FeatureProvider provider);
 
     /** Jumps to the page number if it exists, returns true if we jumped **/
     boolean jumpToPageIfExists(int number);

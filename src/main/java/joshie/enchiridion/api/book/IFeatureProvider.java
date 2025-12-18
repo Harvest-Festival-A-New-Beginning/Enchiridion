@@ -2,7 +2,7 @@ package joshie.enchiridion.api.book;
 
 import java.util.List;
 
-public interface IFeatureProvider {
+public interface FeatureProvider {
     //Getters
     IFeature getFeature();
     int getLeft();
@@ -41,7 +41,7 @@ public interface IFeatureProvider {
     boolean isOverFeature(int mouseX, int mouseY);
 
     // Returns a new copy of this provider
-    IFeatureProvider copy();
+    FeatureProvider copy();
     // Returns the page this feature is in
     IPage getPage();
 }

@@ -8,7 +8,7 @@ import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IBookHelper;
 import joshie.enchiridion.api.book.IFeature;
-import joshie.enchiridion.api.book.IFeatureProvider;
+import joshie.enchiridion.api.book.FeatureProvider;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.api.gui.IBookEditorOverlay;
 import joshie.enchiridion.data.book.Page;
@@ -48,9 +48,9 @@ public class GuiBook extends GuiBase implements IBookHelper {
     private boolean isEditMode = false; // Whether we are in edit mode or not
     private IBook book; // The current book being displayed
     private IPage page; // The current page being displayed
-    private IFeatureProvider selected; //Currently selected feature
-    private Set<IFeatureProvider> group = new HashSet<>(); //Groups?
-    private Set<IFeatureProvider> clipboard = new HashSet<>(); //Clipboard
+    private FeatureProvider selected; //Currently selected feature
+    private Set<FeatureProvider> group = new HashSet<>(); //Groups?
+    private Set<FeatureProvider> clipboard = new HashSet<>(); //Clipboard
     private float red, green, blue; //Colour to render the book
     private boolean isGroupMoveMode = false;
 
@@ -89,7 +89,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
         }
 
         // Draw all the features, In reverse
-        for (IFeatureProvider feature : Lists.reverse(page.getFeatures())) {
+        for (FeatureProvider feature : Lists.reverse(page.getFeatures())) {
             int y = this.y;
             if (page.getScroll() > 0) {
                 this.y -= page.getScroll();
@@ -180,20 +180,20 @@ public class GuiBook extends GuiBase implements IBookHelper {
             long handle = Minecraft.getInstance().getWindow().getWindow();
             if (MCClientHelper.isCtrlPressed() && (InputConstants.isKeyDown(handle, GLFW.GLFW_KEY_C) || InputConstants.isKeyDown(handle, GLFW.GLFW_KEY_X))) {
                 clipboard.clear();
-                for (IFeatureProvider provider : group) {
-                    IFeatureProvider copy = provider.copy();
+                for (FeatureProvider provider : group) {
+                    FeatureProvider copy = provider.copy();
                     copy.update(getPage());
                     clipboard.add(copy);
                 }
 
                 if (InputConstants.isKeyDown(handle, GLFW.GLFW_KEY_X)) {
-                    for (IFeatureProvider provider : group) {
+                    for (FeatureProvider provider : group) {
                         page.removeFeature(provider);
                     }
                 }
             } else if (MCClientHelper.isCtrlPressed() && InputConstants.isKeyDown(handle, GLFW.GLFW_KEY_V)) { //Paste features
-                for (IFeatureProvider provider : clipboard) {
-                    // copy() returns IFeatureProvider which is also an IFeature (FeatureProvider implements both)
+                for (FeatureProvider provider : clipboard) {
+                    // copy() returns FeatureProvider which is also an IFeature (FeatureProvider implements both)
                     page.addFeature((IFeature) provider.copy(), provider.getLeft(), provider.getTop(), provider.getWidth(), provider.getHeight(), provider.isLocked(), !provider.isVisible(), provider.isFromTemplate());
                 }
             }
@@ -211,7 +211,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     private transient boolean wasControlPressedBefore = false;
 
-    public void selectLayer(IFeatureProvider feature) {
+    public void selectLayer(FeatureProvider feature) {
         if (selected != null) selected.deselect();
         selected = feature;
         selected.select(mouseX, mouseY + page.getScroll());
@@ -229,7 +229,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
         }
 
         group.add(selected); //Add it to the group
-        for (IFeatureProvider provider : group) { //Refresh the x position
+        for (FeatureProvider provider : group) { //Refresh the x position
             provider.select(mouseX, mouseY + page.getScroll());
         }
     }
@@ -247,7 +247,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
         }
 
         //Perform clicks for the features
-        for (IFeatureProvider feature : page.getFeatures()) {
+        for (FeatureProvider feature : page.getFeatures()) {
             if (feature.mouseClicked(mouseX, mouseY + page.getScroll(), mouseButton)) {
                 if (isEditMode && mouseButton == 0) {
                     selectLayer(feature);
@@ -259,7 +259,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
         //If nothing was clicked on, remove the current selection
         if (selected != null) selected.deselect();
         selected = null;
-        group.forEach(IFeatureProvider::deselect);
+        group.forEach(FeatureProvider::deselect);
 
         group = new HashSet<>();
         return true;
@@ -268,7 +268,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
     @Override
     public boolean mouseReleased(double x, double y, int button) {
         isGroupMoveMode = false;
-        for (IFeatureProvider provider : page.getFeatures()) {
+        for (FeatureProvider provider : page.getFeatures()) {
             provider.mouseReleased(mouseX, mouseY + page.getScroll(), button);
         }
 
@@ -284,7 +284,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
     @Override
     public boolean mouseDragged(double mX, double mY, int p_mouseDragged_5_, double p_mouseDragged_6_, double p_mouseDragged_8_) {
         if (!GuiLayers.INSTANCE.isDragging()) {
-            for (IFeatureProvider provider : group) {
+            for (FeatureProvider provider : group) {
                 provider.follow(mouseX, mouseY + page.getScroll(), isGroupMoveMode);
             }
         }
@@ -301,7 +301,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
                 }
             }
 
-            for (IFeatureProvider provider : page.getFeatures()) {
+            for (FeatureProvider provider : page.getFeatures()) {
                 provider.scroll(mouseX, mouseY, down);
             }
 
@@ -328,12 +328,12 @@ public class GuiBook extends GuiBase implements IBookHelper {
     }
 
     @Override
-    public IFeatureProvider getSelected() {
+    public FeatureProvider getSelected() {
         return selected;
     }
 
     @Override
-    public boolean isGroupSelected(IFeatureProvider provider) {
+    public boolean isGroupSelected(FeatureProvider provider) {
         return group.contains(provider);
     }
 
@@ -363,7 +363,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
     }
 
     @Override
-    public void setSelected(IFeatureProvider provider) {
+    public void setSelected(FeatureProvider provider) {
         this.selected = provider;
     }
 

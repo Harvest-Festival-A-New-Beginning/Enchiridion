@@ -9,7 +9,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IFeature;
-import joshie.enchiridion.api.book.IFeatureProvider;
+import joshie.enchiridion.api.book.FeatureProvider;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.api.gui.ISimpleEditorFieldProvider;
 import joshie.enchiridion.gui.book.GuiBook;
@@ -50,7 +50,7 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
     }
 
     @Override
-    public IFeatureProvider copy() {
+    public FeatureProvider copy() {
         return new FeaturePreviewWindow(pageNumber);
     }
 
@@ -82,7 +82,7 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
     @Override
     public boolean performClick(int mouseX, int mouseY, int button) {
         if (page != null && page != thisPage) {
-            for (IFeatureProvider feature : Lists.reverse(page.getFeatures())) {
+            for (FeatureProvider feature : Lists.reverse(page.getFeatures())) {
                 if (feature instanceof FeaturePreviewWindow) continue; //No Cascading
                 mouseY = GuiBook.INSTANCE.mouseY + page.getScroll();
                 if (feature.mouseClicked(mouseX, mouseY, button)) return true;
@@ -134,7 +134,7 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
             RenderSystem.clear(GlConst.GL_DEPTH_BUFFER_BIT, false);
             GL11.glScissor((GuiBook.INSTANCE.x + getLeft()) * scale, (int) (GuiBook.INSTANCE.y + 217 - getTop() - getHeight()) * scale, (int) getWidth() * scale, (int) getHeight() * scale);
 
-            for (IFeatureProvider feature : Lists.reverse(page.getFeatures())) {
+            for (FeatureProvider feature : Lists.reverse(page.getFeatures())) {
                 if (feature instanceof FeaturePreviewWindow) continue; //No Cascading
                 int y = GuiBook.INSTANCE.y;
                 if (page.getScroll() > 0) {
@@ -165,7 +165,7 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
 
             RenderSystem.clear(GlConst.GL_DEPTH_BUFFER_BIT, false);
             int minY = Short.MAX_VALUE;
-            for (IFeatureProvider provider : page.getFeatures()) {
+            for (FeatureProvider provider : page.getFeatures()) {
                 if (provider.getTop() < minY) {
                     minY = provider.getTop();
                 }

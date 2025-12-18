@@ -3,7 +3,7 @@ package joshie.enchiridion.data.book;
 import joshie.enchiridion.EConfig;
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.book.IBook;
-import joshie.enchiridion.api.book.IFeatureProvider;
+import joshie.enchiridion.api.book.FeatureProvider;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.gui.book.GuiSimpleEditorTemplate;
 import joshie.enchiridion.gui.book.features.FeatureError;
@@ -127,7 +127,7 @@ public class BookRegistry {
                     }
                 }
                 //Initialise everything
-                for (IFeatureProvider feature : page.getFeatures()) {
+                for (FeatureProvider feature : page.getFeatures()) {
                     feature.update(page);
                 }
                 //Sort the pages

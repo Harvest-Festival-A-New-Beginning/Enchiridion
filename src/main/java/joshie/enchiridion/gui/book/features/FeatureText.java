@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IFeature;
-import joshie.enchiridion.api.book.IFeatureProvider;
+import joshie.enchiridion.api.book.FeatureProvider;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.helpers.MCClientHelper;
@@ -45,7 +45,7 @@ public class FeatureText extends FeatureProvider implements ITextEditable {
     }
 
     @Override
-    public IFeatureProvider copy() {
+    public FeatureProvider copy() {
         FeatureText text = new FeatureText(this.text);
         text.size = size;
         return text;

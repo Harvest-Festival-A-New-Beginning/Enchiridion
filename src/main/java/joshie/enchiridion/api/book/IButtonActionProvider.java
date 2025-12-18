@@ -3,7 +3,7 @@ package joshie.enchiridion.api.book;
 import net.minecraft.resources.ResourceLocation;
 
 public interface IButtonActionProvider extends IFeature {
-    // copy() inherited from IFeature (returns IFeatureProvider)
+    // copy() inherited from IFeature (returns FeatureProvider)
     IButtonAction getAction();
 
     /** Reduce this stuff **/

@@ -61,6 +61,8 @@ public class EnchiridionRegistries {
             FEATURE_TYPES.register("shape", () -> FeatureShape.CODEC);
         public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> ENTITY =
             FEATURE_TYPES.register("entity", () -> FeatureEntity.CODEC);
+        public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> JS =
+            FEATURE_TYPES.register("js", () -> FeatureJS.CODEC);
         public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> PREVIEW_WINDOW =
             FEATURE_TYPES.register("preview_window", () -> FeaturePreviewWindow.CODEC);
     }

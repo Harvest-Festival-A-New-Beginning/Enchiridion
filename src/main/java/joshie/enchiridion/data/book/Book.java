@@ -99,17 +99,22 @@ public class Book implements ReloadableRegistry.PenguinRegistry<Book>, IBook {
     public Book() {
     }
 
-    public Book(ResourceLocation bookId, String display) {
-        this.bookId = bookId;
-        this.displayName = display;
-        this.colorHex = "FFFFFFFF";
-        this.language = MCClientHelper.getLang();
-        this.hasCustomIcon = true;
-        this.showBackground = true;
-        this.book = new ArrayList<>();
-        this.book.add(DefaultHelper.addDefaults(this, new Page(0).setBook(this)));
-        this.defaultIDs = new ArrayList<>();
-        this.defaultIDs.add("enchiridion_default_buttons");
+    /**
+     * FACTORY METHOD
+     **/
+    public static Book create(ResourceLocation bookId, String displayName) {
+        Book book = new Book();
+        book.bookId = bookId;
+        book.displayName = displayName;
+        book.colorHex = "FFFFFFFF";
+        book.language = MCClientHelper.getLang();
+        book.hasCustomIcon = true;
+        book.showBackground = true;
+        book.book = new ArrayList<>();
+        book.book.add(DefaultHelper.addDefaults(book, new Page(0).setBook(book)));
+        book.defaultIDs = new ArrayList<>();
+        book.defaultIDs.add("enchiridion_default_buttons");
+        return book;
     }
 
     /**

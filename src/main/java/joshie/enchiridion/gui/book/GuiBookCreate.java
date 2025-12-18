@@ -4,8 +4,10 @@ import com.google.common.base.CaseFormat;
 import joshie.enchiridion.data.book.Book;
 import joshie.enchiridion.data.book.BookRegistry;
 import joshie.enchiridion.gui.book.buttons.ButtonChangeIcon;
+import joshie.enchiridion.lib.EInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.components.EditBox;
@@ -63,7 +65,8 @@ public class GuiBookCreate extends GuiBase {
         if (p_keyPressed_1_ == GLFW.GLFW_KEY_ENTER || p_keyPressed_1_ == GLFW.GLFW_KEY_KP_ENTER) {
             if (!text.isEmpty()) {
                 String sanitized = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, text).replaceAll("[^A-Za-z0-9]",".").replace(".", "_");
-                Book book = new Book(sanitized, text); //Create the book
+                ResourceLocation bookId = new ResourceLocation(EInfo.MODID, sanitized);
+                Book book = Book.create(bookId, text); //Create the book
                 BookRegistry.INSTANCE.register(book); //Register the book
                 GuiBook.INSTANCE.setBook(book, true);
                 GuiBook.INSTANCE.removed(); //Save the data to json

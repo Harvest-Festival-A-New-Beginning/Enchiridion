@@ -178,7 +178,7 @@ public class FeatureSound extends FeatureProvider {
     }
 
     @Override
-    public boolean performClick(int mouseX, int mouseY, int button) {
+    public boolean performClick(int mouseX, int mouseY, int button, Object gui) {
         if (trigger == TriggerType.CLICK && isOverFeature(mouseX, mouseY)) {
             playSound();
             return true;

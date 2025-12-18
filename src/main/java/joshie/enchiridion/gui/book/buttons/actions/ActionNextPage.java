@@ -19,27 +19,27 @@ public class ActionNextPage extends AbstractAction {
     }
 
     @Override
-    public IButtonAction create() {
+    public IButtonAction create(joshie.enchiridion.gui.book.GuiBook guiBook) {
         return new ActionNextPage();
     }
 
     @Override
-    public boolean performAction() {
+    public boolean performAction(joshie.enchiridion.gui.book.GuiBook guiBook) {
         try {
-            List<IPage> pages = EnchiridionAPI.book.getBook().getPages();
+            List<IPage> pages = guiBook.getBook().getPages();
             List<Integer> numbers = pages.stream().map(IPage::getPageNumber).collect(Collectors.toList());
 
             Collections.sort(numbers, new SortNumerical());
 
-            int number = EnchiridionAPI.book.getPage().getPageNumber();
+            int number = guiBook.getPage().getPageNumber();
             for (Integer integer : numbers) {
                 if (integer > number) {
-                    return EnchiridionAPI.book.jumpToPageIfExists(integer);
+                    return guiBook.jumpToPageIfExists(integer);
                 }
             }
 
             //If we failed to find the next available page, reset the book to page 1
-            return EnchiridionAPI.book.jumpToPageIfExists(numbers.get(0));
+            return guiBook.jumpToPageIfExists(numbers.get(0));
         } catch (Exception ignored) {
         }
         return false;

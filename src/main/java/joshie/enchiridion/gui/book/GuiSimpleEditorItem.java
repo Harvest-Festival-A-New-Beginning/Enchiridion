@@ -82,7 +82,7 @@ public class GuiSimpleEditorItem extends AbstractGuiOverlay {
             for (int i = position; i < position + 132; i++) {
                 if (i >= 0 && i < sorted.size()) {
                     //1F > 0.75F, 4 > 5, 16 > 13 + EConfig.SETTINGS.editorXPos + 4, -30 > + EConfig.SETTINGS. toolBarYPos + 12
-                    EnchiridionAPI.draw.drawStack(sorted.get(i), (j * 12) + EConfig.SETTINGS.editorXPos + 7, (k * 12) + EConfig.SETTINGS.toolbarYPos.get() + 26, 0.75F);
+                    guiBook.drawStack(sorted.get(i), (j * 12) + EConfig.SETTINGS.editorXPos + 7, (k * 12) + EConfig.SETTINGS.toolbarYPos.get() + 26, 0.75F);
 
                     j++;
 

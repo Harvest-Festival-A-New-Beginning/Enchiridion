@@ -72,6 +72,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     private transient IPage pageContainer;
     private transient int left;
     private transient int top;
+    private transient Object currentGui; // Stores current GUI context during rendering
 
     public FeatureProvider(int x, int y, int width, int height) {
         super(x, y, width, height, Component.empty());
@@ -90,6 +91,16 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
 
     public IPage getPage() {
         return pageContainer;
+    }
+
+    /** Gets the current GUI context (typically GuiBook) during rendering */
+    protected Object getCurrentGui() {
+        return currentGui;
+    }
+
+    /** Sets the current GUI context - called internally by GuiBook */
+    public void setCurrentGui(Object gui) {
+        this.currentGui = gui;
     }
 
     @Override
@@ -186,7 +197,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
 
             //Perform clicks
             if (!guiBook.isEditMode() || button != 0) {
-                if (performClick(mouseX, mouseY, button)) return true;
+                if (performClick(mouseX, mouseY, button, guiBook)) return true;
             }
 
             return !isLocked;
@@ -438,7 +449,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     }
 
     @Override
-    public boolean performClick(int mouseX, int mouseY, int button) {
+    public boolean performClick(int mouseX, int mouseY, int button, Object gui) {
         return false;
     }
 

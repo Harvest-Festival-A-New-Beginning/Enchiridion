@@ -67,11 +67,15 @@ public class RecipeHandlerFurnace extends RecipeHandlerBase {
         return burnTime * scale / 2000;
     }
 
-    protected void drawBackground() {
+    @Override
+    protected void drawBackground(Object gui) {
+        if (!(gui instanceof joshie.enchiridion.gui.book.GuiBook)) return;
+        joshie.enchiridion.gui.book.GuiBook guiBook = (joshie.enchiridion.gui.book.GuiBook) gui;
+
         com.mojang.blaze3d.systems.RenderSystem.setShaderTexture(0, LOCATION);
-        EnchiridionAPI.draw.drawTexturedRectangle(55D, 38D, 1, 63, 20, 14, 1.75F);
+        guiBook.drawTexturedRectangle(55D, 38D, 1, 63, 20, 14, 1.75F);
         int i1 = getBurnTimeRemainingScaled(13);
-        EnchiridionAPI.draw.drawTexturedReversedRectangle(44D, 56D, 0, 85, 14, 14, 1.75F);
-        EnchiridionAPI.draw.drawTexturedReversedRectangle(44D, 46D + 12D, 14, 98 - i1, 14, i1 + 1, 1.75F);
+        guiBook.drawTexturedReversedRectangle(44D, 56D, 0, 85, 14, 14, 1.75F);
+        guiBook.drawTexturedReversedRectangle(44D, 46D + 12D, 14, 98 - i1, 14, i1 + 1, 1.75F);
     }
 }

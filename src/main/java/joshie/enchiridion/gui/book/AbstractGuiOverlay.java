@@ -20,12 +20,12 @@ public abstract class AbstractGuiOverlay implements IBookEditorOverlay {
     }
 
     @Override
-    public boolean mouseClicked(int mouseX, int mouseY) {
+    public boolean mouseClicked(int mouseX, int mouseY, GuiBook guiBook) {
         return false;
     }
 
     @Override
-    public void mouseReleased(int mouseX, int mouseY) {
+    public void mouseReleased(int mouseX, int mouseY, GuiBook guiBook) {
     }
 
     @Override

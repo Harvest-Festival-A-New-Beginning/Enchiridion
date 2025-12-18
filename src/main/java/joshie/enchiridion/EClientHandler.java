@@ -49,9 +49,6 @@ public class EClientHandler {
         event.register(EGuis.BOOK_CONTAINER.get(),
             (uk.joshiejack.penguinlib.world.inventory.AbstractBookMenu container, Inventory inv, Component text) -> {
                 GuiBook gui = new GuiBook(container, inv);
-                // Set EnchiridionAPI.book first before calling setBook()
-                EnchiridionAPI.book = gui;
-                EnchiridionAPI.draw = gui;
 
                 // Get book and editing state from player's held item
                 Player player = inv.player;

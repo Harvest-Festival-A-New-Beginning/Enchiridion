@@ -122,7 +122,7 @@ public class GuiSimpleEditor extends AbstractGuiOverlay {
     }
 
     @Override
-    public boolean mouseClicked(int mouseX, int mouseY) {
+    public boolean mouseClicked(int mouseX, int mouseY, GuiBook guiBook) {
         if (editor != null) {
             if (mouseX >= EConfig.SETTINGS.editorXPos && mouseX <= EConfig.SETTINGS.editorXPos + 84 && mouseY >= EConfig.SETTINGS.toolbarYPos.get() - 3 && mouseY <= EConfig.SETTINGS.toolbarYPos.get() + 7) {
                 this.textField.mouseClicked(mouseX, mouseY, 0);
@@ -130,7 +130,7 @@ public class GuiSimpleEditor extends AbstractGuiOverlay {
                 return true;
             } else {
                 this.textField.setFocused(false);
-                return editor.mouseClicked(mouseX, mouseY);
+                return editor.mouseClicked(mouseX, mouseY, guiBook);
 
             }
 

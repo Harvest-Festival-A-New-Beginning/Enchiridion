@@ -12,18 +12,27 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import uk.joshiejack.penguinlib.scripting.ScriptFactory;
 
 import javax.script.ScriptException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class FeatureJS extends FeatureProvider implements ITextEditable {
     public static final Codec<FeatureJS> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.STRING.optionalFieldOf("script", "").forGetter(f -> f.script),
+        ResourceLocation.CODEC.optionalFieldOf("script_file").forGetter(f -> Optional.ofNullable(f.scriptFile)),
         Codec.FLOAT.optionalFieldOf("size", 1F).forGetter(f -> f.size),
         Codec.BOOL.optionalFieldOf("render_result", true).forGetter(f -> f.renderResult),
         Codec.STRING.optionalFieldOf("error_text", "§cScript Error").forGetter(f -> f.errorText)
-    ).apply(instance, (script, size, renderResult, errorText) -> {
+    ).apply(instance, (script, scriptFile, size, renderResult, errorText) -> {
         FeatureJS feature = new FeatureJS(script);
+        feature.scriptFile = scriptFile.orElse(null);
         feature.size = size;
         feature.renderResult = renderResult;
         feature.errorText = errorText;
@@ -34,11 +43,13 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
     protected transient double cachedWidth = 0;
     public transient int wrap = 100;
     public String script = "";
+    public ResourceLocation scriptFile = null; // Optional: load script from resource file
     public float size = 1F;
     public boolean renderResult = true; // If true, renders the result of the script
     public String errorText = "§cScript Error";
 
     private transient String cachedResult = null;
+    private transient String loadedScript = null;
     private transient boolean hasError = false;
     private transient long lastExecutionTime = 0;
     private static final long CACHE_DURATION = 1000; // Cache for 1 second
@@ -55,6 +66,7 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
     @Override
     public FeatureProvider copy() {
         FeatureJS js = new FeatureJS(this.script);
+        js.scriptFile = scriptFile;
         js.size = size;
         js.renderResult = renderResult;
         js.errorText = errorText;
@@ -63,6 +75,9 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
 
     @Override
     public String getName() {
+        if (scriptFile != null) {
+            return "JavaScript: " + scriptFile.getPath();
+        }
         return "JavaScript: " + (script.length() > 20 ? script.substring(0, 20) + "..." : script);
     }
 
@@ -73,7 +88,33 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
         wrap = Math.max(50, (int) (cachedWidth / size) + 4);
         // Clear cache when page updates
         cachedResult = null;
+        loadedScript = null;
         lastExecutionTime = 0;
+    }
+
+    private String loadScriptFromFile() {
+        if (scriptFile == null) return script;
+        if (loadedScript != null) return loadedScript;
+
+        try {
+            Minecraft mc = Minecraft.getInstance();
+            Optional<Resource> resourceOpt = mc.getResourceManager().getResource(scriptFile);
+
+            if (resourceOpt.isPresent()) {
+                Resource resource = resourceOpt.get();
+                try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(resource.open(), StandardCharsets.UTF_8))) {
+                    loadedScript = reader.lines().collect(Collectors.joining("\n"));
+                    return loadedScript;
+                }
+            } else {
+                hasError = true;
+                return errorText + ": Script file not found: " + scriptFile;
+            }
+        } catch (Exception e) {
+            hasError = true;
+            return errorText + ": Failed to load script: " + e.getMessage();
+        }
     }
 
     private String executeScript() {
@@ -84,8 +125,18 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
         }
 
         try {
+            // Load script (either from file or inline)
+            String scriptToExecute = loadScriptFromFile();
+
+            if (hasError) {
+                // Error occurred during loading
+                cachedResult = scriptToExecute;
+                lastExecutionTime = currentTime;
+                return cachedResult;
+            }
+
             // Get the ScriptFactory from Penguin-Lib
-            Object result = ScriptFactory.eval(script);
+            Object result = ScriptFactory.eval(scriptToExecute);
 
             // Convert result to string
             if (result == null) {

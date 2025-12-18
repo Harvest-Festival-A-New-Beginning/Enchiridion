@@ -47,9 +47,8 @@ public class LibraryEvents {
             ServerPlayer mp = (ServerPlayer) player;
             if (!SyncHelper.playersSynced.contains(mp)) {
                 if (EConfig.SETTINGS.debugMode) Enchiridion.log(Level.INFO, "Did you call me?");
-                //Sync what's allowed in the library
-                String serverName = MCServerHelper.getHostName();
-                PacketHandler.sendToClient(new PacketSyncLibraryAllowed(PacketPart.SEND_HASH, serverName, ModSupport.getHashcode(serverName)), mp);
+                //Sync what's allowed in the library (triggers registry reload on client)
+                PacketHandler.sendToClient(new PacketSyncLibraryAllowed(PacketPart.SEND_HASH), mp);
 
                 //Sync what is in the library
                 LibraryInventory inventory = LibraryHelper.getServerLibraryContents(player);

@@ -1,44 +1,34 @@
 package joshie.enchiridion.library;
 
 import joshie.enchiridion.api.EnchiridionAPI;
+import joshie.enchiridion.data.library.ModdedBook;
 import joshie.enchiridion.data.library.ModdedBooks;
-import joshie.enchiridion.data.library.ModdedBooks.ModdedBook;
-import joshie.enchiridion.helpers.CodecHelper;
-import joshie.enchiridion.helpers.FileHelper;
-import joshie.enchiridion.helpers.StackHelper;
+import joshie.enchiridion.lib.EnchiridionRegistries;
 import net.minecraft.world.item.ItemStack;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
+import java.util.Collection;
 
+/**
+ * Manages modded book entries loaded from data packs via the ReloadableRegistry system.
+ * ModdedBook entries are now loaded from data/&lt;modid&gt;/modded_books/&lt;entry_name&gt;.json
+ */
 public class ModSupport {
     private static ModdedBooks books;
 
-    public static void loadDataFromJson(String serverName, String json) {
-        books = getDefaults();
-        if (json != null) {
-            books.mergeIn(CodecHelper.fromJson(ModdedBooks.CODEC, json));
-        } else {
-            try {
-                //Write the json
-                String defaultJson = CodecHelper.toJson(ModdedBooks.CODEC, new ModdedBooks()); //Add a blank default
-                File toSave = FileHelper.getLibraryFile(serverName);
-                Writer writer = new OutputStreamWriter(new FileOutputStream(toSave), StandardCharsets.UTF_8);
-                writer.write(defaultJson);
-                writer.close();
-            } catch (Exception ignored) {
-            }
-        }
+    /**
+     * Load and apply all modded book entries from the registry.
+     * This should be called after resource reload.
+     */
+    public static void loadFromRegistry() {
+        // Get all ModdedBook entries from the registry
+        Collection<ModdedBook> entries = EnchiridionRegistries.MODDED_BOOKS.getAll();
+        books = new ModdedBooks(entries);
 
-        //Now that we have loaded in the data we should convert it
+        // Apply all book handlers
         EnchiridionAPI.library.resetStacksAllowedInLibrary();
-        for (ModdedBook book : books.getList()) {
+        for (ModdedBook book : books.getHandledBooks()) {
             try {
-                ItemStack stack = StackHelper.getStackFromString(book.getItem());
+                ItemStack stack = book.getItemStack();
                 if (!stack.isEmpty()) {
                     switch (book.getHandler()) {
                         case "blacklist":
@@ -57,76 +47,30 @@ public class ModSupport {
         }
     }
 
-    private static ModdedBooks getDefaults() { //TODO Test books
-        books = new ModdedBooks(); //Create the books
-        books.add("enchiridion", "enchiridion:book", false);
-        books.add("writeable", "minecraft:writable_book", false);
-        books.add("written", "minecraft:written_book", false);
-
-        /*if (EInfo.IS_GUIDEAPI_LOADED) {
-            for (Book book : GuideAPI.getBooks().values()) {
-                books.add("copynbt", "guideapi:" + book.getRegistryName().toString().replace(":", "-"), false, false);
-            }
-        }*/
-
-        books.add("customwood", "minecraft:spruce_planks", false);
-        books.add("customwood", "minecraft:dark_oak_planks", false);
-        books.add("customwood", "biomesoplenty:ebony_planks", false); //Might not be correct
-        books.add("customwood", "botania:livingwood", false);
-        books.add("customwood", "chisel:livingwood-planks", false); //Needs updating
-        books.add("customwood", "chisel:livingwood-raw", false); //Needs updating
-        books.add("customwood", "chisel:planks-dark-oak", false); //Needs updating
-        books.add("customwood", "chisel:planks-spruce", false); //Needs updating
-        books.add("customwood", "chisel:thinWood-dark", false); //Needs updating
-        books.add("customwood", "chisel:thinWood-spruce", false); //Needs updating
-        books.add("customwood", "thaumcraft:plank 0", false); //Needs updating
-        books.add("switchclick", "actuallyadditions:item_booklet", false);
-        books.add("switchclick", "astralsorcery:itemjournal", false);
-        books.add("switchclick", "bibliocraft:stockroomcatalog", false);
-        books.add("switchclick", "bibliocraft:atlasbook", false);
-        books.add("switchclick", "bibliocraft:bigbook", false);
-        books.add("switchclick", "bibliocraft:recipebook", false);
-        books.add("switchclick", "pokecube:pokedex", false);
-        books.add("switchclick", "rftools:rftools_manual", false);
-        books.add("switchclick", "rftoolscontrol:rftoolscontrol_manual", false);
-        books.add("switchclick", "theoneprobe:probenote", false);
-        books.add("switchclick", "totemic:totempedia", false);
-        books.add("switchclick", "botania:lexicon", false);
-        books.add("switchclick", "deepresonance:dr_manual", false);
-        books.add("switchclick", "environmentaltech:digital_guide", false);
-        books.add("switchclick", "extrautils2:book", false);
-        books.add("switchclick", "gbook:guidebook", false);
-        books.add("switchclick", "harvestfestival:book", false);
-        books.add("switchclick", "harvestfestival:cookbook", false);
-        books.add("switchclick", "immersiveengineering:tool 3", false); //Needs updating
-        books.add("switchclick", "openblocks:info_book", false);
-        books.add("switchclick", "opencomputers:manual", false);
-        books.add("switchclick", "railcraft:routing_table", false);
-        books.add("switchclick", "refraction:book", false);
-        books.add("switchclick", "rftoolsdim:rftoolsdim_manual", false);
-        books.add("switchclick", "tconstruct:book", false);
-        books.add("switchclick", "thaumcraft:thaumonomicon", false);
-        books.add("warpbook", "warpbook:warpbook", false);
-        return books;
-    }
-
+    /**
+     * Get all free books (books without handlers that are just added to the library).
+     */
     public static ItemStack[] getFreeBooks() {
+        if (books == null) {
+            loadFromRegistry();
+        }
         return books.getFreeBooks();
     }
 
-    private static final HashMap<String, ModdedBooks> CACHE = new HashMap<>();
-
-    public static void reset() {
-        CACHE.clear();
+    /**
+     * Get the collection of all modded book entries.
+     */
+    public static ModdedBooks getBooks() {
+        if (books == null) {
+            loadFromRegistry();
+        }
+        return books;
     }
 
-    public static int getHashcode(String serverName) {
-        if (CACHE.containsKey(serverName)) {
-            return CACHE.get(serverName).hashCode();
-        }
-
-        loadDataFromJson(serverName, FileHelper.getLibraryJson(serverName)); //Load in any existing json files
-        CACHE.put(serverName, books);
-        return books.hashCode();
+    /**
+     * Reset the cache. Should be called on resource reload.
+     */
+    public static void reset() {
+        books = null;
     }
 }

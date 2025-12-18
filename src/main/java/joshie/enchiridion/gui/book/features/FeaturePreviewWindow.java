@@ -109,7 +109,7 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
     }
 
     @Override
-    protected void drawFeature(int xMouse, int yMouse) {
+    protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int xMouse, int yMouse, float partialTicks) {
         if (GuiBook.INSTANCE.isEditMode()) {
             EnchiridionAPI.draw.drawBorderedRectangle(getLeft(), getTop(), getRight(), getBottom(), 0x00000000, 0xFF48453C);
         }

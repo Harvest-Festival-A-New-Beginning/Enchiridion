@@ -64,7 +64,7 @@ public class FeatureText extends FeatureProvider implements ITextEditable {
     }
 
     @Override
-    protected void drawFeature(int mouseX, int mouseY) {
+    protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (text != null) {
             EnchiridionAPI.draw.drawSplitScaledString(TextEditor.INSTANCE.getText(this), getLeft(), getTop(), wrap, 0x555555, size);
         }

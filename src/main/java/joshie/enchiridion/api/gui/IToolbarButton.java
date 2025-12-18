@@ -12,8 +12,8 @@ public interface IToolbarButton {
     /** On Click **/
     void performAction();
 
-    /** @return the the tooltip for hovering over this button **/
-    String getTooltip();
+    /** @return the the tooltip text for hovering over this button **/
+    String getTooltipText();
 
     /** If this button is left aligned,
      *  otherwise it'll be assigned to the right instead  */

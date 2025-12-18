@@ -125,7 +125,7 @@ public class FeatureButton extends FeatureJump implements IButtonActionProvider 
     }
 
     @Override
-    protected void drawFeature(int mouseX, int mouseY) {
+    protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (action == null || !action.isVisible()) return;
         if (!isInit && action != null) { //Called here because action needs everything to be loaded, where as update doesn't
             action.onFieldsSet("");
@@ -155,7 +155,7 @@ public class FeatureButton extends FeatureJump implements IButtonActionProvider 
     @Override
     public void addTooltip(List<String> tooltip, int mouseX, int mouseY) {
         if (action != null && action.isVisible()) {
-            String[] title = getTooltip().split("\n");
+            String[] title = getTooltipText().split("\n");
             boolean first = false;
             for (String t : title) {
                 if (first || !t.equals("")) {
@@ -234,7 +234,7 @@ public class FeatureButton extends FeatureJump implements IButtonActionProvider 
     }
 
     @Override
-    public String getTooltip() {
+    public String getTooltipText() {
         return tooltip;
     }
 

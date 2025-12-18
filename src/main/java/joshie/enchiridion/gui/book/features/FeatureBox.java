@@ -75,7 +75,7 @@ public class FeatureBox extends joshie.enchiridion.data.book.FeatureProvider imp
     }
 
     @Override
-    protected void drawFeature(int mouseX, int mouseY) {
+    protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         EnchiridionAPI.draw.drawRectangle(getLeft(), getTop(), getRight(), getBottom(), colorI);
     }
 

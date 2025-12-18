@@ -57,7 +57,7 @@ public class FeatureResource extends joshie.enchiridion.data.book.FeatureProvide
     }
 
     @Override
-    protected void drawFeature(int mouseX, int mouseY) {
+    protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (resource != null) {
             drawResource(getLeft(), getTop(), getWidth(), getHeight());
         } else if (!attempted) attempted = loadResource();

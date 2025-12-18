@@ -35,7 +35,7 @@ public class ButtonToggleScrollable extends ButtonAbstract {
     }
 
     @Override
-    public String getTooltip() {
+    public String getTooltipText() {
         return GuiBook.INSTANCE.getPage().isScrollingEnabled() ? Enchiridion.format(translate_selected) : Enchiridion.format(translate);
     }
 

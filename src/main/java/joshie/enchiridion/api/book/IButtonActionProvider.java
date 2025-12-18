@@ -12,9 +12,9 @@ public interface IButtonActionProvider extends IFeature {
     int getTextOffsetX(boolean isHovered);
     int getTextOffsetY(boolean isHovered);
 
-    /** @return the tooltip **/
+    /** @return the tooltip text **/
     boolean processesClick(int button);
-    String getTooltip();
+    String getTooltipText();
 
     /** Setters **/
     IButtonActionProvider setTextOffsetX(boolean isHovered, int x);

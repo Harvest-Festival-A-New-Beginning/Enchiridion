@@ -65,7 +65,7 @@ public class FeatureItem extends joshie.enchiridion.data.book.FeatureProvider im
     }
 
     @Override
-    protected void drawFeature(int mouseX, int mouseY) {
+    protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (stack.isEmpty() && itemString != null) {
             stack = StackHelper.getStackFromString(itemString);
         } else EnchiridionAPI.draw.drawStack(stack, getLeft(), getTop(), size);

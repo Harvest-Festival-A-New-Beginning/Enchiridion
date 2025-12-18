@@ -12,7 +12,7 @@ public class FeatureError extends joshie.enchiridion.data.book.FeatureProvider {
     }
 
     @Override
-    protected void drawFeature(int mouseX, int mouseY) {
+    protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         // Error feature doesn't draw anything
     }
 

@@ -60,7 +60,7 @@ public class GuiToolbar extends AbstractGuiOverlay {
         int x = X_START;
         for (IToolbarButton button : leftButtons) {
             if (isOverButton(x, mouseX, mouseY)) {
-                tooltip.add(button.getTooltip());
+                tooltip.add(button.getTooltipText());
             }
             x += 12;
         }
@@ -69,7 +69,7 @@ public class GuiToolbar extends AbstractGuiOverlay {
         x = X_END;
         for (IToolbarButton button : rightButtons) {
             if (isOverButton(x, mouseX, mouseY)) {
-                tooltip.add(button.getTooltip());
+                tooltip.add(button.getTooltipText());
             }
             x -= 12;
         }

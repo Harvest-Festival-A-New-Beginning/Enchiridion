@@ -42,7 +42,7 @@ public class FeatureJump extends joshie.enchiridion.data.book.FeatureProvider {
     }
 
     @Override
-    protected void drawFeature(int mouseX, int mouseY) {
+    protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (page == null) {
             if (jumpTo != null && !jumpTo.equals("#LEGACY#")) {
                 try {

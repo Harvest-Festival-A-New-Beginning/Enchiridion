@@ -88,8 +88,15 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
 
     @Override
     public void draw(int mouseX, int mouseY) {
+        // Legacy method - redirects to renderWidget for compatibility
+        // This may be called from GuiBook during the transition
+        renderWidget(null, mouseX, mouseY, 0);
+    }
+
+    @Override
+    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (EventHelper.isFeatureVisible(getPage(), isVisible(), layerIndex)) {
-            drawFeature(mouseX, mouseY);
+            drawFeature(guiGraphics, mouseX, mouseY, partialTicks);
             if (isSelected) {
                 int color = isEditing ? 0xCCFFFF00 : 0xCC007FFF;
                 EnchiridionAPI.draw.drawRectangle(getRight() - 2, getY(), getRight(), getY() + 2, color);
@@ -101,7 +108,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     }
 
     // Abstract method - each feature type must implement its own drawing logic
-    protected abstract void drawFeature(int mouseX, int mouseY);
+    protected abstract void drawFeature(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks);
 
     @Override
     public void addTooltip(List<String> tooltip, int mouseX, int mouseY) {

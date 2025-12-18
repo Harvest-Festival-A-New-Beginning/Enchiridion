@@ -6,6 +6,7 @@ import joshie.enchiridion.helpers.FileHelper;
 import joshie.enchiridion.util.ITextEditable;
 import joshie.enchiridion.util.TextEditor;
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
@@ -30,7 +31,9 @@ public class GuiSimpleEditorTemplateSave extends GuiSimpleEditorAbstract impleme
             text = text.replace("\n", "");
             sanitized = text.replaceAll("[^A-Za-z0-9]", "_");
             sanitized = sanitized + "_" + System.currentTimeMillis(); //Add the time to make sure it remains unique, To avoid name clashes when saving
-            template = new Template(sanitized, text, GuiBook.INSTANCE.getPage());
+            // Create user template with enchiridion namespace
+            ResourceLocation templateId = new ResourceLocation("enchiridion", "user/" + sanitized);
+            template = new Template(templateId, sanitized, text, GuiBook.INSTANCE.getPage());
             GuiSimpleEditorTemplate.INSTANCE.registerTemplate(template);
             isTakingScreenshot = true;
         }

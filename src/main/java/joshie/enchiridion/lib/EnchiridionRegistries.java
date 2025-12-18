@@ -3,6 +3,7 @@ package joshie.enchiridion.lib;
 import com.mojang.serialization.Codec;
 import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.Book;
+import joshie.enchiridion.data.book.Template;
 import joshie.enchiridion.data.library.ModdedBook;
 import joshie.enchiridion.gui.book.features.*;
 import net.minecraft.core.Registry;
@@ -24,6 +25,10 @@ public class EnchiridionRegistries {
     // Reloadable registry for modded book entries - will load from data/<modid>/modded_books/<entry_name>.json
     public static final ReloadableRegistry<ModdedBook> MODDED_BOOKS =
         new ReloadableRegistry<>(MODID, "modded_books", ModdedBook.CODEC, new ModdedBook(), true);
+
+    // Reloadable registry for templates - will load from data/<modid>/templates/<template_name>.json
+    public static final ReloadableRegistry<Template> TEMPLATES =
+        new ReloadableRegistry<>(MODID, "templates", Template.CODEC, new Template(), true);
 
     public static class Features {
         public static final DeferredRegister<Codec<? extends IFeature>> FEATURE_TYPES =

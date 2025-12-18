@@ -5,7 +5,9 @@ import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.api.book.ITemplate;
 import joshie.enchiridion.data.book.Page;
+import joshie.enchiridion.data.book.Template;
 import joshie.enchiridion.helpers.MCClientHelper;
+import joshie.enchiridion.lib.EnchiridionRegistries;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +25,16 @@ public class GuiSimpleEditorTemplate extends GuiSimpleEditorAbstract {
     protected GuiSimpleEditorTemplate() {
     }
 
+    /**
+     * Load templates from the registry (default templates from data packs).
+     * Should be called after resource reload.
+     */
+    public void loadFromRegistry() {
+        // Load default templates from registry
+        for (Template template : EnchiridionRegistries.TEMPLATES.getAll()) {
+            registerTemplate(template);
+        }
+    }
 
     public void registerTemplate(ITemplate template) {
         templates.put(template.getUniqueName(), template);
@@ -30,6 +42,15 @@ public class GuiSimpleEditorTemplate extends GuiSimpleEditorAbstract {
         for (FeatureProvider provider : template.getFeatures()) {
             provider.update(new Page(0));
         }
+    }
+
+    /**
+     * Clear all templates. Should be called before reloading.
+     */
+    public void clear() {
+        templates.clear();
+        sorted.clear();
+        position = 0;
     }
 
     public List<FeatureProvider> getFeaturesFromString(String unique) {

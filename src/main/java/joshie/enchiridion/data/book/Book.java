@@ -17,9 +17,7 @@ import java.util.List;
 
 public class Book implements ReloadableRegistry.PenguinRegistry<Book>, IBook {
     public static final Codec<Book> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-        Codec.STRING.optionalFieldOf("modid", "").forGetter(book -> book.modid),
-        Codec.STRING.fieldOf("uniqueName").forGetter(book -> book.uniqueName),
-        Codec.STRING.optionalFieldOf("saveName", "").forGetter(book -> book.saveName),
+        ResourceLocation.CODEC.fieldOf("id").forGetter(Book::id),
         Codec.STRING.optionalFieldOf("displayName", "").forGetter(book -> book.displayName),
         Codec.STRING.optionalFieldOf("displayInfo", "").forGetter(book -> book.displayInfo),
         Codec.STRING.optionalFieldOf("colorHex", "FFFFFFFF").forGetter(book -> book.colorHex),
@@ -33,12 +31,10 @@ public class Book implements ReloadableRegistry.PenguinRegistry<Book>, IBook {
         Codec.BOOL.optionalFieldOf("forgetPageOnClose", false).forGetter(book -> book.forgetPageOnClose),
         Page.CODEC.listOf().optionalFieldOf("pages", new ArrayList<>()).forGetter(book -> book.book != null ? (List<Page>) (List<?>) book.book : new ArrayList<>()),
         Codec.STRING.listOf().optionalFieldOf("defaultIDs", new ArrayList<>()).forGetter(book -> book.defaultIDs != null ? book.defaultIDs : new ArrayList<>())
-    ).apply(instance, (modid, uniqueName, saveName, displayName, displayInfo, colorHex, language, hasCustomIcon,
+    ).apply(instance, (bookId, displayName, displayInfo, colorHex, language, hasCustomIcon,
                        showBackground, legacyTexture, backgroundResource, defaultPage, isLocked, forgetPageOnClose, pages, defaultIDs) -> {
         Book book = new Book();
-        book.modid = modid;
-        book.uniqueName = uniqueName;
-        book.saveName = saveName.isEmpty() ? uniqueName : saveName;
+        book.bookId = bookId;
         book.displayName = displayName;
         book.displayInfo = displayInfo;
         book.colorHex = colorHex;
@@ -57,10 +53,8 @@ public class Book implements ReloadableRegistry.PenguinRegistry<Book>, IBook {
     /**
      * VARIABLES
      **/
-    //Internal Information
-    private String modid;
-    private String uniqueName;
-    private String saveName;
+    //Internal Information - bookId is the primary identifier (replaces modid, uniqueName, saveName)
+    private ResourceLocation bookId;
 
     //Display Information
     private String displayName;
@@ -105,10 +99,9 @@ public class Book implements ReloadableRegistry.PenguinRegistry<Book>, IBook {
     public Book() {
     }
 
-    public Book(String name, String display) {
+    public Book(ResourceLocation bookId, String display) {
+        this.bookId = bookId;
         this.displayName = display;
-        this.uniqueName = name;
-        this.saveName = name;
         this.colorHex = "FFFFFFFF";
         this.language = MCClientHelper.getLang();
         this.hasCustomIcon = true;
@@ -124,10 +117,7 @@ public class Book implements ReloadableRegistry.PenguinRegistry<Book>, IBook {
      **/
     @Override
     public ResourceLocation id() {
-        // Create ResourceLocation from modid and uniqueName (or saveName if uniqueName is null)
-        String namespace = (modid != null && !modid.isEmpty()) ? modid : "enchiridion";
-        String path = (uniqueName != null && !uniqueName.isEmpty()) ? uniqueName : "default";
-        return new ResourceLocation(namespace, path);
+        return bookId != null ? bookId : new ResourceLocation("enchiridion", "default");
     }
 
     @Override
@@ -150,17 +140,17 @@ public class Book implements ReloadableRegistry.PenguinRegistry<Book>, IBook {
      **/
     @Override
     public String getModID() {
-        return modid;
+        return id().getNamespace();
     }
 
     @Override
     public String getUniqueName() {
-        return uniqueName;
+        return id().getPath();
     }
 
     @Override
     public String getSaveName() {
-        return saveName;
+        return id().getPath();
     }
 
     @Override
@@ -260,13 +250,17 @@ public class Book implements ReloadableRegistry.PenguinRegistry<Book>, IBook {
 
     @Override
     public IBook setModID(String modID) {
-        modid = modID;
+        // Update the namespace of bookId
+        String currentPath = (bookId != null) ? bookId.getPath() : "default";
+        this.bookId = new ResourceLocation(modID, currentPath);
         return this;
     }
 
     @Override
     public void setSaveName(String name) {
-        saveName = name;
+        // Update the path of bookId
+        String currentNamespace = (bookId != null) ? bookId.getNamespace() : "enchiridion";
+        this.bookId = new ResourceLocation(currentNamespace, name);
     }
 
     @Override

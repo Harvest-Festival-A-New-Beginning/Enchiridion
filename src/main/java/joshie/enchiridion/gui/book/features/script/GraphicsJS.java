@@ -9,15 +9,26 @@ import net.minecraft.resources.ResourceLocation;
 /**
  * JavaScript wrapper for GuiGraphics - exposed to scripts as "graphics" parameter
  * Provides safe drawing methods with automatic position offsetting
+ * Reusable wrapper that can be updated with new GuiGraphics and position each frame
  */
 public class GraphicsJS {
-    private final GuiGraphics guiGraphics;
-    private final int baseX;
-    private final int baseY;
-    private final int width;
-    private final int height;
+    private GuiGraphics guiGraphics;
+    private int baseX;
+    private int baseY;
+    private int width;
+    private int height;
+
+    public GraphicsJS() {
+    }
 
     public GraphicsJS(GuiGraphics guiGraphics, int baseX, int baseY, int width, int height) {
+        setGraphics(guiGraphics, baseX, baseY, width, height);
+    }
+
+    /**
+     * Update the graphics context and position (called each frame)
+     */
+    public void setGraphics(GuiGraphics guiGraphics, int baseX, int baseY, int width, int height) {
         this.guiGraphics = guiGraphics;
         this.baseX = baseX;
         this.baseY = baseY;

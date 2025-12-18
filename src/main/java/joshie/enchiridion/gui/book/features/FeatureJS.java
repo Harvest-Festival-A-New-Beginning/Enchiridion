@@ -66,6 +66,8 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
     // Callback mode fields
     private transient Interpreter interpreter = null;
     private transient ResourceLocation scriptId = null;
+    private transient GraphicsJS graphicsWrapper = null;
+    private transient FeatureJSWrapper featureWrapper = null;
 
     public FeatureJS() {
         super(0, 0, 0, 0);
@@ -117,8 +119,12 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
                     // Create interpreter with the script
                     interpreter = new Interpreter(scriptId, this, scriptToLoad);
 
+                    // Create reusable wrappers
+                    graphicsWrapper = new GraphicsJS();
+                    featureWrapper = new FeatureJSWrapper(this, page);
+
                     // Call the update callback if it exists
-                    interpreter.callFunction("update", new FeatureJSWrapper(this, page));
+                    interpreter.callFunction("update", featureWrapper);
                 } catch (Exception e) {
                     hasError = true;
                     e.printStackTrace();
@@ -200,12 +206,13 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
     @Override
     protected void drawFeature(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         // Callback mode - call JavaScript draw() function
-        if (useCallbacks && interpreter != null) {
+        if (useCallbacks && interpreter != null && graphicsWrapper != null) {
             try {
-                GraphicsJS graphics = new GraphicsJS(guiGraphics, getLeft(), getTop(), getWidth(), getHeight());
-                FeatureJSWrapper featureWrapper = new FeatureJSWrapper(this, null);
+                // Update the graphics wrapper with current frame data
+                graphicsWrapper.setGraphics(guiGraphics, getLeft(), getTop(), getWidth(), getHeight());
 
-                interpreter.callFunction("draw", graphics, mouseX, mouseY, partialTicks, featureWrapper);
+                // Call the draw function with the reusable wrappers
+                interpreter.callFunction("draw", graphicsWrapper, mouseX, mouseY, partialTicks, featureWrapper);
 
             } catch (Exception e) {
                 // Display error
@@ -240,9 +247,8 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
     @Override
     public boolean performClick(int mouseX, int mouseY, int button) {
         // Callback mode - call JavaScript onClick() function
-        if (useCallbacks && interpreter != null && isOverFeature(mouseX, mouseY)) {
+        if (useCallbacks && interpreter != null && featureWrapper != null && isOverFeature(mouseX, mouseY)) {
             try {
-                FeatureJSWrapper featureWrapper = new FeatureJSWrapper(this, null);
                 return ScriptFactory.getResult(interpreter, "onClick", false,
                     mouseX, mouseY, button, featureWrapper);
             } catch (Exception e) {
@@ -272,8 +278,10 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
                 // Clear cache when script changes
                 cachedResult = null;
                 lastExecutionTime = 0;
-                // Reset interpreter
+                // Reset interpreter and wrappers
                 interpreter = null;
+                graphicsWrapper = null;
+                featureWrapper = null;
             } catch (java.io.IOException e) {
                 e.printStackTrace();
             }
@@ -309,8 +317,10 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
         // Clear cache when script changes
         cachedResult = null;
         lastExecutionTime = 0;
-        // Reset interpreter
+        // Reset interpreter and wrappers
         interpreter = null;
+        graphicsWrapper = null;
+        featureWrapper = null;
     }
 
     @Override

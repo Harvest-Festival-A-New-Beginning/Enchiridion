@@ -6,6 +6,10 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
+import joshie.enchiridion.gui.book.features.script.JSFeature;
+import joshie.enchiridion.gui.book.features.script.JSGuiGraphics;
+import joshie.enchiridion.gui.book.features.script.JSPage;
+import joshie.enchiridion.gui.book.features.script.ScriptCallbackManager;
 import joshie.enchiridion.util.ITextEditable;
 import joshie.enchiridion.util.TextEditor;
 import net.minecraft.client.Minecraft;
@@ -29,12 +33,14 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
         ResourceLocation.CODEC.optionalFieldOf("script_file").forGetter(f -> Optional.ofNullable(f.scriptFile)),
         Codec.FLOAT.optionalFieldOf("size", 1F).forGetter(f -> f.size),
         Codec.BOOL.optionalFieldOf("render_result", true).forGetter(f -> f.renderResult),
+        Codec.BOOL.optionalFieldOf("use_callbacks", false).forGetter(f -> f.useCallbacks),
         Codec.STRING.optionalFieldOf("error_text", "§cScript Error").forGetter(f -> f.errorText)
-    ).apply(instance, (script, scriptFile, size, renderResult, errorText) -> {
+    ).apply(instance, (script, scriptFile, size, renderResult, useCallbacks, errorText) -> {
         FeatureJS feature = new FeatureJS(script);
         feature.scriptFile = scriptFile.orElse(null);
         feature.size = size;
         feature.renderResult = renderResult;
+        feature.useCallbacks = useCallbacks;
         feature.errorText = errorText;
         return feature;
     }));
@@ -46,6 +52,7 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
     public ResourceLocation scriptFile = null; // Optional: load script from resource file
     public float size = 1F;
     public boolean renderResult = true; // If true, renders the result of the script
+    public boolean useCallbacks = false; // If true, use callback mode (draw, update, onClick)
     public String errorText = "§cScript Error";
 
     private transient String cachedResult = null;
@@ -53,6 +60,9 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
     private transient boolean hasError = false;
     private transient long lastExecutionTime = 0;
     private static final long CACHE_DURATION = 1000; // Cache for 1 second
+
+    // Callback mode fields
+    private transient ScriptCallbackManager callbackManager = null;
 
     public FeatureJS() {
         super(0, 0, 0, 0);
@@ -69,6 +79,7 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
         js.scriptFile = scriptFile;
         js.size = size;
         js.renderResult = renderResult;
+        js.useCallbacks = useCallbacks;
         js.errorText = errorText;
         return js;
     }
@@ -90,6 +101,22 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
         cachedResult = null;
         loadedScript = null;
         lastExecutionTime = 0;
+
+        // Initialize callback manager in callback mode
+        if (useCallbacks) {
+            String scriptToLoad = loadScriptFromFile();
+            if (!hasError) {
+                callbackManager = new ScriptCallbackManager(scriptToLoad);
+                // Call the update callback if it exists
+                try {
+                    JSPage jsPage = new JSPage(page);
+                    JSFeature jsFeature = new JSFeature(this);
+                    callbackManager.call("update", jsPage, jsFeature);
+                } catch (Exception e) {
+                    // Ignore errors in update callback
+                }
+            }
+        }
     }
 
     private String loadScriptFromFile() {
@@ -164,6 +191,29 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
 
     @Override
     protected void drawFeature(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        // Callback mode - call JavaScript draw() function
+        if (useCallbacks && callbackManager != null) {
+            try {
+                JSGuiGraphics jsGraphics = new JSGuiGraphics(guiGraphics, getLeft(), getTop());
+                JSFeature jsFeature = new JSFeature(this);
+                callbackManager.call("draw", jsGraphics, mouseX, mouseY, partialTicks, jsFeature);
+
+                // Display error if script has error
+                if (callbackManager.hasError()) {
+                    Font font = Minecraft.getInstance().font;
+                    guiGraphics.drawString(font, errorText, getLeft(), getTop(), 0xFF0000);
+                    guiGraphics.drawWordWrap(font, Component.literal(callbackManager.getErrorMessage()),
+                        getLeft(), getTop() + 10, getWidth(), 0xFF0000);
+                }
+            } catch (Exception e) {
+                // Display error
+                Font font = Minecraft.getInstance().font;
+                guiGraphics.drawString(font, errorText, getLeft(), getTop(), 0xFF0000);
+            }
+            return;
+        }
+
+        // Simple mode - render script result as text
         if (script != null && !script.isEmpty() && renderResult) {
             String displayText = executeScript();
 
@@ -181,6 +231,26 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
             guiGraphics.drawWordWrap(font, Component.literal(displayText), x, y, wrap, color);
             poseStack.popPose();
         }
+    }
+
+    @Override
+    public boolean performClick(int mouseX, int mouseY, int button) {
+        // Callback mode - call JavaScript onClick() function
+        if (useCallbacks && callbackManager != null && isOverFeature(mouseX, mouseY)) {
+            try {
+                JSFeature jsFeature = new JSFeature(this);
+                Object result = callbackManager.call("onClick", mouseX, mouseY, button, jsFeature);
+                // If the callback returns true, consider the click handled
+                if (result instanceof Boolean) {
+                    return (Boolean) result;
+                }
+                // If callback exists (non-null result), consider click handled
+                return result != null;
+            } catch (Exception e) {
+                // Ignore errors
+            }
+        }
+        return super.performClick(mouseX, mouseY, button);
     }
 
     @Override
@@ -203,6 +273,11 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
                 // Clear cache when script changes
                 cachedResult = null;
                 lastExecutionTime = 0;
+                // Reset callback manager
+                if (callbackManager != null) {
+                    callbackManager.reset();
+                    callbackManager = null;
+                }
             } catch (java.io.IOException e) {
                 e.printStackTrace();
             }
@@ -238,6 +313,11 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
         // Clear cache when script changes
         cachedResult = null;
         lastExecutionTime = 0;
+        // Reset callback manager
+        if (callbackManager != null) {
+            callbackManager.reset();
+            callbackManager = null;
+        }
     }
 
     @Override

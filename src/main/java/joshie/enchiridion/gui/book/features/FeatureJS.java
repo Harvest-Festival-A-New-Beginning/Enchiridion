@@ -17,6 +17,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import dev.latvian.mods.rhino.Context;
 import dev.latvian.mods.rhino.Scriptable;
+import dev.latvian.mods.rhino.Undefined;
+import uk.joshiejack.penguinlib.scripting.Sandbox;
 import uk.joshiejack.penguinlib.scripting.ScriptFactory;
 import uk.joshiejack.penguinlib.scripting.ScriptLoader;
 
@@ -180,24 +182,20 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
             }
 
             // Evaluate script using Rhino Context directly
-            Context context = Context.enter();
-            try {
-                Scriptable scope = context.initStandardObjects();
-                Object result = context.evaluateString(scope, scriptToExecute, "inline", 1, null);
+            Context context = Sandbox.enter();
+            Scriptable scope = context.initStandardObjects();
+            Object result = context.evaluateString(scope, scriptToExecute, "inline", 1, null);
 
-                // Convert result to string
-                if (result == null || result == Context.getUndefinedValue()) {
-                    cachedResult = "";
-                } else {
-                    cachedResult = Context.toString(result);
-                }
-
-                hasError = false;
-                lastExecutionTime = currentTime;
-                return cachedResult;
-            } finally {
-                Context.exit();
+            // Convert result to string
+            if (result == null || result instanceof Undefined) {
+                cachedResult = "";
+            } else {
+                cachedResult = String.valueOf(result);
             }
+
+            hasError = false;
+            lastExecutionTime = currentTime;
+            return cachedResult;
 
         } catch (Exception e) {
             hasError = true;
@@ -346,11 +344,9 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
             super.addGlobals(data);
 
             // Add the feature wrapper to the JavaScript scope as "feature"
-            Context context = Context.getCurrentContext();
-            if (context != null) {
-                context.addToScope(localScope, "feature",
-                    Context.javaToJS(context, new FeatureJSWrapper(data, null), localScope));
-            }
+            // Use the static context field from parent Interpreter class
+            context.addToScope(localScope, "feature",
+                Context.javaToJS(context, new FeatureJSWrapper(data, null), localScope));
         }
     }
 }

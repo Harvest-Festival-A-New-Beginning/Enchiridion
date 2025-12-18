@@ -16,6 +16,7 @@ import joshie.enchiridion.gui.book.GuiSimpleEditor;
 import joshie.enchiridion.gui.book.GuiSimpleEditorGeneric;
 import joshie.enchiridion.helpers.JumpHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import org.lwjgl.opengl.GL11;
 
 public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeatureProvider implements ISimpleEditorFieldProvider {
@@ -108,7 +109,7 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
     }
 
     @Override
-    protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int xMouse, int yMouse, float partialTicks) {
+    protected void drawFeature(GuiGraphics guiGraphics, int xMouse, int yMouse, float partialTicks) {
         if (GuiBook.INSTANCE.isEditMode()) {
             // Draw bordered rectangle for edit mode
             int left = getLeft();

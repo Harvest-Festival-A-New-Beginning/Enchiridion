@@ -39,9 +39,7 @@ public class Enchiridion {
     private static final Logger LOGGER = LogManager.getLogger(MODNAME);
     public static File root = new File(FMLPaths.CONFIGDIR.get().toFile(), MODID);
 
-    public Enchiridion() {
-        IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
+    public Enchiridion(IEventBus eventBus) {
         // Register DeferredRegisters
         EGuis.MENUS.register(eventBus);
         EItemGroup.CREATIVE_MODE_TABS.register(eventBus);

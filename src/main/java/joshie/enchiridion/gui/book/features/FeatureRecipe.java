@@ -131,7 +131,7 @@ public class FeatureRecipe extends FeatureItem {
     }
 
     @Override
-    protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+    protected void drawFeature(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (stack.isEmpty() && itemString != null) stack = StackHelper.getStackFromString(itemString);
         if (handler != null) {
             EnchiridionAPI.draw.setRenderData(getLeft(), getTop(), getWidth(), getHeight(), size);

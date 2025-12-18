@@ -6,6 +6,7 @@ import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.FeatureProvider;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.Level;
 
@@ -56,7 +57,7 @@ public class FeatureResource extends joshie.enchiridion.data.book.FeatureProvide
     }
 
     @Override
-    protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+    protected void drawFeature(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (resource != null) {
             drawResource(guiGraphics, getLeft(), getTop(), getWidth(), getHeight());
         } else if (!attempted) attempted = loadResource();

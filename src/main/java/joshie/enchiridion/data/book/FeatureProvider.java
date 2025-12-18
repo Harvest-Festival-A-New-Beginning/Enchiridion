@@ -41,6 +41,8 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     private transient boolean dragBottomRight;
     private transient long timestamp;
     private transient IPage pageContainer;
+    private transient int left;
+    private transient int top;
 
     public FeatureProvider(int x, int y, double width, double height) {
         super(x, y, (int) width, (int) height, Component.empty());
@@ -58,6 +60,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
         this.pageContainer = page;
         this.pageContainer.sort();
         // Subclasses can override if they need custom update logic
+
     }
 
     // Abstract method - each feature type must implement its own copy logic
@@ -92,7 +95,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     }
 
     @Override
-    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (EventHelper.isFeatureVisible(getPage(), isVisible(), layerIndex)) {
             drawFeature(guiGraphics, mouseX, mouseY, partialTicks);
             if (isSelected && guiGraphics != null) {

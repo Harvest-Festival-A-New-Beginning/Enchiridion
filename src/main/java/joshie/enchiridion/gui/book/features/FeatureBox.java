@@ -7,6 +7,7 @@ import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
 import joshie.enchiridion.gui.book.GuiSimpleEditorColor;
 import joshie.enchiridion.util.IColorable;
+import net.minecraft.client.gui.GuiGraphics;
 
 public class FeatureBox extends joshie.enchiridion.data.book.FeatureProvider implements IColorable {
     public static final Codec<FeatureBox> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -74,7 +75,7 @@ public class FeatureBox extends joshie.enchiridion.data.book.FeatureProvider imp
     }
 
     @Override
-    protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+    protected void drawFeature(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         guiGraphics.fill(getLeft(), getTop(), getRight(), getBottom(), colorI);
     }
 

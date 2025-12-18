@@ -9,6 +9,7 @@ import joshie.enchiridion.gui.book.GuiSimpleEditor;
 import joshie.enchiridion.gui.book.GuiSimpleEditorButton;
 import joshie.enchiridion.helpers.MCClientHelper;
 import joshie.enchiridion.util.ELocation;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
@@ -123,7 +124,7 @@ public class FeatureButton extends FeatureJump implements IButtonActionProvider 
     }
 
     @Override
-    protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+    protected void drawFeature(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (action == null || !action.isVisible()) return;
         if (!isInit && action != null) { //Called here because action needs everything to be loaded, where as update doesn't
             action.onFieldsSet("");

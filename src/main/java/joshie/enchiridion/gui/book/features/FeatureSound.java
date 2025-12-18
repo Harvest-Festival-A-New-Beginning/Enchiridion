@@ -7,6 +7,7 @@ import joshie.enchiridion.data.book.FeatureProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -135,7 +136,7 @@ public class FeatureSound extends FeatureProvider {
             mc.level.getRandom(),
             loop,
             0,
-            net.minecraft.sounds.SoundInstance.Attenuation.NONE,
+            SoundInstance.Attenuation.NONE,
             0, 0, 0,
             true
         );

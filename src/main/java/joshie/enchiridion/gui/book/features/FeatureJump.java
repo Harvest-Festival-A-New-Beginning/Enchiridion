@@ -8,6 +8,7 @@ import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.helpers.JumpHelper;
+import net.minecraft.client.gui.GuiGraphics;
 
 public class FeatureJump extends joshie.enchiridion.data.book.FeatureProvider {
     public static final Codec<FeatureJump> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -40,7 +41,7 @@ public class FeatureJump extends joshie.enchiridion.data.book.FeatureProvider {
     }
 
     @Override
-    protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+    protected void drawFeature(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (page == null) {
             if (jumpTo != null && !jumpTo.equals("#LEGACY#")) {
                 try {

@@ -5,6 +5,7 @@ import joshie.enchiridion.data.library.ModdedBook;
 import joshie.enchiridion.data.library.ModdedBooks;
 import joshie.enchiridion.lib.EnchiridionRegistries;
 import net.minecraft.world.item.ItemStack;
+import uk.joshiejack.penguinlib.util.registry.ReloadableRegistry;
 
 import java.util.Collection;
 
@@ -21,7 +22,7 @@ public class ModSupport {
      */
     public static void loadFromRegistry() {
         // Get all ModdedBook entries from the registry
-        Collection<ModdedBook> entries = EnchiridionRegistries.MODDED_BOOKS.getAll();
+        Collection<ModdedBook> entries = EnchiridionRegistries.MODDED_BOOKS.registry().values();
         books = new ModdedBooks(entries);
 
         // Apply all book handlers

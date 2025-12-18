@@ -99,6 +99,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
         // Draw all the features, In reverse
         for (FeatureProvider feature : Lists.reverse(page.getFeatures())) {
+            feature.setRenderOffset(x, y);
             int y = this.y;
             if (page.getScroll() > 0) {
                 this.y -= page.getScroll();

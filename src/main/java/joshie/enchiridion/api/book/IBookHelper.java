@@ -1,5 +1,7 @@
 package joshie.enchiridion.api.book;
 
+import joshie.enchiridion.data.book.FeatureProvider;
+
 public interface IBookHelper {
     //GETTERS
     /** Whether or not this book is in edit mode **/

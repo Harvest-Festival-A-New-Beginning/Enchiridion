@@ -25,14 +25,14 @@ public class GuiLibrary extends AbstractContainerScreen<ContainerLibrary> {
     }
 
     @Override
-    protected void renderBg(net.minecraft.client.gui.GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         x = (width - imageWidth) / 2;
         y = (height - imageHeight) / 2;
         drawImage(guiGraphics, LOCATION, -10, -10, 440, 240);
     }
 
     //Helper
-    private void drawImage(net.minecraft.client.gui.GuiGraphics guiGraphics, ResourceLocation resource, int left, int top, int right, int bottom) {
+    private void drawImage(GuiGraphics guiGraphics, ResourceLocation resource, int left, int top, int right, int bottom) {
         //Fix the position in even scale factors
         if (Minecraft.getInstance().getWindow().getGuiScale() % 2 == 0) {
             top--;

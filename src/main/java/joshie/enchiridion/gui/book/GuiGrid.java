@@ -56,7 +56,7 @@ public class GuiGrid extends AbstractGuiOverlay {
     }
 
     @Override
-    public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY, GuiBook guiBookParam) {
         if (isActivated()) {
             int offsetX = guiBook.x;
             int offsetY = guiBook.y;

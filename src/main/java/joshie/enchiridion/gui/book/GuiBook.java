@@ -178,7 +178,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
         //Draw all the overlays
         if (isEditMode) {
             for (IBookEditorOverlay overlay : overlays) {
-                overlay.draw(guiGraphics, mouseX, mouseY);
+                overlay.draw(guiGraphics, mouseX, mouseY, this);
                 overlay.addToolTip(TOOLTIP, mouseX, mouseY);
             }
         }

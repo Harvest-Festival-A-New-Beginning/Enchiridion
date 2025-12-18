@@ -39,22 +39,22 @@ public class GuiSimpleEditorGeneric extends GuiSimpleEditorAbstract {
 
     private static final int X_POS_START = 4;
 
-    private void drawBoxLabel(net.minecraft.client.gui.GuiGraphics guiGraphics, String name, int yPos) {
-        drawBorderedRectangle(guiGraphics, X_POS_START - 2, yPos, 83, yPos + 10, 0xFFB0A483, 0xFF48453C);
-        drawSplitScaledString(guiGraphics, "[b]" + name + "[/b]", X_POS_START, yPos + 3, 0xFF48453C, 0.5F);
+    private void drawBoxLabel(net.minecraft.client.gui.GuiGraphics guiGraphics, String name, int yPos, GuiBook guiBook) {
+        drawBorderedRectangle(guiGraphics, X_POS_START - 2, yPos, 83, yPos + 10, 0xFFB0A483, 0xFF48453C, guiBook);
+        drawSplitScaledString(guiGraphics, "[b]" + name + "[/b]", X_POS_START, yPos + 3, 0xFF48453C, 0.5F, guiBook);
     }
 
     @Override
-    public void draw(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    public void draw(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, GuiBook guiBook) {
         int yPos = -11;
 
         //Draw the extra information for the actions
-        drawBoxLabel(guiGraphics, Enchiridion.format("fields.extra"), yPos + 20);
+        drawBoxLabel(guiGraphics, Enchiridion.format("fields.extra"), yPos + 20, guiBook);
         for (String f : getFieldNames()) {
             if (isTransient(f)) continue;
-            drawBorderedRectangle(guiGraphics, 2, yPos + 30, 83, yPos + 37, 0xFF312921, 0xFF191511);
+            drawBorderedRectangle(guiGraphics, 2, yPos + 30, 83, yPos + 37, 0xFF312921, 0xFF191511, guiBook);
             String name = Enchiridion.format("button.action.field." + f);
-            drawSplitScaledString(guiGraphics, "[b]" + name + "[/b]", 4, yPos + 32, 0xFFFFFFFF, 0.5F);
+            drawSplitScaledString(guiGraphics, "[b]" + name + "[/b]", 4, yPos + 32, 0xFFFFFFFF, 0.5F, guiBook);
 
             WrappedEditable editable;
             if (!fieldCache.containsKey(f)) {
@@ -69,11 +69,11 @@ public class GuiSimpleEditorGeneric extends GuiSimpleEditorAbstract {
             }
 
             int lines = getLineCount(text) - 1;
-            drawSplitScaledString(guiGraphics, text, 4, yPos + 39, 0xFF191511, 0.5F);
+            drawSplitScaledString(guiGraphics, text, 4, yPos + 39, 0xFF191511, 0.5F, guiBook);
             yPos = yPos + 6 + lines;
         }
 
-        drawBorderedRectangle(guiGraphics, 2, yPos + 30, 83, yPos + 31, 0xFF312921, 0xFF191511);
+        drawBorderedRectangle(guiGraphics, 2, yPos + 30, 83, yPos + 31, 0xFF312921, 0xFF191511, guiBook);
     }
 
     public int getLineCount(String text) {

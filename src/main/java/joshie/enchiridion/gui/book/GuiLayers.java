@@ -41,7 +41,7 @@ public class GuiLayers extends AbstractGuiOverlay {
     }
 
     @Override
-    public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY, GuiBook guiBookParam) {
         int offsetX = guiBook.x;
         int offsetY = guiBook.y;
 

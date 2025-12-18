@@ -70,11 +70,11 @@ public class GuiSimpleEditorColor extends GuiSimpleEditorAbstract {
     }
 
     @Override
-    public void draw(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        drawBorderedRectangle(guiGraphics, 4, 11, 81, 118, 0xFF392F27, 0xFF392F27);
+    public void draw(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, GuiBook guiBook) {
+        drawBorderedRectangle(guiGraphics, 4, 11, 81, 118, 0xFF392F27, 0xFF392F27, guiBook);
         for (int x = 0; x < 21; x++) {
             for (int y = 0; y < 15; y++) {
-                drawRectangle(guiGraphics, (y * 5) + 5, (x * 5) + 12, (y * 5) + 10, (x * 5) + 17, colorsI[x][y]);
+                drawRectangle(guiGraphics, (y * 5) + 5, (x * 5) + 12, (y * 5) + 10, (x * 5) + 17, colorsI[x][y], guiBook);
             }
         }
     }

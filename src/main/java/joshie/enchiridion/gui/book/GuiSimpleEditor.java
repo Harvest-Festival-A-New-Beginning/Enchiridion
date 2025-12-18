@@ -59,7 +59,7 @@ public class GuiSimpleEditor extends AbstractGuiOverlay {
     }
 
     @Override
-    public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY, GuiBook guiBookParam) {
         if (editor != null) {
             /* Draw the Background */
             // Draw SIDEBAR image
@@ -104,7 +104,7 @@ public class GuiSimpleEditor extends AbstractGuiOverlay {
             guiGraphics.fill(offsetX + left, offsetY + top, offsetX + left + 1, offsetY + bottom, 0xFF191511);
             guiGraphics.fill(offsetX + right - 1, offsetY + top, offsetX + right, offsetY + bottom, 0xFF191511);
 
-            editor.draw(guiGraphics, mouseX, mouseY);
+            editor.draw(guiGraphics, mouseX, mouseY, guiBookParam);
 
             if (textField.isFocused()) {
                 textField.render(guiGraphics, mouseX, mouseY, 0);

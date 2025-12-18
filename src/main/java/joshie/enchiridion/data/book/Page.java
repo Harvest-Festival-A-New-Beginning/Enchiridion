@@ -16,8 +16,11 @@ import java.util.function.Function;
 
 public class Page implements IPage {
     // Polymorphic codec for features using the feature registry
-    private static final Codec<IFeatureProvider> FEATURE_CODEC = EnchiridionRegistries.Features.FEATURE.byNameCodec()
-        .dispatchStable(IFeature::codec, Function.identity());
+    // Features implement both IFeature and IFeatureProvider, so we cast the codec
+    @SuppressWarnings("unchecked")
+    private static final Codec<IFeatureProvider> FEATURE_CODEC = (Codec<IFeatureProvider>) (Codec<?>)
+        EnchiridionRegistries.Features.FEATURE.byNameCodec()
+            .dispatchStable(IFeature::codec, Function.identity());
 
     public static final Codec<Page> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.INT.optionalFieldOf("pageNumber", 0).forGetter(p -> p.pageNumber),
@@ -106,12 +109,18 @@ public class Page implements IPage {
 
     @Override
     public void addFeature(IFeature feature, int x, int y, double width, double height, boolean isLocked, boolean isHidden, boolean isFromTemplate) {
-        FeatureProvider provider = new FeatureProvider(feature, x, y, width, height);
-        provider.isLocked = isLocked;
-        provider.isHidden = isHidden;
-        provider.isFromTemplate = isFromTemplate;
+        // Feature is now a FeatureProvider (implements both IFeature and IFeatureProvider)
+        // No wrapper needed - just cast and configure
+        IFeatureProvider provider = (IFeatureProvider) feature;
+        provider.setX(x);
+        provider.setY(y);
+        provider.setWidth((int) width);
+        provider.setHeight((int) height);
+        provider.setLocked(isLocked);
+        provider.setVisible(!isHidden);
+        provider.setFromTemplate(isFromTemplate);
         provider.update(this);
-        provider.layerIndex = features.size();
+        provider.setLayerIndex(features.size());
         features.add(provider);
     }
 

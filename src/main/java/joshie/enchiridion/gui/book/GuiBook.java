@@ -192,7 +192,8 @@ public class GuiBook extends GuiBase implements IBookHelper {
                 }
             } else if (MCClientHelper.isCtrlPressed() && InputConstants.isKeyDown(handle, GLFW.GLFW_KEY_V)) { //Paste features
                 for (IFeatureProvider provider : clipboard) {
-                    page.addFeature(provider.getFeature().copy(), provider.getLeft(), provider.getTop(), provider.getWidth(), provider.getHeight(), provider.isLocked(), !provider.isVisible(), provider.isFromTemplate());
+                    // copy() returns IFeatureProvider which is also an IFeature (FeatureProvider implements both)
+                    page.addFeature((IFeature) provider.copy(), provider.getLeft(), provider.getTop(), provider.getWidth(), provider.getHeight(), provider.isLocked(), !provider.isVisible(), provider.isFromTemplate());
                 }
             }
 

@@ -8,12 +8,13 @@ import joshie.enchiridion.helpers.DefaultHelper;
 import joshie.enchiridion.helpers.MCClientHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
+import uk.joshiejack.penguinlib.util.registry.ReloadableRegistry;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class Book implements IBook {
+public class Book extends ReloadableRegistry.PenguinRegistry<Book> implements IBook {
     public static final Codec<Book> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.STRING.optionalFieldOf("modid", "").forGetter(book -> book.modid),
         Codec.STRING.fieldOf("uniqueName").forGetter(book -> book.uniqueName),

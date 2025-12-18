@@ -28,7 +28,7 @@ public class EGuis {
 
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU, EInfo.MODID);
 
-    public static final DeferredHolder<MenuType<?>, MenuType<BookMenu>> BOOK_CONTAINER = MENUS.register(BOOK,
+    public static final DeferredHolder<MenuType<?>, MenuType<uk.joshiejack.penguinlib.world.inventory.AbstractBookMenu>> BOOK_CONTAINER = MENUS.register(BOOK,
             () -> new MenuType<>(EGuis::createBookContainer, net.minecraft.world.flag.FeatureFlags.VANILLA_SET));
 
     public static final DeferredHolder<MenuType<?>, MenuType<ContainerLibrary>> LIBRARY_CONTAINER = MENUS.register(LIBRARY,
@@ -51,7 +51,7 @@ public class EGuis {
     }
 
     private static BookMenu createBookContainer(int windowId, Inventory playerInventory) {
-        return new BookMenu(BOOK_CONTAINER.get(), windowId, playerInventory);
+        return new BookMenu(BOOK_CONTAINER.get(), windowId);
     }
 
     public static MenuProvider getLibraryProvider() {

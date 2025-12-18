@@ -47,7 +47,7 @@ public class EClientHandler {
     public static void registerScreens(RegisterMenuScreensEvent event) {
         // Register book screen using event system (NeoForge pattern)
         event.register(EGuis.BOOK_CONTAINER.get(),
-            (BookMenu container, Inventory inv, Component text) -> {
+            (uk.joshiejack.penguinlib.world.inventory.AbstractBookMenu container, Inventory inv, Component text) -> {
                 GuiBook gui = new GuiBook(container, inv);
                 // Get book and editing state from player's held item
                 Player player = inv.player;

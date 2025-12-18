@@ -92,8 +92,9 @@ public class FeatureItem extends joshie.enchiridion.data.book.FeatureProvider im
     }
 
     @Override
-    public boolean getAndSetEditMode() {
-        ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getSimpleEditor().setEditor(GuiSimpleEditorItem.INSTANCE.setItem(this));
+    public boolean getAndSetEditMode(Object gui) {
+        GuiBook guiBook = (GuiBook) gui;
+        guiBook.getSimpleEditor().setEditor(GuiSimpleEditorItem.INSTANCE.setItem(this));
         return false;
     }
 

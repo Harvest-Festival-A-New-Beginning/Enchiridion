@@ -1,7 +1,7 @@
 package joshie.enchiridion.gui.book.buttons;
 
 import joshie.enchiridion.EConfig;
-import joshie.enchiridion.api.EnchiridionAPI;
+import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.helpers.CodecHelper;
 import joshie.enchiridion.helpers.FileCopier;
 import joshie.enchiridion.helpers.FileHelper;
@@ -26,11 +26,12 @@ public class ButtonChangeIcon extends ButtonAbstract {
     }
 
     @Override
-    public void performAction() {
+    public void performAction(Object gui) {
+        GuiBook guiBook = (GuiBook) gui;
         File file = FileCopier.copyFileFromUser(FileHelper.getIconsDirectory());
         if (file != null) {
             try {
-                File iconJson = FileHelper.getIconsJSONForBook(EnchiridionAPI.book.getBook());
+                File iconJson = FileHelper.getIconsJSONForBook(guiBook.getBook());
                 BookIconTemplate template = new BookIconTemplate();
                 template.parent = "enchiridion:item/book";
                 template.textures = new Icons();

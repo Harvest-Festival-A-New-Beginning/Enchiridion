@@ -67,13 +67,13 @@ public class GuiSimpleEditorTemplate extends GuiSimpleEditorAbstract {
 
     private static final int X_POS_START = 4;
 
-    private void drawBoxLabel(net.minecraft.client.gui.GuiGraphics guiGraphics, String name, int yPos) {
-        drawBorderedRectangle(guiGraphics, X_POS_START - 2, yPos, 83, yPos + 10, 0xFFB0A483, 0xFF48453C);
-        drawSplitScaledString(guiGraphics, "[b]" + name + "[/b]", X_POS_START, yPos + 3, 0xFF48453C, 0.5F);
+    private void drawBoxLabel(net.minecraft.client.gui.GuiGraphics guiGraphics, String name, int yPos, GuiBook guiBook) {
+        drawBorderedRectangle(guiGraphics, X_POS_START - 2, yPos, 83, yPos + 10, 0xFFB0A483, 0xFF48453C, guiBook);
+        drawSplitScaledString(guiGraphics, "[b]" + name + "[/b]", X_POS_START, yPos + 3, 0xFF48453C, 0.5F, guiBook);
     }
 
     @Override
-    public void draw(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    public void draw(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, GuiBook guiBook) {
         int count = 0;
         int yPlus = 0;
         int xPlus = 0;
@@ -89,9 +89,9 @@ public class GuiSimpleEditorTemplate extends GuiSimpleEditorAbstract {
                 }
             }
 
-            drawImage(guiGraphics, template.getIcon(), 2 + xPlus, 11 + yPlus, 42 + xPlus, 34 + yPlus);
-            if (((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getBook().getDefaultFeatures().contains(template.getUniqueName())) {
-                drawBorderedRectangle(guiGraphics, 2 + xPlus, 11 + yPlus, 42 + xPlus, 34 + yPlus, 0x00000000, 0xFF8C0000);
+            drawImage(guiGraphics, template.getIcon(), 2 + xPlus, 11 + yPlus, 42 + xPlus, 34 + yPlus, guiBook);
+            if (guiBook.getBook().getDefaultFeatures().contains(template.getUniqueName())) {
+                drawBorderedRectangle(guiGraphics, 2 + xPlus, 11 + yPlus, 42 + xPlus, 34 + yPlus, 0x00000000, 0xFF8C0000, guiBook);
             }
 
             xPlus += 41;
@@ -147,17 +147,21 @@ public class GuiSimpleEditorTemplate extends GuiSimpleEditorAbstract {
         }
     }
 
-    private void switchDefaulthood(ITemplate template) {
-        HashSet<String> set = new HashSet<>(((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getBook().getDefaultFeatures());
+    private GuiBook currentGuiBook; // Store reference for mouseClicked
+
+    private void switchDefaulthood(ITemplate template, GuiBook guiBook) {
+        HashSet<String> set = new HashSet<>(guiBook.getBook().getDefaultFeatures());
         if (set.contains(template.getUniqueName())) {
             set.remove(template.getUniqueName());
         } else set.add(template.getUniqueName());
 
-        ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getBook().setDefaultFeatures(set);
+        guiBook.getBook().setDefaultFeatures(set);
     }
 
     @Override
     public boolean mouseClicked(int mouseX, int mouseY) {
+        GuiBook guiBook = (GuiBook) EnchiridionAPI.book; // Get reference once
+        currentGuiBook = guiBook; // Store for other methods if needed
         int count = 0;
         int yPlus = 0;
         int xPlus = 0;
@@ -172,10 +176,10 @@ public class GuiSimpleEditorTemplate extends GuiSimpleEditorAbstract {
 
             if (isOverPosition(2 + xPlus, 11 + yPlus, 42 + xPlus, 34 + yPlus, mouseX, mouseY)) {
                 if (MCClientHelper.isShiftPressed()) {
-                    switchDefaulthood(template);
+                    switchDefaulthood(template, guiBook);
                 } else {
                     for (FeatureProvider provider : template.getFeatures()) {
-                        ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getPage().addFeature(provider.getFeature(), provider.getLeft(), provider.getTop(), provider.getWidth(), provider.getHeight(), provider.isLocked(), !provider.isVisible(), provider.isFromTemplate());
+                        guiBook.getPage().addFeature(provider.getFeature(), provider.getLeft(), provider.getTop(), provider.getWidth(), provider.getHeight(), provider.isLocked(), !provider.isVisible(), provider.isFromTemplate());
                     }
                 }
                 return true;

@@ -12,8 +12,9 @@ import joshie.enchiridion.gui.book.features.FeatureButton;
 
 public class EditHelper implements IEditHelper {
     @Override
-    public void setSimpleEditorFeature(ISimpleEditorFieldProvider feature) {
-        ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getSimpleEditor().setEditor(GuiSimpleEditorGeneric.INSTANCE.setFeature(feature));
+    public void setSimpleEditorFeature(ISimpleEditorFieldProvider feature, Object gui) {
+        GuiBook guiBook = (GuiBook) gui;
+        guiBook.getSimpleEditor().setEditor(GuiSimpleEditorGeneric.INSTANCE.setFeature(feature));
     }
 
     @Override

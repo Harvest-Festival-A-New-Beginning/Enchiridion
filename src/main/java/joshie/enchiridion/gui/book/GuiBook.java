@@ -245,7 +245,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
         //super.charTyped(character, key);
 
         if (isEditMode) {
-            group.stream().filter(g -> g.keyTyped(character, key)).forEach(g -> {
+            group.stream().filter(g -> g.keyTyped(character, key, this)).forEach(g -> {
                 page.removeFeature(g);
                 group = new HashSet<>();
             });
@@ -322,7 +322,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
         //Perform clicks for the features
         for (FeatureProvider feature : page.getFeatures()) {
-            if (feature.mouseClicked(mouseX, mouseY + page.getScroll(), mouseButton)) {
+            if (feature.mouseClicked(mouseX, mouseY + page.getScroll(), mouseButton, this)) {
                 if (isEditMode && mouseButton == 0) {
                     selectLayer(feature);
                 }
@@ -359,7 +359,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
     public boolean mouseDragged(double mX, double mY, int p_mouseDragged_5_, double p_mouseDragged_6_, double p_mouseDragged_8_) {
         if (!layers.isDragging()) {
             for (FeatureProvider provider : group) {
-                provider.follow(mouseX, mouseY + page.getScroll(), isGroupMoveMode);
+                provider.follow(mouseX, mouseY + page.getScroll(), isGroupMoveMode, this);
             }
         }
         return true;

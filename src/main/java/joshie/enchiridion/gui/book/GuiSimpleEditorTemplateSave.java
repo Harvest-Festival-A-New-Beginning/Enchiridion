@@ -25,6 +25,8 @@ public class GuiSimpleEditorTemplateSave extends GuiSimpleEditorAbstract impleme
     private Template template;
     private boolean isTakingScreenshot = false;
 
+    private GuiBook currentGuiBook; // Store reference for use in setTextField
+
     @Override
     public void setTextField(String text) {
         displayname = text;
@@ -35,7 +37,7 @@ public class GuiSimpleEditorTemplateSave extends GuiSimpleEditorAbstract impleme
             // Create user template with enchiridion namespace
             // The id path will serve as the unique name
             ResourceLocation templateId = new ResourceLocation("enchiridion", "user/" + sanitized);
-            template = new Template(templateId, text, ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getPage());
+            template = new Template(templateId, text, currentGuiBook.getPage());
             GuiSimpleEditorTemplate.INSTANCE.registerTemplate(template);
             isTakingScreenshot = true;
         }
@@ -105,15 +107,16 @@ public class GuiSimpleEditorTemplateSave extends GuiSimpleEditorAbstract impleme
     }
 
     @Override
-    public void draw(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    public void draw(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, GuiBook guiBook) {
+        currentGuiBook = guiBook; // Store reference for setTextField
         if (!isTakingScreenshot) {
             TextEditor.INSTANCE.setEditable(this);
-            drawBorderedRectangle(guiGraphics, 175, 100, 455, 115, 0xFF312921, 0xFF191511);
-            drawSplitScaledString(guiGraphics, TextEditor.INSTANCE.getText(this), 180, 104, 0xFFFFFFFF, 1F);
+            drawBorderedRectangle(guiGraphics, 175, 100, 455, 115, 0xFF312921, 0xFF191511, guiBook);
+            drawSplitScaledString(guiGraphics, TextEditor.INSTANCE.getText(this), 180, 104, 0xFFFFFFFF, 1F, guiBook);
         } else { //Doing this down here so we don't have the bar in the way
             saveScreenshot(sanitized);
             saveTemplate(sanitized, template);
-            ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getSimpleEditor().setEditor(null);
+            guiBook.getSimpleEditor().setEditor(null);
             isTakingScreenshot = false;
             displayname = "New Template";
         }

@@ -1,8 +1,8 @@
 package joshie.enchiridion.gui.book.buttons;
 
 import com.google.common.collect.Lists;
-import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.gui.book.GuiBook;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,26 +13,27 @@ public class ButtonDeletePage extends ButtonAbstract {
     }
 
     @Override
-    public void performAction() {
-        IPage currentPage = EnchiridionAPI.book.getPage();
-        int numberOfPages = EnchiridionAPI.book.getBook().getPages().size();
+    public void performAction(Object gui) {
+        GuiBook guiBook = (GuiBook) gui;
+        IPage currentPage = guiBook.getPage();
+        int numberOfPages = guiBook.getBook().getPages().size();
         int pageNumber;
         if (numberOfPages > 1) {
-            pageNumber = getPreviousPage();
-            EnchiridionAPI.book.jumpToPageIfExists(pageNumber); //Jump to the previous page
+            pageNumber = getPreviousPage(guiBook);
+            guiBook.jumpToPageIfExists(pageNumber); //Jump to the previous page
             //Delete the older page
-            EnchiridionAPI.book.getBook().removePage(currentPage);
+            guiBook.getBook().removePage(currentPage);
         } else {
-            EnchiridionAPI.book.getPage().clear();
+            guiBook.getPage().clear();
         }
     }
 
-    public int getPreviousPage() {
-        List<IPage> pages = EnchiridionAPI.book.getBook().getPages();
+    public int getPreviousPage(GuiBook guiBook) {
+        List<IPage> pages = guiBook.getBook().getPages();
         List<Integer> numbersTemp = pages.stream().map(IPage::getPageNumber).sorted(Integer::compareTo).collect(Collectors.toList());
 
         List<Integer> numbers = Lists.reverse(numbersTemp);
-        int number = EnchiridionAPI.book.getPage().getPageNumber();
+        int number = guiBook.getPage().getPageNumber();
         for (Integer integer : numbers) {
             if (integer < number) {
                 return integer;

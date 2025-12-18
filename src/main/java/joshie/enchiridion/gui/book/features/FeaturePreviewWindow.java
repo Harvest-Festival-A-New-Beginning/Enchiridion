@@ -70,8 +70,9 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
     }
 
     @Override
-    public boolean getAndSetEditMode() {
-        ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getSimpleEditor().setEditor(GuiSimpleEditorGeneric.INSTANCE.setFeature(this));
+    public boolean getAndSetEditMode(Object gui) {
+        GuiBook guiBook = (GuiBook) gui;
+        guiBook.getSimpleEditor().setEditor(GuiSimpleEditorGeneric.INSTANCE.setFeature(this));
         return false;
     }
 
@@ -82,18 +83,19 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
     @Override
     public boolean performClick(int mouseX, int mouseY, int button) {
         if (page != null && page != thisPage) {
+            GuiBook guiBook = (GuiBook) EnchiridionAPI.book; // Single cast
             for (FeatureProvider feature : Lists.reverse(page.getFeatures())) {
                 if (feature instanceof FeaturePreviewWindow) continue; //No Cascading
-                mouseY = ((GuiBook) EnchiridionAPI.book).mouseY + page.getScroll();
-                if (feature.mouseClicked(mouseX, mouseY, button)) return true;
+                mouseY = guiBook.mouseY + page.getScroll();
+                if (feature.mouseClicked(mouseX, mouseY, button, guiBook)) return true;
             }
 
 
             int scrollMax = page.getScrollbarMax(getBottom() - 5);
             int pos = (int) ((page.getScroll() * (getHeight() - 10)) / scrollMax);
-            if (isOverScrollY(pos, mouseX, ((GuiBook) EnchiridionAPI.book).mouseY)) {
+            if (isOverScrollY(pos, mouseX, guiBook.mouseY)) {
                 isDragging = true;
-                startY = ((GuiBook) EnchiridionAPI.book).mouseY;
+                startY = guiBook.mouseY;
                 return true;
             }
         }
@@ -110,7 +112,9 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
 
     @Override
     protected void drawFeature(GuiGraphics guiGraphics, int xMouse, int yMouse, float partialTicks) {
-        if (((GuiBook) EnchiridionAPI.book).isEditMode()) {
+        GuiBook guiBook = (GuiBook) EnchiridionAPI.book; // Single cast
+
+        if (guiBook.isEditMode()) {
             // Draw bordered rectangle for edit mode
             int left = getLeft();
             int top = getTop();
@@ -128,13 +132,13 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
         if (page != null && page != thisPage) {
             int scrollMax = page.getScrollbarMax(getBottom() - 5);
             if (isDragging) {
-                if (startY != ((GuiBook) EnchiridionAPI.book).mouseY) {
-                    int scrollPosition = (int) (((((GuiBook) EnchiridionAPI.book).mouseY - getTop()) * (scrollMax)) / getHeight());
+                if (startY != guiBook.mouseY) {
+                    int scrollPosition = (int) (((guiBook.mouseY - getTop()) * (scrollMax)) / getHeight());
                     page.updateMaximumScroll(getBottom() - 5); //Update the max
                     page.setScrollPosition(scrollPosition);
                 }
 
-                startY = ((GuiBook) EnchiridionAPI.book).mouseY;
+                startY = guiBook.mouseY;
             }
 
             // TODO: This needs major refactoring for GuiGraphics in 1.20.4
@@ -143,30 +147,30 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
             int scale = (int) Minecraft.getInstance().getWindow().getGuiScale();
             GL11.glEnable(GL11.GL_SCISSOR_TEST);
             RenderSystem.clear(GlConst.GL_DEPTH_BUFFER_BIT, false);
-            GL11.glScissor((((GuiBook) EnchiridionAPI.book).x + getLeft()) * scale, (int) (((GuiBook) EnchiridionAPI.book).y + 217 - getTop() - getHeight()) * scale, (int) getWidth() * scale, (int) getHeight() * scale);
+            GL11.glScissor((guiBook.x + getLeft()) * scale, (int) (guiBook.y + 217 - getTop() - getHeight()) * scale, (int) getWidth() * scale, (int) getHeight() * scale);
 
             for (FeatureProvider feature : Lists.reverse(page.getFeatures())) {
                 if (feature instanceof FeaturePreviewWindow) continue; //No Cascading
-                int y = ((GuiBook) EnchiridionAPI.book).y;
+                int y = guiBook.y;
                 if (page.getScroll() > 0) {
-                    ((GuiBook) EnchiridionAPI.book).y -= page.getScroll();
+                    guiBook.y -= page.getScroll();
                 }
 
                 boolean isMouseHovering = isOverFeature(xMouse, yMouse);
-                int mouseX = isMouseHovering ? ((GuiBook) EnchiridionAPI.book).mouseX : Short.MAX_VALUE;
-                int mouseY = isMouseHovering ? ((GuiBook) EnchiridionAPI.book).mouseY + page.getScroll() : Short.MAX_VALUE;
-                int originalY = ((GuiBook) EnchiridionAPI.book).mouseY;
+                int mouseX = isMouseHovering ? guiBook.mouseX : Short.MAX_VALUE;
+                int mouseY = isMouseHovering ? guiBook.mouseY + page.getScroll() : Short.MAX_VALUE;
+                int originalY = guiBook.mouseY;
                 if (isMouseHovering) {
-                    ((GuiBook) EnchiridionAPI.book).mouseY = ((GuiBook) EnchiridionAPI.book).mouseY + page.getScroll();
+                    guiBook.mouseY = guiBook.mouseY + page.getScroll();
                 }
 
                 feature.draw(mouseX, mouseY);
-                feature.addTooltip(((GuiBook) EnchiridionAPI.book).TOOLTIP, mouseX, mouseY);
+                feature.addTooltip(guiBook.TOOLTIP, mouseX, mouseY);
                 if (isMouseHovering) {
-                    ((GuiBook) EnchiridionAPI.book).mouseY = originalY;
+                    guiBook.mouseY = originalY;
                 }
 
-                ((GuiBook) EnchiridionAPI.book).y = y;
+                guiBook.y = y;
                 RenderSystem.clear(GlConst.GL_DEPTH_BUFFER_BIT, false);
             }
 

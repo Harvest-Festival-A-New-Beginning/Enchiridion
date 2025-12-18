@@ -154,11 +154,12 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     }
 
     @Override
-    public boolean keyTyped(char character, int key) {
+    public boolean keyTyped(char character, int key, Object gui) {
+        joshie.enchiridion.gui.book.GuiBook guiBook = (joshie.enchiridion.gui.book.GuiBook) gui;
         if (isEditing) {
             handleKeyTyped(character, key);
         } else if (isSelected && key == 211 && !TextEditor.INSTANCE.isEditing()) {
-            ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getSimpleEditor().setEditor(null); //Reset the editor
+            guiBook.getSimpleEditor().setEditor(null); //Reset the editor
             TextEditor.INSTANCE.clearEditable();
             return true;
         }
@@ -171,20 +172,20 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     }
 
 
-    public boolean mouseClicked(int mouseX, int mouseY, int button) {
-        if (EnchiridionAPI.book.isEditMode()) {
-            ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getSimpleEditor().setEditor(null); //Reset the editor
+    public boolean mouseClicked(int mouseX, int mouseY, int button, joshie.enchiridion.gui.book.GuiBook guiBook) {
+        if (guiBook.isEditMode()) {
+            guiBook.getSimpleEditor().setEditor(null); //Reset the editor
             TextEditor.INSTANCE.clearEditable();
         }
 
         if (!EventHelper.isFeatureVisible(getPage(), isVisible(), layerIndex)) return false;
         if (isOverFeature(mouseX, mouseY)) {
-            if (button == 0 && EnchiridionAPI.book.isEditMode() && !isLocked()) {
-                isEditing = getAndSetEditMode();
+            if (button == 0 && guiBook.isEditMode() && !isLocked()) {
+                isEditing = getAndSetEditMode(guiBook);
             }
 
             //Perform clicks
-            if (!EnchiridionAPI.book.isEditMode() || button != 0) {
+            if (!guiBook.isEditMode() || button != 0) {
                 if (performClick(mouseX, mouseY, button)) return true;
             }
 
@@ -248,7 +249,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     }
 
 
-    public void follow(int mouseX, int mouseY, boolean force) {
+    public void follow(int mouseX, int mouseY, boolean force, joshie.enchiridion.gui.book.GuiBook guiBook) {
         if (isHeld || force) {
             if (force) {
                 isSelected = true;
@@ -259,7 +260,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
             setX(getX() + changeX);
             setY(getY() + changeY);
 
-            GuiGrid grid = ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getGrid();
+            GuiGrid grid = guiBook.getGrid();
             if (grid.isActivated()) {
                 int large = grid.getGridSize();
                 int small = large - 1;
@@ -432,7 +433,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     // ===== IFeature default implementations =====
 
     @Override
-    public boolean getAndSetEditMode() {
+    public boolean getAndSetEditMode(Object gui) {
         return false;
     }
 
@@ -446,7 +447,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     }
 
     @Override
-    public void follow(int mouseX, int mouseY) {
+    public void follow(int mouseX, int mouseY, Object gui) {
     }
 
     @Override

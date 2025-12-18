@@ -30,7 +30,7 @@ public class GuiToolbar extends AbstractGuiOverlay {
     private static final int X_END = 426;
 
     @Override
-    public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY, GuiBook guiBookParam) {
         int offsetX = guiBook.x;
         int offsetY = guiBook.y;
 
@@ -59,7 +59,7 @@ public class GuiToolbar extends AbstractGuiOverlay {
         //Draw the left hand buttons first
         int x = X_START;
         for (IToolbarButton button : leftButtons) {
-            ResourceLocation resource = isOverButton(x, mouseX, mouseY) ? button.getHoverResource() : button.getResource();
+            ResourceLocation resource = isOverButton(x, mouseX, mouseY) ? button.getHoverResource(guiBook) : button.getResource(guiBook);
             left = x;
             top = EConfig.SETTINGS.toolbarYPos.get() + 2;
             right = x + 8;
@@ -73,7 +73,7 @@ public class GuiToolbar extends AbstractGuiOverlay {
         //Now draw the right hand buttons
         x = X_END;
         for (IToolbarButton button : rightButtons) {
-            ResourceLocation resource = isOverButton(x, mouseX, mouseY) ? button.getHoverResource() : button.getResource();
+            ResourceLocation resource = isOverButton(x, mouseX, mouseY) ? button.getHoverResource(guiBook) : button.getResource(guiBook);
             left = x;
             top = EConfig.SETTINGS.toolbarYPos.get() + 2;
             right = x + 8;
@@ -90,7 +90,7 @@ public class GuiToolbar extends AbstractGuiOverlay {
         int x = X_START;
         for (IToolbarButton button : leftButtons) {
             if (isOverButton(x, mouseX, mouseY)) {
-                tooltip.add(button.getTooltipText());
+                tooltip.add(button.getTooltipText(guiBook));
             }
             x += 12;
         }
@@ -99,7 +99,7 @@ public class GuiToolbar extends AbstractGuiOverlay {
         x = X_END;
         for (IToolbarButton button : rightButtons) {
             if (isOverButton(x, mouseX, mouseY)) {
-                tooltip.add(button.getTooltipText());
+                tooltip.add(button.getTooltipText(guiBook));
             }
             x -= 12;
         }
@@ -110,7 +110,7 @@ public class GuiToolbar extends AbstractGuiOverlay {
         int x = X_START;
         for (IToolbarButton button : leftButtons) {
             if (isOverButton(x, mouseX, mouseY)) {
-                button.performAction();
+                button.performAction(guiBook);
             }
             x += 12;
         }
@@ -119,7 +119,7 @@ public class GuiToolbar extends AbstractGuiOverlay {
         x = X_END;
         for (IToolbarButton button : rightButtons) {
             if (isOverButton(x, mouseX, mouseY)) {
-                button.performAction();
+                button.performAction(guiBook);
             }
             x -= 12;
         }

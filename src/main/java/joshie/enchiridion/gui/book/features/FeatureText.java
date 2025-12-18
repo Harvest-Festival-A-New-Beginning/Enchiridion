@@ -77,7 +77,7 @@ public class FeatureText extends FeatureProvider implements ITextEditable {
     }
 
     @Override
-    public boolean getAndSetEditMode() {
+    public boolean getAndSetEditMode(Object gui) {
         if (MCClientHelper.isShiftPressed()) {
             try {
                 readTemp = true;

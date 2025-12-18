@@ -1,7 +1,7 @@
 package joshie.enchiridion.gui.book.buttons;
 
-import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.gui.book.features.FeatureImage;
 import joshie.enchiridion.helpers.FileCopier;
 import joshie.enchiridion.helpers.FileHelper;
@@ -17,13 +17,14 @@ public class ButtonInsertImage extends ButtonAbstract {
     }
 
     @Override
-    public void performAction() {
+    public void performAction(Object gui) {
+        GuiBook guiBook = (GuiBook) gui;
         File file = FileCopier.copyFileFromUser(FileHelper.getImageSaveDirectory());
         if (file != null) {
             try {
-                String folderName = EnchiridionAPI.book.getBook().getSaveName();
-                String modid = EnchiridionAPI.book.getBook().getModID();
-                IPage current = EnchiridionAPI.book.getPage();
+                String folderName = guiBook.getBook().getSaveName();
+                String modid = guiBook.getBook().getModID();
+                IPage current = guiBook.getPage();
                 String path = "";
                 if (modid == null || modid.equals("")) {
                     path = EInfo.MODID + ":images/" + folderName + "/" + file.getName();
@@ -35,7 +36,7 @@ public class ButtonInsertImage extends ButtonAbstract {
                 BufferedImage buffered = ImageIO.read(file);
                 int width = buffered.getWidth();
                 int height = buffered.getHeight();
-                EnchiridionAPI.book.getPage().addFeature(feature, 0, current.getScroll(), width, height, false, false, false);
+                guiBook.getPage().addFeature(feature, 0, current.getScroll(), width, height, false, false, false);
             } catch (Exception e) {
                 e.printStackTrace();
             }

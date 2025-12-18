@@ -1,6 +1,5 @@
 package joshie.enchiridion.gui.book.buttons;
 
-import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
@@ -12,10 +11,11 @@ public class ButtonInsertPreviewWindow extends ButtonAbstract {
     }
 
     @Override
-    public void performAction() {
-        IPage current = EnchiridionAPI.book.getPage();
+    public void performAction(Object gui) {
+        GuiBook guiBook = (GuiBook) gui;
+        IPage current = guiBook.getPage();
         FeaturePreviewWindow feature = new FeaturePreviewWindow(0);
         current.addFeature(feature, 0, current.getScroll(), 100D, 100D, false, false, false);
-        ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getSimpleEditor().setEditor(null);
+        guiBook.getSimpleEditor().setEditor(null);
     }
 }

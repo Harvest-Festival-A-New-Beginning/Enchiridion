@@ -260,7 +260,7 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
     }
 
     @Override
-    public boolean getAndSetEditMode() {
+    public boolean getAndSetEditMode(Object gui) {
         // Use text editor for editing JavaScript code
         TextEditor.INSTANCE.setEditable(this);
         return true;

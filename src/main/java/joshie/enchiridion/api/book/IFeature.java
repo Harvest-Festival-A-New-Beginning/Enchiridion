@@ -11,16 +11,28 @@ public interface IFeature {
     void update(IPage page);
     void draw(int mouseX, int mouseY);
     void addTooltip(List<String> tooltip, int mouseX, int mouseY);
-    boolean keyTyped(char character, int key);
+
+    /** Handle key typed
+     * @param character the character typed
+     * @param key the key code
+     * @param gui the current book GUI instance
+     * @return true if the key was handled **/
+    boolean keyTyped(char character, int key, Object gui);
 
     /** @return true if this feature should display yellow squares instead of blue
-     *  Should also open any edit menus required **/
-    boolean getAndSetEditMode();
+     *  Should also open any edit menus required
+     * @param gui the current book GUI instance **/
+    boolean getAndSetEditMode(Object gui);
 
     /* Called when not in edit mode, or shift is clicked, on mouseClick **/
     boolean performClick(int mouseX, int mouseY, int button);
     void performRelease(int mouseX, int mouseY, int button);
-    void follow(int mouseX, int mouseY);
+
+    /** Follow the mouse
+     * @param mouseX the mouse X position
+     * @param mouseY the mouse Y position
+     * @param gui the current book GUI instance **/
+    void follow(int mouseX, int mouseY, Object gui);
     void scroll(boolean down, int amount);
     void onDeselected();
 

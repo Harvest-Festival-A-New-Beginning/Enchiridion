@@ -78,9 +78,10 @@ public class FeatureIcon extends FeatureProvider {
     }
 
     @Override
-    public boolean getAndSetEditMode() {
+    public boolean getAndSetEditMode(Object gui) {
         // TODO: Create GuiSimpleEditorIcon for icon selection
-        // GuiSimpleEditor.INSTANCE.setEditor(GuiSimpleEditorIcon.INSTANCE.setIcon(this));
+        // GuiBook guiBook = (GuiBook) gui;
+        // guiBook.getSimpleEditor().setEditor(GuiSimpleEditorIcon.INSTANCE.setIcon(this));
         return false;
     }
 

@@ -69,8 +69,9 @@ public class GuiBookCreate extends GuiBase {
                 ResourceLocation bookId = new ResourceLocation(EInfo.MODID, sanitized);
                 Book book = Book.create(bookId, text); //Create the book
                 BookRegistry.INSTANCE.register(book); //Register the book
-                ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).setBook(book, true);
-                ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).removed(); //Save the data to json
+                GuiBook guiBook = (GuiBook) EnchiridionAPI.book; // Single cast
+                guiBook.setBook(book, true);
+                guiBook.removed(); //Save the data to json
                 this.onClose();
                 return true;
             }

@@ -1,6 +1,6 @@
 package joshie.enchiridion.gui.book.buttons;
 
-import joshie.enchiridion.api.EnchiridionAPI;
+import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.helpers.FileCopier;
 import joshie.enchiridion.helpers.FileHelper;
 import joshie.enchiridion.lib.EInfo;
@@ -13,10 +13,11 @@ public class ButtonChangeBackground extends ButtonAbstract {
     }
 
     @Override
-    public void performAction() {
+    public void performAction(Object gui) {
+        GuiBook guiBook = (GuiBook) gui;
         File file = FileCopier.copyFileFromUser(FileHelper.getImageSaveDirectory());
         if (file != null) {
-            EnchiridionAPI.book.getBook().setBackgroundResource(EInfo.MODID + ":images/" + EnchiridionAPI.book.getBook().getSaveName() + "/" + file.getName());
+            guiBook.getBook().setBackgroundResource(EInfo.MODID + ":images/" + guiBook.getBook().getSaveName() + "/" + file.getName());
         }
     }
 

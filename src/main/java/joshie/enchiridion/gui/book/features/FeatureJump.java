@@ -41,14 +41,14 @@ public class FeatureJump extends joshie.enchiridion.data.book.FeatureProvider {
 
     @Override
     protected void drawFeature(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        if (page == null) {
+        if (page == null && getPage() != null && getPage().getBook() != null) {
             if (jumpTo != null && !jumpTo.equals("#LEGACY#")) {
                 try {
-                    page = JumpHelper.getPageByNumber(((GuiBook) EnchiridionAPI.book).getBook(), Integer.parseInt(jumpTo));
+                    page = JumpHelper.getPageByNumber(getPage().getBook(), Integer.parseInt(jumpTo));
                 } catch (Exception ignored) {
                 }
             } else {
-                page = JumpHelper.getPageByNumber(((GuiBook) EnchiridionAPI.book).getBook(), number);
+                page = JumpHelper.getPageByNumber(getPage().getBook(), number);
             }
         }
     }

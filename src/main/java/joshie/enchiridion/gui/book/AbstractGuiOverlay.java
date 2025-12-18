@@ -48,4 +48,6 @@ public abstract class AbstractGuiOverlay implements IBookEditorOverlay {
     public GuiEventListener getFocused() {
         return null;
     }
+
+    // Note: draw() is abstract and must be implemented by subclasses
 }

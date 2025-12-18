@@ -42,8 +42,9 @@ public class FeatureBox extends joshie.enchiridion.data.book.FeatureProvider imp
     }
 
     @Override
-    public boolean getAndSetEditMode() {
-        ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getSimpleEditor().setEditor(GuiSimpleEditorColor.INSTANCE.setColorable(this));
+    public boolean getAndSetEditMode(Object gui) {
+        GuiBook guiBook = (GuiBook) gui;
+        guiBook.getSimpleEditor().setEditor(GuiSimpleEditorColor.INSTANCE.setColorable(this));
         return false;
     }
 

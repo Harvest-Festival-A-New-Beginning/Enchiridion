@@ -35,9 +35,9 @@ public class GuiSimpleEditorItem extends AbstractGuiOverlay {
     }
 
     @Override
-    public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        int offsetX = ((GuiBook) EnchiridionAPI.book).x;
-        int offsetY = ((GuiBook) EnchiridionAPI.book).y;
+    public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY, GuiBook guiBook) {
+        int offsetX = guiBook.x;
+        int offsetY = guiBook.y;
         int backgroundColor = 0xFFB0A483; //0xFF48453C
         int fontColor = 0xCE48433D;
         if (mouseX >= EConfig.SETTINGS.editorXPos + 2 && mouseX <= EConfig.SETTINGS.editorXPos + 83) {
@@ -92,7 +92,7 @@ public class GuiSimpleEditorItem extends AbstractGuiOverlay {
                     }
                 }
             }
-        } else updateSearch(((GuiBook) EnchiridionAPI.book).getSimpleEditor().getText());
+        } else updateSearch(guiBook.getSimpleEditor().getText());
     }
 
     @Override

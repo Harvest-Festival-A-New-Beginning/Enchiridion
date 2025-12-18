@@ -24,17 +24,17 @@ public abstract class ButtonAbstract implements IToolbarButton {
     }
 
     @Override
-    public ResourceLocation getResource() {
+    public ResourceLocation getResource(Object gui) {
         return dflt;
     }
 
     @Override
-    public ResourceLocation getHoverResource() {
+    public ResourceLocation getHoverResource(Object gui) {
         return hover;
     }
 
     @Override
-    public String getTooltipText() {
+    public String getTooltipText(Object gui) {
         return Enchiridion.format(translate);
     }
 }

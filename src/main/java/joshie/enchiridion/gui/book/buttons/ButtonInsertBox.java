@@ -1,7 +1,7 @@
 package joshie.enchiridion.gui.book.buttons;
 
-import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.gui.book.features.FeatureBox;
 
 public class ButtonInsertBox extends ButtonAbstract {
@@ -10,8 +10,9 @@ public class ButtonInsertBox extends ButtonAbstract {
     }
 
     @Override
-    public void performAction() {
-        IPage current = EnchiridionAPI.book.getPage();
+    public void performAction(Object gui) {
+        GuiBook guiBook = (GuiBook) gui;
+        IPage current = guiBook.getPage();
         FeatureBox feature = new FeatureBox("ff000000");
         current.addFeature(feature, 0, current.getScroll(), 50D, 5D, false, false, false);
     }

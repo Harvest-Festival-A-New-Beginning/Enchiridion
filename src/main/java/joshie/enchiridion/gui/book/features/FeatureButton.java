@@ -159,8 +159,9 @@ public class FeatureButton extends FeatureJump implements IButtonActionProvider 
     }
 
     @Override
-    public boolean getAndSetEditMode() {
-        ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getSimpleEditor().setEditor(GuiSimpleEditorButton.INSTANCE.setButton(this));
+    public boolean getAndSetEditMode(Object gui) {
+        GuiBook guiBook = (GuiBook) gui;
+        guiBook.getSimpleEditor().setEditor(GuiSimpleEditorButton.INSTANCE.setButton(this));
         return true;
     }
 

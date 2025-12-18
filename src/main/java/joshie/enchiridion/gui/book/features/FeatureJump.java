@@ -9,7 +9,7 @@ import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.helpers.JSONHelper;
 import joshie.enchiridion.helpers.JumpHelper;
 
-public class FeatureJump extends FeatureAbstract {
+public class FeatureJump extends joshie.enchiridion.data.book.FeatureProvider {
     public static final Codec<FeatureJump> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.INT.optionalFieldOf("number", 0).forGetter(f -> f.number),
         Codec.STRING.optionalFieldOf("jumpTo", "#LEGACY#").forGetter(f -> f.jumpTo)
@@ -25,9 +25,11 @@ public class FeatureJump extends FeatureAbstract {
     protected transient String jumpTo;
 
     public FeatureJump() {
+        super(0, 0, 0, 0);
     }
 
     public FeatureJump(int number, String jumpTo) {
+        super(0, 0, 0, 0);
         this.number = number;
         this.jumpTo = jumpTo;
     }
@@ -38,7 +40,7 @@ public class FeatureJump extends FeatureAbstract {
     }
 
     @Override
-    public void draw(int mouseX, int mouseY) {
+    protected void drawFeature(int mouseX, int mouseY) {
         if (page == null) {
             if (jumpTo != null && !jumpTo.equals("#LEGACY#")) {
                 try {

@@ -17,7 +17,7 @@ import net.minecraft.network.chat.Component;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class FeatureItem extends FeatureAbstract implements IItemSelectable {
+public class FeatureItem extends joshie.enchiridion.data.book.FeatureProvider implements IItemSelectable {
     public static final Codec<FeatureItem> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.STRING.optionalFieldOf("itemString", "").forGetter(f -> f.itemString),
         Codec.BOOL.optionalFieldOf("hideTooltip", false).forGetter(f -> f.hideTooltip)
@@ -33,9 +33,11 @@ public class FeatureItem extends FeatureAbstract implements IItemSelectable {
     public transient float size;
 
     public FeatureItem() {
+        super(0, 0, 0, 0);
     }
 
     public FeatureItem(@Nonnull ItemStack stack) {
+        super(0, 0, 0, 0);
         setItemStack(stack);
     }
     @Nonnull
@@ -54,18 +56,18 @@ public class FeatureItem extends FeatureAbstract implements IItemSelectable {
     }
 
     @Override
-    public void update(IFeatureProvider position) {
-        super.update(position);
-        int width = position.getWidth();
-        position.setHeight(width);
+    public void update(joshie.enchiridion.api.book.IPage page) {
+        super.update(page);
+        int width = getWidth();
+        setHeight(width);
         size = (float) (width / 16D);
     }
 
     @Override
-    public void draw(int mouseX, int mouseY) {
+    protected void drawFeature(int mouseX, int mouseY) {
         if (stack.isEmpty() && itemString != null) {
             stack = StackHelper.getStackFromString(itemString);
-        } else EnchiridionAPI.draw.drawStack(stack, position.getLeft(), position.getTop(), size);
+        } else EnchiridionAPI.draw.drawStack(stack, getLeft(), getTop(), size);
     }
 
     @Override

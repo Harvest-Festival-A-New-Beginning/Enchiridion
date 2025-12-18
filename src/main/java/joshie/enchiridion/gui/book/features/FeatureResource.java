@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class FeatureResource extends FeatureAbstract {
+public class FeatureResource extends joshie.enchiridion.data.book.FeatureProvider {
     public static final Codec<FeatureResource> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.STRING.optionalFieldOf("path", "").forGetter(f -> f.path)
     ).apply(instance, (path) -> {
@@ -21,6 +21,10 @@ public class FeatureResource extends FeatureAbstract {
         feature.path = path;
         return feature;
     }));
+
+    public FeatureResource() {
+        super(0, 0, 0, 0);
+    }
 
     public String path;
 
@@ -37,8 +41,8 @@ public class FeatureResource extends FeatureAbstract {
     }
 
     @Override
-    public void update(IFeatureProvider position) { //Preload the resource
-        super.update(position);
+    public void update(joshie.enchiridion.api.book.IPage page) { //Preload the resource
+        super.update(page);
         attempted = loadResource();
     }
 
@@ -52,14 +56,13 @@ public class FeatureResource extends FeatureAbstract {
     }
 
     @Override
-    public void draw(int mouseX, int mouseY) {
+    protected void drawFeature(int mouseX, int mouseY) {
         if (resource != null) {
-            draw(position.getLeft(), position.getTop(), position.getWidth(), position.getHeight());
+            drawResource(getLeft(), getTop(), getWidth(), getHeight());
         } else if (!attempted) attempted = loadResource();
-
     }
 
-    protected void draw(int xPos, int yPos, double width, double height) {
+    protected void drawResource(int xPos, int yPos, double width, double height) {
         EnchiridionAPI.draw.drawResource(resource, xPos, yPos, img_width, img_height, (float) width / 250F, (float) height / 250F);
     }
 

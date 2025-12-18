@@ -8,7 +8,7 @@ import joshie.enchiridion.gui.book.GuiSimpleEditor;
 import joshie.enchiridion.gui.book.GuiSimpleEditorColor;
 import joshie.enchiridion.util.IColorable;
 
-public class FeatureBox extends FeatureAbstract implements IColorable {
+public class FeatureBox extends joshie.enchiridion.data.book.FeatureProvider implements IColorable {
     public static final Codec<FeatureBox> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.STRING.optionalFieldOf("color", "FFFFFFFF").forGetter(f -> f.color)
     ).apply(instance, (color) -> {
@@ -21,9 +21,11 @@ public class FeatureBox extends FeatureAbstract implements IColorable {
     public transient int colorI;
 
     public FeatureBox() {
+        super(0, 0, 0, 0);
     }
 
     public FeatureBox(String color) {
+        super(0, 0, 0, 0);
         this.color = color;
     }
 
@@ -66,14 +68,14 @@ public class FeatureBox extends FeatureAbstract implements IColorable {
     }
 
     @Override
-    public void update(IFeatureProvider position) {
-        super.update(position);
+    public void update(joshie.enchiridion.api.book.IPage page) {
+        super.update(page);
         attemptToParseColor();
     }
 
     @Override
-    public void draw(int mouseX, int mouseY) {
-        EnchiridionAPI.draw.drawRectangle(position.getLeft(), position.getTop(), position.getRight(), position.getBottom(), colorI);
+    protected void drawFeature(int mouseX, int mouseY) {
+        EnchiridionAPI.draw.drawRectangle(getLeft(), getTop(), getRight(), getBottom(), colorI);
     }
 
     @Override

@@ -76,7 +76,7 @@ public class FeatureJump extends joshie.enchiridion.data.book.FeatureProvider {
     }
 
     @Override
-    public Codec<? extends joshie.enchiridion.api.book.IFeature> getCodec() {
+    public Codec<? extends joshie.enchiridion.api.book.IFeature> codec() {
         return CODEC;
     }
 }

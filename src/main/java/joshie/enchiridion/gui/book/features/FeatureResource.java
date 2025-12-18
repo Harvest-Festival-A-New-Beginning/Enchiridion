@@ -96,7 +96,7 @@ public class FeatureResource extends joshie.enchiridion.data.book.FeatureProvide
     }
 
     @Override
-    public Codec<? extends joshie.enchiridion.api.book.IFeature> getCodec() {
+    public Codec<? extends joshie.enchiridion.api.book.IFeature> codec() {
         return CODEC;
     }
 }

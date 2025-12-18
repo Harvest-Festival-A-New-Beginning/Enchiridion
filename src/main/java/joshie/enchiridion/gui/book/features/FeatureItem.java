@@ -103,7 +103,7 @@ public class FeatureItem extends joshie.enchiridion.data.book.FeatureProvider im
     }
 
     @Override
-    public Codec<? extends joshie.enchiridion.api.book.IFeature> getCodec() {
+    public Codec<? extends joshie.enchiridion.api.book.IFeature> codec() {
         return CODEC;
     }
 }

@@ -12,14 +12,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 
 public class Page implements IPage {
     // Polymorphic codec for features using the feature registry
     private static final Codec<IFeatureProvider> FEATURE_CODEC = EnchiridionRegistries.Features.FEATURE.byNameCodec()
-        .dispatch(
-            feature -> EnchiridionRegistries.Features.FEATURE.getKey(feature.getCodec()),
-            codec -> (Codec<IFeatureProvider>) codec
-        );
+        .dispatchStable(IFeature::codec, Function.identity());
 
     public static final Codec<Page> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.INT.optionalFieldOf("pageNumber", 0).forGetter(p -> p.pageNumber),

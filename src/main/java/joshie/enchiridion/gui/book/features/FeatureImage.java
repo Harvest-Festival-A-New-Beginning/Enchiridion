@@ -64,7 +64,7 @@ public class FeatureImage extends FeatureResource {
     }
 
     @Override
-    public Codec<? extends joshie.enchiridion.api.book.IFeature> getCodec() {
+    public Codec<? extends joshie.enchiridion.api.book.IFeature> codec() {
         return CODEC;
     }
 }

@@ -430,5 +430,5 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     }
 
     @Override
-    public abstract Codec<? extends IFeature> getCodec();
+    public abstract Codec<? extends IFeature> codec();
 }

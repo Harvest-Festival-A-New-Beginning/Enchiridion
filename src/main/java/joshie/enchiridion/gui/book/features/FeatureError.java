@@ -21,7 +21,7 @@ public class FeatureError extends joshie.enchiridion.data.book.FeatureProvider {
     }
 
     @Override
-    public Codec<? extends IFeature> getCodec() {
+    public Codec<? extends IFeature> codec() {
         return CODEC;
     }
 }

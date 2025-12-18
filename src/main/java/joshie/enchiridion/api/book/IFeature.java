@@ -31,5 +31,5 @@ public interface IFeature {
     String getName();
 
     /** @return the codec for this feature type **/
-    Codec<? extends IFeature> getCodec();
+    Codec<? extends IFeature> codec();
 }

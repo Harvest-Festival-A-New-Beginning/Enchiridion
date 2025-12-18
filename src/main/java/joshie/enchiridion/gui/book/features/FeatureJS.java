@@ -5,11 +5,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.FeatureProvider;
-import joshie.enchiridion.gui.book.GuiSimpleEditor;
-import joshie.enchiridion.gui.book.features.script.JSFeature;
-import joshie.enchiridion.gui.book.features.script.JSGuiGraphics;
-import joshie.enchiridion.gui.book.features.script.JSPage;
-import joshie.enchiridion.gui.book.features.script.ScriptCallbackManager;
+import joshie.enchiridion.gui.book.features.script.FeatureJSWrapper;
+import joshie.enchiridion.gui.book.features.script.GraphicsJS;
 import joshie.enchiridion.util.ITextEditable;
 import joshie.enchiridion.util.TextEditor;
 import net.minecraft.client.Minecraft;
@@ -18,8 +15,11 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
+import org.mozilla.javascript.Context;
 import uk.joshiejack.penguinlib.scripting.ScriptFactory;
+import uk.joshiejack.penguinlib.scripting.ScriptLoader;
 
+import javax.annotation.Nonnull;
 import javax.script.ScriptException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -28,6 +28,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class FeatureJS extends FeatureProvider implements ITextEditable {
+    private static final ScriptLoader.ScriptLocation SCRIPT_LOCATION = new ScriptLoader.ScriptLocation("enchiridion", "features");
+
     public static final Codec<FeatureJS> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.STRING.optionalFieldOf("script", "").forGetter(f -> f.script),
         ResourceLocation.CODEC.optionalFieldOf("script_file").forGetter(f -> Optional.ofNullable(f.scriptFile)),
@@ -62,7 +64,8 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
     private static final long CACHE_DURATION = 1000; // Cache for 1 second
 
     // Callback mode fields
-    private transient ScriptCallbackManager callbackManager = null;
+    private transient Interpreter interpreter = null;
+    private transient ResourceLocation scriptId = null;
 
     public FeatureJS() {
         super(0, 0, 0, 0);
@@ -102,18 +105,23 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
         loadedScript = null;
         lastExecutionTime = 0;
 
-        // Initialize callback manager in callback mode
+        // Initialize interpreter in callback mode
         if (useCallbacks) {
             String scriptToLoad = loadScriptFromFile();
             if (!hasError) {
-                callbackManager = new ScriptCallbackManager(scriptToLoad);
-                // Call the update callback if it exists
                 try {
-                    JSPage jsPage = new JSPage(page);
-                    JSFeature jsFeature = new JSFeature(this);
-                    callbackManager.call("update", jsPage, jsFeature);
+                    // Generate a unique ID for this script instance
+                    scriptId = scriptFile != null ? scriptFile :
+                        new ResourceLocation("enchiridion", "inline_" + System.identityHashCode(this));
+
+                    // Create interpreter with the script
+                    interpreter = new Interpreter(scriptId, this, scriptToLoad);
+
+                    // Call the update callback if it exists
+                    interpreter.callFunction("update", new FeatureJSWrapper(this, page));
                 } catch (Exception e) {
-                    // Ignore errors in update callback
+                    hasError = true;
+                    e.printStackTrace();
                 }
             }
         }
@@ -192,23 +200,19 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
     @Override
     protected void drawFeature(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         // Callback mode - call JavaScript draw() function
-        if (useCallbacks && callbackManager != null) {
+        if (useCallbacks && interpreter != null) {
             try {
-                JSGuiGraphics jsGraphics = new JSGuiGraphics(guiGraphics, getLeft(), getTop());
-                JSFeature jsFeature = new JSFeature(this);
-                callbackManager.call("draw", jsGraphics, mouseX, mouseY, partialTicks, jsFeature);
+                GraphicsJS graphics = new GraphicsJS(guiGraphics, getLeft(), getTop(), getWidth(), getHeight());
+                FeatureJSWrapper featureWrapper = new FeatureJSWrapper(this, null);
 
-                // Display error if script has error
-                if (callbackManager.hasError()) {
-                    Font font = Minecraft.getInstance().font;
-                    guiGraphics.drawString(font, errorText, getLeft(), getTop(), 0xFF0000);
-                    guiGraphics.drawWordWrap(font, Component.literal(callbackManager.getErrorMessage()),
-                        getLeft(), getTop() + 10, getWidth(), 0xFF0000);
-                }
+                interpreter.callFunction("draw", graphics, mouseX, mouseY, partialTicks, featureWrapper);
+
             } catch (Exception e) {
                 // Display error
                 Font font = Minecraft.getInstance().font;
                 guiGraphics.drawString(font, errorText, getLeft(), getTop(), 0xFF0000);
+                guiGraphics.drawWordWrap(font, Component.literal("Error: " + e.getMessage()),
+                    getLeft(), getTop() + 10, getWidth(), 0xFF0000);
             }
             return;
         }
@@ -236,16 +240,11 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
     @Override
     public boolean performClick(int mouseX, int mouseY, int button) {
         // Callback mode - call JavaScript onClick() function
-        if (useCallbacks && callbackManager != null && isOverFeature(mouseX, mouseY)) {
+        if (useCallbacks && interpreter != null && isOverFeature(mouseX, mouseY)) {
             try {
-                JSFeature jsFeature = new JSFeature(this);
-                Object result = callbackManager.call("onClick", mouseX, mouseY, button, jsFeature);
-                // If the callback returns true, consider the click handled
-                if (result instanceof Boolean) {
-                    return (Boolean) result;
-                }
-                // If callback exists (non-null result), consider click handled
-                return result != null;
+                FeatureJSWrapper featureWrapper = new FeatureJSWrapper(this, null);
+                return ScriptFactory.getResult(interpreter, "onClick", false,
+                    mouseX, mouseY, button, featureWrapper);
             } catch (Exception e) {
                 // Ignore errors
             }
@@ -273,11 +272,8 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
                 // Clear cache when script changes
                 cachedResult = null;
                 lastExecutionTime = 0;
-                // Reset callback manager
-                if (callbackManager != null) {
-                    callbackManager.reset();
-                    callbackManager = null;
-                }
+                // Reset interpreter
+                interpreter = null;
             } catch (java.io.IOException e) {
                 e.printStackTrace();
             }
@@ -313,15 +309,34 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
         // Clear cache when script changes
         cachedResult = null;
         lastExecutionTime = 0;
-        // Reset callback manager
-        if (callbackManager != null) {
-            callbackManager.reset();
-            callbackManager = null;
-        }
+        // Reset interpreter
+        interpreter = null;
     }
 
     @Override
     public Codec<? extends IFeature> codec() {
         return CODEC;
+    }
+
+    // Nested Interpreter class following Quest.java pattern
+    public static class Interpreter extends uk.joshiejack.penguinlib.scripting.Interpreter<FeatureJS> {
+        private final FeatureJS feature;
+
+        public Interpreter(@Nonnull ResourceLocation id, @Nonnull FeatureJS feature, @Nonnull String javascript) {
+            super(id, javascript, SCRIPT_LOCATION, feature);
+            this.feature = feature;
+        }
+
+        @Override
+        protected void addGlobals(FeatureJS data) {
+            super.addGlobals(data);
+
+            // Add the feature wrapper to the JavaScript scope as "feature"
+            Context context = Context.getCurrentContext();
+            if (context != null) {
+                context.addToScope(localScope, "feature",
+                    Context.javaToJS(context, new FeatureJSWrapper(data, null), localScope));
+            }
+        }
     }
 }

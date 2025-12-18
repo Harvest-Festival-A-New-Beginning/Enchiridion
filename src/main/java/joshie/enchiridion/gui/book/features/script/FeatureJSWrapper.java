@@ -1,15 +1,19 @@
 package joshie.enchiridion.gui.book.features.script;
 
+import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.data.book.FeatureProvider;
 
 /**
- * JavaScript wrapper for FeatureProvider to allow scripts to access feature state
+ * JavaScript wrapper for FeatureJS - exposed to scripts as "feature" global and parameter
+ * Provides access to feature position, size, and page information
  */
-public class JSFeature {
+public class FeatureJSWrapper {
     private final FeatureProvider feature;
+    private final IPage page;
 
-    public JSFeature(FeatureProvider feature) {
+    public FeatureJSWrapper(FeatureProvider feature, IPage page) {
         this.feature = feature;
+        this.page = page;
     }
 
     /**
@@ -62,9 +66,44 @@ public class JSFeature {
     }
 
     /**
+     * Get the page number (0-indexed), or -1 if page is null
+     */
+    public int getPageNumber() {
+        return page != null ? page.getPageNumber() : -1;
+    }
+
+    /**
+     * Get the total number of pages in the book, or 0 if page is null
+     */
+    public int getTotalPages() {
+        return page != null && page.getBook() != null ? page.getBook().getPageCount() : 0;
+    }
+
+    /**
+     * Check if this is the first page
+     */
+    public boolean isFirstPage() {
+        return getPageNumber() == 0;
+    }
+
+    /**
+     * Check if this is the last page
+     */
+    public boolean isLastPage() {
+        return getPageNumber() >= getTotalPages() - 1;
+    }
+
+    /**
      * Get the raw FeatureProvider object (for advanced usage)
      */
-    public FeatureProvider getRaw() {
+    public FeatureProvider getFeature() {
         return feature;
+    }
+
+    /**
+     * Get the raw IPage object (for advanced usage), may be null
+     */
+    public IPage getPage() {
+        return page;
     }
 }

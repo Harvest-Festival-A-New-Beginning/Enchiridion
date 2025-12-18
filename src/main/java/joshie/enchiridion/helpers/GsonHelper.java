@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import joshie.enchiridion.api.book.IButtonAction;
 import joshie.enchiridion.api.book.IFeature;
-import joshie.enchiridion.api.book.FeatureProvider;
+import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.data.book.Book;
 import joshie.enchiridion.data.book.FeatureProvider;

@@ -9,7 +9,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IFeature;
-import joshie.enchiridion.api.book.FeatureProvider;
+import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.api.gui.ISimpleEditorFieldProvider;
 import joshie.enchiridion.gui.book.GuiBook;

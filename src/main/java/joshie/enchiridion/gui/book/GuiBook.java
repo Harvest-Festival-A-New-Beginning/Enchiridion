@@ -8,7 +8,7 @@ import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IBookHelper;
 import joshie.enchiridion.api.book.IFeature;
-import joshie.enchiridion.api.book.FeatureProvider;
+import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.api.gui.IBookEditorOverlay;
 import joshie.enchiridion.data.book.Page;

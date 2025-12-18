@@ -1,7 +1,7 @@
 package joshie.enchiridion.helpers;
 
 import joshie.enchiridion.api.book.IBook;
-import joshie.enchiridion.api.book.FeatureProvider;
+import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.gui.book.GuiSimpleEditorTemplate;
 import joshie.enchiridion.gui.book.buttons.actions.ActionNextPage;

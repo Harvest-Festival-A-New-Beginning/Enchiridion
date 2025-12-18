@@ -3,7 +3,7 @@ package joshie.enchiridion.gui.book;
 import joshie.enchiridion.EConfig;
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.EnchiridionAPI;
-import joshie.enchiridion.api.book.FeatureProvider;
+import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.lib.EInfo;
 import net.minecraft.resources.ResourceLocation;
 

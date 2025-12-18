@@ -1,7 +1,7 @@
 package joshie.enchiridion.json;
 
 import com.google.gson.*;
-import joshie.enchiridion.api.book.FeatureProvider;
+import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.data.book.FeatureProvider;
 
 import java.lang.reflect.Type;

@@ -55,6 +55,8 @@ public class EnchiridionRegistries {
             FEATURE_TYPES.register("button", () -> FeatureButton.CODEC);
         public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> BOX =
             FEATURE_TYPES.register("box", () -> FeatureBox.CODEC);
+        public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> LINE =
+            FEATURE_TYPES.register("line", () -> FeatureLine.CODEC);
         public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> PREVIEW_WINDOW =
             FEATURE_TYPES.register("preview_window", () -> FeaturePreviewWindow.CODEC);
     }

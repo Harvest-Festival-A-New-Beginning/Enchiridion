@@ -15,5 +15,5 @@ public interface ITemplate {
     ResourceLocation getIcon();
 
     /** Returns a list of all the features in this template **/
-    List<IFeatureProvider> getFeatures();
+    List<joshie.enchiridion.data.book.FeatureProvider> getFeatures();
 }

@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IFeature;
-import joshie.enchiridion.api.book.IFeatureProvider;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.gui.book.GuiGrid;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
@@ -21,7 +20,7 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
 
-public abstract class FeatureProvider extends AbstractWidget implements IFeatureProvider, IFeature {
+public abstract class FeatureProvider extends AbstractWidget implements IFeature {
     // Base codec fields - subclasses should extend this
     // Note: This codec is not directly used since FeatureProvider is abstract
     // Each concrete feature class creates its own codec that includes these fields
@@ -63,7 +62,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     }
 
     // Abstract method - each feature type must implement its own copy logic
-    public abstract IFeatureProvider copy();
+    public abstract FeatureProvider copy();
 
     @Override
     public boolean isOverFeature(int x, int y) {

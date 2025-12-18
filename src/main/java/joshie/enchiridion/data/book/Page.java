@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IFeature;
-import joshie.enchiridion.api.book.IFeatureProvider;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.lib.EnchiridionRegistries;
 
@@ -16,9 +15,9 @@ import java.util.function.Function;
 
 public class Page implements IPage {
     // Polymorphic codec for features using the feature registry
-    // Features implement both IFeature and IFeatureProvider, so we cast the codec
+    // FeatureProvider implements IFeature, so we cast the codec
     @SuppressWarnings("unchecked")
-    private static final Codec<IFeatureProvider> FEATURE_CODEC = (Codec<IFeatureProvider>) (Codec<?>)
+    private static final Codec<FeatureProvider> FEATURE_CODEC = (Codec<FeatureProvider>) (Codec<?>)
         EnchiridionRegistries.Features.FEATURE.byNameCodec()
             .dispatchStable(IFeature::codec, Function.identity());
 
@@ -34,7 +33,7 @@ public class Page implements IPage {
         page.features = new ArrayList<>(features);
         return page;
     }));
-    public List<IFeatureProvider> features = new ArrayList<>();
+    public List<FeatureProvider> features = new ArrayList<>();
     public int pageNumber;
     public boolean isScrollable;
     public transient int scrollAmount;
@@ -109,9 +108,9 @@ public class Page implements IPage {
 
     @Override
     public void addFeature(IFeature feature, int x, int y, double width, double height, boolean isLocked, boolean isHidden, boolean isFromTemplate) {
-        // Feature is now a FeatureProvider (implements both IFeature and IFeatureProvider)
+        // Feature is a FeatureProvider (implements IFeature)
         // No wrapper needed - just cast and configure
-        IFeatureProvider provider = (IFeatureProvider) feature;
+        FeatureProvider provider = (FeatureProvider) feature;
         provider.setX(x);
         provider.setY(y);
         provider.setWidth((int) width);
@@ -125,7 +124,7 @@ public class Page implements IPage {
     }
 
     @Override
-    public void removeFeature(IFeatureProvider selected) {
+    public void removeFeature(FeatureProvider selected) {
         features.remove(selected);
     }
 
@@ -135,7 +134,7 @@ public class Page implements IPage {
     }
 
     @Override
-    public ArrayList<IFeatureProvider> getFeatures() {
+    public ArrayList<FeatureProvider> getFeatures() {
         return new ArrayList<>(features);
     }
 

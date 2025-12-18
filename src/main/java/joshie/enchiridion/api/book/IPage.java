@@ -12,7 +12,7 @@ public interface IPage {
 
     /** Returns all the features,
      *  do not add using this list **/
-    ArrayList<IFeatureProvider> getFeatures();
+    ArrayList<joshie.enchiridion.data.book.FeatureProvider> getFeatures();
 
     /** Sets the page number **/
     void setPageNumber(int number);
@@ -21,7 +21,7 @@ public interface IPage {
     void addFeature(IFeature feature, int x, int y, double width, double height, boolean isLocked, boolean isHidden, boolean isFromTemplate);
 
     /** Removes a feature from the page **/
-    void removeFeature(IFeatureProvider selected);
+    void removeFeature(joshie.enchiridion.data.book.FeatureProvider selected);
 
     /** Call this to resort all the layers on the page by their index value **/
     void sort();

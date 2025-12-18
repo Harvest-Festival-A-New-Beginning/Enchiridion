@@ -1,6 +1,5 @@
 package joshie.enchiridion.data.book;
 
-import joshie.enchiridion.api.book.IFeatureProvider;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.api.book.ITemplate;
 import joshie.enchiridion.lib.EInfo;
@@ -12,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class Template implements ITemplate {
     private String templatename;
-    private List<IFeatureProvider> features;
+    private List<FeatureProvider> features;
     private String uniquename;
 
     private transient ResourceLocation location;
@@ -25,14 +24,14 @@ public class Template implements ITemplate {
         this.templatename = templatename;
         this.location = location;
         this.features = new ArrayList<>();
-        this.features.addAll(page.getFeatures().stream().map(IFeatureProvider::copy).collect(Collectors.toList()));
+        this.features.addAll(page.getFeatures().stream().map(FeatureProvider::copy).collect(Collectors.toList()));
     }
 
     public Template(String uniquename, String templatename, IPage page) {
         this.uniquename = uniquename;
         this.templatename = templatename;
         this.features = new ArrayList<>();
-        this.features.addAll(page.getFeatures().stream().map(IFeatureProvider::copy).collect(Collectors.toList()));
+        this.features.addAll(page.getFeatures().stream().map(FeatureProvider::copy).collect(Collectors.toList()));
     }
 
     @Override
@@ -55,7 +54,7 @@ public class Template implements ITemplate {
     }
 
     @Override
-    public List<IFeatureProvider> getFeatures() {
+    public List<FeatureProvider> getFeatures() {
         return features;
     }
 }

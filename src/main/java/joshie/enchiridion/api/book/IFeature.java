@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IFeature {
     /** @return a duplicate of this feature **/
-    IFeatureProvider copy();
+    joshie.enchiridion.data.book.FeatureProvider copy();
 
     void update(IPage page);
     void draw(int mouseX, int mouseY);

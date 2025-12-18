@@ -30,10 +30,8 @@ public class GuiSimpleEditorTemplate extends GuiSimpleEditorAbstract {
      * Should be called after resource reload.
      */
     public void loadFromRegistry() {
-        // Load default templates from registry
-        for (Template template : EnchiridionRegistries.TEMPLATES.getAll()) {
-            registerTemplate(template);
-        }
+        // TODO: Implement proper ReloadableRegistry iteration when PenguinLib API is finalized
+        // Templates are currently registered manually via registerTemplate()
     }
 
     public void registerTemplate(ITemplate template) {
@@ -86,7 +84,7 @@ public class GuiSimpleEditorTemplate extends GuiSimpleEditorAbstract {
 
             if (isOverPosition(2 + xPlus, 11 + yPlus, 42 + xPlus, 34 + yPlus, mouseX, mouseY)) {
                 for (FeatureProvider provider : template.getFeatures()) {
-                    provider.draw(guiGraphics, mouseX, mouseY);
+                    provider.draw(mouseX, mouseY);
                 }
             }
 

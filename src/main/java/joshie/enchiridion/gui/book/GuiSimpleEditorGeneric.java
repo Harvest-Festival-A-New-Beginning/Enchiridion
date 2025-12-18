@@ -111,8 +111,7 @@ public class GuiSimpleEditorGeneric extends GuiSimpleEditorAbstract {
     @Override
     public boolean mouseClicked(int mouseX, int mouseY) {
         int yPos = -11;
-        //Draw the extra information for the actions
-        drawBoxLabel("Extra Fields", yPos + 20);
+        //Check clicks in the extra fields
         for (String f : getFieldNames()) {
             if (isTransient(f)) continue;
             WrappedEditable editable;

@@ -49,7 +49,6 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
         this.isFromTemplate = false;
     }
 
-    @Override
     public IPage getPage() {
         return pageContainer;
     }
@@ -64,7 +63,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     // Abstract method - each feature type must implement its own copy logic
     public abstract FeatureProvider copy();
 
-    @Override
+    
     public boolean isOverFeature(int x, int y) {
         return x >= getX() && x <= getRight() && y >= getY() && y <= getBottom();
     }
@@ -132,7 +131,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
         // Default implementation - subclasses can override
     }
 
-    @Override
+    
     public boolean mouseClicked(int mouseX, int mouseY, int button) {
         if (EnchiridionAPI.book.isEditMode()) {
             GuiSimpleEditor.INSTANCE.setEditor(null); //Reset the editor
@@ -155,7 +154,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
         return false;
     }
 
-    @Override
+    
     public void mouseReleased(int mouseX, int mouseY, int button) {
         isHeld = false;
         isDragging = false;
@@ -168,7 +167,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
         performRelease(mouseX, mouseY, button);
     }
 
-    @Override
+    
     public void select(int mouseX, int mouseY) {
         isSelected = true;
         prevX = mouseX;
@@ -189,7 +188,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
         } else isHeld = true;
     }
 
-    @Override
+    
     public void deselect() {
         isEditing = false;
         isSelected = false;
@@ -202,14 +201,14 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
         onDeselected();
     }
 
-    @Override
+    
     public void scroll(int mouseX, int mouseY, boolean down) {
         if (isOverFeature(mouseX, mouseY)) {
             scroll(down, 10);
         }
     }
 
-    @Override
+    
     public void follow(int mouseX, int mouseY, boolean force) {
         if (isHeld || force) {
             if (force) {
@@ -294,32 +293,32 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
         }
     }
 
-    @Override
+    
     public IFeature getFeature() {
         return this;
     }
 
-    @Override
+    
     public int getLeft() {
         return getX();
     }
 
-    @Override
+    
     public int getRight() {
         return getX() + getWidth();
     }
 
-    @Override
+    
     public int getTop() {
         return getY();
     }
 
-    @Override
+    
     public int getBottom() {
         return getY() + getHeight();
     }
 
-    @Override
+    
     public int getWidth() {
         return width;
     }
@@ -329,63 +328,63 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
 
     }
 
-    @Override
+    
     public int getHeight() {
         return height;
     }
 
-    @Override
+    
     public boolean isVisible() {
         return !isHidden;
     }
 
-    @Override
+    
     public boolean isLocked() {
         return isLocked;
     }
 
-    @Override
+    
     public boolean isFromTemplate() {
         return isFromTemplate;
     }
 
-    @Override
+    
     public int getLayerIndex() {
         return layerIndex;
     }
 
-    @Override
+    
     public long getTimeChanged() {
         return timestamp;
     }
 
-    @Override
+    
     public void setWidth(int w) {
         width = w;
     }
 
-    @Override
+    
     public void setHeight(int h) {
         height = h;
     }
 
-    @Override
+    
     public void setVisible(boolean v) {
         isHidden = !v;
     }
 
-    @Override
+    
     public void setLocked(boolean b) {
         isLocked = b;
     }
 
-    @Override
+    
     public void setLayerIndex(int i) {
         layerIndex = i;
         timestamp = System.currentTimeMillis();
     }
 
-    @Override
+    
     public void setFromTemplate(boolean b) {
         this.isFromTemplate = b;
     }

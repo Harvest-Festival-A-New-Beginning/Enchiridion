@@ -5,7 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
-import joshie.enchiridion.gui.book.GuiSimpleEditorIcon;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import uk.joshiejack.penguinlib.util.icon.Icon;
 
@@ -29,7 +29,7 @@ public class FeatureIcon extends FeatureProvider {
         return feature;
     }));
 
-    private Icon icon = Icon.EMPTY;
+    private Icon icon = null;
     private boolean hideTooltip = false;
     private float scale = 1.0F;
 
@@ -52,7 +52,7 @@ public class FeatureIcon extends FeatureProvider {
 
     @Override
     public String getName() {
-        return icon != null && !icon.isEmpty() ? "Icon" : super.getName();
+        return icon != null ? "Icon" : super.getName();
     }
 
     @Override
@@ -65,15 +65,15 @@ public class FeatureIcon extends FeatureProvider {
 
     @Override
     protected void drawFeature(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        if (icon != null && !icon.isEmpty()) {
-            // Icon.render expects: GuiGraphics, x, y, width, height
-            icon.render(guiGraphics, getLeft(), getTop(), getWidth(), getHeight());
+        if (icon != null) {
+            // Icon.render expects: Minecraft, GuiGraphics, x, y
+            icon.render(Minecraft.getInstance(), guiGraphics, getLeft(), getTop());
         }
     }
 
     @Override
     public void addTooltip(List<String> list, int mouseX, int mouseY) {
-        if (!hideTooltip && icon != null && !icon.isEmpty()) {
+        if (!hideTooltip && icon != null) {
             // Get tooltip from icon if available
             // TODO: Icon tooltip API - check Penguin-Lib for tooltip method
         }

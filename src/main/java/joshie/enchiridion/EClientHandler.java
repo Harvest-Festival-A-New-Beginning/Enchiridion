@@ -88,7 +88,7 @@ public class EClientHandler {
         //attemptToRegisterRecipeHandler(RecipeHandlerMTAdvancedShapeless.class, "crafttweaker");
 
         //Register Button Template
-        Template template = new Template("enchiridion_default_buttons", "Turn Page Arrows", new ELocation("default_buttons_thumbnail"), DefaultHelper.addArrows(new Page(0)));
+        Template template = new Template(new ResourceLocation(EInfo.MODID, "enchiridion_default_buttons"), "Turn Page Arrows", new ELocation("default_buttons_thumbnail"), DefaultHelper.addArrows(new Page(0)));
         EnchiridionAPI.instance.registerTemplate(template);
 
         //Register the Enchiridion Book

@@ -3,6 +3,7 @@ package joshie.enchiridion.gui.library;
 import com.mojang.blaze3d.systems.RenderSystem;
 import joshie.enchiridion.util.ELocation;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.Container;

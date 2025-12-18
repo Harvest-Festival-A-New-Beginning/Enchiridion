@@ -301,18 +301,6 @@ public class FeatureButton extends FeatureJump implements IButtonActionProvider 
     }
 
     @Override
-    public void readFromJson(JsonObject object) {
-        hovered = new ResourceLocation(JSONHelper.getStringIfExists(object, "hoveredResource"));
-        unhovered = new ResourceLocation(JSONHelper.getStringIfExists(object, "unhoveredResource"));
-    }
-
-    @Override
-    public void writeToJson(JsonObject object) {
-        if (hovered != null) object.addProperty("hoveredResource", hovered.toString());
-        if (unhovered != null) object.addProperty("unhoveredResource", unhovered.toString());
-    }
-
-    @Override
     public String getName() {
         return action != null && action.isVisible() ? this.getAction().getName().replace(" ", "") : super.getName();
     }

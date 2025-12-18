@@ -1,6 +1,5 @@
 package joshie.enchiridion.gui.book.buttons.actions;
 
-import com.google.gson.JsonObject;
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.book.IButtonAction;
 import joshie.enchiridion.util.ELocation;
@@ -46,14 +45,6 @@ public abstract class AbstractAction implements IButtonAction {
     @Override
     public ResourceLocation getResource() {
         return resource;
-    }
-
-    @Override
-    public void readFromJson(JsonObject object) {
-    }
-
-    @Override
-    public void writeToJson(JsonObject object) {
     }
 
     protected static class SortNumerical implements Comparator {

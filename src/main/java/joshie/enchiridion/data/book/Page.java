@@ -16,8 +16,9 @@ import java.util.function.Function;
 public class Page implements IPage {
     // Polymorphic codec for features using the feature registry
     // FeatureProvider implements IFeature, so we cast the codec
+    // Package-private for use in Template
     @SuppressWarnings("unchecked")
-    private static final Codec<FeatureProvider> FEATURE_CODEC = (Codec<FeatureProvider>) (Codec<?>)
+    static final Codec<FeatureProvider> FEATURE_CODEC = (Codec<FeatureProvider>) (Codec<?>)
         EnchiridionRegistries.Features.FEATURE.byNameCodec()
             .dispatchStable(IFeature::codec, Function.identity());
 

@@ -2,9 +2,9 @@ package joshie.enchiridion.gui.book.buttons;
 
 import joshie.enchiridion.EConfig;
 import joshie.enchiridion.api.EnchiridionAPI;
+import joshie.enchiridion.helpers.CodecHelper;
 import joshie.enchiridion.helpers.FileCopier;
 import joshie.enchiridion.helpers.FileHelper;
-import joshie.enchiridion.helpers.GsonHelper;
 import joshie.enchiridion.json.BookIconTemplate;
 import joshie.enchiridion.json.BookIconTemplate.Icons;
 import net.minecraft.client.Minecraft;
@@ -36,7 +36,7 @@ public class ButtonChangeIcon extends ButtonAbstract {
                 template.textures = new Icons();
                 template.textures.layer0 = "enchiridion:items/" + FilenameUtils.removeExtension(file.getName());
                 Writer writer = new OutputStreamWriter(new FileOutputStream(iconJson), StandardCharsets.UTF_8);
-                writer.write(GsonHelper.getModifiedGson().toJson(template));
+                writer.write(CodecHelper.toJson(BookIconTemplate.CODEC, template));
                 writer.close();
 
                 //Reload the icons

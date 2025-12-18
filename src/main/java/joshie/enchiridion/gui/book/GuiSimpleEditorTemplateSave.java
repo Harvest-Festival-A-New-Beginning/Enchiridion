@@ -1,8 +1,8 @@
 package joshie.enchiridion.gui.book;
 
 import joshie.enchiridion.data.book.Template;
+import joshie.enchiridion.helpers.CodecHelper;
 import joshie.enchiridion.helpers.FileHelper;
-import joshie.enchiridion.helpers.GsonHelper;
 import joshie.enchiridion.util.ITextEditable;
 import joshie.enchiridion.util.TextEditor;
 import net.minecraft.client.Minecraft;
@@ -87,7 +87,7 @@ public class GuiSimpleEditorTemplateSave extends GuiSimpleEditorAbstract impleme
         try {
             File toSave = new File(FileHelper.getTemplatesDirectory(), name + ".json");
             Writer writer = new OutputStreamWriter(new FileOutputStream(toSave), StandardCharsets.UTF_8);
-            writer.write(GsonHelper.getModifiedGson().toJson(template));
+            writer.write(CodecHelper.toJson(Template.CODEC, template));
             writer.close();
         } catch (Exception e) {
             e.printStackTrace();

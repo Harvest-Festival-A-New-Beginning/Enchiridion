@@ -418,14 +418,6 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     }
 
     @Override
-    public void readFromJson(com.google.gson.JsonObject json) {
-    }
-
-    @Override
-    public void writeToJson(com.google.gson.JsonObject json) {
-    }
-
-    @Override
     public String getName() {
         return getClass().getSimpleName();
     }

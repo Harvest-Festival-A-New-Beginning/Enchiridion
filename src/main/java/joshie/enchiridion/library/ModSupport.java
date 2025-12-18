@@ -3,8 +3,8 @@ package joshie.enchiridion.library;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.data.library.ModdedBooks;
 import joshie.enchiridion.data.library.ModdedBooks.ModdedBook;
+import joshie.enchiridion.helpers.CodecHelper;
 import joshie.enchiridion.helpers.FileHelper;
-import joshie.enchiridion.helpers.GsonHelper;
 import joshie.enchiridion.helpers.StackHelper;
 import net.minecraft.world.item.ItemStack;
 
@@ -21,11 +21,11 @@ public class ModSupport {
     public static void loadDataFromJson(String serverName, String json) {
         books = getDefaults();
         if (json != null) {
-            books.mergeIn(GsonHelper.getModifiedGson().fromJson(json, ModdedBooks.class));
+            books.mergeIn(CodecHelper.fromJson(ModdedBooks.CODEC, json));
         } else {
             try {
                 //Write the json
-                String defaultJson = GsonHelper.getModifiedGson().toJson(new ModdedBooks()); //Add a blank default
+                String defaultJson = CodecHelper.toJson(ModdedBooks.CODEC, new ModdedBooks()); //Add a blank default
                 File toSave = FileHelper.getLibraryFile(serverName);
                 Writer writer = new OutputStreamWriter(new FileOutputStream(toSave), StandardCharsets.UTF_8);
                 writer.write(defaultJson);

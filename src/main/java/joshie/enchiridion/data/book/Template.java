@@ -1,5 +1,7 @@
 package joshie.enchiridion.data.book;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.api.book.ITemplate;
 import joshie.enchiridion.lib.EInfo;
@@ -10,6 +12,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Template implements ITemplate {
+    public static final Codec<Template> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        Codec.STRING.fieldOf("templatename").forGetter(t -> t.templatename),
+        Page.FEATURE_CODEC.listOf().fieldOf("features").forGetter(t -> t.features),
+        Codec.STRING.fieldOf("uniquename").forGetter(t -> t.uniquename)
+    ).apply(instance, (templatename, features, uniquename) -> {
+        Template template = new Template();
+        template.templatename = templatename;
+        template.features = new ArrayList<>(features);
+        template.uniquename = uniquename;
+        return template;
+    }));
+
     private String templatename;
     private List<FeatureProvider> features;
     private String uniquename;

@@ -8,8 +8,8 @@ import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.gui.book.GuiSimpleEditorTemplate;
 import joshie.enchiridion.gui.book.features.FeatureError;
 import joshie.enchiridion.helpers.DefaultHelper;
+import joshie.enchiridion.helpers.CodecHelper;
 import joshie.enchiridion.helpers.FileHelper;
-import joshie.enchiridion.helpers.GsonHelper;
 import joshie.enchiridion.helpers.MCClientHelper;
 import joshie.enchiridion.json.BookIconTemplate;
 import joshie.enchiridion.json.BookIconTemplate.Icons;
@@ -47,7 +47,7 @@ public class BookRegistry {
         for (File file : files) { //Grab a list of all the json files in the directory
             //Read all the json books from this directory
             try {
-                register(GsonHelper.getModifiedGson().fromJson(FileUtils.readFileToString(file, Charset.defaultCharset()), Book.class));
+                register(CodecHelper.fromJson(Book.CODEC, FileUtils.readFileToString(file, Charset.defaultCharset())));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -58,7 +58,7 @@ public class BookRegistry {
         for (File file : files) { //Grab a list of all the json files in the directory
             //Read all the json books from this directory
             try {
-                GuiSimpleEditorTemplate.INSTANCE.registerTemplate(GsonHelper.getModifiedGson().fromJson(FileUtils.readFileToString(file, Charset.defaultCharset()), Template.class));
+                GuiSimpleEditorTemplate.INSTANCE.registerTemplate(CodecHelper.fromJson(Template.CODEC, FileUtils.readFileToString(file, Charset.defaultCharset())));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -78,7 +78,7 @@ public class BookRegistry {
                 if (path1.startsWith(path2) && fileName.endsWith(".json")) {
                     try {
                         String json = IOUtils.toString(zipfile.getInputStream(zipentry), Charset.defaultCharset());
-                        IBook data = register(GsonHelper.getModifiedGson().fromJson(json, Book.class).setModID(modid));
+                        IBook data = register(CodecHelper.fromJson(Book.CODEC, json).setModID(modid));
                         Enchiridion.log(Level.INFO, "Successfully loaded in the book with the unique identifier: " + data.getUniqueName() + " for the language: " + data.getLanguageKey());
                     } catch (Exception ignored) {
                     }
@@ -157,7 +157,7 @@ public class BookRegistry {
                     } else template.textures.layer0 = "enchiridion:items/book";
 
                     Writer writer = new OutputStreamWriter(new FileOutputStream(iconJson), StandardCharsets.UTF_8);
-                    writer.write(GsonHelper.getModifiedGson().toJson(template));
+                    writer.write(CodecHelper.toJson(BookIconTemplate.CODEC, template));
                     writer.close();
                 } catch (Exception e) {
                     e.printStackTrace();

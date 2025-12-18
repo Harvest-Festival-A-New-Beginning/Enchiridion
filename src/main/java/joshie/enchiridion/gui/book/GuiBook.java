@@ -155,7 +155,10 @@ public class GuiBook extends GuiBase implements IBookHelper {
                 book.setMadeIn189(); //Force it to a mc189book with new formatting
                 File toSave = FileHelper.getSaveJSONForBook(book);
                 Writer writer = new OutputStreamWriter(new FileOutputStream(toSave), StandardCharsets.UTF_8);
-                writer.write(GsonHelper.getModifiedGson().toJson(book));
+                // Cast to Book for Codec serialization
+                if (book instanceof joshie.enchiridion.data.book.Book) {
+                    writer.write(CodecHelper.toJson(joshie.enchiridion.data.book.Book.CODEC, (joshie.enchiridion.data.book.Book) book));
+                }
                 writer.close();
             } catch (Exception e) {
                 e.printStackTrace();

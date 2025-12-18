@@ -1,5 +1,7 @@
 package joshie.enchiridion.data.library;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.helpers.StackHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.NonNullList;
@@ -8,7 +10,17 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class ModdedBooks {
-    // Changed to List to allow Gson deserialization - Gson creates ArrayList instances
+    public static final Codec<ModdedBooks> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        ModdedBook.CODEC.listOf().optionalFieldOf("books", new ArrayList<>()).forGetter(mb -> mb.books),
+        Codec.STRING.listOf().optionalFieldOf("freeBooks", new ArrayList<>()).forGetter(mb -> mb.freeBooks)
+    ).apply(instance, (books, freeBooks) -> {
+        ModdedBooks moddedBooks = new ModdedBooks();
+        moddedBooks.books = new ArrayList<>(books);
+        moddedBooks.freeBooks = new ArrayList<>(freeBooks);
+        return moddedBooks;
+    }));
+
+    // Changed to List to allow Codec deserialization
     private List<ModdedBook> books = new ArrayList<>();
     private List<String> freeBooks = new ArrayList<>();
 
@@ -21,6 +33,12 @@ public class ModdedBooks {
     }
 
     public static class ModdedBook {
+        public static final Codec<ModdedBook> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.STRING.fieldOf("item").forGetter(mb -> mb.item),
+            Codec.STRING.fieldOf("handlerType").forGetter(mb -> mb.handlerType),
+            Codec.BOOL.optionalFieldOf("matchNBT", false).forGetter(mb -> mb.matchNBT)
+        ).apply(instance, ModdedBook::new));
+
         private String item;
         private String handlerType;
         private boolean matchNBT;

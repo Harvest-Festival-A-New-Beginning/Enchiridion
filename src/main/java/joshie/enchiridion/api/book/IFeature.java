@@ -1,6 +1,5 @@
 package joshie.enchiridion.api.book;
 
-import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 
 import java.util.List;
@@ -24,8 +23,6 @@ public interface IFeature {
     void follow(int mouseX, int mouseY);
     void scroll(boolean down, int amount);
     void onDeselected();
-    void readFromJson(JsonObject json);
-    void writeToJson(JsonObject json);
 
     /** @return the name of this feature **/
     String getName();

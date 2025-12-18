@@ -62,8 +62,7 @@ public class ItemBook extends Item {
             IBook book = BookRegistry.INSTANCE.getBook(held);
             if (book != null) {
                 if (world.isClientSide) {
-                    GuiBook.INSTANCE.setBook(book, player.isShiftKeyDown());
-                    EClientHandler.openGuiBook();
+                    EClientHandler.openGuiBook(book, player.isShiftKeyDown());
                 }
             } else {
                 if (world.isClientSide) {

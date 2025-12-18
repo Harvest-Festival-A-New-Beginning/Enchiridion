@@ -12,12 +12,17 @@ import net.minecraft.network.chat.Component;
 import java.util.List;
 
 public class GuiSimpleEditor extends AbstractGuiOverlay {
-    public static final GuiSimpleEditor INSTANCE = new GuiSimpleEditor();
+    private final GuiBook guiBook;
     private EditBox textField;
     private String text = "";
     private IBookEditorOverlay editor = null;
 
-    private GuiSimpleEditor() {
+    public GuiSimpleEditor(GuiBook guiBook) {
+        this.guiBook = guiBook;
+    }
+
+    public String getText() {
+        return textField != null ? textField.getValue() : "";
     }
 
     public void setEditor(IBookEditorOverlay editor) {
@@ -64,8 +69,8 @@ public class GuiSimpleEditor extends AbstractGuiOverlay {
             int bottom = EConfig.SETTINGS.timelineYPos.get() + 13;
             int w = right - left;
             int h = bottom - top;
-            int offsetX = GuiBook.INSTANCE.x;
-            int offsetY = GuiBook.INSTANCE.y;
+            int offsetX = guiBook.x;
+            int offsetY = guiBook.y;
             guiGraphics.blit(SIDEBAR, offsetX + left, offsetY + top, 0, 0, w, h, w, h);
 
             // Draw bordered rectangles

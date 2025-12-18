@@ -9,11 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuiToolbar extends AbstractGuiOverlay {
-    public static final GuiToolbar INSTANCE = new GuiToolbar();
+    private final GuiBook guiBook;
     private List<IToolbarButton> leftButtons = new ArrayList<>();
     private List<IToolbarButton> rightButtons = new ArrayList<>();
 
-    private GuiToolbar() {
+    public GuiToolbar(GuiBook guiBook) {
+        this.guiBook = guiBook;
     }
 
     public void registerButton(IToolbarButton button) {
@@ -30,8 +31,8 @@ public class GuiToolbar extends AbstractGuiOverlay {
 
     @Override
     public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        int offsetX = GuiBook.INSTANCE.x;
-        int offsetY = GuiBook.INSTANCE.y;
+        int offsetX = guiBook.x;
+        int offsetY = guiBook.y;
 
         //Draw toolbar background
         int left = -10;

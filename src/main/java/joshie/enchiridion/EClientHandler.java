@@ -1,6 +1,7 @@
 package joshie.enchiridion;
 
 import joshie.enchiridion.api.EnchiridionAPI;
+import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.data.book.Template;
 import joshie.enchiridion.gui.book.*;
@@ -43,15 +44,10 @@ public class EClientHandler {
         MenuScreens.register(EGuis.LIBRARY_CONTAINER.get(), GuiLibrary::new);
         LibraryHelper.resetClient();
         //NeoForge.EVENT_BUS.register(new SmartLibrary());
-        EnchiridionAPI.book = GuiBook.INSTANCE;
-        EnchiridionAPI.draw = GuiBook.INSTANCE;
         EnchiridionAPI.editor = new EditHelper();
-        //Register editor overlays
-        EnchiridionAPI.instance.registerEditorOverlay(GuiGrid.INSTANCE);
-        EnchiridionAPI.instance.registerEditorOverlay(GuiTimeLine.INSTANCE);
-        EnchiridionAPI.instance.registerEditorOverlay(GuiToolbar.INSTANCE);
-        EnchiridionAPI.instance.registerEditorOverlay(GuiLayers.INSTANCE);
-        EnchiridionAPI.instance.registerEditorOverlay(GuiSimpleEditor.INSTANCE);
+
+        // Note: Overlays and buttons are now registered in GuiBook constructor
+        // The toolbar buttons will be registered via the API to a list that GuiBook reads
 
         //Left aligned buttons
         EnchiridionAPI.instance.registerToolbarButton(new ButtonInsertText());
@@ -111,12 +107,17 @@ public class EClientHandler {
         }, ECommonHandler.LIBRARY);*/
     }
 
-    public static void openGuiBook() {
-        Minecraft.getInstance().setScreen(GuiBook.INSTANCE);
+    public static void openGuiBook(IBook book, boolean isEditing) {
+        GuiBook gui = new GuiBook(null, null);
+        gui.setBook(book, isEditing);
+        Minecraft.getInstance().setScreen(gui);
+        // Set API reference to current GUI instance
+        EnchiridionAPI.book = gui;
+        EnchiridionAPI.draw = gui;
     }
 
     public static void openGuiBookCreate() {
-        Minecraft.getInstance().setScreen(GuiBookCreate.INSTANCE);
+        Minecraft.getInstance().setScreen(new GuiBookCreate(null, null));
     }
 
     public static void openWriteableBook(Player player, int slot, InteractionHand hand) {

@@ -23,8 +23,14 @@ import net.neoforged.neoforgespi.language.IModInfo;
 import org.apache.logging.log4j.Level;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EAPIHandler implements IEnchiridionAPI {
+    // Lists to store registered items that GuiBook will read when constructed
+    private final List<IToolbarButton> toolbarButtons = new ArrayList<>();
+    private final List<IButtonAction> buttonActions = new ArrayList<>();
+    private final List<ITemplate> templates = new ArrayList<>();
     @Override
     public void registerModWithBooks(String id) {
         /* Grab the modid and the assets path */
@@ -56,12 +62,17 @@ public class EAPIHandler implements IEnchiridionAPI {
 
     @Override
     public void registerEditorOverlay(IBookEditorOverlay overlay) {
-        GuiBook.INSTANCE.registerOverlay(overlay);
+        // Editor overlays are now created in GuiBook constructor
+        // This method is kept for API compatibility but overlays are built-in
     }
 
     @Override
     public void registerToolbarButton(IToolbarButton button) {
-        GuiToolbar.INSTANCE.registerButton(button);
+        toolbarButtons.add(button);
+    }
+
+    public List<IToolbarButton> getToolbarButtons() {
+        return toolbarButtons;
     }
 
     @Override
@@ -72,12 +83,20 @@ public class EAPIHandler implements IEnchiridionAPI {
 
     @Override
     public void registerButtonAction(IButtonAction action) {
-        GuiSimpleEditorButton.INSTANCE.registerAction(action);
+        buttonActions.add(action);
+    }
+
+    public List<IButtonAction> getButtonActions() {
+        return buttonActions;
     }
 
     @Override
     public void registerTemplate(ITemplate template) {
-        GuiSimpleEditorTemplate.INSTANCE.registerTemplate(template);
+        templates.add(template);
+    }
+
+    public List<ITemplate> getTemplates() {
+        return templates;
     }
 
     @Override
@@ -85,11 +104,8 @@ public class EAPIHandler implements IEnchiridionAPI {
         if (player.level().isClientSide) {
             IBook book = BookRegistry.INSTANCE.getBookByName(bookID);
             if (book != null) {
-                GuiBook.INSTANCE.setBook(book, false);
+                EClientHandler.openGuiBook(book, false);
                 EnchiridionAPI.book.jumpToPageIfExists(page - 1);
-                if (player.level().isClientSide) {
-                    EClientHandler.openGuiBook();
-                }
             }
         } else {
             // TODO: PacketOpenBook no longer supports page parameter - page navigation will need to be added back

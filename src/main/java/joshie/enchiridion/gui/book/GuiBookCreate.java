@@ -18,12 +18,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class GuiBookCreate extends GuiBase {
-    public static final GuiBookCreate INSTANCE = new GuiBookCreate();
     private EditBox textField;
     private String text;
 
-    private GuiBookCreate() {
-        super(EInfo.MODID, null, null, Component.translatable("enchiridion.bookCreate.title"));
+    public GuiBookCreate(net.minecraft.world.entity.player.Inventory inventory, uk.joshiejack.penguinlib.world.inventory.AbstractBookMenu container) {
+        super(EInfo.MODID, container, inventory, Component.translatable("enchiridion.bookCreate.title"));
     }
 
     public GuiBookCreate setStack(@Nonnull ItemStack stack) {

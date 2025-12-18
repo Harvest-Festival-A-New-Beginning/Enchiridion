@@ -15,17 +15,18 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.ArrayList;
 
 public class GuiLayers extends AbstractGuiOverlay {
-    public static final GuiLayers INSTANCE = new GuiLayers();
     private static final ResourceLocation LOCK_DFLT = new ResourceLocation(EInfo.MODID, "textures/books/lock_dftl.png");
     private static final ResourceLocation LOCK_HOVER = new ResourceLocation(EInfo.MODID, "textures/books/lock_hover.png");
     private static final ResourceLocation VISIBLE_DFLT = new ResourceLocation(EInfo.MODID, "textures/books/layer_dftl.png");
     private static final ResourceLocation VISIBLE_HOVER = new ResourceLocation(EInfo.MODID, "textures/books/layer_hover.png");
+    private final GuiBook guiBook;
     private FeatureProvider dragged = null;
     private int held = 0;
     private int yStart = 0;
     private int layerPosition = 0;
 
-    private GuiLayers() {
+    public GuiLayers(GuiBook guiBook) {
+        this.guiBook = guiBook;
     }
 
     public boolean isDragging() {
@@ -41,8 +42,8 @@ public class GuiLayers extends AbstractGuiOverlay {
 
     @Override
     public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        int offsetX = GuiBook.INSTANCE.x;
-        int offsetY = GuiBook.INSTANCE.y;
+        int offsetX = guiBook.x;
+        int offsetY = guiBook.y;
 
         // Draw SIDEBAR image
         int left = EConfig.SETTINGS.layersXPos.get() - 3;
@@ -246,7 +247,7 @@ public class GuiLayers extends AbstractGuiOverlay {
             if (!provider.isLocked() && isOverLayer(layerY, mouseX, mouseY)) {
                 yStart = mouseY;
                 dragged = features.get(i);
-                GuiBook.INSTANCE.selectLayer(dragged);
+                guiBook.selectLayer(dragged);
                 return true;
             }
         }

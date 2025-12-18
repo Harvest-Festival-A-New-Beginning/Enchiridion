@@ -3,13 +3,14 @@ package joshie.enchiridion.gui.book;
 import net.minecraft.client.gui.GuiGraphics;
 
 public class GuiGrid extends AbstractGuiOverlay {
-    public static final GuiGrid INSTANCE = new GuiGrid();
+    private final GuiBook guiBook;
     private boolean pixelGrid = true;
     private boolean isVisible;
     private boolean isFullWidth;
     private int gridSize = 5;
 
-    private GuiGrid() {
+    public GuiGrid(GuiBook guiBook) {
+        this.guiBook = guiBook;
     }
 
     public int getGridSize() {
@@ -57,8 +58,8 @@ public class GuiGrid extends AbstractGuiOverlay {
     @Override
     public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         if (isActivated()) {
-            int offsetX = GuiBook.INSTANCE.x;
-            int offsetY = GuiBook.INSTANCE.y;
+            int offsetX = guiBook.x;
+            int offsetY = guiBook.y;
 
             if (pixelGrid) {
                 int xOffset = -1;

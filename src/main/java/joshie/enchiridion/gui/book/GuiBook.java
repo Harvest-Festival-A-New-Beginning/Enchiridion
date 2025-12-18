@@ -44,11 +44,11 @@ public class GuiBook extends GuiBase implements IBookHelper {
     private static final ResourceLocation LEGACY_COVER_R = new ELocation("guide_cover_right");
     private static final ResourceLocation LEGACY_LEFT = new ELocation("guide_page_left");
     private static final ResourceLocation LEGACY_RIGHT = new ELocation("guide_page_right");
-    public static final GuiBook INSTANCE = new GuiBook(); //Instance of this book
 
-    //Page Number Cache
-    public HashMap<String, Integer> pageCache = new HashMap<>();
-    public HashMap<String, FeaturePreviewWindow> scrollFeatures = new HashMap<>();
+    //Page Number Cache - shared across all instances
+    private static HashMap<String, Integer> pageCache = new HashMap<>();
+    private static HashMap<String, FeaturePreviewWindow> scrollFeatures = new HashMap<>();
+
     private Set<IBookEditorOverlay> overlays = new HashSet<>();
     private boolean isEditMode = false; // Whether we are in edit mode or not
     private IBook book; // The current book being displayed
@@ -59,8 +59,60 @@ public class GuiBook extends GuiBase implements IBookHelper {
     private float red, green, blue; //Colour to render the book
     private boolean isGroupMoveMode = false;
 
-    protected GuiBook() {
-        super(EInfo.MODID, null, null, Component.translatable("enchiridion.guiBook.title"));
+    // Overlay instances - created per GuiBook instance
+    private final GuiGrid grid;
+    private final GuiTimeLine timeLine;
+    private final GuiToolbar toolbar;
+    private final GuiLayers layers;
+    private final GuiSimpleEditor simpleEditor;
+
+    public GuiBook(AbstractBookMenu container, Inventory inventory) {
+        super(EInfo.MODID, container, inventory, Component.translatable("enchiridion.guiBook.title"));
+
+        // Create overlay instances
+        this.grid = new GuiGrid(this);
+        this.timeLine = new GuiTimeLine(this);
+        this.toolbar = new GuiToolbar(this);
+        this.layers = new GuiLayers(this);
+        this.simpleEditor = new GuiSimpleEditor(this);
+
+        // Register overlays
+        registerOverlay(grid);
+        registerOverlay(timeLine);
+        registerOverlay(toolbar);
+        registerOverlay(layers);
+        registerOverlay(simpleEditor);
+
+        // Register toolbar buttons from API
+        for (Object button : EnchiridionAPI.instance.getToolbarButtons()) {
+            if (button instanceof joshie.enchiridion.api.gui.IToolbarButton) {
+                toolbar.registerButton((joshie.enchiridion.api.gui.IToolbarButton) button);
+            }
+        }
+    }
+
+    public GuiSimpleEditor getSimpleEditor() {
+        return simpleEditor;
+    }
+
+    public GuiTimeLine getTimeLine() {
+        return timeLine;
+    }
+
+    public GuiLayers getLayers() {
+        return layers;
+    }
+
+    public GuiToolbar getToolbar() {
+        return toolbar;
+    }
+
+    public static HashMap<String, Integer> getPageCache() {
+        return pageCache;
+    }
+
+    public static HashMap<String, FeaturePreviewWindow> getScrollFeatures() {
+        return scrollFeatures;
     }
 
     public void registerOverlay(IBookEditorOverlay overlay) {
@@ -132,7 +184,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public void init() {
-        GuiSimpleEditor.INSTANCE.setEditor(null); //Reset the editor
+        simpleEditor.setEditor(null); //Reset the editor
         TextEditor.INSTANCE.clearEditable();
 
         if (isEditMode) {
@@ -155,7 +207,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
     @Override
     @Nullable
     public GuiEventListener getFocused() {
-        return GuiSimpleEditor.INSTANCE.getFocused(); //TODO?
+        return simpleEditor.getFocused(); //TODO?
     }
 
     @Override
@@ -221,7 +273,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
             for (IBookEditorOverlay overlay : overlays) {
                 overlay.charTyped(character, key);
-                overlay.updateSearch(GuiSimpleEditor.INSTANCE.getText());
+                overlay.updateSearch(simpleEditor.getText());
             }
         }
         return true;
@@ -301,7 +353,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public boolean mouseDragged(double mX, double mY, int p_mouseDragged_5_, double p_mouseDragged_6_, double p_mouseDragged_8_) {
-        if (!GuiLayers.INSTANCE.isDragging()) {
+        if (!layers.isDragging()) {
             for (FeatureProvider provider : group) {
                 provider.follow(mouseX, mouseY + page.getScroll(), isGroupMoveMode);
             }
@@ -389,14 +441,14 @@ public class GuiBook extends GuiBase implements IBookHelper {
     public boolean jumpToPageIfExists(int number) {
         for (IPage page : EnchiridionAPI.book.getBook().getPages()) {
             if (page.getPageNumber() == number) {
-                GuiSimpleEditor.INSTANCE.setEditor(null); //Reset the editor
+                simpleEditor.setEditor(null); //Reset the editor
                 TextEditor.INSTANCE.clearEditable();
 
                 if (this.page != null) {
                     int closest = (int) (5 * (Math.floor(page.getPageNumber() / 5)));
                     int difference = closest - this.page.getPageNumber();
                     if (difference > 50 || difference < -50) {
-                        GuiTimeLine.INSTANCE.startPage = closest;
+                        timeLine.setStartPage(closest);
                     }
                 }
 

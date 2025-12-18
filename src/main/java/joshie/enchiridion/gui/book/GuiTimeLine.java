@@ -13,12 +13,21 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
 public class GuiTimeLine extends AbstractGuiOverlay {
-    public static final GuiTimeLine INSTANCE = new GuiTimeLine();
+    private final GuiBook guiBook;
     private IPage dragged = null;
     private int held = 0;
-    public int startPage = 0;
+    private int startPage = 0;
 
-    private GuiTimeLine() {
+    public GuiTimeLine(GuiBook guiBook) {
+        this.guiBook = guiBook;
+    }
+
+    public void setStartPage(int startPage) {
+        this.startPage = startPage;
+    }
+
+    public int getStartPage() {
+        return startPage;
     }
 
     private boolean isValid(int index, int real) {
@@ -56,8 +65,8 @@ public class GuiTimeLine extends AbstractGuiOverlay {
 
     @Override
     public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        int offsetX = GuiBook.INSTANCE.x;
-        int offsetY = GuiBook.INSTANCE.y;
+        int offsetX = guiBook.x;
+        int offsetY = guiBook.y;
 
         // Draw TOOLBAR image
         int left = -9;
@@ -86,7 +95,7 @@ public class GuiTimeLine extends AbstractGuiOverlay {
 
         for (int j = 0; j < 110; j++) {
             int thisNumber = startPage + j;
-            IPage page = JumpHelper.getPageByNumber(GuiBook.INSTANCE.getBook(), thisNumber);
+            IPage page = JumpHelper.getPageByNumber(guiBook.getBook(), thisNumber);
             int positionX = -5 + (j * 4);
             int fill = 0xFFE6D4A7;
             boolean exists = page != null;
@@ -137,7 +146,7 @@ public class GuiTimeLine extends AbstractGuiOverlay {
             if (isOverTimeLine(positionX, mouseX, mouseY)) {
                 //If we don't succeed at jumping to the page because it doesn't exist
                 //Then we should create it, and then jump to it;
-                dragged = JumpHelper.getPageByNumber(GuiBook.INSTANCE.getBook(), startPage + i);
+                dragged = JumpHelper.getPageByNumber(guiBook.getBook(), startPage + i);
                 return true;
             }
         }
@@ -156,9 +165,9 @@ public class GuiTimeLine extends AbstractGuiOverlay {
                 //Then we should create it, and then jump to it;
                 int thisNumber = startPage + i;
                 if (placing) {
-                    JumpHelper.insertPage(GuiBook.INSTANCE.getBook(), thisNumber, dragged);
+                    JumpHelper.insertPage(guiBook.getBook(), thisNumber, dragged);
                 } else if (!EnchiridionAPI.book.jumpToPageIfExists(thisNumber)) {
-                    IPage page = DefaultHelper.addDefaults(GuiBook.INSTANCE.getBook(), new Page(thisNumber).setBook(GuiBook.INSTANCE.getBook()));
+                    IPage page = DefaultHelper.addDefaults(guiBook.getBook(), new Page(thisNumber).setBook(guiBook.getBook()));
                     EnchiridionAPI.book.getBook().addPage(page);
                     EnchiridionAPI.book.jumpToPageIfExists(thisNumber);
                 }

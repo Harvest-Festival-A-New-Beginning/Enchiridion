@@ -32,8 +32,9 @@ public class GuiSimpleEditorTemplateSave extends GuiSimpleEditorAbstract impleme
             sanitized = text.replaceAll("[^A-Za-z0-9]", "_");
             sanitized = sanitized + "_" + System.currentTimeMillis(); //Add the time to make sure it remains unique, To avoid name clashes when saving
             // Create user template with enchiridion namespace
+            // The id path will serve as the unique name
             ResourceLocation templateId = new ResourceLocation("enchiridion", "user/" + sanitized);
-            template = new Template(templateId, sanitized, text, GuiBook.INSTANCE.getPage());
+            template = new Template(templateId, text, GuiBook.INSTANCE.getPage());
             GuiSimpleEditorTemplate.INSTANCE.registerTemplate(template);
             isTakingScreenshot = true;
         }

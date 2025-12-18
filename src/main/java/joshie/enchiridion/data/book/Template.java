@@ -17,14 +17,12 @@ public class Template implements ReloadableRegistry.PenguinRegistry<Template>, I
     public static final Codec<Template> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         ResourceLocation.CODEC.fieldOf("id").forGetter(Template::id),
         Codec.STRING.fieldOf("template_name").forGetter(t -> t.templatename),
-        Codec.STRING.fieldOf("unique_name").forGetter(t -> t.uniquename),
         ResourceLocation.CODEC.optionalFieldOf("icon", new ResourceLocation(EInfo.MODID, "templates/default.png")).forGetter(Template::getIcon),
         Page.FEATURE_CODEC.listOf().fieldOf("features").forGetter(t -> t.features)
-    ).apply(instance, (id, templatename, uniquename, icon, features) -> {
+    ).apply(instance, (id, templatename, icon, features) -> {
         Template template = new Template();
         template.templateId = id;
         template.templatename = templatename;
-        template.uniquename = uniquename;
         template.location = icon;
         template.features = new ArrayList<>(features);
         return template;
@@ -33,25 +31,22 @@ public class Template implements ReloadableRegistry.PenguinRegistry<Template>, I
     private ResourceLocation templateId;
     private String templatename;
     private List<FeatureProvider> features;
-    private String uniquename;
 
     private transient ResourceLocation location;
 
     public Template() {
     }
 
-    public Template(ResourceLocation id, String uniquename, String templatename, ResourceLocation location, IPage page) {
+    public Template(ResourceLocation id, String templatename, ResourceLocation location, IPage page) {
         this.templateId = id;
-        this.uniquename = uniquename;
         this.templatename = templatename;
         this.location = location;
         this.features = new ArrayList<>();
         this.features.addAll(page.getFeatures().stream().map(FeatureProvider::copy).collect(Collectors.toList()));
     }
 
-    public Template(ResourceLocation id, String uniquename, String templatename, IPage page) {
+    public Template(ResourceLocation id, String templatename, IPage page) {
         this.templateId = id;
-        this.uniquename = uniquename;
         this.templatename = templatename;
         this.features = new ArrayList<>();
         this.features.addAll(page.getFeatures().stream().map(FeatureProvider::copy).collect(Collectors.toList()));
@@ -61,7 +56,7 @@ public class Template implements ReloadableRegistry.PenguinRegistry<Template>, I
 
     @Override
     public ResourceLocation id() {
-        return templateId != null ? templateId : new ResourceLocation(EInfo.MODID, uniquename != null ? uniquename : "default");
+        return templateId != null ? templateId : new ResourceLocation(EInfo.MODID, "default");
     }
 
     @Override
@@ -79,7 +74,7 @@ public class Template implements ReloadableRegistry.PenguinRegistry<Template>, I
 
     @Override
     public String getUniqueName() {
-        return uniquename;
+        return templateId != null ? templateId.getPath() : "default";
     }
 
     @Override
@@ -89,11 +84,11 @@ public class Template implements ReloadableRegistry.PenguinRegistry<Template>, I
 
     @Override
     public ResourceLocation getIcon() {
-        if (location == null) {
-            location = new ResourceLocation(EInfo.MODID, "templates/" + uniquename + ".png");
+        if (location == null && templateId != null) {
+            location = new ResourceLocation(templateId.getNamespace(), "templates/" + templateId.getPath() + ".png");
         }
 
-        return location;
+        return location != null ? location : new ResourceLocation(EInfo.MODID, "templates/default.png");
     }
 
     @Override

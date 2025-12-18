@@ -72,7 +72,7 @@ configurations {
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
     implementation "uk.joshiejack.penguinlib:Penguin-Lib:${minecraft_version}-${penguinlib_version}"
-    compileOnly "dev.latvian.mods:rhino-neoforge:${rhino_version}"
+    implementation "dev.latvian.mods:rhino-neoforge:${rhino_version}"
 }
 
 tasks.withType(ProcessResources).configureEach {

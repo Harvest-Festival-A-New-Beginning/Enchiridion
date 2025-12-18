@@ -97,7 +97,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
             int prevMouseY = mouseY;
             mouseY = mouseY + page.getScroll();
-            feature.draw(mouseX, mouseY);
+            feature.renderWidget(guiGraphics, mouseX, mouseY, partialTicks);
             feature.addTooltip(TOOLTIP, mouseX, mouseY);
             this.mouseY = prevMouseY;
             this.y = y;

@@ -47,6 +47,8 @@ public class EnchiridionRegistries {
             FEATURE_TYPES.register("image", () -> FeatureImage.CODEC);
         public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> ITEM =
             FEATURE_TYPES.register("item", () -> FeatureItem.CODEC);
+        public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> ICON =
+            FEATURE_TYPES.register("icon", () -> FeatureIcon.CODEC);
         public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> RECIPE =
             FEATURE_TYPES.register("recipe", () -> FeatureRecipe.CODEC);
         public static final DeferredHolder<Codec<? extends IFeature>, Codec<? extends IFeature>> BUTTON =

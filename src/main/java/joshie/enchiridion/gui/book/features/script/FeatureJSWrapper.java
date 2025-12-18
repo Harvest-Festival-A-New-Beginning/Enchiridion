@@ -76,7 +76,7 @@ public class FeatureJSWrapper {
      * Get the total number of pages in the book, or 0 if page is null
      */
     public int getTotalPages() {
-        return page != null && page.getBook() != null ? page.getBook().getPageCount() : 0;
+        return page != null && page.getBook() != null ? page.getBook().getPages().size() : 0;
     }
 
     /**

@@ -15,12 +15,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
-import org.mozilla.javascript.Context;
+import dev.latvian.mods.rhino.Context;
+import dev.latvian.mods.rhino.Scriptable;
 import uk.joshiejack.penguinlib.scripting.ScriptFactory;
 import uk.joshiejack.penguinlib.scripting.ScriptLoader;
 
 import javax.annotation.Nonnull;
-import javax.script.ScriptException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -28,7 +28,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class FeatureJS extends FeatureProvider implements ITextEditable {
-    private static final ScriptLoader.ScriptLocation SCRIPT_LOCATION = new ScriptLoader.ScriptLocation("enchiridion", "features");
+    private static final ScriptLoader.ScriptLocation SCRIPT_LOCATION = new ScriptLoader.ScriptLocation(
+        "enchiridion/features",
+        (rl) -> null  // FeatureJS creates interpreters directly, not via registry
+    );
 
     public static final Codec<FeatureJS> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.STRING.optionalFieldOf("script", "").forGetter(f -> f.script),
@@ -176,28 +179,29 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
                 return cachedResult;
             }
 
-            // Get the ScriptFactory from Penguin-Lib
-            Object result = ScriptFactory.eval(scriptToExecute);
+            // Evaluate script using Rhino Context directly
+            Context context = Context.enter();
+            try {
+                Scriptable scope = context.initStandardObjects();
+                Object result = context.evaluateString(scope, scriptToExecute, "inline", 1, null);
 
-            // Convert result to string
-            if (result == null) {
-                cachedResult = "";
-            } else {
-                cachedResult = String.valueOf(result);
+                // Convert result to string
+                if (result == null || result == Context.getUndefinedValue()) {
+                    cachedResult = "";
+                } else {
+                    cachedResult = Context.toString(result);
+                }
+
+                hasError = false;
+                lastExecutionTime = currentTime;
+                return cachedResult;
+            } finally {
+                Context.exit();
             }
 
-            hasError = false;
-            lastExecutionTime = currentTime;
-            return cachedResult;
-
-        } catch (ScriptException e) {
-            hasError = true;
-            cachedResult = errorText + ": " + e.getMessage();
-            lastExecutionTime = currentTime;
-            return cachedResult;
         } catch (Exception e) {
             hasError = true;
-            cachedResult = errorText;
+            cachedResult = errorText + ": " + e.getMessage();
             lastExecutionTime = currentTime;
             return cachedResult;
         }

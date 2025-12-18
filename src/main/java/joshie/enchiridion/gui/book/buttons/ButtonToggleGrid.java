@@ -1,6 +1,7 @@
 package joshie.enchiridion.gui.book.buttons;
 
-import joshie.enchiridion.gui.book.GuiGrid;
+import joshie.enchiridion.api.EnchiridionAPI;
+import joshie.enchiridion.gui.book.GuiBook;
 
 public class ButtonToggleGrid extends ButtonAbstract {
     public ButtonToggleGrid() {
@@ -14,6 +15,6 @@ public class ButtonToggleGrid extends ButtonAbstract {
 
     @Override
     public void performAction() {
-        GuiGrid.INSTANCE.toggle();
+        ((GuiBook) EnchiridionAPI.book).getGrid().toggle();
     }
 }

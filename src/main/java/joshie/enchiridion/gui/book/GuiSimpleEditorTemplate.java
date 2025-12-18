@@ -2,6 +2,7 @@ package joshie.enchiridion.gui.book;
 
 import joshie.enchiridion.EConfig;
 import joshie.enchiridion.Enchiridion;
+import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.api.book.ITemplate;
 import joshie.enchiridion.data.book.Page;
@@ -89,7 +90,7 @@ public class GuiSimpleEditorTemplate extends GuiSimpleEditorAbstract {
             }
 
             drawImage(guiGraphics, template.getIcon(), 2 + xPlus, 11 + yPlus, 42 + xPlus, 34 + yPlus);
-            if (GuiBook.INSTANCE.getBook().getDefaultFeatures().contains(template.getUniqueName())) {
+            if (((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getBook().getDefaultFeatures().contains(template.getUniqueName())) {
                 drawBorderedRectangle(guiGraphics, 2 + xPlus, 11 + yPlus, 42 + xPlus, 34 + yPlus, 0x00000000, 0xFF8C0000);
             }
 
@@ -147,12 +148,12 @@ public class GuiSimpleEditorTemplate extends GuiSimpleEditorAbstract {
     }
 
     private void switchDefaulthood(ITemplate template) {
-        HashSet<String> set = new HashSet<>(GuiBook.INSTANCE.getBook().getDefaultFeatures());
+        HashSet<String> set = new HashSet<>(((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getBook().getDefaultFeatures());
         if (set.contains(template.getUniqueName())) {
             set.remove(template.getUniqueName());
         } else set.add(template.getUniqueName());
 
-        GuiBook.INSTANCE.getBook().setDefaultFeatures(set);
+        ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getBook().setDefaultFeatures(set);
     }
 
     @Override
@@ -174,7 +175,7 @@ public class GuiSimpleEditorTemplate extends GuiSimpleEditorAbstract {
                     switchDefaulthood(template);
                 } else {
                     for (FeatureProvider provider : template.getFeatures()) {
-                        GuiBook.INSTANCE.getPage().addFeature(provider.getFeature(), provider.getLeft(), provider.getTop(), provider.getWidth(), provider.getHeight(), provider.isLocked(), !provider.isVisible(), provider.isFromTemplate());
+                        ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getPage().addFeature(provider.getFeature(), provider.getLeft(), provider.getTop(), provider.getWidth(), provider.getHeight(), provider.isLocked(), !provider.isVisible(), provider.isFromTemplate());
                     }
                 }
                 return true;

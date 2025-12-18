@@ -2,7 +2,9 @@ package joshie.enchiridion.gui.book.features;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.data.book.FeatureProvider;
+import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
 import joshie.enchiridion.gui.book.GuiSimpleEditorItem;
 import joshie.enchiridion.helpers.StackHelper;
@@ -91,7 +93,7 @@ public class FeatureItem extends joshie.enchiridion.data.book.FeatureProvider im
 
     @Override
     public boolean getAndSetEditMode() {
-        GuiSimpleEditor.INSTANCE.setEditor(GuiSimpleEditorItem.INSTANCE.setItem(this));
+        ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getSimpleEditor().setEditor(GuiSimpleEditorItem.INSTANCE.setItem(this));
         return false;
     }
 

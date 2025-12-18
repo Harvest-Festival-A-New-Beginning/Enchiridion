@@ -2,6 +2,7 @@ package joshie.enchiridion.gui.book;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import joshie.enchiridion.EConfig;
+import joshie.enchiridion.api.EnchiridionAPI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -16,8 +17,8 @@ public abstract class GuiSimpleEditorAbstract extends AbstractGuiOverlay {
         int bottom = EConfig.SETTINGS.toolbarYPos.get() + y2;
         int w = right - left;
         int h = bottom - top;
-        int offsetX = GuiBook.INSTANCE.x;
-        int offsetY = GuiBook.INSTANCE.y;
+        int offsetX = ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).x;
+        int offsetY = ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).y;
         guiGraphics.blit(location, offsetX + left, offsetY + top, 0, 0, w, h, w, h);
     }
 
@@ -26,8 +27,8 @@ public abstract class GuiSimpleEditorAbstract extends AbstractGuiOverlay {
         int top = EConfig.SETTINGS.toolbarYPos.get() + y;
         int right = EConfig.SETTINGS.editorXPos + x2;
         int bottom = EConfig.SETTINGS.toolbarYPos.get() + y2;
-        int offsetX = GuiBook.INSTANCE.x;
-        int offsetY = GuiBook.INSTANCE.y;
+        int offsetX = ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).x;
+        int offsetY = ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).y;
         guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + bottom, colorI);
         guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + top + 1, colorB);
         guiGraphics.fill(offsetX + left, offsetY + bottom - 1, offsetX + right, offsetY + bottom, colorB);
@@ -40,16 +41,16 @@ public abstract class GuiSimpleEditorAbstract extends AbstractGuiOverlay {
         int top = EConfig.SETTINGS.toolbarYPos.get() + y;
         int right = EConfig.SETTINGS.editorXPos + x2;
         int bottom = EConfig.SETTINGS.toolbarYPos.get() + y2;
-        int offsetX = GuiBook.INSTANCE.x;
-        int offsetY = GuiBook.INSTANCE.y;
+        int offsetX = ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).x;
+        int offsetY = ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).y;
         guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + bottom, colorI);
     }
 
     public void drawSplitScaledString(GuiGraphics guiGraphics, String text, int x, int y, int color, float scale) {
         int left = EConfig.SETTINGS.editorXPos + x;
         int top = EConfig.SETTINGS.toolbarYPos.get() + y;
-        int offsetX = GuiBook.INSTANCE.x;
-        int offsetY = GuiBook.INSTANCE.y;
+        int offsetX = ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).x;
+        int offsetY = ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).y;
         PoseStack poseStack = guiGraphics.pose();
         poseStack.pushPose();
         poseStack.translate(offsetX, offsetY, 0);

@@ -158,7 +158,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
         if (isEditing) {
             handleKeyTyped(character, key);
         } else if (isSelected && key == 211 && !TextEditor.INSTANCE.isEditing()) {
-            GuiSimpleEditor.INSTANCE.setEditor(null); //Reset the editor
+            ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getSimpleEditor().setEditor(null); //Reset the editor
             TextEditor.INSTANCE.clearEditable();
             return true;
         }
@@ -170,10 +170,10 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
         // Default implementation - subclasses can override
     }
 
-    
+
     public boolean mouseClicked(int mouseX, int mouseY, int button) {
         if (EnchiridionAPI.book.isEditMode()) {
-            GuiSimpleEditor.INSTANCE.setEditor(null); //Reset the editor
+            ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getSimpleEditor().setEditor(null); //Reset the editor
             TextEditor.INSTANCE.clearEditable();
         }
 
@@ -247,7 +247,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
         }
     }
 
-    
+
     public void follow(int mouseX, int mouseY, boolean force) {
         if (isHeld || force) {
             if (force) {
@@ -259,14 +259,15 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
             setX(getX() + changeX);
             setY(getY() + changeY);
 
-            if (GuiGrid.INSTANCE.isActivated()) {
-                int large = GuiGrid.INSTANCE.getGridSize();
+            GuiGrid grid = ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getGrid();
+            if (grid.isActivated()) {
+                int large = grid.getGridSize();
                 int small = large - 1;
 
                 if (changeX < 0) {
-                    setX(((getX() - small) / large * large) - (GuiGrid.INSTANCE.isPixelGrid() ? 1 : 0));
+                    setX(((getX() - small) / large * large) - (grid.isPixelGrid() ? 1 : 0));
                 } else if (changeX > 0) {
-                    setX(((getX() + small) / large * large) - (GuiGrid.INSTANCE.isPixelGrid() ? 1 : 0));
+                    setX(((getX() + small) / large * large) - (grid.isPixelGrid() ? 1 : 0));
                 }
 
                 if (changeY < 0) {

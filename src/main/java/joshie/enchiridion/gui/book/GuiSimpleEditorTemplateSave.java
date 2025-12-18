@@ -1,5 +1,6 @@
 package joshie.enchiridion.gui.book;
 
+import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.data.book.Template;
 import joshie.enchiridion.helpers.CodecHelper;
 import joshie.enchiridion.helpers.FileHelper;
@@ -34,7 +35,7 @@ public class GuiSimpleEditorTemplateSave extends GuiSimpleEditorAbstract impleme
             // Create user template with enchiridion namespace
             // The id path will serve as the unique name
             ResourceLocation templateId = new ResourceLocation("enchiridion", "user/" + sanitized);
-            template = new Template(templateId, text, GuiBook.INSTANCE.getPage());
+            template = new Template(templateId, text, ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getPage());
             GuiSimpleEditorTemplate.INSTANCE.registerTemplate(template);
             isTakingScreenshot = true;
         }
@@ -112,7 +113,7 @@ public class GuiSimpleEditorTemplateSave extends GuiSimpleEditorAbstract impleme
         } else { //Doing this down here so we don't have the bar in the way
             saveScreenshot(sanitized);
             saveTemplate(sanitized, template);
-            GuiSimpleEditor.INSTANCE.setEditor(null);
+            ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getSimpleEditor().setEditor(null);
             isTakingScreenshot = false;
             displayname = "New Template";
         }

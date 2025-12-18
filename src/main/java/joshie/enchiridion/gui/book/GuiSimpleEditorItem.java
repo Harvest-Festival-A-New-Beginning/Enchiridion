@@ -5,6 +5,7 @@ import joshie.enchiridion.EConfig;
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.gui.IBookEditorOverlay;
+import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.helpers.ItemListHelper;
 import joshie.enchiridion.util.ELocation;
 import joshie.enchiridion.util.IItemSelectable;
@@ -35,8 +36,8 @@ public class GuiSimpleEditorItem extends AbstractGuiOverlay {
 
     @Override
     public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        int offsetX = GuiBook.INSTANCE.x;
-        int offsetY = GuiBook.INSTANCE.y;
+        int offsetX = ((GuiBook) EnchiridionAPI.book).x;
+        int offsetY = ((GuiBook) EnchiridionAPI.book).y;
         int backgroundColor = 0xFFB0A483; //0xFF48453C
         int fontColor = 0xCE48433D;
         if (mouseX >= EConfig.SETTINGS.editorXPos + 2 && mouseX <= EConfig.SETTINGS.editorXPos + 83) {
@@ -91,7 +92,7 @@ public class GuiSimpleEditorItem extends AbstractGuiOverlay {
                     }
                 }
             }
-        } else updateSearch(GuiSimpleEditor.INSTANCE.getText());
+        } else updateSearch(((GuiBook) EnchiridionAPI.book).getSimpleEditor().getText());
     }
 
     @Override

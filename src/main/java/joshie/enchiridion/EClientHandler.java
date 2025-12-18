@@ -14,6 +14,7 @@ import joshie.enchiridion.gui.library.GuiLibrary;
 import joshie.enchiridion.helpers.DefaultHelper;
 import joshie.enchiridion.helpers.EditHelper;
 import joshie.enchiridion.items.EItems;
+import joshie.enchiridion.items.ItemBook;
 import joshie.enchiridion.items.SmartLibrary;
 import joshie.enchiridion.lib.EGuis;
 import joshie.enchiridion.lib.EInfo;
@@ -37,7 +38,6 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.bus.api.SubscribeEvent;
-import uk.joshiejack.penguinlib.world.inventory.AbstractBookMenu;
 import org.lwjgl.glfw.GLFW;
 
 public class EClientHandler {
@@ -47,7 +47,7 @@ public class EClientHandler {
     public static void registerScreens(RegisterMenuScreensEvent event) {
         // Register book screen using event system (NeoForge pattern)
         event.register(EGuis.BOOK_CONTAINER.get(),
-            (AbstractBookMenu container, Inventory inv, Component text) -> {
+            (BookMenu container, Inventory inv, Component text) -> {
                 GuiBook gui = new GuiBook(container, inv);
                 // Get book and editing state from player's held item
                 Player player = inv.player;

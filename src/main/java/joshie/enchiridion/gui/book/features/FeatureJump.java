@@ -44,11 +44,11 @@ public class FeatureJump extends joshie.enchiridion.data.book.FeatureProvider {
         if (page == null) {
             if (jumpTo != null && !jumpTo.equals("#LEGACY#")) {
                 try {
-                    page = JumpHelper.getPageByNumber(GuiBook.INSTANCE.getBook(), Integer.parseInt(jumpTo));
+                    page = JumpHelper.getPageByNumber(((GuiBook) EnchiridionAPI.book).getBook(), Integer.parseInt(jumpTo));
                 } catch (Exception ignored) {
                 }
             } else {
-                page = JumpHelper.getPageByNumber(GuiBook.INSTANCE.getBook(), number);
+                page = JumpHelper.getPageByNumber(((GuiBook) EnchiridionAPI.book).getBook(), number);
             }
         }
     }

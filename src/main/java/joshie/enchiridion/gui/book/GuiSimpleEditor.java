@@ -151,8 +151,4 @@ public class GuiSimpleEditor extends AbstractGuiOverlay {
             editor.scroll(down, mouseX, mouseY);
         }
     }
-
-    public String getText() {
-        return textField.getValue();
-    }
 }

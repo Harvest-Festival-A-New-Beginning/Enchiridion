@@ -2,7 +2,9 @@ package joshie.enchiridion.gui.book.features;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.data.book.FeatureProvider;
+import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
 import joshie.enchiridion.gui.book.GuiSimpleEditorColor;
 import joshie.enchiridion.util.IColorable;
@@ -41,7 +43,7 @@ public class FeatureBox extends joshie.enchiridion.data.book.FeatureProvider imp
 
     @Override
     public boolean getAndSetEditMode() {
-        GuiSimpleEditor.INSTANCE.setEditor(GuiSimpleEditorColor.INSTANCE.setColorable(this));
+        ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getSimpleEditor().setEditor(GuiSimpleEditorColor.INSTANCE.setColorable(this));
         return false;
     }
 

@@ -107,6 +107,10 @@ public class GuiBook extends GuiBase implements IBookHelper {
         return toolbar;
     }
 
+    public GuiGrid getGrid() {
+        return grid;
+    }
+
     public static HashMap<String, Integer> getPageCache() {
         return pageCache;
     }

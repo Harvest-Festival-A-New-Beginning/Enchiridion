@@ -1,6 +1,7 @@
 package joshie.enchiridion.gui.book.buttons;
 
 import joshie.enchiridion.Enchiridion;
+import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.lib.EInfo;
 import net.minecraft.resources.ResourceLocation;
@@ -26,21 +27,21 @@ public class ButtonToggleScrollable extends ButtonAbstract {
 
     @Override
     public ResourceLocation getResource() {
-        return GuiBook.INSTANCE.getPage().isScrollingEnabled() ? selected_dflt : dflt;
+        return ((GuiBook) EnchiridionAPI.book).getPage().isScrollingEnabled() ? selected_dflt : dflt;
     }
 
     @Override
     public ResourceLocation getHoverResource() {
-        return GuiBook.INSTANCE.getPage().isScrollingEnabled() ? selected_hover : hover;
+        return ((GuiBook) EnchiridionAPI.book).getPage().isScrollingEnabled() ? selected_hover : hover;
     }
 
     @Override
     public String getTooltipText() {
-        return GuiBook.INSTANCE.getPage().isScrollingEnabled() ? Enchiridion.format(translate_selected) : Enchiridion.format(translate);
+        return ((GuiBook) EnchiridionAPI.book).getPage().isScrollingEnabled() ? Enchiridion.format(translate_selected) : Enchiridion.format(translate);
     }
 
     @Override
     public void performAction() {
-        GuiBook.INSTANCE.getPage().toggleScroll();
+        ((GuiBook) EnchiridionAPI.book).getPage().toggleScroll();
     }
 }

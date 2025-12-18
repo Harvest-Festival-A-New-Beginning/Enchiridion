@@ -1,6 +1,7 @@
 package joshie.enchiridion.gui.book;
 
 import com.google.common.base.CaseFormat;
+import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.data.book.Book;
 import joshie.enchiridion.data.book.BookRegistry;
 import joshie.enchiridion.gui.book.buttons.ButtonChangeIcon;
@@ -68,8 +69,8 @@ public class GuiBookCreate extends GuiBase {
                 ResourceLocation bookId = new ResourceLocation(EInfo.MODID, sanitized);
                 Book book = Book.create(bookId, text); //Create the book
                 BookRegistry.INSTANCE.register(book); //Register the book
-                GuiBook.INSTANCE.setBook(book, true);
-                GuiBook.INSTANCE.removed(); //Save the data to json
+                ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).setBook(book, true);
+                ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).removed(); //Save the data to json
                 this.onClose();
                 return true;
             }

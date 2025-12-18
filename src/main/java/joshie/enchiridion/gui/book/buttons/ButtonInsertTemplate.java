@@ -1,5 +1,7 @@
 package joshie.enchiridion.gui.book.buttons;
 
+import joshie.enchiridion.api.EnchiridionAPI;
+import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
 import joshie.enchiridion.gui.book.GuiSimpleEditorTemplate;
 
@@ -15,6 +17,6 @@ public class ButtonInsertTemplate extends ButtonAbstract {
 
     @Override
     public void performAction() {
-        GuiSimpleEditor.INSTANCE.setEditor(GuiSimpleEditorTemplate.INSTANCE);
+        ((joshie.enchiridion.gui.book.GuiBook) EnchiridionAPI.book).getSimpleEditor().setEditor(GuiSimpleEditorTemplate.INSTANCE);
     }
 }

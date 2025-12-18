@@ -8,17 +8,19 @@ import joshie.enchiridion.api.gui.IToolbarButton;
 import joshie.enchiridion.api.recipe.IRecipeHandler;
 import net.minecraft.world.entity.player.Player;
 
-public interface IEnchiridionAPI {      
+import java.util.List;
+
+public interface IEnchiridionAPI {
     /** Registering your mod, will have the mod search your assets folder
      *  for a books folder with json. You need to do this if you wish your book data
      *  to ever get registered.
-     *  
+     *
      *  @param modid  This should either be just your modid i.e. "Mariculture" , IF your assets path is the same
      *              ^ the assets path will get converted to all lower case, so don't worry about capitalisation for the above
      *              or in the format "modid:assets_path". for example, a mod called called Smash with the modid Fish and assets Dog would be.
-     *              
+     *
      *              Fish:dog
-     *              
+     *
      *              With the first half being the mod id, and the second half being
      *              what your assets folder is called, where you store the book json
      *              Although nowadays it's more than likely your modid is the same as
@@ -27,18 +29,27 @@ public interface IEnchiridionAPI {
 
     /** Register a recipe handler, Client Side only **/
     void registerRecipeHandler(IRecipeHandler handler);
-    
+
     /** Register an editor overlay, Client Side only **/
     void registerEditorOverlay(IBookEditorOverlay overlay);
-    
+
     /** Register a toolbar button, Client Side only **/
     void registerToolbarButton(IToolbarButton button);
-    
+
+    /** Get the list of registered toolbar buttons **/
+    List<IToolbarButton> getToolbarButtons();
+
     /** Register a button action, Client Side only **/
     void registerButtonAction(IButtonAction action);
 
+    /** Get the list of registered button actions **/
+    List<IButtonAction> getButtonActions();
+
     /** Register a custom template **/
     void registerTemplate(ITemplate template);
+
+    /** Get the list of registered templates **/
+    List<ITemplate> getTemplates();
 
     /** Call this to get a book from it's id **/
     IBook getBook(String bookID);

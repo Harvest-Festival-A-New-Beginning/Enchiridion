@@ -2,6 +2,7 @@ package joshie.enchiridion.lib;
 
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.data.book.BookRegistry;
+import joshie.enchiridion.gui.book.BookMenu;
 import joshie.enchiridion.gui.library.ContainerLibrary;
 import joshie.enchiridion.items.EItems;
 import joshie.enchiridion.library.LibraryHelper;
@@ -18,7 +19,6 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.minecraft.core.registries.Registries;
-import uk.joshiejack.penguinlib.world.inventory.AbstractBookMenu;
 
 import javax.annotation.Nonnull;
 
@@ -28,7 +28,7 @@ public class EGuis {
 
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU, EInfo.MODID);
 
-    public static final DeferredHolder<MenuType<?>, MenuType<AbstractBookMenu>> BOOK_CONTAINER = MENUS.register(BOOK,
+    public static final DeferredHolder<MenuType<?>, MenuType<BookMenu>> BOOK_CONTAINER = MENUS.register(BOOK,
             () -> new MenuType<>(EGuis::createBookContainer, net.minecraft.world.flag.FeatureFlags.VANILLA_SET));
 
     public static final DeferredHolder<MenuType<?>, MenuType<ContainerLibrary>> LIBRARY_CONTAINER = MENUS.register(LIBRARY,
@@ -50,8 +50,8 @@ public class EGuis {
         };
     }
 
-    private static AbstractBookMenu createBookContainer(int windowId, Inventory playerInventory) {
-        return new AbstractBookMenu(EInfo.MODID, BOOK_CONTAINER.get(), windowId, playerInventory);
+    private static BookMenu createBookContainer(int windowId, Inventory playerInventory) {
+        return new BookMenu(BOOK_CONTAINER.get(), windowId, playerInventory);
     }
 
     public static MenuProvider getLibraryProvider() {

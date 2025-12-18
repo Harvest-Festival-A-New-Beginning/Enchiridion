@@ -43,12 +43,12 @@ public class RecipeHandlerFurnace extends RecipeHandlerBase {
     }
 
     @Override
-    public double getHeight(double width) {
-        return width * 1.1D;
+    public int getHeight(int width) {
+        return (int) (width * 1.1D);
     }
 
     @Override
-    public double getWidth(double width) {
+    public int getWidth(int width) {
         return width;
     }
 

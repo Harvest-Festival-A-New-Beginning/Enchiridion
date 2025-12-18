@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import uk.joshiejack.penguinlib.data.database.ReloadableRegistry;
+import uk.joshiejack.penguinlib.util.registry.ReloadableRegistry;
 
 import static joshie.enchiridion.lib.EInfo.MODID;
 

@@ -106,12 +106,12 @@ public abstract class RecipeHandlerRecipeBase extends RecipeHandlerBase {
     protected abstract Class getHandlerClass();
 
     @Override
-    public double getHeight(double width) {
-        return width / 2D;
+    public int getHeight(int width) {
+        return width / 2;
     }
 
     @Override
-    public double getWidth(double width) {
+    public int getWidth(int width) {
         return width;
     }
 

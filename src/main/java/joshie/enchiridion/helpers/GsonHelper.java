@@ -15,7 +15,8 @@ public class GsonHelper {
         if (GsonHelper.gson == null) {
             GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
             builder.registerTypeAdapter(IFeature.class, new IFeatureAbstractAdapter());
-            builder.registerTypeAdapter(FeatureProvider.class, new FeatureAbstractAdapter());
+            // TODO: FeatureProvider is now abstract - legacy adapter removed, use Codec-based serialization
+            // builder.registerTypeAdapter(FeatureProvider.class, new FeatureAbstractAdapter());
             builder.registerTypeAdapter(IButtonAction.class, new IButtonActionAbstractAdapter());
             builder.registerTypeAdapter(IFeatureProvider.class, new IFeatureProviderAbstractAdapter());
             builder.registerTypeAdapter(IPage.class, new IPageAbstractAdapter());

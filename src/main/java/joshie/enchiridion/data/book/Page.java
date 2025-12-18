@@ -6,6 +6,7 @@ import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.api.book.IFeatureProvider;
 import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.lib.EnchiridionRegistries;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,11 +14,18 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Page implements IPage {
+    // Polymorphic codec for features using the feature registry
+    private static final Codec<IFeatureProvider> FEATURE_CODEC = EnchiridionRegistries.Features.FEATURE.byNameCodec()
+        .dispatch(
+            feature -> EnchiridionRegistries.Features.FEATURE.getKey(feature.getCodec()),
+            codec -> (Codec<IFeatureProvider>) codec
+        );
+
     public static final Codec<Page> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-        Codec.INT.optionalFieldOf("pageNumber", 0).forGetter(page -> page.pageNumber),
-        Codec.BOOL.optionalFieldOf("isScrollable", false).forGetter(page -> page.isScrollable),
-        FeatureProvider.CODEC.listOf().optionalFieldOf("features", new ArrayList<>()).forGetter(page ->
-            new ArrayList<>(page.features))
+        Codec.INT.optionalFieldOf("pageNumber", 0).forGetter(p -> p.pageNumber),
+        Codec.BOOL.optionalFieldOf("isScrollable", false).forGetter(p -> p.isScrollable),
+        FEATURE_CODEC.listOf().optionalFieldOf("features", new ArrayList<>()).forGetter(p ->
+            new ArrayList<>(p.features))
     ).apply(instance, (pageNumber, isScrollable, features) -> {
         Page page = new Page();
         page.pageNumber = pageNumber;

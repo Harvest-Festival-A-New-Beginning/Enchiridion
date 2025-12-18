@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.EnchiridionAPI;
+import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.api.book.IFeatureProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -34,7 +35,7 @@ public class FeatureResource extends joshie.enchiridion.data.book.FeatureProvide
     public transient boolean attempted;
 
     @Override
-    public FeatureResource copy() {
+    public IFeatureProvider copy() {
         FeatureResource resource = new FeatureResource();
         resource.path = path;
         return resource;

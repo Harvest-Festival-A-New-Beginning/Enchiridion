@@ -3,7 +3,9 @@ package joshie.enchiridion.gui.book.features;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
+import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.api.book.IFeatureProvider;
+import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.helpers.MCClientHelper;
 import joshie.enchiridion.util.ITextEditable;
@@ -34,14 +36,16 @@ public class FeatureText extends FeatureProvider implements ITextEditable {
     public float size = 1F;
 
     public FeatureText() {
+        super(0, 0, 0, 0);
     }
 
     public FeatureText(String text) {
+        super(0, 0, 0, 0);
         this.text = text;
     }
 
     @Override
-    public FeatureText copy() {
+    public IFeatureProvider copy() {
         FeatureText text = new FeatureText(this.text);
         text.size = size;
         return text;
@@ -53,16 +57,16 @@ public class FeatureText extends FeatureProvider implements ITextEditable {
     }
 
     @Override
-    public void update(IFeatureProvider position) {
-        super.update(position);
-        cachedWidth = position.getWidth();
+    public void update(IPage page) {
+        super.update(page);
+        cachedWidth = getWidth();
         wrap = Math.max(50, (int) (cachedWidth / size) + 4);
     }
 
     @Override
-    public void draw(int mouseX, int mouseY) {
+    protected void drawFeature(int mouseX, int mouseY) {
         if (text != null) {
-            EnchiridionAPI.draw.drawSplitScaledString(TextEditor.INSTANCE.getText(this), position.getLeft(), position.getTop(), wrap, 0x555555, size);
+            EnchiridionAPI.draw.drawSplitScaledString(TextEditor.INSTANCE.getText(this), getLeft(), getTop(), wrap, 0x555555, size);
         }
     }
 
@@ -109,18 +113,19 @@ public class FeatureText extends FeatureProvider implements ITextEditable {
     }
 
     @Override
-    public void keyTyped(char character, int key) {
+    public boolean keyTyped(char character, int key) {
         if (MCClientHelper.isShiftPressed()) {
             if (key == 78) {
                 size = Math.min(15F, Math.max(0.5F, size + 0.1F));
                 wrap = Math.max(50, (int) ((cachedWidth) / size) + 4);
-                return;
+                return true;
             } else if (key == 74) {
                 size = Math.min(15F, Math.max(0.5F, size - 0.1F));
                 wrap = Math.max(50, (int) ((cachedWidth) / size) + 4);
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     @Override

@@ -3,6 +3,7 @@ package joshie.enchiridion.gui.book.features;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
+import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.api.book.IFeatureProvider;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
 import joshie.enchiridion.gui.book.GuiSimpleEditorColor;
@@ -30,7 +31,7 @@ public class FeatureBox extends joshie.enchiridion.data.book.FeatureProvider imp
     }
 
     @Override
-    public FeatureBox copy() {
+    public IFeatureProvider copy() {
         return new FeatureBox(color);
     }
 

@@ -3,7 +3,9 @@ package joshie.enchiridion.gui.book.features;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
+import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.api.book.IFeatureProvider;
+import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.lib.EInfo;
 
 import java.io.IOException;
@@ -27,7 +29,7 @@ public class FeatureImage extends FeatureResource {
     }
 
     @Override
-    public FeatureImage copy() {
+    public IFeatureProvider copy() {
         return new FeatureImage(path);
     }
 
@@ -37,8 +39,8 @@ public class FeatureImage extends FeatureResource {
     }
 
     @Override
-    public void update(IFeatureProvider position) {
-        super.update(position);
+    public void update(IPage page) {
+        super.update(page);
         name = path.replace(EInfo.MODID + ":images/", "").replace(".png", "").split("/")[1];
     }
 
@@ -53,8 +55,8 @@ public class FeatureImage extends FeatureResource {
     }
 
     @Override
-    protected void draw(int xPos, int yPos, double width, double height) {
-        EnchiridionAPI.draw.drawImage(resource, position.getLeft(), position.getTop(), position.getRight(), position.getBottom());
+    protected void drawResource(int xPos, int yPos, double width, double height) {
+        EnchiridionAPI.draw.drawImage(resource, getLeft(), getTop(), getRight(), getBottom());
     }
 
     @Override

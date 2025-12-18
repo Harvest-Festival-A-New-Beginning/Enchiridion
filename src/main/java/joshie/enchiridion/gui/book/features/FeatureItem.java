@@ -3,6 +3,7 @@ package joshie.enchiridion.gui.book.features;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
+import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.api.book.IFeatureProvider;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
 import joshie.enchiridion.gui.book.GuiSimpleEditorItem;
@@ -44,7 +45,7 @@ public class FeatureItem extends joshie.enchiridion.data.book.FeatureProvider im
     public transient ItemStack stack = ItemStack.EMPTY;
 
     @Override
-    public FeatureItem copy() {
+    public IFeatureProvider copy() {
         FeatureItem item = new FeatureItem(stack);
         item.hideTooltip = hideTooltip;
         return item;

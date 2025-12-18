@@ -111,31 +111,34 @@ public class FeatureButton extends FeatureJump implements IButtonActionProvider 
     }
 
     @Override
-    public void keyTyped(char character, int key) {
+    public boolean keyTyped(char character, int key) {
         if (MCClientHelper.isShiftPressed()) {
             if (key == 78) {
                 size = Math.min(15F, Math.max(0.5F, size + 0.1F));
+                return true;
             } else if (key == 74) {
                 size = Math.min(15F, Math.max(0.5F, size - 0.1F));
+                return true;
             }
         }
+        return false;
     }
 
     @Override
-    public void draw(int mouseX, int mouseY) {
+    protected void drawFeature(int mouseX, int mouseY) {
         if (action == null || !action.isVisible()) return;
         if (!isInit && action != null) { //Called here because action needs everything to be loaded, where as update doesn't
             action.onFieldsSet("");
             isInit = true;
         }
 
-        boolean isHovered = position.isOverFeature(mouseX, mouseY);
+        boolean isHovered = isOverFeature(mouseX, mouseY);
         ResourceLocation location = getResource(isHovered);
         if (location != null) {
-            EnchiridionAPI.draw.drawImage(location, position.getLeft(), position.getTop(), position.getRight(), position.getBottom());
+            EnchiridionAPI.draw.drawImage(location, getLeft(), getTop(), getRight(), getBottom());
         }
 
-        EnchiridionAPI.draw.drawSplitScaledString(getText(isHovered), position.getLeft() + getTextOffsetX(isHovered), position.getTop() + getTextOffsetY(isHovered), 200, 0x555555, size);
+        EnchiridionAPI.draw.drawSplitScaledString(getText(isHovered), getLeft() + getTextOffsetX(isHovered), getTop() + getTextOffsetY(isHovered), 200, 0x555555, size);
     }
 
     @Override

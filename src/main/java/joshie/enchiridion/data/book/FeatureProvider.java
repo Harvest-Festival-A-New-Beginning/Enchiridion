@@ -63,7 +63,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     }
 
     // Abstract method - each feature type must implement its own copy logic
-    public abstract IFeature copy();
+    public abstract IFeatureProvider copy();
 
     @Override
     public boolean isOverFeature(int x, int y) {

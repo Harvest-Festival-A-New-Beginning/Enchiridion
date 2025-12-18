@@ -7,12 +7,12 @@ import java.util.List;
 
 public interface IFeature {
     /** @return a duplicate of this feature **/
-    IFeature copy();
+    IFeatureProvider copy();
 
-    void update(IFeatureProvider position);
+    void update(IPage page);
     void draw(int mouseX, int mouseY);
     void addTooltip(List<String> tooltip, int mouseX, int mouseY);
-    void keyTyped(char character, int key);
+    boolean keyTyped(char character, int key);
 
     /** @return true if this feature should display yellow squares instead of blue
      *  Should also open any edit menus required **/

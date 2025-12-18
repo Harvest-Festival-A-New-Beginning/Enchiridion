@@ -16,7 +16,7 @@ public class FeatureError extends joshie.enchiridion.data.book.FeatureProvider {
     }
 
     @Override
-    public IFeature copy() {
+    public IFeatureProvider copy() {
         return new FeatureError();
     }
 

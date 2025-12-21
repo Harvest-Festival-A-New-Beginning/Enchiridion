@@ -38,11 +38,10 @@ public class EnchiridionRegistries {
         public static final DeferredRegister<Codec<? extends FeatureElement>> ELEMENT_TYPES = DeferredRegister.create(ResourceKey.createRegistryKey(new ResourceLocation(EInfo.MODID, "elements")), EInfo.MODID);
         public static final Registry<Codec<? extends FeatureElement>> ELEMENTS = ELEMENT_TYPES.makeRegistry(b -> b.sync(true));
 
-        // Element registrations will be added here as features are converted
-        // Example: public static final Holder<Codec<? extends FeatureElement>> TEXT = ELEMENT_TYPES.register("text", () -> TextElement.CODEC);
+        // Element registrations - features converted to pure rendering elements
+        // public static final Holder<Codec<? extends FeatureElement>> TEXT = ELEMENT_TYPES.register("text", () -> TextElement.CODEC);
     }
 
-    @Deprecated // Legacy feature system - being replaced by Elements registry
     public static class Features {
         public static final DeferredRegister<Codec<? extends FeatureProvider>> FEATURE_TYPES = DeferredRegister.create(ResourceKey.createRegistryKey(new ResourceLocation(EInfo.MODID, "features")), EInfo.MODID);
         public static final Registry<Codec<? extends FeatureProvider>> FEATURES = FEATURE_TYPES.makeRegistry(b -> b.sync(true));
@@ -65,6 +64,6 @@ public class EnchiridionRegistries {
 
     public static void register(IEventBus eventBus) {
         Elements.ELEMENT_TYPES.register(eventBus);
-        Features.FEATURE_TYPES.register(eventBus); // Keep for legacy compat during transition
+        Features.FEATURE_TYPES.register(eventBus);
     }
 }

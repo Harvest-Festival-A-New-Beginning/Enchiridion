@@ -1,6 +1,6 @@
 package joshie.enchiridion.api.edit;
 
-import joshie.enchiridion.api.book.IButtonActionProvider;
+import joshie.enchiridion.gui.book.features.FeatureButton;
 import joshie.enchiridion.api.gui.ISimpleEditorFieldProvider;
 
 public interface IEditHelper {
@@ -10,5 +10,5 @@ public interface IEditHelper {
     void setSimpleEditorFeature(ISimpleEditorFieldProvider feature, Object gui);
 
     /** Returns a jump to page button **/
-    IButtonActionProvider getJumpPageButton(int page);
+    FeatureButton getJumpPageButton(int page);
 }

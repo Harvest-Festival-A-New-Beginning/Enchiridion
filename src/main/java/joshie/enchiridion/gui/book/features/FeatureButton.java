@@ -5,7 +5,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IButtonAction;
-import joshie.enchiridion.api.book.IButtonActionProvider;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
@@ -17,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
-public class FeatureButton extends FeatureJump implements IButtonActionProvider {
+public class FeatureButton extends FeatureJump {
     // TODO: Complete codec implementation with IButtonAction support
     public static final Codec<FeatureButton> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.FLOAT.optionalFieldOf("size", 1F).forGetter(f -> f.size),
@@ -277,41 +276,41 @@ public class FeatureButton extends FeatureJump implements IButtonActionProvider 
     }
 
     @Override
-    public IButtonActionProvider setResourceLocation(boolean isHovered, ResourceLocation resource) {
+    public FeatureButton setResourceLocation(boolean isHovered, ResourceLocation resource) {
         if (isHovered) hovered = resource;
         else unhovered = resource;
         return this;
     }
 
     @Override
-    public IButtonActionProvider setText(boolean isHovered, String text) {
+    public FeatureButton setText(boolean isHovered, String text) {
         if (isHovered) hoverText = text;
         else unhoveredText = text;
         return this;
     }
 
     @Override
-    public IButtonActionProvider setTooltip(String tooltip) {
+    public FeatureButton setTooltip(String tooltip) {
         this.tooltip = tooltip;
         return this;
     }
 
     @Override
-    public IButtonActionProvider setTextOffsetX(boolean isHovered, int x) {
+    public FeatureButton setTextOffsetX(boolean isHovered, int x) {
         if (isHovered) hoverXOffset = x;
         else unhoveredXOffset = x;
         return this;
     }
 
     @Override
-    public IButtonActionProvider setTextOffsetY(boolean isHovered, int y) {
+    public FeatureButton setTextOffsetY(boolean isHovered, int y) {
         if (isHovered) hoverYOffset = y;
         else unhoveredYOffset = y;
         return this;
     }
 
     @Override
-    public IButtonActionProvider setProcessesClick(int button, boolean value) {
+    public FeatureButton setProcessesClick(int button, boolean value) {
         if (button == 0) leftClick = value;
         else if (button == 1) rightClick = value;
         else otherClick = value;

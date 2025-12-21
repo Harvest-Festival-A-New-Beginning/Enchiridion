@@ -3,7 +3,6 @@ package joshie.enchiridion.data.book;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.book.IBook;
-import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.gui.book.features.*;
 

@@ -1,7 +1,7 @@
 package joshie.enchiridion.helpers;
 
 import joshie.enchiridion.api.EnchiridionAPI;
-import joshie.enchiridion.api.book.IButtonActionProvider;
+import joshie.enchiridion.gui.book.features.FeatureButton;
 import joshie.enchiridion.api.edit.IEditHelper;
 import joshie.enchiridion.api.gui.ISimpleEditorFieldProvider;
 import joshie.enchiridion.gui.book.GuiBook;
@@ -18,7 +18,7 @@ public class EditHelper implements IEditHelper {
     }
 
     @Override
-    public IButtonActionProvider getJumpPageButton(int page) {
+    public FeatureButton getJumpPageButton(int page) {
         return new FeatureButton(new ActionJumpPage(page));
     }
 }

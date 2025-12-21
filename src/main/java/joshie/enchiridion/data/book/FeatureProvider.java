@@ -3,7 +3,6 @@ package joshie.enchiridion.data.book;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
-import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.gui.book.GuiGrid;
@@ -24,7 +23,7 @@ import uk.joshiejack.penguinlib.util.icon.Icon;
 import java.util.List;
 import java.util.function.Function;
 
-public abstract class FeatureProvider extends AbstractWidget implements IFeature {
+public abstract class FeatureProvider extends AbstractWidget {
     public static final Codec<FeatureProvider> CODEC = EnchiridionRegistries.Features.FEATURES.byNameCodec().dispatchStable(FeatureProvider::codec, Function.identity());
     public static final Codec<FeatureProvider> FEATURE = RecordCodecBuilder.create(instance -> instance.group(
             FeatureProvider.CODEC.fieldOf("feature").forGetter(f -> f),
@@ -44,8 +43,9 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
         feature.layerIndex = layerIndex;
         feature.relativeX = relativeX;
         feature.relativeY = relativeY;
-        feature.setWidth(width);
-        feature.setHeight(height);
+        // Set width/height directly on AbstractWidget's protected fields
+        feature.width = width;
+        feature.height = height;
         return feature;
     }));
 

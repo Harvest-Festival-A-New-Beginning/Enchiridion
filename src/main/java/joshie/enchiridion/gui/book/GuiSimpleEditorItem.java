@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import joshie.enchiridion.EConfig;
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.EnchiridionAPI;
-import joshie.enchiridion.api.gui.IBookEditorOverlay;
+
 import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.helpers.ItemListHelper;
 import joshie.enchiridion.util.ELocation;
@@ -29,7 +29,7 @@ public class GuiSimpleEditorItem extends AbstractGuiOverlay {
     protected GuiSimpleEditorItem() {
     }
 
-    public IBookEditorOverlay setItem(IItemSelectable item) {
+    public AbstractGuiOverlay setItem(IItemSelectable item) {
         selectable = item;
         return this;
     }
@@ -96,7 +96,7 @@ public class GuiSimpleEditorItem extends AbstractGuiOverlay {
     }
 
     @Override
-    public boolean mouseClicked(int mouseX, int mouseY) {
+    public boolean mouseClicked(int mouseX, int mouseY, GuiBook guiBook) {
         if (mouseX >= EConfig.SETTINGS.editorXPos + 2 && mouseX <= EConfig.SETTINGS.editorXPos + 83) {
             if (mouseY >= EConfig.SETTINGS.toolbarYPos.get() + 9 && mouseY <= EConfig.SETTINGS.toolbarYPos.get() + 23) {
                 selectable.setTooltips(!selectable.getTooltipsEnabled());

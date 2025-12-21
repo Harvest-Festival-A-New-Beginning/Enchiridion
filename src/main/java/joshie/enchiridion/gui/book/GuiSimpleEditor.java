@@ -1,7 +1,7 @@
 package joshie.enchiridion.gui.book;
 
 import joshie.enchiridion.EConfig;
-import joshie.enchiridion.api.gui.IBookEditorOverlay;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -15,7 +15,7 @@ public class GuiSimpleEditor extends AbstractGuiOverlay {
     private final GuiBook guiBook;
     private EditBox textField;
     private String text = "";
-    private IBookEditorOverlay editor = null;
+    private AbstractGuiOverlay editor = null;
 
     public GuiSimpleEditor(GuiBook guiBook) {
         this.guiBook = guiBook;

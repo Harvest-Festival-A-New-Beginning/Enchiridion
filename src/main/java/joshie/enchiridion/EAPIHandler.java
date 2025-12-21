@@ -5,8 +5,8 @@ import joshie.enchiridion.api.IEnchiridionAPI;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IButtonAction;
 import joshie.enchiridion.api.book.ITemplate;
-import joshie.enchiridion.api.gui.IBookEditorOverlay;
 import joshie.enchiridion.api.gui.IToolbarButton;
+import joshie.enchiridion.gui.book.AbstractGuiOverlay;
 import joshie.enchiridion.api.recipe.IRecipeHandler;
 import joshie.enchiridion.data.book.BookRegistry;
 import joshie.enchiridion.gui.book.GuiBook;
@@ -61,7 +61,7 @@ public class EAPIHandler implements IEnchiridionAPI {
     }
 
     @Override
-    public void registerEditorOverlay(IBookEditorOverlay overlay) {
+    public void registerEditorOverlay(AbstractGuiOverlay overlay) {
         // Editor overlays are now created in GuiBook constructor
         // This method is kept for API compatibility but overlays are built-in
     }

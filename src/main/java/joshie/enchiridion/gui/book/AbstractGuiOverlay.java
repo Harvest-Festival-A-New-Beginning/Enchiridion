@@ -1,53 +1,44 @@
 package joshie.enchiridion.gui.book;
 
-import joshie.enchiridion.api.gui.IBookEditorOverlay;
 import joshie.enchiridion.util.ELocation;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
-public abstract class AbstractGuiOverlay implements IBookEditorOverlay {
+public abstract class AbstractGuiOverlay {
     protected static final ResourceLocation TOOLBAR = new ELocation("toolbar");
     protected static final ResourceLocation SIDEBAR = new ELocation("sidebar");
 
-    @Override
+    public abstract void draw(GuiGraphics graphics, int mouseX, int mouseY, GuiBook guiBook);
+
     public void addToolTip(List<String> tooltip, int mouseX, int mouseY) {
     }
 
-    @Override
     public void charTyped(char character, int key) {
     }
 
-    @Override
     public boolean mouseClicked(int mouseX, int mouseY, GuiBook guiBook) {
         return false;
     }
 
-    @Override
     public void mouseReleased(int mouseX, int mouseY, GuiBook guiBook) {
     }
 
-    @Override
     public void scroll(boolean down, int mouseX, int mouseY) {
     }
 
-    @Override
     public void updateSearch(String search) {
     }
 
-    @Override
     public void init() {
     }
 
-    @Override
     public void tick() {
     }
 
-    @Override
     public GuiEventListener getFocused() {
         return null;
     }
-
-    // Note: draw() is abstract and must be implemented by subclasses
 }

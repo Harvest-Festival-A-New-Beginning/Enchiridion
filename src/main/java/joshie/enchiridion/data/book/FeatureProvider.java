@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.gui.book.GuiGrid;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
 import joshie.enchiridion.helpers.EventHelper;
@@ -72,7 +73,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
     private transient IPage pageContainer;
     private transient int left;
     private transient int top;
-    private transient Object currentGui; // Stores current GUI context during rendering
+    private transient GuiBook currentGui; // Stores current GUI context during rendering
 
     public FeatureProvider(int x, int y, int width, int height) {
         super(x, y, width, height, Component.empty());
@@ -81,11 +82,12 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
         this.isFromTemplate = false;
     }
 
-    public FeatureProvider init(int left, int top) {
+    public FeatureProvider init(int left, int top, GuiBook guiBook) {
         setX(left + relativeX); //Sets the actual x and y based on the width and height
         setY(top + relativeY);
         this.left = left;
         this.top = top;
+        this.currentGui = guiBook;
         return this;
     }
 
@@ -93,14 +95,9 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
         return pageContainer;
     }
 
-    /** Gets the current GUI context (typically GuiBook) during rendering */
-    protected Object getCurrentGui() {
+    /** Gets the current GUI context set during init */
+    protected GuiBook getCurrentGui() {
         return currentGui;
-    }
-
-    /** Sets the current GUI context - called internally by GuiBook */
-    public void setCurrentGui(Object gui) {
-        this.currentGui = gui;
     }
 
     @Override

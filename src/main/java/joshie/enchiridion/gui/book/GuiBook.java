@@ -11,7 +11,6 @@ import joshie.enchiridion.api.book.IBookHelper;
 import joshie.enchiridion.api.book.IFeature;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.api.book.IPage;
-import joshie.enchiridion.api.gui.IBookEditorOverlay;
 import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.gui.book.features.FeaturePreviewWindow;
 import joshie.enchiridion.helpers.*;
@@ -50,7 +49,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
     private static HashMap<String, Integer> pageCache = new HashMap<>();
     private static HashMap<String, FeaturePreviewWindow> scrollFeatures = new HashMap<>();
 
-    private Set<IBookEditorOverlay> overlays = new HashSet<>();
+    private Set<AbstractGuiOverlay> overlays = new HashSet<>();
     private boolean isEditMode = false; // Whether we are in edit mode or not
     private IBook book; // The current book being displayed
     private IPage page; // The current page being displayed
@@ -120,7 +119,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
         return scrollFeatures;
     }
 
-    public void registerOverlay(IBookEditorOverlay overlay) {
+    public void registerOverlay(AbstractGuiOverlay overlay) {
         overlays.add(overlay);
     }
 
@@ -169,7 +168,6 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
             int prevMouseY = mouseY;
             mouseY = mouseY + page.getScroll();
-            feature.setCurrentGui(this); // Set GUI context for this render pass
             feature.renderWidget(guiGraphics, mouseX, mouseY, partialTicks);
             feature.addTooltip(TOOLTIP, mouseX, mouseY);
             this.mouseY = prevMouseY;
@@ -179,7 +177,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
         //Draw all the overlays
         if (isEditMode) {
-            for (IBookEditorOverlay overlay : overlays) {
+            for (AbstractGuiOverlay overlay : overlays) {
                 overlay.draw(guiGraphics, mouseX, mouseY, this);
                 overlay.addToolTip(TOOLTIP, mouseX, mouseY);
             }
@@ -197,10 +195,10 @@ public class GuiBook extends GuiBase implements IBookHelper {
         int bookX = (width - xSize) / 2;
         int bookY = (height - ySize) / 2;
 
-        // Initialize all features with the book's screen position
+        // Initialize all features with the book's screen position and GUI context
         if (page != null) {
             for (FeatureProvider feature : page.getFeatures()) {
-                feature.init(bookX, bookY);
+                feature.init(bookX, bookY, this);
             }
         }
     }
@@ -211,7 +209,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
         TextEditor.INSTANCE.clearEditable();
 
         if (isEditMode) {
-            for (IBookEditorOverlay overlay : overlays) {
+            for (AbstractGuiOverlay overlay : overlays) {
                 overlay.init();
             }
         }
@@ -221,7 +219,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
     public void containerTick() {
         super.containerTick();
         if (isEditMode) {
-            for (IBookEditorOverlay overlay : overlays) {
+            for (AbstractGuiOverlay overlay : overlays) {
                 overlay.tick();
             }
         }
@@ -294,7 +292,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
             //Update itself
             group.stream().filter(Objects::nonNull).forEach(provider -> provider.update(getPage()));
 
-            for (IBookEditorOverlay overlay : overlays) {
+            for (AbstractGuiOverlay overlay : overlays) {
                 overlay.charTyped(character, key);
                 overlay.updateSearch(simpleEditor.getText());
             }
@@ -332,7 +330,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
         super.mouseClicked(x, y, mouseButton);
         //Perform clicks for the overlays
         if (isEditMode) {
-            for (IBookEditorOverlay overlay : overlays) {
+            for (AbstractGuiOverlay overlay : overlays) {
                 if (overlay.mouseClicked(mouseX, mouseY, this)) {
                     return false;
                 }
@@ -367,7 +365,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
         //Perform releases for the overlays
         if (isEditMode) {
-            for (IBookEditorOverlay overlay : overlays) {
+            for (AbstractGuiOverlay overlay : overlays) {
                 overlay.mouseReleased(mouseX, mouseY, this);
             }
         }
@@ -389,7 +387,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
         if (deltaY != 0) {
             boolean down = deltaY < 0;
             if (isEditMode) {
-                for (IBookEditorOverlay overlay : overlays) {
+                for (AbstractGuiOverlay overlay : overlays) {
                     overlay.scroll(down, mouseX, mouseY);
                 }
             }

@@ -1,7 +1,7 @@
 package joshie.enchiridion.gui.book;
 
 import joshie.enchiridion.EConfig;
-import joshie.enchiridion.api.gui.IBookEditorOverlay;
+
 import joshie.enchiridion.util.IColorable;
 
 public class GuiSimpleEditorColor extends GuiSimpleEditorAbstract {
@@ -57,7 +57,7 @@ public class GuiSimpleEditorColor extends GuiSimpleEditorAbstract {
     protected GuiSimpleEditorColor() {
     }
 
-    public IBookEditorOverlay setColorable(IColorable colorable) {
+    public AbstractGuiOverlay setColorable(IColorable colorable) {
         GuiSimpleEditorColor.colorable = colorable;
         return this;
     }

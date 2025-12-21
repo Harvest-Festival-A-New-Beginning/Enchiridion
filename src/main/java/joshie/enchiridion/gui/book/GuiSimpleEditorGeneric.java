@@ -2,7 +2,7 @@ package joshie.enchiridion.gui.book;
 
 import joshie.enchiridion.EConfig;
 import joshie.enchiridion.Enchiridion;
-import joshie.enchiridion.api.gui.IBookEditorOverlay;
+
 import joshie.enchiridion.api.gui.ISimpleEditorFieldProvider;
 import joshie.enchiridion.util.ITextEditable;
 import joshie.enchiridion.util.TextEditor;
@@ -21,7 +21,7 @@ public class GuiSimpleEditorGeneric extends GuiSimpleEditorAbstract {
     protected GuiSimpleEditorGeneric() {
     }
 
-    public IBookEditorOverlay setFeature(ISimpleEditorFieldProvider points) {
+    public AbstractGuiOverlay setFeature(ISimpleEditorFieldProvider points) {
         provider = points;
         this.fieldCache = new HashMap<>();
         this.fieldNameCache = null;

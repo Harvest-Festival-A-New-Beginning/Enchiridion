@@ -3,8 +3,8 @@ package joshie.enchiridion.api;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IButtonAction;
 import joshie.enchiridion.api.book.ITemplate;
-import joshie.enchiridion.api.gui.IBookEditorOverlay;
 import joshie.enchiridion.api.gui.IToolbarButton;
+import joshie.enchiridion.gui.book.AbstractGuiOverlay;
 import joshie.enchiridion.api.recipe.IRecipeHandler;
 import net.minecraft.world.entity.player.Player;
 
@@ -31,7 +31,7 @@ public interface IEnchiridionAPI {
     void registerRecipeHandler(IRecipeHandler handler);
 
     /** Register an editor overlay, Client Side only **/
-    void registerEditorOverlay(IBookEditorOverlay overlay);
+    void registerEditorOverlay(AbstractGuiOverlay overlay);
 
     /** Register a toolbar button, Client Side only **/
     void registerToolbarButton(IToolbarButton button);

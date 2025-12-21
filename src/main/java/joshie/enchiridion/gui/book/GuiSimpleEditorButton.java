@@ -4,7 +4,7 @@ import joshie.enchiridion.EConfig;
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IButtonAction;
-import joshie.enchiridion.api.gui.IBookEditorOverlay;
+
 import joshie.enchiridion.gui.book.GuiSimpleEditorGeneric.WrappedEditable;
 import joshie.enchiridion.gui.book.features.FeatureButton;
 import joshie.enchiridion.helpers.FileCopier;
@@ -45,7 +45,7 @@ public class GuiSimpleEditorButton extends GuiSimpleEditorAbstract {
         actions.add(action);
     }
 
-    public IBookEditorOverlay setButton(FeatureButton button) {
+    public AbstractGuiOverlay setButton(FeatureButton button) {
         this.button = button;
         this.fieldCache = new HashMap<>();
         this.fieldNameCache = new HashMap<>();

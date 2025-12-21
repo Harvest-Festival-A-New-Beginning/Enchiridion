@@ -111,7 +111,8 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
     }
 
     @Override
-    protected void drawFeature(GuiGraphics guiGraphics, int xMouse, int yMouse, float partialTicks, GuiBook guiBook) {
+    protected void drawFeature(GuiGraphics guiGraphics, int xMouse, int yMouse, float partialTicks) {
+        GuiBook guiBook = getCurrentGui();
         if (guiBook.isEditMode()) {
             // Draw bordered rectangle for edit mode
             int left = getLeft();

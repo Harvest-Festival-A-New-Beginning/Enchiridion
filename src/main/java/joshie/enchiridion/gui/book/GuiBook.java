@@ -123,10 +123,9 @@ public class GuiBook extends GuiBase implements IBookHelper {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int x2, int y2, float partialTicks) {
-        super.render(guiGraphics, x2, y2, partialTicks);
+    protected void renderBg(@Nonnull GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
+        super.renderBg(guiGraphics, partialTicks, mouseX, mouseY);
 
-        Minecraft mc = Minecraft.getInstance();
         if (book.isBackgroundVisible()) {
             //Display the left side
             if (book.isBackgroundLegacy()) {
@@ -157,6 +156,11 @@ public class GuiBook extends GuiBase implements IBookHelper {
                 guiGraphics.blit(bg, x + left, y + top, 0, 0, w, h, w, h);
             }
         }
+    }
+
+    @Override
+    public void render(GuiGraphics guiGraphics, int x2, int y2, float partialTicks) {
+        super.render(guiGraphics, x2, y2, partialTicks);
 
         // Draw all the features, In reverse
         for (FeatureProvider feature : Lists.reverse(page.getFeatures())) {

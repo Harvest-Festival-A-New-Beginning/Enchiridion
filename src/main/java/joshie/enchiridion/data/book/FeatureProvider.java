@@ -100,7 +100,6 @@ public abstract class FeatureProvider extends AbstractWidget {
         return currentGui;
     }
 
-    @Override
     public void update(IPage page) {
         this.pageContainer = page;
         this.pageContainer.sort();
@@ -131,7 +130,6 @@ public abstract class FeatureProvider extends AbstractWidget {
         return x >= getX() && x <= getX() + 2 && y >= getBottom() - 2 && y <= getBottom();
     }
 
-    @Override
     public void draw(int mouseX, int mouseY) {
         // Legacy method - redirects to renderWidget for compatibility
         // This may be called from GuiBook during the transition
@@ -156,12 +154,10 @@ public abstract class FeatureProvider extends AbstractWidget {
     // Abstract method - each feature type must implement its own drawing logic
     protected abstract void drawFeature(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks);
 
-    @Override
     public void addTooltip(List<String> tooltip, int mouseX, int mouseY) {
         // Default implementation - subclasses can override
     }
 
-    @Override
     public boolean keyTyped(char character, int key, Object gui) {
         joshie.enchiridion.gui.book.GuiBook guiBook = (joshie.enchiridion.gui.book.GuiBook) gui;
         if (isEditing) {
@@ -342,8 +338,8 @@ public abstract class FeatureProvider extends AbstractWidget {
         }
     }
 
-    
-    public IFeature getFeature() {
+
+    public FeatureProvider getFeature() {
         return this;
     }
 
@@ -458,39 +454,31 @@ public abstract class FeatureProvider extends AbstractWidget {
         this.isFromTemplate = b;
     }
 
-    // ===== IFeature default implementations =====
+    // ===== Feature default implementations =====
 
-    @Override
     public boolean getAndSetEditMode(Object gui) {
         return false;
     }
 
-    @Override
     public boolean performClick(int mouseX, int mouseY, int button, Object gui) {
         return false;
     }
 
-    @Override
     public void performRelease(int mouseX, int mouseY, int button) {
     }
 
-    @Override
     public void follow(int mouseX, int mouseY, Object gui) {
     }
 
-    @Override
     public void scroll(boolean down, int amount) {
     }
 
-    @Override
     public void onDeselected() {
     }
 
-    @Override
     public String getName() {
         return getClass().getSimpleName();
     }
 
-    @Override
     public abstract Codec<? extends FeatureProvider> codec();
 }

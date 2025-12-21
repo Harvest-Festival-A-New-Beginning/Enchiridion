@@ -94,10 +94,10 @@ public class Page implements IPage {
     }
 
     @Override
-    public void addFeature(IFeature feature, int x, int y, double width, double height, boolean isLocked, boolean isHidden, boolean isFromTemplate) {
-        // Feature is a FeatureProvider (implements IFeature)
-        // No wrapper needed - just cast and configure
-        FeatureProvider provider = (FeatureProvider) feature;
+    public void addFeature(FeatureProvider feature, int x, int y, double width, double height, boolean isLocked, boolean isHidden, boolean isFromTemplate) {
+        // Feature is a FeatureProvider
+        // No wrapper needed - just configure
+        FeatureProvider provider = feature;
         provider.setX(x);
         provider.setY(y);
         provider.setWidth((int) width);

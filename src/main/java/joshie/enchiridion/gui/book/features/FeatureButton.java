@@ -75,7 +75,6 @@ public class FeatureButton extends FeatureJump {
         setResourceLocation(false, new ELocation("arrow_left_off")); //Default
     }
 
-    @Override
     public IButtonAction getAction() {
         return action;
     }
@@ -245,71 +244,59 @@ public class FeatureButton extends FeatureJump {
         return this;
     }
 
-    @Override
     public String getText(boolean isHovered) {
         return isHovered ? hoverText : unhoveredText;
     }
 
-    @Override
     public String getTooltipText() {
         return tooltip;
     }
 
-    @Override
     public boolean processesClick(int button) {
         return button == 0 ? leftClick : button == 1 ? rightClick : otherClick;
     }
 
-    @Override
     public int getTextOffsetX(boolean isHovered) {
         return isHovered ? hoverXOffset : unhoveredXOffset;
     }
 
-    @Override
     public int getTextOffsetY(boolean isHovered) {
         return isHovered ? hoverYOffset : unhoveredYOffset;
     }
 
-    @Override
     public ResourceLocation getResource(boolean isHovered) {
         return isHovered ? hovered : unhovered;
     }
 
-    @Override
     public FeatureButton setResourceLocation(boolean isHovered, ResourceLocation resource) {
         if (isHovered) hovered = resource;
         else unhovered = resource;
         return this;
     }
 
-    @Override
     public FeatureButton setText(boolean isHovered, String text) {
         if (isHovered) hoverText = text;
         else unhoveredText = text;
         return this;
     }
 
-    @Override
     public FeatureButton setTooltip(String tooltip) {
         this.tooltip = tooltip;
         return this;
     }
 
-    @Override
     public FeatureButton setTextOffsetX(boolean isHovered, int x) {
         if (isHovered) hoverXOffset = x;
         else unhoveredXOffset = x;
         return this;
     }
 
-    @Override
     public FeatureButton setTextOffsetY(boolean isHovered, int y) {
         if (isHovered) hoverYOffset = y;
         else unhoveredYOffset = y;
         return this;
     }
 
-    @Override
     public FeatureButton setProcessesClick(int button, boolean value) {
         if (button == 0) leftClick = value;
         else if (button == 1) rightClick = value;

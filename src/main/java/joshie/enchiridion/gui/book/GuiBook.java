@@ -28,6 +28,7 @@ import net.minecraft.world.entity.player.Inventory;
 import org.lwjgl.glfw.GLFW;
 import uk.joshiejack.penguinlib.world.inventory.AbstractBookMenu;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -185,6 +186,23 @@ public class GuiBook extends GuiBase implements IBookHelper {
         }
 
         renderTooltip(TOOLTIP, x2, y2, mc.font);
+    }
+
+    @Override
+    public void initScreen(@Nonnull Minecraft minecraft, @Nonnull net.minecraft.world.entity.player.Player player) {
+        super.initScreen(minecraft, player);
+
+        // Initialize features with screen positions
+        // Calculate book position (same as in render())
+        int bookX = (width - xSize) / 2;
+        int bookY = (height - ySize) / 2;
+
+        // Initialize all features with the book's screen position
+        if (page != null) {
+            for (FeatureProvider feature : page.getFeatures()) {
+                feature.init(bookX, bookY);
+            }
+        }
     }
 
     @Override

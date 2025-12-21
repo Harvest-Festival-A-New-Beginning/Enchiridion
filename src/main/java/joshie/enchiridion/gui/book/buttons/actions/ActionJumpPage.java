@@ -25,9 +25,9 @@ public class ActionJumpPage extends AbstractAction {
     }
 
     @Override
-    public IButtonAction create() {
-        ActionJumpPage jump = new ActionJumpPage(EnchiridionAPI.book.getPage());
-        jump.bookID = EnchiridionAPI.book.getBook().getUniqueName();
+    public IButtonAction create(joshie.enchiridion.gui.book.GuiBook guiBook) {
+        ActionJumpPage jump = new ActionJumpPage(guiBook.getPage());
+        jump.bookID = guiBook.getBook().getUniqueName();
         return jump;
     }
 
@@ -43,20 +43,20 @@ public class ActionJumpPage extends AbstractAction {
     }
 
     @Override
-    public boolean performAction() {
+    public boolean performAction(joshie.enchiridion.gui.book.GuiBook guiBook) {
         if (bookID != null) {
             IBook book = EnchiridionAPI.instance.getBook(bookID);
-            if (book != null) EnchiridionAPI.book.setBook(book, EnchiridionAPI.book.isEditMode());
+            if (book != null) guiBook.setBook(book, guiBook.isEditMode());
         }
 
-        if (EnchiridionAPI.book.getBook() != null) {
-            IBook book = EnchiridionAPI.book.getBook();
-            if (!EnchiridionAPI.book.jumpToPageIfExists(pageNumber)) {
+        if (guiBook.getBook() != null) {
+            IBook book = guiBook.getBook();
+            if (!guiBook.jumpToPageIfExists(pageNumber)) {
                 IPage page = DefaultHelper.addDefaults(book, new Page(pageNumber).setBook(book));
-                EnchiridionAPI.book.getBook().addPage(page);
+                guiBook.getBook().addPage(page);
             }
 
-            return EnchiridionAPI.book.jumpToPageIfExists(pageNumber);
+            return guiBook.jumpToPageIfExists(pageNumber);
         }
 
         return false;

@@ -76,7 +76,7 @@ public class GuiLayers extends AbstractGuiOverlay {
         poseStack.popPose();
         int layerY = 0;
         int hoverY = 0;
-        ArrayList<FeatureProvider> features = EnchiridionAPI.book.getPage().getFeatures();
+        ArrayList<FeatureProvider> features = guiBookParam.getPage().getFeatures();
         for (int i = layerPosition; i < Math.min(features.size(), layerPosition + 24); i++) {
             layerY += 12;
             FeatureProvider feature = features.get(i);
@@ -177,7 +177,7 @@ public class GuiLayers extends AbstractGuiOverlay {
             guiGraphics.fill(offsetX + left, offsetY + top, offsetX + left + 1, offsetY + bottom, color2);
             guiGraphics.fill(offsetX + right - 1, offsetY + top, offsetX + right, offsetY + bottom, color2);
 
-            if (isOverLayer(layerY, mouseX, mouseY) || EnchiridionAPI.book.isGroupSelected(feature)) {
+            if (isOverLayer(layerY, mouseX, mouseY) || guiBookParam.isGroupSelected(feature)) {
                 hoverY = layerY;
                 if (feature.isFromTemplate()) {
                     color1 = 0xFFA5812C;
@@ -238,9 +238,9 @@ public class GuiLayers extends AbstractGuiOverlay {
     }
 
     @Override
-    public boolean mouseClicked(int mouseX, int mouseY) {
+    public boolean mouseClicked(int mouseX, int mouseY, GuiBook guiBookParam) {
         int layerY = 0;
-        ArrayList<FeatureProvider> features = EnchiridionAPI.book.getPage().getFeatures();
+        ArrayList<FeatureProvider> features = guiBookParam.getPage().getFeatures();
         for (int i = layerPosition; i < Math.min(features.size(), layerPosition + 20); i++) {
             FeatureProvider provider = features.get(i);
             layerY += 12;
@@ -256,7 +256,7 @@ public class GuiLayers extends AbstractGuiOverlay {
         return false;
     }
 
-    private void insertLayerAt(int mouseY, int layerNumber) {
+    private void insertLayerAt(int mouseY, int layerNumber, GuiBook guiBookParam) {
         int change = 0;
         int difference = mouseY - yStart;
         if (difference > 0) change = 0;
@@ -265,25 +265,25 @@ public class GuiLayers extends AbstractGuiOverlay {
         if (dragged.getLayerIndex() != layerNumber) {
             dragged.setLayerIndex(layerNumber + change);
             //Resort
-            EnchiridionAPI.book.getPage().sort();
+            guiBookParam.getPage().sort();
         }
     }
 
     @Override
-    public void mouseReleased(int mouseX, int mouseY) {
+    public void mouseReleased(int mouseX, int mouseY, GuiBook guiBookParam) {
         boolean placing = held >= 20;
         int layerY = 0;
-        ArrayList<FeatureProvider> features = EnchiridionAPI.book.getPage().getFeatures();
+        ArrayList<FeatureProvider> features = guiBookParam.getPage().getFeatures();
         for (int i = layerPosition; i < Math.min(features.size(), layerPosition + 24); i++) {
             layerY += 12;
             if (isOverLayer(layerY, mouseX, mouseY)) {
                 if (placing) {
-                    insertLayerAt(mouseY, features.get(i).getLayerIndex());
+                    insertLayerAt(mouseY, features.get(i).getLayerIndex(), guiBookParam);
                 } else {
-                    FeatureProvider selected = EnchiridionAPI.book.getSelected();
+                    FeatureProvider selected = guiBookParam.getSelected();
                     if (selected != null) selected.deselect();
-                    EnchiridionAPI.book.setSelected(features.get(i));
-                    selected = EnchiridionAPI.book.getSelected();
+                    guiBookParam.setSelected(features.get(i));
+                    selected = guiBookParam.getSelected();
                     selected.select(mouseX, mouseY);
                     selected.select(mouseX, mouseY);
                     selected.mouseReleased(mouseX, mouseY, 0);

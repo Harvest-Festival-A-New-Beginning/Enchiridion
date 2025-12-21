@@ -30,10 +30,13 @@ public abstract class RecipeHandlerBase implements IRecipeHandler {
     }
 
     @Override
-    public void addTooltip(List<String> list) {
+    public void addTooltip(List<String> list, Object gui) {
+        if (!(gui instanceof joshie.enchiridion.gui.book.GuiBook)) return;
+        joshie.enchiridion.gui.book.GuiBook guiBook = (joshie.enchiridion.gui.book.GuiBook) gui;
+
         for (IItemStack stack : stackList) {
             if (stack == null || stack.getItemStack().isEmpty()) continue;
-            if (EnchiridionAPI.draw.isMouseOverIItemStack(stack)) {
+            if (guiBook.isMouseOverIItemStack(stack)) {
                 // TODO: TooltipContext API changed in 1.20.4 - needs proper Item.TooltipContext
                 // For now, just use the display name as a simple fallback
                 list.add(stack.getItemStack().getHoverName().getString());
@@ -55,12 +58,15 @@ public abstract class RecipeHandlerBase implements IRecipeHandler {
     }
 
     @Override
-    public void draw() {
-        drawBackground();
+    public void draw(Object gui) {
+        if (!(gui instanceof joshie.enchiridion.gui.book.GuiBook)) return;
+        joshie.enchiridion.gui.book.GuiBook guiBook = (joshie.enchiridion.gui.book.GuiBook) gui;
+
+        drawBackground(guiBook);
         for (IItemStack stack : stackList) {
-            EnchiridionAPI.draw.drawIItemStack(stack);
+            guiBook.drawIItemStack(stack);
         }
     }
 
-    protected abstract void drawBackground();
+    protected abstract void drawBackground(Object gui);
 }

@@ -228,7 +228,7 @@ public class GuiSimpleEditorButton extends GuiSimpleEditorAbstract {
     }
 
     @Override
-    public boolean mouseClicked(int mouseX, int mouseY) {
+    public boolean mouseClicked(int mouseX, int mouseY, GuiBook guiBook) {
         if (button == null || button.getAction() == null) return false;
         //NO WORK!!!
 
@@ -256,7 +256,7 @@ public class GuiSimpleEditorButton extends GuiSimpleEditorAbstract {
             button.setResourceLocation(false, ARROW_RIGHT_OFF);
             return true;
         } else if (isOverPosition(45, yPos + 31, 80, yPos + 43, mouseX, mouseY)) {
-            ResourceLocation resource = loadResource();
+            ResourceLocation resource = loadResource(guiBook);
             if (resource != null) {
                 button.setResourceLocation(false, resource);
             }
@@ -273,7 +273,7 @@ public class GuiSimpleEditorButton extends GuiSimpleEditorAbstract {
             button.setResourceLocation(true, ARROW_RIGHT_ON);
             return true;
         } else if (isOverPosition(45, yPos + 31, 80, yPos + 43, mouseX, mouseY)) {
-            ResourceLocation resource = loadResource();
+            ResourceLocation resource = loadResource(guiBook);
             if (resource != null) {
                 button.setResourceLocation(true, resource);
             }
@@ -317,14 +317,14 @@ public class GuiSimpleEditorButton extends GuiSimpleEditorAbstract {
         return yPos;
     }
 
-    private ResourceLocation loadResource() {
-        File file = FileCopier.copyFileFromUser(FileHelper.getImageSaveDirectory());
+    private ResourceLocation loadResource(GuiBook guiBook) {
+        File file = FileCopier.copyFileFromUser(FileHelper.getImageSaveDirectory(guiBook.getBook()));
         if (file != null) {
             try {
                 BufferedImage buffered = ImageIO.read(file);
-                ResourceLocation location = new ResourceLocation(EInfo.MODID + ":images/" + EnchiridionAPI.book.getBook().getSaveName() + "/" + file.getName());
-                EnchiridionAPI.book.getSelected().setWidth(buffered.getWidth());
-                EnchiridionAPI.book.getSelected().setHeight(buffered.getHeight());
+                ResourceLocation location = new ResourceLocation(EInfo.MODID + ":images/" + guiBook.getBook().getSaveName() + "/" + file.getName());
+                guiBook.getSelected().setWidth(buffered.getWidth());
+                guiBook.getSelected().setHeight(buffered.getHeight());
                 return location;
             } catch (Exception ignored) {
             }

@@ -88,7 +88,7 @@ public class GuiTimeLine extends AbstractGuiOverlay {
         guiGraphics.fill(offsetX + left, offsetY + top, offsetX + left + 1, offsetY + bottom, 0xFF191511);
         guiGraphics.fill(offsetX + right - 1, offsetY + top, offsetX + right, offsetY + bottom, 0xFF191511);
 
-        int currentPageNumber = EnchiridionAPI.book.getPage().getPageNumber();
+        int currentPageNumber = guiBookParam.getPage().getPageNumber();
         int hoverX = 0;
         Font font = Minecraft.getInstance().font;
         PoseStack poseStack = guiGraphics.pose();
@@ -156,7 +156,7 @@ public class GuiTimeLine extends AbstractGuiOverlay {
     }
 
     @Override
-    public void mouseReleased(int mouseX, int mouseY) {
+    public void mouseReleased(int mouseX, int mouseY, GuiBook guiBookParam) {
         boolean placing = held >= 30;
         for (int i = 0; i < 110; i++) {
             int positionX = -5 + (i * 4);
@@ -165,11 +165,11 @@ public class GuiTimeLine extends AbstractGuiOverlay {
                 //Then we should create it, and then jump to it;
                 int thisNumber = startPage + i;
                 if (placing) {
-                    JumpHelper.insertPage(guiBook.getBook(), thisNumber, dragged);
-                } else if (!EnchiridionAPI.book.jumpToPageIfExists(thisNumber)) {
-                    IPage page = DefaultHelper.addDefaults(guiBook.getBook(), new Page(thisNumber).setBook(guiBook.getBook()));
-                    EnchiridionAPI.book.getBook().addPage(page);
-                    EnchiridionAPI.book.jumpToPageIfExists(thisNumber);
+                    JumpHelper.insertPage(guiBookParam.getBook(), thisNumber, dragged);
+                } else if (!guiBookParam.jumpToPageIfExists(thisNumber)) {
+                    IPage page = DefaultHelper.addDefaults(guiBookParam.getBook(), new Page(thisNumber).setBook(guiBookParam.getBook()));
+                    guiBookParam.getBook().addPage(page);
+                    guiBookParam.jumpToPageIfExists(thisNumber);
                 }
             }
         }

@@ -28,7 +28,7 @@ public class ActionToggleLayer extends AbstractAction {
     }
 
     @Override
-    public IButtonAction create() {
+    public IButtonAction create(joshie.enchiridion.gui.book.GuiBook guiBook) {
         ActionToggleLayer action = new ActionToggleLayer();
         action.comma = true;
         action.regex = false;
@@ -37,15 +37,15 @@ public class ActionToggleLayer extends AbstractAction {
     }
 
     @Override
-    public boolean performAction() {
+    public boolean performAction(joshie.enchiridion.gui.book.GuiBook guiBook) {
         try {
             if (regex) {
                 Pattern p = Pattern.compile(layer);
-                return BookEvents.invert(EnchiridionAPI.book.getBook(), EnchiridionAPI.book.getPage(), p);
+                return BookEvents.invert(guiBook.getBook(), guiBook.getPage(), p);
             } else if (comma) {
                 String[] ss = layer.replace(" ", "").split(",");
                 for (String s : ss) {
-                    BookEvents.invert(EnchiridionAPI.book.getBook(), EnchiridionAPI.book.getPage(), Pattern.compile(s));
+                    BookEvents.invert(guiBook.getBook(), guiBook.getPage(), Pattern.compile(s));
                 }
 
                 return true;

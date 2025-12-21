@@ -168,6 +168,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
             int prevMouseY = mouseY;
             mouseY = mouseY + page.getScroll();
+            feature.setCurrentGui(this); // Set GUI context for this render pass
             feature.renderWidget(guiGraphics, mouseX, mouseY, partialTicks);
             feature.addTooltip(TOOLTIP, mouseX, mouseY);
             this.mouseY = prevMouseY;
@@ -314,7 +315,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
         //Perform clicks for the overlays
         if (isEditMode) {
             for (IBookEditorOverlay overlay : overlays) {
-                if (overlay.mouseClicked(mouseX, mouseY)) {
+                if (overlay.mouseClicked(mouseX, mouseY, this)) {
                     return false;
                 }
             }
@@ -349,7 +350,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
         //Perform releases for the overlays
         if (isEditMode) {
             for (IBookEditorOverlay overlay : overlays) {
-                overlay.mouseReleased(mouseX, mouseY);
+                overlay.mouseReleased(mouseX, mouseY, this);
             }
         }
         return super.mouseReleased(x, y, button);
@@ -443,7 +444,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public boolean jumpToPageIfExists(int number) {
-        for (IPage page : EnchiridionAPI.book.getBook().getPages()) {
+        for (IPage page : getBook().getPages()) {
             if (page.getPageNumber() == number) {
                 simpleEditor.setEditor(null); //Reset the editor
                 TextEditor.INSTANCE.clearEditable();

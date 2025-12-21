@@ -6,11 +6,11 @@ import net.minecraft.resources.ResourceLocation;
 public interface IButtonAction extends ISimpleEditorFieldProvider {
     /** Create a copy of this action **/
     IButtonAction copy();
-    IButtonAction create();
+    IButtonAction create(joshie.enchiridion.gui.book.GuiBook guiBook);
     String getName();
 
     /** Perform the action, Return true if it was successful **/
-    boolean performAction();
+    boolean performAction(joshie.enchiridion.gui.book.GuiBook guiBook);
 
     /** Whether the button this action is attached to, should be visible **/
     boolean isVisible();

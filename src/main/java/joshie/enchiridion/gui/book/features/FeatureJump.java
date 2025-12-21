@@ -54,8 +54,8 @@ public class FeatureJump extends joshie.enchiridion.data.book.FeatureProvider {
     }
 
     @Override
-    public boolean performClick(int mouseX, int mouseY, int button) {
-        return EnchiridionAPI.book.jumpToPageIfExists(page.getPageNumber());
+    public boolean performClick(int mouseX, int mouseY, int button, Object gui) {
+        return ((GuiBook) gui).jumpToPageIfExists(page.getPageNumber());
     }
 
     @Override

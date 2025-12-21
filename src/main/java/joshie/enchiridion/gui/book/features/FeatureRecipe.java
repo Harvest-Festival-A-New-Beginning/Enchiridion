@@ -133,8 +133,12 @@ public class FeatureRecipe extends FeatureItem {
     protected void drawFeature(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (stack.isEmpty() && itemString != null) stack = StackHelper.getStackFromString(itemString);
         if (handler != null) {
-            EnchiridionAPI.draw.setRenderData(getLeft(), getTop(), getWidth(), getHeight(), size);
-            handler.draw();
+            Object gui = getCurrentGui();
+            if (gui instanceof joshie.enchiridion.gui.book.GuiBook) {
+                joshie.enchiridion.gui.book.GuiBook guiBook = (joshie.enchiridion.gui.book.GuiBook) gui;
+                guiBook.setRenderData(getLeft(), getTop(), getWidth(), getHeight(), size);
+                handler.draw(guiBook);
+            }
         } else {
             buildRecipe(true);
             update(getPage()); //Initiate the provider
@@ -144,8 +148,12 @@ public class FeatureRecipe extends FeatureItem {
     @Override
     public void addTooltip(List<String> list, int mouseX, int mouseY) {
         if (!hideTooltip && handler != null) {
-            EnchiridionAPI.draw.setRenderData(getLeft(), getTop(), getWidth(), getHeight(), size);
-            handler.addTooltip(list);
+            Object gui = getCurrentGui();
+            if (gui instanceof joshie.enchiridion.gui.book.GuiBook) {
+                joshie.enchiridion.gui.book.GuiBook guiBook = (joshie.enchiridion.gui.book.GuiBook) gui;
+                guiBook.setRenderData(getLeft(), getTop(), getWidth(), getHeight(), size);
+                handler.addTooltip(list, guiBook);
+            }
         }
     }
 

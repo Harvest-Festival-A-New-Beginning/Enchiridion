@@ -159,8 +159,7 @@ public class GuiSimpleEditorTemplate extends GuiSimpleEditorAbstract {
     }
 
     @Override
-    public boolean mouseClicked(int mouseX, int mouseY) {
-        GuiBook guiBook = (GuiBook) EnchiridionAPI.book; // Get reference once
+    public boolean mouseClicked(int mouseX, int mouseY, GuiBook guiBook) {
         currentGuiBook = guiBook; // Store for other methods if needed
         int count = 0;
         int yPlus = 0;

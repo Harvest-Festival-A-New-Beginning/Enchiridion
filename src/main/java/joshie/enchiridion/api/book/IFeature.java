@@ -24,8 +24,12 @@ public interface IFeature {
      * @param gui the current book GUI instance **/
     boolean getAndSetEditMode(Object gui);
 
-    /* Called when not in edit mode, or shift is clicked, on mouseClick **/
-    boolean performClick(int mouseX, int mouseY, int button);
+    /* Called when not in edit mode, or shift is clicked, on mouseClick
+     * @param mouseX the mouse X position
+     * @param mouseY the mouse Y position
+     * @param button the mouse button
+     * @param gui the current book GUI instance **/
+    boolean performClick(int mouseX, int mouseY, int button, Object gui);
     void performRelease(int mouseX, int mouseY, int button);
 
     /** Follow the mouse

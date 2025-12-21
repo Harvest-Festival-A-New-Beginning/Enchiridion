@@ -81,9 +81,9 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
     }
 
     @Override
-    public boolean performClick(int mouseX, int mouseY, int button) {
+    public boolean performClick(int mouseX, int mouseY, int button, Object gui) {
+        GuiBook guiBook = (GuiBook) gui;
         if (page != null && page != thisPage) {
-            GuiBook guiBook = (GuiBook) EnchiridionAPI.book; // Single cast
             for (FeatureProvider feature : Lists.reverse(page.getFeatures())) {
                 if (feature instanceof FeaturePreviewWindow) continue; //No Cascading
                 mouseY = guiBook.mouseY + page.getScroll();
@@ -111,9 +111,7 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
     }
 
     @Override
-    protected void drawFeature(GuiGraphics guiGraphics, int xMouse, int yMouse, float partialTicks) {
-        GuiBook guiBook = (GuiBook) EnchiridionAPI.book; // Single cast
-
+    protected void drawFeature(GuiGraphics guiGraphics, int xMouse, int yMouse, float partialTicks, GuiBook guiBook) {
         if (guiBook.isEditMode()) {
             // Draw bordered rectangle for edit mode
             int left = getLeft();

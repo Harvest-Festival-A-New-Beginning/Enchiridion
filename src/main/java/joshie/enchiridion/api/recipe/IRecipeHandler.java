@@ -10,14 +10,13 @@ public interface IRecipeHandler {
     /** Add recipes that are valid for this output item **/
     void addRecipes(@Nonnull ItemStack output, List<IRecipeHandler> list, Level world);
 
-    /** Draw this recipe in the book, You can make use of the
-     *  the helper functions in @IDrawHelper with access to an instance
-     *  from @EnchiridionAPI **/
-    void draw();
+    /** Draw this recipe in the book
+     *  @param gui the GuiBook instance providing drawing capabilities **/
+    void draw(Object gui);
 
     /** @return the height of this recipe handler, based on the width **/
     int getHeight(int width);
-    
+
     /** @return an adjusted width, based on the original **/
     int getWidth(int width);
 
@@ -26,10 +25,12 @@ public interface IRecipeHandler {
 
     /** @return Returns a unique name for this recipe, saved in the json **/
     String getUniqueName();
-    
+
     /** The name of this recipe type **/
     String getRecipeName();
 
-    /** Add Tooltip **/
-    void addTooltip(List<String> list);
+    /** Add Tooltip
+     *  @param list the tooltip list
+     *  @param gui the GuiBook instance providing drawing capabilities **/
+    void addTooltip(List<String> list, Object gui);
 }

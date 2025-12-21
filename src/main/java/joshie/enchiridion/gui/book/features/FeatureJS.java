@@ -246,7 +246,7 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
     }
 
     @Override
-    public boolean performClick(int mouseX, int mouseY, int button) {
+    public boolean performClick(int mouseX, int mouseY, int button, Object gui) {
         // Callback mode - call JavaScript onClick() function
         if (useCallbacks && interpreter != null && featureWrapper != null && isOverFeature(mouseX, mouseY)) {
             try {
@@ -256,7 +256,7 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
                 // Ignore errors
             }
         }
-        return super.performClick(mouseX, mouseY, button);
+        return super.performClick(mouseX, mouseY, button, gui);
     }
 
     @Override

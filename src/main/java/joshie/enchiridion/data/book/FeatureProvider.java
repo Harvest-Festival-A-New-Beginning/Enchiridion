@@ -82,7 +82,7 @@ public abstract class FeatureProvider extends AbstractWidget implements IFeature
         this.isFromTemplate = false;
     }
 
-    public FeatureProvider init(int left, int top, GuiBook guiBook) {
+    public FeatureProvider init(GuiBook guiBook, int left, int top) {
         setX(left + relativeX); //Sets the actual x and y based on the width and height
         setY(top + relativeY);
         this.left = left;

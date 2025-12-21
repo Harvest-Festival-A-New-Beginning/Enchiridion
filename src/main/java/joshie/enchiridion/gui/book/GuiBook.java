@@ -198,7 +198,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
         // Initialize all features with the book's screen position and GUI context
         if (page != null) {
             for (FeatureProvider feature : page.getFeatures()) {
-                feature.init(bookX, bookY, this);
+                feature.init(this, bookX, bookY);
             }
         }
     }

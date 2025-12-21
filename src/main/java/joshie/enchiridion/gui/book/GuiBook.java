@@ -14,7 +14,6 @@ import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.gui.book.features.FeaturePreviewWindow;
 import joshie.enchiridion.helpers.*;
 import joshie.enchiridion.lib.EInfo;
-import joshie.enchiridion.util.ELocation;
 import joshie.enchiridion.util.TextEditor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -39,11 +38,6 @@ import java.util.Objects;
 import java.util.Set;
 
 public class GuiBook extends GuiBase implements IBookHelper {
-    private static final ResourceLocation LEGACY_COVER_L = new ELocation("guide_cover_left");
-    private static final ResourceLocation LEGACY_COVER_R = new ELocation("guide_cover_right");
-    private static final ResourceLocation LEGACY_LEFT = new ELocation("guide_page_left");
-    private static final ResourceLocation LEGACY_RIGHT = new ELocation("guide_page_right");
-
     //Page Number Cache - shared across all instances
     private static HashMap<String, Integer> pageCache = new HashMap<>();
     private static HashMap<String, FeaturePreviewWindow> scrollFeatures = new HashMap<>();
@@ -127,34 +121,15 @@ public class GuiBook extends GuiBase implements IBookHelper {
         super.renderBg(guiGraphics, partialTicks, mouseX, mouseY);
 
         if (book.isBackgroundVisible()) {
-            //Display the left side
-            if (book.isBackgroundLegacy()) {
-                RenderSystem.setShaderColor(red, green, blue, 1F);
-                RenderSystem.setShaderTexture(0, LEGACY_COVER_L);
-                // TODO: Use guiGraphics.blit() instead
-                // guiGraphics.blit(LEGACY_COVER_L, x - 9, y, 35, 0, 212 + 9, ySize);
-                RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-                RenderSystem.setShaderTexture(0, LEGACY_LEFT);
-                // guiGraphics.blit(LEGACY_LEFT, x, y, 44, 0, 212, ySize);
-
-                //Display the right side
-                RenderSystem.setShaderColor(red, green, blue, 1F);
-                RenderSystem.setShaderTexture(0, LEGACY_COVER_R);
-                // guiGraphics.blit(LEGACY_COVER_R, x + 212, y, 0, 0, 218 + 9, ySize);
-                RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-                RenderSystem.setShaderTexture(0, LEGACY_RIGHT);
-                // guiGraphics.blit(LEGACY_RIGHT, x + 212, y, 0, 0, 218, ySize);
-            } else {
-                // Draw custom background
-                ResourceLocation bg = book.getBackgroundResource();
-                int left = book.getBackgroundStartX();
-                int top = book.getBackgroundStartY();
-                int right = book.getBackgroundEndX();
-                int bottom = book.getBackgroundEndY();
-                int w = right - left;
-                int h = bottom - top;
-                guiGraphics.blit(bg, x + left, y + top, 0, 0, w, h, w, h);
-            }
+            // Draw custom background
+            ResourceLocation bg = book.getBackgroundResource();
+            int left = book.getBackgroundStartX();
+            int top = book.getBackgroundStartY();
+            int right = book.getBackgroundEndX();
+            int bottom = book.getBackgroundEndY();
+            int w = right - left;
+            int h = bottom - top;
+            guiGraphics.blit(bg, x + left, y + top, 0, 0, w, h, w, h);
         }
     }
 

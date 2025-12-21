@@ -71,8 +71,6 @@ public abstract class FeatureProvider extends AbstractWidget {
     private transient boolean dragBottomRight;
     private transient long timestamp;
     private transient IPage pageContainer;
-    private transient int left;
-    private transient int top;
     private transient GuiBook currentGui; // Stores current GUI context during rendering
 
     public FeatureProvider(int x, int y, int width, int height) {
@@ -82,11 +80,7 @@ public abstract class FeatureProvider extends AbstractWidget {
         this.isFromTemplate = false;
     }
 
-    public FeatureProvider init(GuiBook guiBook, int left, int top) {
-        setX(left + relativeX); //Sets the actual x and y based on the width and height
-        setY(top + relativeY);
-        this.left = left;
-        this.top = top;
+    public FeatureProvider init(GuiBook guiBook) {
         this.currentGui = guiBook;
         return this;
     }
@@ -341,26 +335,6 @@ public abstract class FeatureProvider extends AbstractWidget {
 
     public FeatureProvider getFeature() {
         return this;
-    }
-
-    /** Get the render X position (absolute screen coordinates) */
-    public int getRenderX() {
-        return getX();
-    }
-
-    /** Get the render Y position (absolute screen coordinates) */
-    public int getRenderY() {
-        return getY();
-    }
-
-    /** Get the render right edge position (absolute screen coordinates) */
-    public int getRenderRight() {
-        return getX() + getWidth();
-    }
-
-    /** Get the render bottom edge position (absolute screen coordinates) */
-    public int getRenderBottom() {
-        return getY() + getHeight();
     }
 
 

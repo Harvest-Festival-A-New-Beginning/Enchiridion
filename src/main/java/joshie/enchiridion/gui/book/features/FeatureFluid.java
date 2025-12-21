@@ -118,8 +118,8 @@ public class FeatureFluid extends FeatureProvider {
         RenderSystem.setShaderColor(red, green, blue, alpha);
         RenderSystem.enableBlend();
 
-        int left = getRenderX();
-        int top = getRenderY();
+        int left = getX();
+        int top = getY();
         int width = getWidth();
         int height = getHeight();
 

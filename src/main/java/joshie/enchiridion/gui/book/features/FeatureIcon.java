@@ -65,7 +65,7 @@ public class FeatureIcon extends FeatureProvider {
     protected void drawFeature(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (icon != null) {
             // Icon.render expects: Minecraft, GuiGraphics, x, y
-            icon.render(Minecraft.getInstance(), guiGraphics, getRenderX(), getRenderY());
+            icon.render(Minecraft.getInstance(), guiGraphics, getX(), getY());
         }
     }
 

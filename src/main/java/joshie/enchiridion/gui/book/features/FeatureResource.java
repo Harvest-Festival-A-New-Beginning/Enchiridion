@@ -58,7 +58,7 @@ public class FeatureResource extends joshie.enchiridion.data.book.FeatureProvide
     @Override
     protected void drawFeature(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (resource != null) {
-            drawResource(guiGraphics, getRenderX(), getRenderY(), getWidth(), getHeight());
+            drawResource(guiGraphics, getX(), getY(), getWidth(), getHeight());
         } else if (!attempted) attempted = loadResource();
     }
 

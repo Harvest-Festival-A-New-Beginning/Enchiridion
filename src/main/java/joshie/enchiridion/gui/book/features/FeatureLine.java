@@ -92,8 +92,8 @@ public class FeatureLine extends FeatureProvider implements IColorable {
     @Override
     protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         // Calculate line parameters
-        int x1 = getRenderX();
-        int y1 = getRenderY();
+        int x1 = getX();
+        int y1 = getY();
 
         // Calculate length and angle
         double dx = x2 - x1;

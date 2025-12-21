@@ -71,7 +71,7 @@ public class FeatureItem extends joshie.enchiridion.data.book.FeatureProvider im
             com.mojang.blaze3d.vertex.PoseStack poseStack = guiGraphics.pose();
             poseStack.pushPose();
             poseStack.scale(size, size, size);
-            guiGraphics.renderItem(stack, (int)(getRenderX() / size), (int)(getRenderY() / size));
+            guiGraphics.renderItem(stack, (int)(getX() / size), (int)(getY() / size));
             poseStack.popPose();
         }
     }

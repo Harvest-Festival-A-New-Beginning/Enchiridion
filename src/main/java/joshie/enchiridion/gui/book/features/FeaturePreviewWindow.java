@@ -77,7 +77,7 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
     }
 
     private boolean isOverScrollY(int yCheck, int x, int y) {
-        return x >= getRenderRight() - 10 && x <= getRenderRight() && y >= getRenderY() + yCheck && y <= getRenderY() + yCheck + 10;
+        return x >= getRight() - 10 && x <= getRight() && y >= getY() + yCheck && y <= getY() + yCheck + 10;
     }
 
     @Override
@@ -91,7 +91,7 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
             }
 
 
-            int scrollMax = page.getScrollbarMax(getRenderBottom() - 5);
+            int scrollMax = page.getScrollbarMax(getBottom() - 5);
             int pos = (int) ((page.getScroll() * (getHeight() - 10)) / scrollMax);
             if (isOverScrollY(pos, mouseX, guiBook.mouseY)) {
                 isDragging = true;
@@ -115,10 +115,10 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
         GuiBook guiBook = getCurrentGui();
         if (guiBook.isEditMode()) {
             // Draw bordered rectangle for edit mode
-            int left = getRenderX();
-            int top = getRenderY();
-            int right = getRenderRight();
-            int bottom = getRenderBottom();
+            int left = getX();
+            int top = getY();
+            int right = getRight();
+            int bottom = getBottom();
             int colorI = 0x00000000;
             int colorB = 0xFF48453C;
             guiGraphics.fill(left, top, right, bottom, colorI);
@@ -129,11 +129,11 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
         }
 
         if (page != null && page != thisPage) {
-            int scrollMax = page.getScrollbarMax(getRenderBottom() - 5);
+            int scrollMax = page.getScrollbarMax(getBottom() - 5);
             if (isDragging) {
                 if (startY != guiBook.mouseY) {
-                    int scrollPosition = (int) (((guiBook.mouseY - getRenderY()) * (scrollMax)) / getHeight());
-                    page.updateMaximumScroll(getRenderBottom() - 5); //Update the max
+                    int scrollPosition = (int) (((guiBook.mouseY - getY()) * (scrollMax)) / getHeight());
+                    page.updateMaximumScroll(getBottom() - 5); //Update the max
                     page.setScrollPosition(scrollPosition);
                 }
 
@@ -146,7 +146,7 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
             int scale = (int) Minecraft.getInstance().getWindow().getGuiScale();
             GL11.glEnable(GL11.GL_SCISSOR_TEST);
             RenderSystem.clear(GlConst.GL_DEPTH_BUFFER_BIT, false);
-            GL11.glScissor((guiBook.x + getRenderX()) * scale, (int) (guiBook.y + 217 - getRenderY() - getHeight()) * scale, (int) getWidth() * scale, (int) getHeight() * scale);
+            GL11.glScissor((guiBook.x + getX()) * scale, (int) (guiBook.y + 217 - getY() - getHeight()) * scale, (int) getWidth() * scale, (int) getHeight() * scale);
 
             for (FeatureProvider feature : Lists.reverse(page.getFeatures())) {
                 if (feature instanceof FeaturePreviewWindow) continue; //No Cascading
@@ -180,17 +180,17 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
             RenderSystem.clear(GlConst.GL_DEPTH_BUFFER_BIT, false);
             int minY = Short.MAX_VALUE;
             for (FeatureProvider provider : page.getFeatures()) {
-                if (provider.getRenderY() < minY) {
-                    minY = provider.getRenderY();
+                if (provider.getY() < minY) {
+                    minY = provider.getY();
                 }
             }
 
-            if (getHeight() < (scrollMax + getRenderBottom() - 5 - minY)) {
+            if (getHeight() < (scrollMax + getBottom() - 5 - minY)) {
                 // Draw scrollbar background
-                int left = getRenderRight() - 10;
-                int top = getRenderY();
-                int right = getRenderRight();
-                int bottom = getRenderBottom();
+                int left = getRight() - 10;
+                int top = getY();
+                int right = getRight();
+                int bottom = getBottom();
                 int colorI = 0xFFB0A483;
                 int colorB = 0xFF362C24;
                 guiGraphics.fill(left, top, right, bottom, colorI);
@@ -201,10 +201,10 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
 
                 // Draw scrollbar thumb
                 int pos = (int) ((page.getScroll() * (getHeight() - 10)) / scrollMax);
-                int thumbLeft = getRenderRight() - 10;
-                int thumbTop = getRenderY() + pos;
-                int thumbRight = getRenderRight();
-                int thumbBottom = getRenderY() + pos + 10;
+                int thumbLeft = getRight() - 10;
+                int thumbTop = getY() + pos;
+                int thumbRight = getRight();
+                int thumbBottom = getY() + pos + 10;
                 int thumbColorI = 0xFF2F271F;
                 int thumbColorB = 0xFF191511;
                 guiGraphics.fill(thumbLeft, thumbTop, thumbRight, thumbBottom, thumbColorI);
@@ -219,7 +219,7 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
     @Override
     public void scroll(boolean down, int amount) {
         if (page != null && page != thisPage) {
-            page.updateMaximumScroll(getRenderBottom() - 5); //Called constantly
+            page.updateMaximumScroll(getBottom() - 5); //Called constantly
             page.scroll(down, amount);
         }
     }

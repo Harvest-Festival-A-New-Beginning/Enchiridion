@@ -133,10 +133,10 @@ public class FeatureShape extends FeatureProvider implements IColorable {
     @Override
     protected void drawFeature(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         // Calculate center and radius
-        int centerX = (getRenderX() + getRenderRight()) / 2;
-        int centerY = (getRenderY() + getRenderBottom()) / 2;
-        float radiusX = (getRenderRight() - getRenderX()) / 2.0F;
-        float radiusY = (getRenderBottom() - getRenderY()) / 2.0F;
+        int centerX = (getX() + getRight()) / 2;
+        int centerY = (getY() + getBottom()) / 2;
+        float radiusX = (getRight() - getX()) / 2.0F;
+        float radiusY = (getBottom() - getY()) / 2.0F;
 
         // Extract color components
         float a = ((colorI >> 24) & 0xFF) / 255.0F;

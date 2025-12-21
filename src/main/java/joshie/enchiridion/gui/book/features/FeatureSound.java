@@ -164,8 +164,8 @@ public class FeatureSound extends FeatureProvider {
         // (commented out by default - users can enable if needed)
         /*
         if (isOverFeature(mouseX, mouseY)) {
-            int centerX = (getRenderX() + getRenderRight()) / 2;
-            int centerY = (getRenderY() + getRenderBottom()) / 2;
+            int centerX = (getX() + getRight()) / 2;
+            int centerY = (getY() + getBottom()) / 2;
             guiGraphics.drawCenteredString(
                 Minecraft.getInstance().font,
                 "♪",

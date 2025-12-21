@@ -160,17 +160,18 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
         // Draw all the features, In reverse
         for (FeatureProvider feature : Lists.reverse(page.getFeatures())) {
-            int y = this.y;
-            if (page.getScroll() > 0) {
-                this.y -= page.getScroll();
-            }
+            // Update feature position based on book position and scroll
+            // This is done every frame like PenguinLib's approach
+            int bookX = this.x;
+            int bookY = this.y - page.getScroll();
+            feature.setX(bookX + feature.relativeX);
+            feature.setY(bookY + feature.relativeY);
 
             int prevMouseY = mouseY;
             mouseY = mouseY + page.getScroll();
             feature.renderWidget(guiGraphics, mouseX, mouseY, partialTicks);
             feature.addTooltip(TOOLTIP, mouseX, mouseY);
             this.mouseY = prevMouseY;
-            this.y = y;
             RenderSystem.clear(GlConst.GL_DEPTH_BUFFER_BIT, false);
         }
 
@@ -189,15 +190,11 @@ public class GuiBook extends GuiBase implements IBookHelper {
     public void initScreen(@Nonnull Minecraft minecraft, @Nonnull net.minecraft.world.entity.player.Player player) {
         super.initScreen(minecraft, player);
 
-        // Initialize features with screen positions
-        // Calculate book position (same as in render())
-        int bookX = (width - xSize) / 2;
-        int bookY = (height - ySize) / 2;
-
-        // Initialize all features with the book's screen position and GUI context
+        // Initialize features with GUI context only
+        // Positions are updated every frame in render() like PenguinLib
         if (page != null) {
             for (FeatureProvider feature : page.getFeatures()) {
-                feature.init(this, bookX, bookY);
+                feature.init(this);
             }
         }
     }

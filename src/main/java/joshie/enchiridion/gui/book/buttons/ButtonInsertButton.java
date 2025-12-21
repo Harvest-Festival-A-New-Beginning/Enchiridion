@@ -14,7 +14,7 @@ public class ButtonInsertButton extends ButtonAbstract {
     public void performAction(Object gui) {
         GuiBook guiBook = (GuiBook) gui;
         IPage current = guiBook.getPage();
-        FeatureButton feature = new FeatureButton(new ActionJumpPage().create());
+        FeatureButton feature = new FeatureButton(new ActionJumpPage().create(guiBook));
         current.addFeature(feature, 0, current.getScroll(), 18D, 10D, false, false, false);
     }
 }

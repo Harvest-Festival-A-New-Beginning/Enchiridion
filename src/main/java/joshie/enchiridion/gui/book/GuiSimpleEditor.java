@@ -25,7 +25,7 @@ public class GuiSimpleEditor extends AbstractGuiOverlay {
         return textField != null ? textField.getValue() : "";
     }
 
-    public void setEditor(IBookEditorOverlay editor) {
+    public void setEditor(AbstractGuiOverlay editor) {
         this.editor = editor;
         this.text = "";
     }

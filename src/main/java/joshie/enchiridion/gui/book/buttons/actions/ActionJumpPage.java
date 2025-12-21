@@ -3,6 +3,7 @@ package joshie.enchiridion.gui.book.buttons.actions;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IButtonAction;
+import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.helpers.DefaultHelper;
@@ -25,7 +26,7 @@ public class ActionJumpPage extends AbstractAction {
     }
 
     @Override
-    public IButtonAction create(joshie.enchiridion.gui.book.GuiBook guiBook) {
+    public IButtonAction create(GuiBook guiBook) {
         ActionJumpPage jump = new ActionJumpPage(guiBook.getPage());
         jump.bookID = guiBook.getBook().getUniqueName();
         return jump;
@@ -43,7 +44,7 @@ public class ActionJumpPage extends AbstractAction {
     }
 
     @Override
-    public boolean performAction(joshie.enchiridion.gui.book.GuiBook guiBook) {
+    public boolean performAction(GuiBook guiBook) {
         if (bookID != null) {
             IBook book = EnchiridionAPI.instance.getBook(bookID);
             if (book != null) guiBook.setBook(book, guiBook.isEditMode());

@@ -236,7 +236,7 @@ public class GuiSimpleEditorButton extends GuiSimpleEditorAbstract {
         int yPos = 13;
         for (IButtonAction action : sorted) {
             if (isOverAction(xPos, yPos, mouseX, mouseY)) {
-                button.setAction(action.create());
+                button.setAction(action.create(guiBook));
                 button.getAction().onFieldsSet(""); //CREATE!
                 setButton(button);
                 return true;

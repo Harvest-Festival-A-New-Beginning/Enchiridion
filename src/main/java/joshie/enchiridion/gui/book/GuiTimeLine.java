@@ -140,7 +140,7 @@ public class GuiTimeLine extends AbstractGuiOverlay {
     }
 
     @Override
-    public boolean mouseClicked(int mouseX, int mouseY) {
+    public boolean mouseClicked(int mouseX, int mouseY, GuiBook guiBook) {
         for (int i = 0; i < 110; i++) {
             int positionX = -5 + (i * 4);
             if (isOverTimeLine(positionX, mouseX, mouseY)) {

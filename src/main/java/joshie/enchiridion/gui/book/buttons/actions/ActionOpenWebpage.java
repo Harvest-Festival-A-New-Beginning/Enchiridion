@@ -1,6 +1,7 @@
 package joshie.enchiridion.gui.book.buttons.actions;
 
 import joshie.enchiridion.api.book.IButtonAction;
+import joshie.enchiridion.gui.book.GuiBook;
 
 import java.awt.*;
 import java.net.URI;
@@ -22,12 +23,12 @@ public class ActionOpenWebpage extends AbstractAction {
     }
 
     @Override
-    public IButtonAction create() {
+    public IButtonAction create(GuiBook guiBook) {
         return new ActionOpenWebpage();
     }
 
     @Override
-    public boolean performAction() {
+    public boolean performAction(GuiBook guiBook) {
         try {
             Desktop.getDesktop().browse(new URI(url));
             return true;

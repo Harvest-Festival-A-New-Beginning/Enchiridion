@@ -2,6 +2,7 @@ package joshie.enchiridion.gui.book.buttons.actions;
 
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IButtonAction;
+import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.data.book.BookEvents;
 import joshie.enchiridion.util.ELocation;
 
@@ -28,7 +29,7 @@ public class ActionToggleLayer extends AbstractAction {
     }
 
     @Override
-    public IButtonAction create(joshie.enchiridion.gui.book.GuiBook guiBook) {
+    public IButtonAction create(GuiBook guiBook) {
         ActionToggleLayer action = new ActionToggleLayer();
         action.comma = true;
         action.regex = false;
@@ -37,7 +38,7 @@ public class ActionToggleLayer extends AbstractAction {
     }
 
     @Override
-    public boolean performAction(joshie.enchiridion.gui.book.GuiBook guiBook) {
+    public boolean performAction(GuiBook guiBook) {
         try {
             if (regex) {
                 Pattern p = Pattern.compile(layer);

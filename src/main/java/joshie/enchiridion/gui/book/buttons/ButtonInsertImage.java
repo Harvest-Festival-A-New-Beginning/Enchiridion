@@ -19,7 +19,7 @@ public class ButtonInsertImage extends ButtonAbstract {
     @Override
     public void performAction(Object gui) {
         GuiBook guiBook = (GuiBook) gui;
-        File file = FileCopier.copyFileFromUser(FileHelper.getImageSaveDirectory());
+        File file = FileCopier.copyFileFromUser(FileHelper.getImageSaveDirectory(guiBook.getBook()));
         if (file != null) {
             try {
                 String folderName = guiBook.getBook().getSaveName();

@@ -2,6 +2,7 @@ package joshie.enchiridion.gui.book.buttons.actions;
 
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.book.IButtonAction;
+import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.util.ELocation;
 import net.minecraft.resources.ResourceLocation;
 

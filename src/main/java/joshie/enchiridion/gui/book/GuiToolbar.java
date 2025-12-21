@@ -106,7 +106,7 @@ public class GuiToolbar extends AbstractGuiOverlay {
     }
 
     @Override
-    public void mouseReleased(int mouseX, int mouseY) {
+    public void mouseReleased(int mouseX, int mouseY, GuiBook guiBook) {
         int x = X_START;
         for (IToolbarButton button : leftButtons) {
             if (isOverButton(x, mouseX, mouseY)) {

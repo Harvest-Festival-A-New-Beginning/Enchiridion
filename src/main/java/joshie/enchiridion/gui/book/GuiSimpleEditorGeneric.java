@@ -109,7 +109,7 @@ public class GuiSimpleEditorGeneric extends GuiSimpleEditorAbstract {
     }
 
     @Override
-    public boolean mouseClicked(int mouseX, int mouseY) {
+    public boolean mouseClicked(int mouseX, int mouseY, GuiBook guiBook) {
         int yPos = -11;
         //Check clicks in the extra fields
         for (String f : getFieldNames()) {

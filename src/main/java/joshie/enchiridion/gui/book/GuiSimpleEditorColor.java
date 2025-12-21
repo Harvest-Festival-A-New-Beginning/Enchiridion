@@ -80,7 +80,7 @@ public class GuiSimpleEditorColor extends GuiSimpleEditorAbstract {
     }
 
     @Override
-    public boolean mouseClicked(int mouseX, int mouseY) {
+    public boolean mouseClicked(int mouseX, int mouseY, GuiBook guiBook) {
         for (int x = 0; x < 21; x++) {
             for (int y = 0; y < 15; y++) {
                 if (isOverColor(x, y, mouseX, mouseY)) {

@@ -167,7 +167,7 @@ public class FeatureButton extends FeatureJump implements IButtonActionProvider 
 
     @Override
     public boolean performClick(int mouseX, int mouseY, int button, Object gui) {
-        return action != null && action.isVisible() && processesClick(button) && action.performAction();
+        return action != null && action.isVisible() && processesClick(button) && action.performAction((GuiBook) gui);
     }
 
     @Override

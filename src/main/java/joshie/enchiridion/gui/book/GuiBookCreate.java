@@ -69,8 +69,8 @@ public class GuiBookCreate extends GuiBase {
                 ResourceLocation bookId = new ResourceLocation(EInfo.MODID, sanitized);
                 Book book = Book.create(bookId, text); //Create the book
                 BookRegistry.INSTANCE.register(book); //Register the book
-                // Save the book directly to JSON
-                joshie.enchiridion.helpers.SaveHelper.saveBook(book);
+                // TODO: Implement book saving functionality
+                // SaveHelper was removed, need to implement JSON serialization
                 this.onClose();
                 return true;
             }

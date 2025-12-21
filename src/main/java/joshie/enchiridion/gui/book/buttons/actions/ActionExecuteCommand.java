@@ -1,6 +1,7 @@
 package joshie.enchiridion.gui.book.buttons.actions;
 
 import joshie.enchiridion.api.book.IButtonAction;
+import joshie.enchiridion.gui.book.GuiBook;
 import net.minecraft.client.Minecraft;
 
 public class ActionExecuteCommand extends AbstractAction {
@@ -23,12 +24,12 @@ public class ActionExecuteCommand extends AbstractAction {
     }
 
     @Override
-    public IButtonAction create() {
+    public IButtonAction create(GuiBook guiBook) {
         return new ActionExecuteCommand();
     }
 
     @Override
-    public boolean performAction() {
+    public boolean performAction(GuiBook guiBook) {
         Minecraft mc = Minecraft.getInstance();
         try {
             String parsedCommand = command.replace("@p", mc.player.getName().getString());

@@ -113,7 +113,7 @@ public class FeatureButton extends FeatureJump implements IButtonActionProvider 
     }
 
     @Override
-    public boolean keyTyped(char character, int key) {
+    public boolean keyTyped(char character, int key, Object gui) {
         if (MCClientHelper.isShiftPressed()) {
             if (key == 78) {
                 size = Math.min(15F, Math.max(0.5F, size + 0.1F));

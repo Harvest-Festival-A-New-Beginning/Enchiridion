@@ -347,22 +347,42 @@ public abstract class FeatureProvider extends AbstractWidget {
         return this;
     }
 
-    
+    /** Get the render X position (absolute screen coordinates) */
+    public int getRenderX() {
+        return getX();
+    }
+
+    /** Get the render Y position (absolute screen coordinates) */
+    public int getRenderY() {
+        return getY();
+    }
+
+    /** Get the render right edge position (absolute screen coordinates) */
+    public int getRenderRight() {
+        return getX() + getWidth();
+    }
+
+    /** Get the render bottom edge position (absolute screen coordinates) */
+    public int getRenderBottom() {
+        return getY() + getHeight();
+    }
+
+
     public int getLeft() {
         return getX();
     }
 
-    
+
     public int getRight() {
         return getX() + getWidth();
     }
 
-    
+
     public int getTop() {
         return getY();
     }
 
-    
+
     public int getBottom() {
         return getY() + getHeight();
     }

@@ -115,8 +115,8 @@ public class FeatureEntity extends FeatureProvider {
         if (entity == null) return;
 
         // Calculate render position and size
-        int centerX = (getLeft() + getRight()) / 2;
-        int centerY = (getTop() + getBottom()) / 2;
+        int centerX = (getRenderX() + getRenderRight()) / 2;
+        int centerY = (getRenderY() + getRenderBottom()) / 2;
         int size = Math.min(getWidth(), getHeight());
         float entityScale = size * scale * 0.5F;
 

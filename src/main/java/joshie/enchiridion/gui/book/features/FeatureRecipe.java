@@ -136,7 +136,7 @@ public class FeatureRecipe extends FeatureItem {
             Object gui = getCurrentGui();
             if (gui instanceof joshie.enchiridion.gui.book.GuiBook) {
                 joshie.enchiridion.gui.book.GuiBook guiBook = (joshie.enchiridion.gui.book.GuiBook) gui;
-                guiBook.setRenderData(getLeft(), getTop(), getWidth(), getHeight(), size);
+                guiBook.setRenderData(getRenderX(), getRenderY(), getWidth(), getHeight(), size);
                 handler.draw(guiBook);
             }
         } else {
@@ -151,7 +151,7 @@ public class FeatureRecipe extends FeatureItem {
             Object gui = getCurrentGui();
             if (gui instanceof joshie.enchiridion.gui.book.GuiBook) {
                 joshie.enchiridion.gui.book.GuiBook guiBook = (joshie.enchiridion.gui.book.GuiBook) gui;
-                guiBook.setRenderData(getLeft(), getTop(), getWidth(), getHeight(), size);
+                guiBook.setRenderData(getRenderX(), getRenderY(), getWidth(), getHeight(), size);
                 handler.addTooltip(list, guiBook);
             }
         }

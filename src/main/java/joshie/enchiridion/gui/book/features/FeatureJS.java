@@ -210,7 +210,7 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
         if (useCallbacks && interpreter != null && graphicsWrapper != null) {
             try {
                 // Update the graphics wrapper with current frame data
-                graphicsWrapper.setGraphics(guiGraphics, getLeft(), getTop(), getWidth(), getHeight());
+                graphicsWrapper.setGraphics(guiGraphics, getRenderX(), getRenderY(), getWidth(), getHeight());
 
                 // Call the draw function with the reusable wrappers
                 interpreter.callFunction("draw", graphicsWrapper, mouseX, mouseY, partialTicks, featureWrapper);
@@ -218,9 +218,9 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
             } catch (Exception e) {
                 // Display error
                 Font font = Minecraft.getInstance().font;
-                guiGraphics.drawString(font, errorText, getLeft(), getTop(), 0xFF0000);
+                guiGraphics.drawString(font, errorText, getRenderX(), getRenderY(), 0xFF0000);
                 guiGraphics.drawWordWrap(font, Component.literal("Error: " + e.getMessage()),
-                    getLeft(), getTop() + 10, getWidth(), 0xFF0000);
+                    getRenderX(), getRenderY() + 10, getWidth(), 0xFF0000);
             }
             return;
         }
@@ -234,8 +234,8 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
             poseStack.scale(size, size, size);
 
             Font font = Minecraft.getInstance().font;
-            int x = (int)(getLeft() / size);
-            int y = (int)(getTop() / size);
+            int x = (int)(getRenderX() / size);
+            int y = (int)(getRenderY() / size);
 
             // Use red color for errors, normal color otherwise
             int color = hasError ? 0xFF0000 : 0x555555;

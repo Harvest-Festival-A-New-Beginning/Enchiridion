@@ -137,9 +137,9 @@ public class FeatureButton extends FeatureJump {
         ResourceLocation location = getResource(isHovered);
         if (location != null) {
             // Draw button image
-            int w = getRight() - getLeft();
-            int h = getBottom() - getTop();
-            guiGraphics.blit(location, getLeft(), getTop(), 0, 0, w, h, w, h);
+            int w = getRenderRight() - getRenderX();
+            int h = getRenderBottom() - getRenderY();
+            guiGraphics.blit(location, getRenderX(), getRenderY(), 0, 0, w, h, w, h);
         }
 
         // Draw button text with scaling
@@ -149,8 +149,8 @@ public class FeatureButton extends FeatureJump {
             poseStack.pushPose();
             poseStack.scale(size, size, size);
             net.minecraft.client.gui.Font font = net.minecraft.client.Minecraft.getInstance().font;
-            int x = (int)((getLeft() + getTextOffsetX(isHovered)) / size);
-            int y = (int)((getTop() + getTextOffsetY(isHovered)) / size);
+            int x = (int)((getRenderX() + getTextOffsetX(isHovered)) / size);
+            int y = (int)((getRenderY() + getTextOffsetY(isHovered)) / size);
             // TODO: Handle text formatting codes (e.g., [b] for bold) - might need custom formatting parser
             guiGraphics.drawWordWrap(font, net.minecraft.network.chat.Component.literal(text), x, y, 200, 0x555555);
             poseStack.popPose();

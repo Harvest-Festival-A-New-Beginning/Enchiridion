@@ -78,7 +78,7 @@ public class FeatureBox extends joshie.enchiridion.data.book.FeatureProvider imp
 
     @Override
     protected void drawFeature(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        guiGraphics.fill(getLeft(), getTop(), getRight(), getBottom(), colorI);
+        guiGraphics.fill(getRenderX(), getRenderY(), getRenderRight(), getRenderBottom(), colorI);
     }
 
     @Override

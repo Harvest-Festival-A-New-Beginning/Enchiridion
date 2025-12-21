@@ -55,9 +55,9 @@ public class FeatureImage extends FeatureResource {
     @Override
     protected void drawResource(net.minecraft.client.gui.GuiGraphics guiGraphics, int xPos, int yPos, double width, double height) {
         if (resource != null) {
-            int w = getRight() - getLeft();
-            int h = getBottom() - getTop();
-            guiGraphics.blit(resource, getLeft(), getTop(), 0, 0, w, h, w, h);
+            int w = getRenderRight() - getRenderX();
+            int h = getRenderBottom() - getRenderY();
+            guiGraphics.blit(resource, getRenderX(), getRenderY(), 0, 0, w, h, w, h);
         }
     }
 

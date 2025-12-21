@@ -68,8 +68,8 @@ public class FeatureText extends FeatureProvider implements ITextEditable {
             poseStack.pushPose();
             poseStack.scale(size, size, size);
             net.minecraft.client.gui.Font font = net.minecraft.client.Minecraft.getInstance().font;
-            int x = (int)(getLeft() / size);
-            int y = (int)(getTop() / size);
+            int x = (int)(getRenderX() / size);
+            int y = (int)(getRenderY() / size);
             // TODO: Handle text formatting codes (e.g., [b] for bold) - might need custom formatting parser
             graphics.drawWordWrap(font, net.minecraft.network.chat.Component.literal(displayText), x, y, wrap, 0x555555);
             poseStack.popPose();

@@ -38,8 +38,18 @@ public class EnchiridionRegistries {
         public static final DeferredRegister<Codec<? extends FeatureElement>> ELEMENT_TYPES = DeferredRegister.create(ResourceKey.createRegistryKey(new ResourceLocation(EInfo.MODID, "elements")), EInfo.MODID);
         public static final Registry<Codec<? extends FeatureElement>> ELEMENTS = ELEMENT_TYPES.makeRegistry(b -> b.sync(true));
 
-        // Element registrations - features converted to pure rendering elements
-        // public static final Holder<Codec<? extends FeatureElement>> TEXT = ELEMENT_TYPES.register("text", () -> TextElement.CODEC);
+        // Element registrations - pure rendering elements
+        public static final Holder<Codec<? extends FeatureElement>> TEXT = ELEMENT_TYPES.register("text", () -> joshie.enchiridion.gui.book.element.TextElement.CODEC);
+        public static final Holder<Codec<? extends FeatureElement>> BOX = ELEMENT_TYPES.register("box", () -> joshie.enchiridion.gui.book.element.BoxElement.CODEC);
+        public static final Holder<Codec<? extends FeatureElement>> LINE = ELEMENT_TYPES.register("line", () -> joshie.enchiridion.gui.book.element.LineElement.CODEC);
+        public static final Holder<Codec<? extends FeatureElement>> ICON = ELEMENT_TYPES.register("icon", () -> joshie.enchiridion.gui.book.element.IconElement.CODEC);
+        public static final Holder<Codec<? extends FeatureElement>> ITEM = ELEMENT_TYPES.register("item", () -> joshie.enchiridion.gui.book.element.ItemElement.CODEC);
+        public static final Holder<Codec<? extends FeatureElement>> IMAGE = ELEMENT_TYPES.register("image", () -> joshie.enchiridion.gui.book.element.ImageElement.CODEC);
+        public static final Holder<Codec<? extends FeatureElement>> SHAPE = ELEMENT_TYPES.register("shape", () -> joshie.enchiridion.gui.book.element.ShapeElement.CODEC);
+        public static final Holder<Codec<? extends FeatureElement>> BUTTON = ELEMENT_TYPES.register("button", () -> joshie.enchiridion.gui.book.element.ButtonElement.CODEC);
+        public static final Holder<Codec<? extends FeatureElement>> ERROR = ELEMENT_TYPES.register("error", () -> joshie.enchiridion.gui.book.element.ErrorElement.CODEC);
+        public static final Holder<Codec<? extends FeatureElement>> EMPTY = ELEMENT_TYPES.register("empty", () -> joshie.enchiridion.gui.book.element.EmptyElement.CODEC);
+        public static final Holder<Codec<? extends FeatureElement>> FLUID = ELEMENT_TYPES.register("fluid", () -> joshie.enchiridion.gui.book.element.FluidElement.CODEC);
     }
 
     public static class Features {

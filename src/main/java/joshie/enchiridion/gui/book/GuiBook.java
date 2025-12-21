@@ -135,26 +135,28 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public void render(GuiGraphics guiGraphics, int x2, int y2, float partialTicks) {
-        super.render(guiGraphics, x2, y2, partialTicks);
-
-        // Draw all the features, In reverse
-        for (FeatureProvider feature : Lists.reverse(page.getFeatures())) {
-            // Update feature position based on book position and scroll
-            // This is done every frame like PenguinLib's approach
+        // Update feature positions before rendering (handles scroll offset)
+        if (page != null) {
             int bookX = this.x;
             int bookY = this.y - page.getScroll();
-            feature.setX(bookX + feature.relativeX);
-            feature.setY(bookY + feature.relativeY);
-
-            int prevMouseY = mouseY;
-            mouseY = mouseY + page.getScroll();
-            feature.renderWidget(guiGraphics, mouseX, mouseY, partialTicks);
-            feature.addTooltip(TOOLTIP, mouseX, mouseY);
-            this.mouseY = prevMouseY;
-            RenderSystem.clear(GlConst.GL_DEPTH_BUFFER_BIT, false);
+            for (FeatureProvider feature : page.getFeatures()) {
+                feature.setX(bookX + feature.relativeX);
+                feature.setY(bookY + feature.relativeY);
+            }
         }
 
-        //Draw all the overlays
+        // super.render() will now render all widgets (features) via addRenderableWidget()
+        super.render(guiGraphics, x2, y2, partialTicks);
+
+        // Collect tooltips from features
+        if (page != null) {
+            int scrollAdjustedMouseY = mouseY + page.getScroll();
+            for (FeatureProvider feature : page.getFeatures()) {
+                feature.addTooltip(TOOLTIP, mouseX, scrollAdjustedMouseY);
+            }
+        }
+
+        // Draw editor overlays
         if (isEditMode) {
             for (AbstractGuiOverlay overlay : overlays) {
                 overlay.draw(guiGraphics, mouseX, mouseY, this);
@@ -162,6 +164,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
             }
         }
 
+        Minecraft mc = Minecraft.getInstance();
         renderTooltip(TOOLTIP, x2, y2, mc.font);
     }
 
@@ -169,11 +172,11 @@ public class GuiBook extends GuiBase implements IBookHelper {
     public void initScreen(@Nonnull Minecraft minecraft, @Nonnull net.minecraft.world.entity.player.Player player) {
         super.initScreen(minecraft, player);
 
-        // Initialize features with GUI context only
-        // Positions are updated every frame in render() like PenguinLib
+        // Add features as widgets using addRenderableWidget() (PenguinLib pattern)
         if (page != null) {
             for (FeatureProvider feature : page.getFeatures()) {
                 feature.init(this);
+                addRenderableWidget(feature);
             }
         }
     }

@@ -7,6 +7,7 @@ import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.gui.book.GuiGrid;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
+import joshie.enchiridion.gui.book.element.FeatureElement;
 import joshie.enchiridion.helpers.EventHelper;
 import joshie.enchiridion.lib.EnchiridionRegistries;
 import joshie.enchiridion.util.TextEditor;
@@ -20,10 +21,17 @@ import org.lwjgl.glfw.GLFW;
 import uk.joshiejack.penguinlib.data.PenguinRegistries;
 import uk.joshiejack.penguinlib.util.icon.Icon;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Function;
 
-public abstract class FeatureProvider extends AbstractWidget {
+/**
+ * Concrete widget wrapper for FeatureElement (similar to PenguinLib's MoveableWidget)
+ * Handles position, size, layer, selection, dragging, editing
+ * Delegates rendering to the wrapped FeatureElement
+ */
+public class FeatureProvider extends AbstractWidget {
+    // TODO: Update to use element-based codec once all features are converted
     public static final Codec<FeatureProvider> CODEC = EnchiridionRegistries.Features.FEATURES.byNameCodec().dispatchStable(FeatureProvider::codec, Function.identity());
     public static final Codec<FeatureProvider> FEATURE = RecordCodecBuilder.create(instance -> instance.group(
             FeatureProvider.CODEC.fieldOf("feature").forGetter(f -> f),
@@ -49,9 +57,11 @@ public abstract class FeatureProvider extends AbstractWidget {
         return feature;
     }));
 
-    // Base codec fields - subclasses should extend this
-    // Note: This codec is not directly used since FeatureProvider is abstract
-    // Each concrete feature class creates its own codec that includes these fields
+    // Rendering element - null for features not yet converted to element pattern
+    @Nullable
+    protected FeatureElement element;
+
+    // Widget properties
     public boolean isLocked;
     public boolean isHidden;
     public boolean isFromTemplate;
@@ -59,6 +69,7 @@ public abstract class FeatureProvider extends AbstractWidget {
     public int relativeX;
     public int relativeY;
 
+    // Transient editing/interaction state
     private transient boolean isSelected;
     private transient boolean isEditing;
     private transient boolean isHeld;
@@ -71,10 +82,15 @@ public abstract class FeatureProvider extends AbstractWidget {
     private transient boolean dragBottomRight;
     private transient long timestamp;
     private transient IPage pageContainer;
-    private transient GuiBook currentGui; // Stores current GUI context during rendering
+    private transient GuiBook currentGui;
 
     public FeatureProvider(int x, int y, int width, int height) {
+        this(null, x, y, width, height);
+    }
+
+    public FeatureProvider(@Nullable FeatureElement element, int x, int y, int width, int height) {
         super(x, y, width, height, Component.empty());
+        this.element = element;
         this.isLocked = true;
         this.isHidden = false;
         this.isFromTemplate = false;
@@ -100,8 +116,17 @@ public abstract class FeatureProvider extends AbstractWidget {
         // Subclasses can override if they need custom update logic
     }
 
-    // Abstract method - each feature type must implement its own copy logic
-    public abstract FeatureProvider copy();
+    /** Create a copy of this feature - subclasses should override for proper copying */
+    public FeatureProvider copy() {
+        FeatureProvider copy = new FeatureProvider(element, 0, 0, getWidth(), getHeight());
+        copy.isLocked = this.isLocked;
+        copy.isHidden = this.isHidden;
+        copy.isFromTemplate = this.isFromTemplate;
+        copy.layerIndex = this.layerIndex;
+        copy.relativeX = this.relativeX;
+        copy.relativeY = this.relativeY;
+        return copy;
+    }
 
     
     public boolean isOverFeature(int x, int y) {
@@ -133,10 +158,16 @@ public abstract class FeatureProvider extends AbstractWidget {
     @Override
     public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         if (EventHelper.isFeatureVisible(getPage(), isVisible(), layerIndex)) {
-            drawFeature(guiGraphics, mouseX, mouseY, partialTicks);
+            // Delegate to element for rendering if present, otherwise call drawFeature for legacy features
+            if (element != null) {
+                element.render(guiGraphics, getX(), getY(), getWidth(), getHeight(), 1.0f, mouseX, mouseY, partialTicks);
+            } else {
+                drawFeature(guiGraphics, mouseX, mouseY, partialTicks);
+            }
+
+            // Draw selection visual
             if (isSelected && guiGraphics != null) {
                 int color = isEditing ? 0xCCFFFF00 : 0xCC007FFF;
-                // Draw selection corners using GuiGraphics
                 guiGraphics.fill(getRight() - 2, getY(), getRight(), getY() + 2, color);
                 guiGraphics.fill(getX(), getY(), getX() + 2, getY() + 2, color);
                 guiGraphics.fill(getRight() - 2, getBottom() - 2, getRight(), getBottom(), color);
@@ -145,8 +176,10 @@ public abstract class FeatureProvider extends AbstractWidget {
         }
     }
 
-    // Abstract method - each feature type must implement its own drawing logic
-    protected abstract void drawFeature(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks);
+    /** Legacy rendering method - override for features not yet converted to elements */
+    protected void drawFeature(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        // Default: no rendering (element-based features use element.render() instead)
+    }
 
     public void addTooltip(List<String> tooltip, int mouseX, int mouseY) {
         // Default implementation - subclasses can override
@@ -454,5 +487,8 @@ public abstract class FeatureProvider extends AbstractWidget {
         return getClass().getSimpleName();
     }
 
-    public abstract Codec<? extends FeatureProvider> codec();
+    /** Get codec for this feature - subclasses should override */
+    public Codec<? extends FeatureProvider> codec() {
+        throw new UnsupportedOperationException("Feature must provide codec: " + getClass().getName());
+    }
 }

@@ -56,7 +56,7 @@ public class EnchiridionRegistries {
         public static final DeferredRegister<Codec<? extends FeatureProvider>> FEATURE_TYPES = DeferredRegister.create(ResourceKey.createRegistryKey(new ResourceLocation(EInfo.MODID, "features")), EInfo.MODID);
         public static final Registry<Codec<? extends FeatureProvider>> FEATURES = FEATURE_TYPES.makeRegistry(b -> b.sync(true));
 
-        // Simple features - create FeatureProvider with element
+        // Simple features - create FeatureProvider with element directly
         public static final Holder<Codec<? extends FeatureProvider>> BOX = FEATURE_TYPES.register("box", () ->
             RecordCodecBuilder.create(instance -> instance.group(
                 Codec.STRING.optionalFieldOf("color", "FFFFFFFF").forGetter(f -> {
@@ -68,6 +68,32 @@ public class EnchiridionRegistries {
             ).apply(instance, (color) -> {
                 int colorI = (int) Long.parseLong(color, 16);
                 return new FeatureProvider(new joshie.enchiridion.gui.book.element.BoxElement(colorI), 0, 0, 0, 0);
+            })));
+
+        public static final Holder<Codec<? extends FeatureProvider>> LINE = FEATURE_TYPES.register("line", () ->
+            RecordCodecBuilder.create(instance -> instance.group(
+                Codec.INT.optionalFieldOf("x2", 0).forGetter(f -> f.element instanceof joshie.enchiridion.gui.book.element.LineElement ? ((joshie.enchiridion.gui.book.element.LineElement)f.element).getX2() : 0),
+                Codec.INT.optionalFieldOf("y2", 0).forGetter(f -> f.element instanceof joshie.enchiridion.gui.book.element.LineElement ? ((joshie.enchiridion.gui.book.element.LineElement)f.element).getY2() : 0),
+                Codec.INT.optionalFieldOf("thickness", 1).forGetter(f -> f.element instanceof joshie.enchiridion.gui.book.element.LineElement ? ((joshie.enchiridion.gui.book.element.LineElement)f.element).getThickness() : 1),
+                Codec.STRING.optionalFieldOf("color", "FF000000").forGetter(f -> f.element instanceof joshie.enchiridion.gui.book.element.LineElement ? Integer.toHexString(((joshie.enchiridion.gui.book.element.LineElement)f.element).getColor()) : "FF000000")
+            ).apply(instance, (x2, y2, thickness, color) -> {
+                int colorI = (int) Long.parseLong(color, 16);
+                return new FeatureProvider(new joshie.enchiridion.gui.book.element.LineElement(x2, y2, thickness, colorI), 0, 0, 0, 0);
+            })));
+
+        public static final Holder<Codec<? extends FeatureProvider>> ICON = FEATURE_TYPES.register("icon", () ->
+            RecordCodecBuilder.create(instance -> instance.group(
+                uk.joshiejack.penguinlib.util.icon.Icon.CODEC.fieldOf("icon").forGetter(f -> f.element instanceof joshie.enchiridion.gui.book.element.IconElement ? ((joshie.enchiridion.gui.book.element.IconElement)f.element).getIcon() : uk.joshiejack.penguinlib.util.icon.ItemIcon.EMPTY)
+            ).apply(instance, (icon) -> new FeatureProvider(new joshie.enchiridion.gui.book.element.IconElement(icon), 0, 0, 0, 0))));
+
+        public static final Holder<Codec<? extends FeatureProvider>> SHAPE = FEATURE_TYPES.register("shape", () ->
+            RecordCodecBuilder.create(instance -> instance.group(
+                net.minecraft.util.StringRepresentable.fromEnum(joshie.enchiridion.gui.book.element.ShapeElement.Shape::values).optionalFieldOf("shape", joshie.enchiridion.gui.book.element.ShapeElement.Shape.RECTANGLE).forGetter(f -> joshie.enchiridion.gui.book.element.ShapeElement.Shape.RECTANGLE),
+                Codec.STRING.optionalFieldOf("color", "FF000000").forGetter(f -> "FF000000"),
+                Codec.BOOL.optionalFieldOf("filled", true).forGetter(f -> true)
+            ).apply(instance, (shape, color, filled) -> {
+                int colorI = (int) Long.parseLong(color, 16);
+                return new FeatureProvider(new joshie.enchiridion.gui.book.element.ShapeElement(shape, colorI, filled), 0, 0, 0, 0);
             })));
 
         // Features with special behavior - keep wrapper classes

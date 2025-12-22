@@ -1,6 +1,7 @@
 package joshie.enchiridion.lib;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.data.book.Book;
 import joshie.enchiridion.data.book.FeatureProvider;

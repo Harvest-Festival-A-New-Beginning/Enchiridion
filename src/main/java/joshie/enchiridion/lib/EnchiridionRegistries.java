@@ -55,13 +55,28 @@ public class EnchiridionRegistries {
     public static class Features {
         public static final DeferredRegister<Codec<? extends FeatureProvider>> FEATURE_TYPES = DeferredRegister.create(ResourceKey.createRegistryKey(new ResourceLocation(EInfo.MODID, "features")), EInfo.MODID);
         public static final Registry<Codec<? extends FeatureProvider>> FEATURES = FEATURE_TYPES.makeRegistry(b -> b.sync(true));
+
+        // Simple features - create FeatureProvider with element
+        public static final Holder<Codec<? extends FeatureProvider>> BOX = FEATURE_TYPES.register("box", () ->
+            RecordCodecBuilder.create(instance -> instance.group(
+                Codec.STRING.optionalFieldOf("color", "FFFFFFFF").forGetter(f -> {
+                    if (f.element instanceof joshie.enchiridion.gui.book.element.BoxElement) {
+                        return Integer.toHexString(((joshie.enchiridion.gui.book.element.BoxElement)f.element).getColor());
+                    }
+                    return "FFFFFFFF";
+                })
+            ).apply(instance, (color) -> {
+                int colorI = (int) Long.parseLong(color, 16);
+                return new FeatureProvider(new joshie.enchiridion.gui.book.element.BoxElement(colorI), 0, 0, 0, 0);
+            })));
+
+        // Features with special behavior - keep wrapper classes
         public static final Holder<Codec<? extends FeatureProvider>> TEXT = FEATURE_TYPES.register("text", () -> FeatureText.CODEC);
         public static final Holder<Codec<? extends FeatureProvider>> IMAGE = FEATURE_TYPES.register("image", () -> FeatureImage.CODEC);
         public static final Holder<Codec<? extends FeatureProvider>> ITEM = FEATURE_TYPES.register("item", () -> FeatureItem.CODEC);
         public static final Holder<Codec<? extends FeatureProvider>> ICON = FEATURE_TYPES.register("icon", () -> FeatureIcon.CODEC);
         public static final Holder<Codec<? extends FeatureProvider>> RECIPE = FEATURE_TYPES.register("recipe", () -> FeatureRecipe.CODEC);
         public static final Holder<Codec<? extends FeatureProvider>> BUTTON = FEATURE_TYPES.register("button", () -> FeatureButton.CODEC);
-        public static final Holder<Codec<? extends FeatureProvider>> BOX = FEATURE_TYPES.register("box", () -> FeatureBox.CODEC);
         public static final Holder<Codec<? extends FeatureProvider>> LINE = FEATURE_TYPES.register("line", () -> FeatureLine.CODEC);
         public static final Holder<Codec<? extends FeatureProvider>> SHAPE = FEATURE_TYPES.register("shape", () -> FeatureShape.CODEC);
         public static final Holder<Codec<? extends FeatureProvider>> ENTITY = FEATURE_TYPES.register("entity", () -> FeatureEntity.CODEC);

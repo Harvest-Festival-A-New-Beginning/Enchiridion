@@ -192,10 +192,9 @@ public class FeatureProvider extends AbstractWidget {
     }
 
     public boolean keyTyped(char character, int key, GuiBook guiBook) {
-        
         if (isEditing) {
             // Delegate to element if present
-            if (element != null && element.onKeyPress(character, key, guiBook)) {
+            if (element != null && element.onKeyPress(guiBook, character, key)) {
                 return true;
             }
         } else if (isSelected && key == 211 && !TextEditor.INSTANCE.isEditing()) {
@@ -222,7 +221,7 @@ public class FeatureProvider extends AbstractWidget {
 
             //Perform clicks - delegate to element
             if (!guiBook.isEditMode() || button != 0) {
-                if (element != null && element.onClick(mouseX, mouseY, button, guiBook)) {
+                if (element != null && element.onClick(guiBook, mouseX, mouseY, button)) {
                     return true;
                 }
             }
@@ -232,7 +231,7 @@ public class FeatureProvider extends AbstractWidget {
         return false;
     }
 
-    
+
     public void mouseReleased(int mouseX, int mouseY, int button) {
         isHeld = false;
         isDragging = false;
@@ -242,9 +241,9 @@ public class FeatureProvider extends AbstractWidget {
         dragBottomRight = false;
 
         if (!EventHelper.isFeatureVisible(getPage(), isVisible(), layerIndex)) return;
-        // Delegate to element
-        if (element != null) {
-            element.onRelease(mouseX, mouseY, button);
+        // Delegate to element - need GuiBook here
+        if (element != null && currentGui != null) {
+            element.onRelease(currentGui, mouseX, mouseY, button);
         }
     }
 
@@ -289,8 +288,8 @@ public class FeatureProvider extends AbstractWidget {
     public void scroll(int mouseX, int mouseY, boolean down) {
         if (isOverFeature(mouseX, mouseY)) {
             // Delegate to element
-            if (element != null) {
-                element.onScroll(down, 10);
+            if (element != null && currentGui != null) {
+                element.onScroll(currentGui, down, 10);
             }
         }
     }

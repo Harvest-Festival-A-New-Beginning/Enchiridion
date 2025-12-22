@@ -45,42 +45,44 @@ public interface FeatureElement {
 
     /**
      * Called when this element is clicked
+     * @param guiBook The GuiBook instance
      * @param mouseX Mouse X position
      * @param mouseY Mouse Y position
      * @param button Mouse button (0=left, 1=right, 2=middle)
-     * @param guiBook The GuiBook instance
      * @return true if the click was handled
      */
-    default boolean onClick(int mouseX, int mouseY, int button, GuiBook guiBook) {
+    default boolean onClick(GuiBook guiBook, int mouseX, int mouseY, int button) {
         return false;
     }
 
     /**
      * Called when mouse is released over this element
+     * @param guiBook The GuiBook instance
      * @param mouseX Mouse X position
      * @param mouseY Mouse Y position
      * @param button Mouse button
      */
-    default void onRelease(int mouseX, int mouseY, int button) {
+    default void onRelease(GuiBook guiBook, int mouseX, int mouseY, int button) {
     }
 
     /**
      * Called when a key is typed while this element is selected
+     * @param guiBook The GuiBook instance
      * @param character The character typed
      * @param key The key code
-     * @param guiBook The GuiBook instance
      * @return true if the key was handled
      */
-    default boolean onKeyPress(char character, int key, GuiBook guiBook) {
+    default boolean onKeyPress(GuiBook guiBook, char character, int key) {
         return false;
     }
 
     /**
      * Called when scrolling over this element
+     * @param guiBook The GuiBook instance
      * @param down True if scrolling down
      * @param amount Amount to scroll
      */
-    default void onScroll(boolean down, int amount) {
+    default void onScroll(GuiBook guiBook, boolean down, int amount) {
     }
 
     /**

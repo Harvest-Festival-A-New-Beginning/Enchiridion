@@ -129,7 +129,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
             int bottom = book.getBackgroundEndY();
             int w = right - left;
             int h = bottom - top;
-            guiGraphics.blit(bg, x + left, y + top, 0, 0, w, h, w, h);
+            guiGraphics.blit(bg, leftPos + left, topPos + top, 0, 0, w, h, w, h);
         }
     }
 
@@ -137,8 +137,8 @@ public class GuiBook extends GuiBase implements IBookHelper {
     public void render(GuiGraphics guiGraphics, int x2, int y2, float partialTicks) {
         // Update feature positions before rendering (handles scroll offset)
         if (page != null) {
-            int bookX = this.x;
-            int bookY = this.y - page.getScroll();
+            int bookX = this.leftPos;
+            int bookY = this.topPos - page.getScroll();
             for (FeatureProvider feature : page.getFeatures()) {
                 feature.setX(bookX + feature.relativeX);
                 feature.setY(bookY + feature.relativeY);

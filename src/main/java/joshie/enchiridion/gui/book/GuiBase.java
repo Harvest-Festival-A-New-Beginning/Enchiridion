@@ -19,14 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuiBase extends Book implements IDrawHelper {
-    protected final int xSize = 430;
-    protected final int ySize = 217;
-
     public final List<String> TOOLTIP = new ArrayList<>();
     public int mouseX = 0;
     public int mouseY = 0;
-    public int x;
-    public int y;
     private int renderX;
     private int renderY;
     private double renderWidth;
@@ -35,12 +30,13 @@ public class GuiBase extends Book implements IDrawHelper {
 
     protected GuiBase(String modid, AbstractBookMenu container, Inventory inventory, Component title) {
             super(modid, container, inventory, title);
+            this.imageWidth = 430;
+            this.imageHeight = 217;
     }
 
     @Override
     public void render(GuiGraphics guiGraphics, int x2, int y2, float partialTicks) {
-        x = (width - xSize) / 2;
-        y = (height - ySize) / 2;
+        // leftPos and topPos are set by parent AbstractContainerScreen.init()
         TOOLTIP.clear();
     }
 
@@ -50,8 +46,8 @@ public class GuiBase extends Book implements IDrawHelper {
         final double x = mc.mouseHandler.xpos() * ((double) mc.getWindow().getGuiScaledWidth() / mc.getWindow().getScreenWidth());
         final double y = mc.mouseHandler.ypos() * ((double) mc.getWindow().getGuiScaledHeight() / mc.getWindow().getScreenHeight());
 
-        mouseX = (int) (x - (width - xSize) / 2);
-        mouseY = (int) (y - (height - ySize) / 2);
+        mouseX = (int) (x - (width - imageWidth) / 2);
+        mouseY = (int) (y - (height - imageHeight) / 2);
     }
 
     @Override
@@ -103,8 +99,8 @@ public class GuiBase extends Book implements IDrawHelper {
     public void drawTexturedRectangle(double left, double top, int u, int v, int w, int h, float scale) {
         // TODO: This method needs GuiGraphics parameter for proper rendering in 1.20.4
         float size = renderSize * scale;
-        int x2 = (int) Math.floor(((x + getLeft(left)) / size));
-        int y2 = (int) Math.floor(((y + getTop(top)) / size));
+        int x2 = (int) Math.floor(((leftPos + getLeft(left)) / size));
+        int y2 = (int) Math.floor(((topPos + getTop(top)) / size));
 
         PoseStack poseStack = new PoseStack();
         poseStack.pushPose();
@@ -121,8 +117,8 @@ public class GuiBase extends Book implements IDrawHelper {
     public void drawTexturedReversedRectangle(double left, double top, int u, int v, int w, int h, float scale) {
         // TODO: This method needs GuiGraphics parameter for proper rendering in 1.20.4
         float size = renderSize * scale;
-        int x2 = (int) Math.floor(((x + getLeft(left)) / size)) - w;
-        int y2 = (int) Math.floor(((y + getTop(top)) / size)) - h;
+        int x2 = (int) Math.floor(((leftPos + getLeft(left)) / size)) - w;
+        int y2 = (int) Math.floor(((topPos + getTop(top)) / size)) - h;
 
         PoseStack poseStack = new PoseStack();
         poseStack.pushPose();
@@ -138,8 +134,8 @@ public class GuiBase extends Book implements IDrawHelper {
     @Override
     public void drawStack(@Nonnull ItemStack stack, int left, int top, float size) {
         if (stack.isEmpty()) return; //Don't draw stacks that don't exist
-        int x2 = (int) Math.floor(((x + left) / size));
-        int y2 = (int) Math.floor(((y + top) / size));
+        int x2 = (int) Math.floor(((leftPos + left) / size));
+        int y2 = (int) Math.floor(((topPos + top) / size));
         ClientStackHelper.drawStack(stack, x2, y2, size);
     }
 

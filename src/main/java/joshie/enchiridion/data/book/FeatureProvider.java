@@ -36,7 +36,7 @@ public class FeatureProvider extends AbstractWidget {
     public static final Codec<FeatureProvider> FEATURE = RecordCodecBuilder.create(instance -> instance.group(
             FeatureProvider.CODEC.fieldOf("feature").forGetter(f -> f),
             Codec.BOOL.optionalFieldOf("is_locked", true).forGetter(f -> f.isLocked),
-            Codec.BOOL.optionalFieldOf("is_hidden", false).forGetter(f -> f.isHidden),
+            Codec.BOOL.optionalFieldOf("is_hidden", false).forGetter(f -> !f.visible), // is_hidden = !visible for backwards compat
             Codec.BOOL.optionalFieldOf("is_from_template", false).forGetter(f -> f.isFromTemplate),
             Codec.INT.optionalFieldOf("layer_index", 0).forGetter(f -> f.layerIndex),
             Codec.INT.optionalFieldOf("relative_x", 0).forGetter(f -> f.relativeX),
@@ -46,7 +46,7 @@ public class FeatureProvider extends AbstractWidget {
     ).apply(instance, (feature, isLocked, isHidden, isFromTemplate, layerIndex,
                        relativeX, relativeY, width, height) -> {
         feature.isLocked = isLocked;
-        feature.isHidden = isHidden;
+        feature.visible = !isHidden; // Convert is_hidden to visible
         feature.isFromTemplate = isFromTemplate;
         feature.layerIndex = layerIndex;
         feature.relativeX = relativeX;
@@ -63,7 +63,6 @@ public class FeatureProvider extends AbstractWidget {
 
     // Widget properties
     public boolean isLocked;
-    public boolean isHidden;
     public boolean isFromTemplate;
     public int layerIndex;
     public int relativeX;
@@ -92,14 +91,12 @@ public class FeatureProvider extends AbstractWidget {
         super(x, y, width, height, Component.empty());
         this.element = element;
         this.isLocked = true;
-        this.isHidden = false;
         this.isFromTemplate = false;
-        this.visible = true; // Ensure AbstractWidget renders this
+        this.visible = true; // Features visible by default
     }
 
     public FeatureProvider init(GuiBook guiBook) {
         this.currentGui = guiBook;
-        this.visible = !this.isHidden; // Synchronize AbstractWidget visibility with isHidden
         return this;
     }
 
@@ -122,7 +119,7 @@ public class FeatureProvider extends AbstractWidget {
     public FeatureProvider copy() {
         FeatureProvider copy = new FeatureProvider(element, 0, 0, getWidth(), getHeight());
         copy.isLocked = this.isLocked;
-        copy.isHidden = this.isHidden;
+        copy.visible = this.visible;
         copy.isFromTemplate = this.isFromTemplate;
         copy.layerIndex = this.layerIndex;
         copy.relativeX = this.relativeX;
@@ -407,9 +404,9 @@ public class FeatureProvider extends AbstractWidget {
         return height;
     }
 
-    
+
     public boolean isVisible() {
-        return !isHidden;
+        return this.visible;
     }
 
     
@@ -444,8 +441,7 @@ public class FeatureProvider extends AbstractWidget {
 
 
     public void setVisible(boolean v) {
-        isHidden = !v;
-        this.visible = v; // Synchronize AbstractWidget visibility
+        this.visible = v;
     }
 
     

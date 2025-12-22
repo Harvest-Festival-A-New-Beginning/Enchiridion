@@ -135,6 +135,9 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public void render(GuiGraphics guiGraphics, int x2, int y2, float partialTicks) {
+        // Render background first
+        renderBg(guiGraphics, partialTicks, x2, y2);
+
         // Update feature positions before rendering (handles scroll offset)
         if (page != null) {
             int bookX = this.x;

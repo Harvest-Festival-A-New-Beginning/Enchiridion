@@ -94,10 +94,12 @@ public class FeatureProvider extends AbstractWidget {
         this.isLocked = true;
         this.isHidden = false;
         this.isFromTemplate = false;
+        this.visible = true; // Ensure AbstractWidget renders this
     }
 
     public FeatureProvider init(GuiBook guiBook) {
         this.currentGui = guiBook;
+        this.visible = !this.isHidden; // Synchronize AbstractWidget visibility with isHidden
         return this;
     }
 
@@ -440,9 +442,10 @@ public class FeatureProvider extends AbstractWidget {
         height = h;
     }
 
-    
+
     public void setVisible(boolean v) {
         isHidden = !v;
+        this.visible = v; // Synchronize AbstractWidget visibility
     }
 
     

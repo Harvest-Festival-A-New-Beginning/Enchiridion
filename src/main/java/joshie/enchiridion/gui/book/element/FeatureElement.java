@@ -2,11 +2,13 @@ package joshie.enchiridion.gui.book.element;
 
 import com.mojang.serialization.Codec;
 import joshie.enchiridion.api.book.Page;
+import joshie.enchiridion.gui.book.GuiBook;
 import net.minecraft.client.gui.GuiGraphics;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * Base interface for all feature elements
@@ -37,7 +39,7 @@ public interface FeatureElement {
      * @param mouseX Mouse X position
      * @param mouseY Mouse Y position
      */
-    default void addTooltip(java.util.List<String> tooltip, int mouseX, int mouseY) {
+    default void addTooltip(List<String> tooltip, int mouseX, int mouseY) {
         // Default: no tooltip
     }
 
@@ -46,10 +48,10 @@ public interface FeatureElement {
      * @param mouseX Mouse X position
      * @param mouseY Mouse Y position
      * @param button Mouse button (0=left, 1=right, 2=middle)
-     * @param gui The GuiBook instance
+     * @param guiBook The GuiBook instance
      * @return true if the click was handled
      */
-    default boolean onClick(int mouseX, int mouseY, int button, Object gui) {
+    default boolean onClick(int mouseX, int mouseY, int button, GuiBook guiBook) {
         return false;
     }
 
@@ -66,10 +68,10 @@ public interface FeatureElement {
      * Called when a key is typed while this element is selected
      * @param character The character typed
      * @param key The key code
-     * @param gui The GuiBook instance
+     * @param guiBook The GuiBook instance
      * @return true if the key was handled
      */
-    default boolean onKeyPress(char character, int key, Object gui) {
+    default boolean onKeyPress(char character, int key, GuiBook guiBook) {
         return false;
     }
 
@@ -83,10 +85,10 @@ public interface FeatureElement {
 
     /**
      * Enter edit mode for this element
-     * @param gui The GuiBook instance
+     * @param guiBook The GuiBook instance
      * @return true if element has special edit mode (yellow corners), false for normal selection (blue corners)
      */
-    default boolean enterEditMode(Object gui) {
+    default boolean enterEditMode(GuiBook guiBook) {
         return false;
     }
 

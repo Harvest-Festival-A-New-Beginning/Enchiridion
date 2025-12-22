@@ -191,11 +191,11 @@ public class FeatureProvider extends AbstractWidget {
         }
     }
 
-    public boolean keyTyped(char character, int key, Object gui) {
-        joshie.enchiridion.gui.book.GuiBook guiBook = (joshie.enchiridion.gui.book.GuiBook) gui;
+    public boolean keyTyped(char character, int key, GuiBook guiBook) {
+        
         if (isEditing) {
             // Delegate to element if present
-            if (element != null && element.onKeyPress(character, key, gui)) {
+            if (element != null && element.onKeyPress(character, key, guiBook)) {
                 return true;
             }
         } else if (isSelected && key == 211 && !TextEditor.INSTANCE.isEditing()) {
@@ -207,7 +207,7 @@ public class FeatureProvider extends AbstractWidget {
     }
 
 
-    public boolean mouseClicked(int mouseX, int mouseY, int button, joshie.enchiridion.gui.book.GuiBook guiBook) {
+    public boolean mouseClicked(int mouseX, int mouseY, int button, GuiBook guiBook) {
         if (guiBook.isEditMode()) {
             guiBook.getSimpleEditor().setEditor(null); //Reset the editor
             TextEditor.INSTANCE.clearEditable();
@@ -296,7 +296,7 @@ public class FeatureProvider extends AbstractWidget {
     }
 
 
-    public void follow(int mouseX, int mouseY, boolean force, joshie.enchiridion.gui.book.GuiBook guiBook) {
+    public void follow(int mouseX, int mouseY, boolean force, GuiBook guiBook) {
         if (isHeld || force) {
             if (force) {
                 isSelected = true;

@@ -135,9 +135,6 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public void render(GuiGraphics guiGraphics, int x2, int y2, float partialTicks) {
-        // Render background first
-        renderBg(guiGraphics, partialTicks, x2, y2);
-
         // Update feature positions before rendering (handles scroll offset)
         if (page != null) {
             int bookX = this.x;
@@ -148,7 +145,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
             }
         }
 
-        // super.render() will now render all widgets (features) via addRenderableWidget()
+        // super.render() calls renderBg() and renders all widgets (features) via addRenderableWidget()
         super.render(guiGraphics, x2, y2, partialTicks);
 
         // Collect tooltips from features
@@ -186,6 +183,8 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public void init() {
+        super.init(); // Call parent to set up background positions (centre, bgLeftOffset)
+
         simpleEditor.setEditor(null); //Reset the editor
         TextEditor.INSTANCE.clearEditable();
 

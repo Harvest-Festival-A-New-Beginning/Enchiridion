@@ -4,7 +4,7 @@ import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IButtonAction;
 import joshie.enchiridion.gui.book.GuiBook;
-import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.api.book.Page;
 import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.helpers.DefaultHelper;
 
@@ -32,7 +32,7 @@ public class ActionJumpPage extends AbstractAction {
         return jump;
     }
 
-    public ActionJumpPage(IPage page) {
+    public ActionJumpPage(Page page) {
         this();
         this.pageNumber = page.getPageNumber();
     }
@@ -53,7 +53,7 @@ public class ActionJumpPage extends AbstractAction {
         if (guiBook.getBook() != null) {
             IBook book = guiBook.getBook();
             if (!guiBook.jumpToPageIfExists(pageNumber)) {
-                IPage page = DefaultHelper.addDefaults(book, new Page(pageNumber).setBook(book));
+                Page page = DefaultHelper.addDefaults(book, new Page(pageNumber).setBook(book));
                 guiBook.getBook().addPage(page);
             }
 

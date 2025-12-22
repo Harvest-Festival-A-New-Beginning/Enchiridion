@@ -73,7 +73,7 @@ public class FeatureModel extends FeatureProvider {
     }
 
     @Override
-    public void update(joshie.enchiridion.api.book.IPage page) {
+    public void update(joshie.enchiridion.api.book.Page page) {
         super.update(page);
         cachedBlock = null;
         failedToLoad = false;

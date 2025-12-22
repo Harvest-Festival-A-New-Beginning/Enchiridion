@@ -2,10 +2,11 @@ package joshie.enchiridion.gui.book.buttons;
 
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.gui.IToolbarButton;
+import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.lib.EInfo;
 import net.minecraft.resources.ResourceLocation;
 
-public abstract class ButtonAbstract implements IToolbarButton {
+public abstract class ButtonAbstract extends IToolbarButton {
     protected ResourceLocation dflt;
     protected ResourceLocation hover;
     protected String translate;
@@ -24,17 +25,17 @@ public abstract class ButtonAbstract implements IToolbarButton {
     }
 
     @Override
-    public ResourceLocation getResource(Object gui) {
+    public ResourceLocation getResource(GuiBook gui) {
         return dflt;
     }
 
     @Override
-    public ResourceLocation getHoverResource(Object gui) {
+    public ResourceLocation getHoverResource(GuiBook gui) {
         return hover;
     }
 
     @Override
-    public String getTooltipText(Object gui) {
+    public String getTooltipText(GuiBook gui) {
         return Enchiridion.format(translate);
     }
 }

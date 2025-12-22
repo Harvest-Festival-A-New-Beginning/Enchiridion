@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IButtonAction;
 import joshie.enchiridion.gui.book.GuiBook;
-import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.api.book.Page;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,8 +28,8 @@ public class ActionPreviousPage extends AbstractAction {
     @Override
     public boolean performAction(GuiBook guiBook) {
         try {
-            List<IPage> pages = guiBook.getBook().getPages();
-            List<Integer> numbersTemp = pages.stream().map(IPage::getPageNumber).collect(Collectors.toList());
+            List<Page> pages = guiBook.getBook().getPages();
+            List<Integer> numbersTemp = pages.stream().map(Page::getPageNumber).collect(Collectors.toList());
 
             Collections.sort(numbersTemp, new SortNumerical());
             List<Integer> numbers = Lists.reverse(numbersTemp);

@@ -13,8 +13,8 @@ public class ButtonChangeBackground extends ButtonAbstract {
     }
 
     @Override
-    public void performAction(Object gui) {
-        GuiBook guiBook = (GuiBook) gui;
+    public void performAction(GuiBook guiBook) {
+        
         File file = FileCopier.copyFileFromUser(FileHelper.getImageSaveDirectory(guiBook.getBook()));
         if (file != null) {
             guiBook.getBook().setBackgroundResource(EInfo.MODID + ":images/" + guiBook.getBook().getSaveName() + "/" + file.getName());

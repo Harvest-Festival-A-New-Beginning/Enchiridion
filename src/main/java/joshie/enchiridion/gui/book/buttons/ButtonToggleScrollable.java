@@ -27,25 +27,25 @@ public class ButtonToggleScrollable extends ButtonAbstract {
 
     @Override
     public ResourceLocation getResource(Object gui) {
-        GuiBook guiBook = (GuiBook) gui;
+        
         return guiBook.getPage().isScrollingEnabled() ? selected_dflt : dflt;
     }
 
     @Override
     public ResourceLocation getHoverResource(Object gui) {
-        GuiBook guiBook = (GuiBook) gui;
+        
         return guiBook.getPage().isScrollingEnabled() ? selected_hover : hover;
     }
 
     @Override
     public String getTooltipText(Object gui) {
-        GuiBook guiBook = (GuiBook) gui;
+        
         return guiBook.getPage().isScrollingEnabled() ? Enchiridion.format(translate_selected) : Enchiridion.format(translate);
     }
 
     @Override
-    public void performAction(Object gui) {
-        GuiBook guiBook = (GuiBook) gui;
+    public void performAction(GuiBook guiBook) {
+        
         guiBook.getPage().toggleScroll();
     }
 }

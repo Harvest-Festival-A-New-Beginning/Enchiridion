@@ -2,7 +2,7 @@ package joshie.enchiridion.data.book;
 
 import com.google.common.collect.HashMultimap;
 import joshie.enchiridion.api.book.IBook;
-import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.api.book.Page;
 import joshie.enchiridion.api.event.FeatureVisibleEvent;
 import joshie.enchiridion.lib.EInfo;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -32,7 +32,7 @@ public class BookEvents {
         }
     }
 
-    public static boolean invert(IBook book, IPage page, Pattern pattern) {
+    public static boolean invert(IBook book, Page page, Pattern pattern) {
         //If we already had everything, then we shall remove it from the map
         if (INVERTED.containsKey(book.getUniqueName())) {
             HashMultimap<Integer, Pattern> map = INVERTED.get(book.getUniqueName());

@@ -3,7 +3,7 @@ package joshie.enchiridion.data.book;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
-import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.api.book.Page;
 import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.gui.book.GuiGrid;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
@@ -80,7 +80,7 @@ public class FeatureProvider extends AbstractWidget {
     private transient boolean dragBottomLeft;
     private transient boolean dragBottomRight;
     private transient long timestamp;
-    private transient IPage pageContainer;
+    private transient Page pageContainer;
     private transient GuiBook currentGui;
 
     public FeatureProvider(int x, int y, int width, int height) {
@@ -100,7 +100,7 @@ public class FeatureProvider extends AbstractWidget {
         return this;
     }
 
-    public IPage getPage() {
+    public Page getPage() {
         return pageContainer;
     }
 
@@ -109,7 +109,7 @@ public class FeatureProvider extends AbstractWidget {
         return currentGui;
     }
 
-    public void update(IPage page) {
+    public void update(Page page) {
         this.pageContainer = page;
         this.pageContainer.sort();
         // Subclasses can override if they need custom update logic

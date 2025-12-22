@@ -15,8 +15,8 @@ public class ButtonSaveTemplate extends ButtonAbstract {
     }
 
     @Override
-    public void performAction(Object gui) {
-        GuiBook guiBook = (GuiBook) gui;
+    public void performAction(GuiBook guiBook) {
+        
         guiBook.getSimpleEditor().setEditor(GuiSimpleEditorTemplateSave.INSTANCE);
     }
 }

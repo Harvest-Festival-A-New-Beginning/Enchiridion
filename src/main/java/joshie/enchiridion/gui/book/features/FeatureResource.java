@@ -41,7 +41,7 @@ public class FeatureResource extends joshie.enchiridion.data.book.FeatureProvide
     }
 
     @Override
-    public void update(joshie.enchiridion.api.book.IPage page) { //Preload the resource
+    public void update(joshie.enchiridion.api.book.Page page) { //Preload the resource
         super.update(page);
         attempted = loadResource();
     }

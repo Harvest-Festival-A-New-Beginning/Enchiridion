@@ -63,8 +63,8 @@ public interface IBook {
     boolean doesBookForgetClose();
 
     /** Returns a list of all the pages in the book
-     *  Adding to this won't work, use {@link #addPage(IPage)} **/
-    List<IPage> getPages();
+     *  Adding to this won't work, use {@link #addPage(Page)} **/
+    List<Page> getPages();
 
     /** Returns true if this book was originally made in 1.7.10 **/
     boolean isLegacyBook();
@@ -114,10 +114,10 @@ public interface IBook {
     void create();
 
     /** Adds a new page **/
-    void addPage(IPage page);
+    void addPage(Page page);
 
     /** Removes an existing page **/
-    void removePage(IPage page);
+    void removePage(Page page);
 
     /** Returns a list of default ids **/
     List<String> getDefaultFeatures();

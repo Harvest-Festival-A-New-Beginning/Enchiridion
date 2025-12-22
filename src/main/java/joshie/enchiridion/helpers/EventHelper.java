@@ -1,12 +1,12 @@
 package joshie.enchiridion.helpers;
 
-import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.api.book.Page;
 import joshie.enchiridion.api.event.FeatureVisibleEvent;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;
 
 public class EventHelper {
-    public static boolean isFeatureVisible(IPage ipage, boolean isVisible, int layer) {
+    public static boolean isFeatureVisible(Page ipage, boolean isVisible, int layer) {
         if (ipage.getBook() == null) return isVisible;
         Player player = MCClientHelper.getPlayer();
         String bookID = ipage.getBook().getUniqueName();

@@ -4,7 +4,7 @@ import joshie.enchiridion.EConfig;
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.data.book.FeatureProvider;
-import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.api.book.Page;
 import joshie.enchiridion.gui.book.GuiSimpleEditorTemplate;
 import joshie.enchiridion.gui.book.element.ErrorElement;
 import joshie.enchiridion.helpers.DefaultHelper;
@@ -112,9 +112,9 @@ public class BookRegistry {
 
         //**Init everything **//
         if (book.getPages() != null) {
-            List<IPage> pages = book.getPages();
+            List<Page> pages = book.getPages();
             for (int i = 0; i < pages.size(); i++) {
-                IPage page = pages.get(i);
+                Page page = pages.get(i);
                 page.setBook(book);
                 //Add the arrow features
                 if (book.isLegacyBook()) {
@@ -166,7 +166,7 @@ public class BookRegistry {
         }
 
         //Now that all that is done, let's go through and remove all the errored features
-        for (IPage page : book.getPages()) {
+        for (Page page : book.getPages()) {
             page.getFeatures().removeIf(iFeatureProvider -> iFeatureProvider.element instanceof ErrorElement);
         }
         return book;

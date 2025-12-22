@@ -3,12 +3,11 @@ package joshie.enchiridion.data.book;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.book.IBook;
-import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.gui.book.features.*;
 
 import java.util.*;
 
-public class Page implements IPage {
+public class Page {
     public static final Codec<Page> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.INT.optionalFieldOf("page_number", 0).forGetter(p -> p.pageNumber),
         Codec.BOOL.optionalFieldOf("is_scrollable", false).forGetter(p -> p.isScrollable),
@@ -34,23 +33,19 @@ public class Page implements IPage {
         this.pageNumber = number;
     }
 
-    @Override
     public IBook getBook() {
         return book;
     }
 
-    @Override
-    public IPage setBook(IBook book) {
+    public Page setBook(IBook book) {
         this.book = book;
         return this;
     }
 
-    @Override
     public boolean isScrollingEnabled() {
         return isScrollable;
     }
 
-    @Override
     public void toggleScroll() {
         this.isScrollable = !isScrollable;
     }
@@ -69,7 +64,6 @@ public class Page implements IPage {
         }
     }
 
-    @Override
     public void setScrollPosition(int position) {
         if (isScrollable) {
             this.scrollAmount = position;
@@ -77,7 +71,6 @@ public class Page implements IPage {
         }
     }
 
-    @Override
     public void scroll(boolean down, int amount) {
         if (isScrollable) {
             if (down) {
@@ -88,12 +81,10 @@ public class Page implements IPage {
         }
     }
 
-    @Override
     public int getScroll() {
         return isScrollable ? scrollAmount : 0;
     }
 
-    @Override
     public void addFeature(FeatureProvider feature, int x, int y, double width, double height, boolean isLocked, boolean isHidden, boolean isFromTemplate) {
         // Feature is a FeatureProvider
         // No wrapper needed - just configure
@@ -110,22 +101,18 @@ public class Page implements IPage {
         features.add(provider);
     }
 
-    @Override
     public void removeFeature(FeatureProvider selected) {
         features.remove(selected);
     }
 
-    @Override
     public int getPageNumber() {
         return pageNumber;
     }
 
-    @Override
     public ArrayList<FeatureProvider> getFeatures() {
         return new ArrayList<>(features);
     }
 
-    @Override
     public void setPageNumber(int number) {
         pageNumber = number;
     }
@@ -133,7 +120,6 @@ public class Page implements IPage {
     private static final SortIndex SORTER = new SortIndex();
 
     private static class SortIndex implements Comparator {
-        @Override
         public int compare(Object o1, Object o2) {
             FeatureProvider provider1 = (FeatureProvider) o1;
             FeatureProvider provider2 = (FeatureProvider) o2;
@@ -143,13 +129,11 @@ public class Page implements IPage {
         }
     }
 
-    @Override
     public int getScrollbarMax(int screenTop) {
         updateMaximumScroll(screenTop);
         return maximumScroll;
     }
 
-    @Override
     public void updateMaximumScroll(int screenTop) {
         int maxY = 0;
         for (FeatureProvider provider : features) {
@@ -161,7 +145,6 @@ public class Page implements IPage {
         maximumScroll = maxY - screenTop;
     }
 
-    @Override
     public void sort() {
         Collections.sort(features, SORTER); //Sort everything out in to order
 
@@ -172,7 +155,6 @@ public class Page implements IPage {
         }
     }
 
-    @Override
     public void clear() {
         features = new ArrayList<>();
     }

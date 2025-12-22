@@ -13,8 +13,8 @@ public class ButtonToggleGrid extends ButtonAbstract {
     }
 
     @Override
-    public void performAction(Object gui) {
-        GuiBook guiBook = (GuiBook) gui;
+    public void performAction(GuiBook guiBook) {
+        
         guiBook.getGrid().toggle();
     }
 }

@@ -2,7 +2,7 @@ package joshie.enchiridion.data.book;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.api.book.Page;
 import joshie.enchiridion.api.book.ITemplate;
 import joshie.enchiridion.lib.EInfo;
 import net.minecraft.network.FriendlyByteBuf;
@@ -37,7 +37,7 @@ public class Template implements ReloadableRegistry.PenguinRegistry<Template>, I
     public Template() {
     }
 
-    public Template(ResourceLocation id, String templatename, ResourceLocation location, IPage page) {
+    public Template(ResourceLocation id, String templatename, ResourceLocation location, Page page) {
         this.templateId = id;
         this.templatename = templatename;
         this.location = location;
@@ -45,7 +45,7 @@ public class Template implements ReloadableRegistry.PenguinRegistry<Template>, I
         this.features.addAll(page.getFeatures().stream().map(FeatureProvider::copy).collect(Collectors.toList()));
     }
 
-    public Template(ResourceLocation id, String templatename, IPage page) {
+    public Template(ResourceLocation id, String templatename, Page page) {
         this.templateId = id;
         this.templatename = templatename;
         this.features = new ArrayList<>();

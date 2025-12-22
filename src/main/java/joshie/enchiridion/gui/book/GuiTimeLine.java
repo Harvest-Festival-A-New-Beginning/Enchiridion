@@ -3,7 +3,7 @@ package joshie.enchiridion.gui.book;
 import com.mojang.blaze3d.vertex.PoseStack;
 import joshie.enchiridion.EConfig;
 import joshie.enchiridion.api.EnchiridionAPI;
-import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.api.book.Page;
 import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.helpers.DefaultHelper;
 import joshie.enchiridion.helpers.JumpHelper;
@@ -14,7 +14,7 @@ import net.minecraft.network.chat.Component;
 
 public class GuiTimeLine extends AbstractGuiOverlay {
     private final GuiBook guiBook;
-    private IPage dragged = null;
+    private Page dragged = null;
     private int held = 0;
     private int startPage = 0;
 
@@ -95,7 +95,7 @@ public class GuiTimeLine extends AbstractGuiOverlay {
 
         for (int j = 0; j < 110; j++) {
             int thisNumber = startPage + j;
-            IPage page = JumpHelper.getPageByNumber(guiBook.getBook(), thisNumber);
+            Page page = JumpHelper.getPageByNumber(guiBook.getBook(), thisNumber);
             int positionX = -5 + (j * 4);
             int fill = 0xFFE6D4A7;
             boolean exists = page != null;
@@ -167,7 +167,7 @@ public class GuiTimeLine extends AbstractGuiOverlay {
                 if (placing) {
                     JumpHelper.insertPage(guiBookParam.getBook(), thisNumber, dragged);
                 } else if (!guiBookParam.jumpToPageIfExists(thisNumber)) {
-                    IPage page = DefaultHelper.addDefaults(guiBookParam.getBook(), new Page(thisNumber).setBook(guiBookParam.getBook()));
+                    Page page = DefaultHelper.addDefaults(guiBookParam.getBook(), new Page(thisNumber).setBook(guiBookParam.getBook()));
                     guiBookParam.getBook().addPage(page);
                     guiBookParam.jumpToPageIfExists(thisNumber);
                 }

@@ -1,6 +1,6 @@
 package joshie.enchiridion.gui.book.buttons;
 
-import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.api.book.Page;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.gui.book.element.ImageElement;
@@ -19,14 +19,14 @@ public class ButtonInsertImage extends ButtonAbstract {
     }
 
     @Override
-    public void performAction(Object gui) {
-        GuiBook guiBook = (GuiBook) gui;
+    public void performAction(GuiBook guiBook) {
+        
         File file = FileCopier.copyFileFromUser(FileHelper.getImageSaveDirectory(guiBook.getBook()));
         if (file != null) {
             try {
                 String folderName = guiBook.getBook().getSaveName();
                 String modid = guiBook.getBook().getModID();
-                IPage current = guiBook.getPage();
+                Page current = guiBook.getPage();
                 String path = "";
                 if (modid == null || modid.equals("")) {
                     path = EInfo.MODID + ":images/" + folderName + "/" + file.getName();

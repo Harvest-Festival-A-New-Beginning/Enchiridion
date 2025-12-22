@@ -1,6 +1,6 @@
 package joshie.enchiridion.gui.book.features.script;
 
-import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.api.book.Page;
 import joshie.enchiridion.data.book.FeatureProvider;
 
 /**
@@ -9,9 +9,9 @@ import joshie.enchiridion.data.book.FeatureProvider;
  */
 public class FeatureJSWrapper {
     private final FeatureProvider feature;
-    private final IPage page;
+    private final Page page;
 
-    public FeatureJSWrapper(FeatureProvider feature, IPage page) {
+    public FeatureJSWrapper(FeatureProvider feature, Page page) {
         this.feature = feature;
         this.page = page;
     }
@@ -101,9 +101,9 @@ public class FeatureJSWrapper {
     }
 
     /**
-     * Get the raw IPage object (for advanced usage), may be null
+     * Get the raw Page object (for advanced usage), may be null
      */
-    public IPage getPage() {
+    public Page getPage() {
         return page;
     }
 }

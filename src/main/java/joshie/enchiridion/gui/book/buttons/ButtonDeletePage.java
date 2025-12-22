@@ -1,7 +1,7 @@
 package joshie.enchiridion.gui.book.buttons;
 
 import com.google.common.collect.Lists;
-import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.api.book.Page;
 import joshie.enchiridion.gui.book.GuiBook;
 
 import java.util.List;
@@ -13,9 +13,9 @@ public class ButtonDeletePage extends ButtonAbstract {
     }
 
     @Override
-    public void performAction(Object gui) {
-        GuiBook guiBook = (GuiBook) gui;
-        IPage currentPage = guiBook.getPage();
+    public void performAction(GuiBook guiBook) {
+        
+        Page currentPage = guiBook.getPage();
         int numberOfPages = guiBook.getBook().getPages().size();
         int pageNumber;
         if (numberOfPages > 1) {
@@ -29,8 +29,8 @@ public class ButtonDeletePage extends ButtonAbstract {
     }
 
     public int getPreviousPage(GuiBook guiBook) {
-        List<IPage> pages = guiBook.getBook().getPages();
-        List<Integer> numbersTemp = pages.stream().map(IPage::getPageNumber).sorted(Integer::compareTo).collect(Collectors.toList());
+        List<Page> pages = guiBook.getBook().getPages();
+        List<Integer> numbersTemp = pages.stream().map(Page::getPageNumber).sorted(Integer::compareTo).collect(Collectors.toList());
 
         List<Integer> numbers = Lists.reverse(numbersTemp);
         int number = guiBook.getPage().getPageNumber();

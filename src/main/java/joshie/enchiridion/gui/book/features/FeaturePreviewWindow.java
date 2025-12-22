@@ -9,7 +9,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.data.book.FeatureProvider;
-import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.api.book.Page;
 import joshie.enchiridion.api.gui.ISimpleEditorFieldProvider;
 import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
@@ -29,9 +29,9 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
     }));
 
     public int pageNumber;
-    public transient IPage page;
+    public transient Page page;
     public transient IBook book;
-    public transient IPage thisPage;
+    public transient Page thisPage;
     public transient boolean isDragging;
     public transient int startY;
 
@@ -60,7 +60,7 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
     }
 
     @Override
-    public void update(joshie.enchiridion.api.book.IPage page) {
+    public void update(joshie.enchiridion.api.book.Page page) {
         super.update(page);
         thisPage = getPage();
         book = getPage().getBook();

@@ -3,7 +3,7 @@ package joshie.enchiridion.data.book;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.book.IBook;
-import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.api.book.Page;
 import joshie.enchiridion.helpers.DefaultHelper;
 import joshie.enchiridion.helpers.MCClientHelper;
 import net.minecraft.resources.ResourceLocation;
@@ -78,7 +78,7 @@ public class Book implements ReloadableRegistry.PenguinRegistry<Book>, IBook {
     private boolean forgetPageOnClose;
 
     //Book itself
-    private List<IPage> book;
+    private List<Page> book;
     //Default Features UniqueIDs
     private List<String> defaultIDs;
 
@@ -234,7 +234,7 @@ public class Book implements ReloadableRegistry.PenguinRegistry<Book>, IBook {
     }
 
     @Override
-    public List<IPage> getPages() {
+    public List<Page> getPages() {
         return new ArrayList<>(book);
     }
 
@@ -317,12 +317,12 @@ public class Book implements ReloadableRegistry.PenguinRegistry<Book>, IBook {
     }
 
     @Override
-    public void addPage(IPage page) {
+    public void addPage(Page page) {
         book.add(page);
     }
 
     @Override
-    public void removePage(IPage page) {
+    public void removePage(Page page) {
         book.removeIf(iPage -> iPage.getPageNumber() == page.getPageNumber());
     }
 

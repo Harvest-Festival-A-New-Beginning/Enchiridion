@@ -1,25 +1,26 @@
 package joshie.enchiridion.api.gui;
 
+import joshie.enchiridion.gui.book.GuiBook;
 import net.minecraft.resources.ResourceLocation;
 
-public interface IToolbarButton {
+public abstract class IToolbarButton {
     /** @return the resource location for this button
      *  @param gui the current book GUI instance **/
-    ResourceLocation getResource(Object gui);
+    public abstract ResourceLocation getResource(GuiBook gui);
 
     /** @return the resource location for when this button is hovered over
      *  @param gui the current book GUI instance **/
-    ResourceLocation getHoverResource(Object gui);
+    public abstract ResourceLocation getHoverResource(GuiBook gui);
 
     /** On Click
      *  @param gui the current book GUI instance **/
-    void performAction(Object gui);
+    public abstract void performAction(GuiBook gui);
 
     /** @return the the tooltip text for hovering over this button
      *  @param gui the current book GUI instance **/
-    String getTooltipText(Object gui);
+    public abstract String getTooltipText(GuiBook gui);
 
     /** If this button is left aligned,
      *  otherwise it'll be assigned to the right instead  */
-    boolean isLeftAligned();
+    public abstract boolean isLeftAligned();
 }

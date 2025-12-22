@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.data.book.FeatureProvider;
-import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.api.book.Page;
 import joshie.enchiridion.api.recipe.IRecipeHandler;
 import joshie.enchiridion.helpers.StackHelper;
 import net.minecraft.client.gui.GuiGraphics;
@@ -126,7 +126,7 @@ public class FeatureRecipe extends FeatureProvider {
     }
 
     @Override
-    public void update(IPage page) {
+    public void update(Page page) {
         super.update(page);
 
         if (handler != null) {

@@ -9,7 +9,7 @@ import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IBookHelper;
 import joshie.enchiridion.data.book.FeatureProvider;
-import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.api.book.Page;
 import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.gui.book.features.FeaturePreviewWindow;
 import joshie.enchiridion.helpers.*;
@@ -45,7 +45,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
     private Set<AbstractGuiOverlay> overlays = new HashSet<>();
     private boolean isEditMode = false; // Whether we are in edit mode or not
     private IBook book; // The current book being displayed
-    private IPage page; // The current page being displayed
+    private Page page; // The current page being displayed
     private FeatureProvider selected; //Currently selected feature
     private Set<FeatureProvider> group = new HashSet<>(); //Groups?
     private Set<FeatureProvider> clipboard = new HashSet<>(); //Clipboard
@@ -425,7 +425,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
     }
 
     @Override
-    public IPage getPage() {
+    public Page getPage() {
         return page;
     }
 
@@ -471,7 +471,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public boolean jumpToPageIfExists(int number) {
-        for (IPage page : getBook().getPages()) {
+        for (Page page : getBook().getPages()) {
             if (page.getPageNumber() == number) {
                 simpleEditor.setEditor(null); //Reset the editor
                 TextEditor.INSTANCE.clearEditable();
@@ -493,8 +493,8 @@ public class GuiBook extends GuiBase implements IBookHelper {
     }
 
     @Override
-    public IPage getPageIfNotExists(int number) {
-        IPage page = JumpHelper.getPageByNumber(book, number);
+    public Page getPageIfNotExists(int number) {
+        Page page = JumpHelper.getPageByNumber(book, number);
         if (page == null) {
             page = new Page(number).setBook(book);
             book.addPage(page);

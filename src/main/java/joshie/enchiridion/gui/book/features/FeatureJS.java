@@ -102,7 +102,7 @@ public class FeatureJS extends FeatureProvider implements ITextEditable {
     }
 
     @Override
-    public void update(joshie.enchiridion.api.book.IPage page) {
+    public void update(joshie.enchiridion.api.book.Page page) {
         super.update(page);
         cachedWidth = getWidth();
         wrap = Math.max(50, (int) (cachedWidth / size) + 4);

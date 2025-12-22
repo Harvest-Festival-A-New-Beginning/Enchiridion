@@ -3,7 +3,7 @@ package joshie.enchiridion.gui.book.features;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.data.book.FeatureProvider;
-import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.api.book.Page;
 import joshie.enchiridion.helpers.MCClientHelper;
 import joshie.enchiridion.util.ITextEditable;
 import joshie.enchiridion.util.TextEditor;
@@ -54,7 +54,7 @@ public class FeatureText extends FeatureProvider implements ITextEditable {
     }
 
     @Override
-    public void update(IPage page) {
+    public void update(Page page) {
         super.update(page);
         cachedWidth = getWidth();
         wrap = Math.max(50, (int) (cachedWidth / size) + 4);

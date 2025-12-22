@@ -11,7 +11,7 @@ public interface IBookHelper {
     IBook getBook();
 
     /** Returns the current page being displayed **/
-    IPage getPage();
+    Page getPage();
 
     /** Returns the current feature that is selected **/
     FeatureProvider getSelected();
@@ -33,5 +33,5 @@ public interface IBookHelper {
      *  @param number the page number
      *  @return returns null if the page existed,
      *  returns the page if it was created*/
-    IPage getPageIfNotExists(int number);
+    Page getPageIfNotExists(int number);
 }

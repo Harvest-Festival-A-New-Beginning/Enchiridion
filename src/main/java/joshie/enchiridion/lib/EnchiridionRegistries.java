@@ -96,20 +96,44 @@ public class EnchiridionRegistries {
                 return new FeatureProvider(new joshie.enchiridion.gui.book.element.ShapeElement(shape, colorI, filled), 0, 0, 0, 0);
             })));
 
+        public static final Holder<Codec<? extends FeatureProvider>> ERROR = FEATURE_TYPES.register("error", () ->
+            RecordCodecBuilder.create(instance -> instance.group(
+                Codec.STRING.optionalFieldOf("error", "Error").forGetter(f -> "Error")
+            ).apply(instance, (error) -> new FeatureProvider(new joshie.enchiridion.gui.book.element.ErrorElement(error), 0, 0, 0, 0))));
+
+        public static final Holder<Codec<? extends FeatureProvider>> FLUID = FEATURE_TYPES.register("fluid", () ->
+            RecordCodecBuilder.create(instance -> instance.group(
+                net.minecraft.resources.ResourceLocation.CODEC.fieldOf("fluid").forGetter(f -> new net.minecraft.resources.ResourceLocation("minecraft:water")),
+                Codec.INT.optionalFieldOf("amount", 1000).forGetter(f -> 1000)
+            ).apply(instance, (fluid, amount) -> new FeatureProvider(new joshie.enchiridion.gui.book.element.FluidElement(fluid, amount), 0, 0, 0, 0))));
+
+        public static final Holder<Codec<? extends FeatureProvider>> ITEM = FEATURE_TYPES.register("item", () ->
+            RecordCodecBuilder.create(instance -> instance.group(
+                Codec.STRING.optionalFieldOf("item_string", "").forGetter(f -> "")
+            ).apply(instance, (itemString) -> new FeatureProvider(new joshie.enchiridion.gui.book.element.ItemElement(itemString), 0, 0, 0, 0))));
+
+        public static final Holder<Codec<? extends FeatureProvider>> IMAGE = FEATURE_TYPES.register("image", () ->
+            RecordCodecBuilder.create(instance -> instance.group(
+                Codec.STRING.optionalFieldOf("path", "").forGetter(f -> "")
+            ).apply(instance, (path) -> {
+                net.minecraft.resources.ResourceLocation resource = new net.minecraft.resources.ResourceLocation(path);
+                return new FeatureProvider(new joshie.enchiridion.gui.book.element.ImageElement(resource), 0, 0, 0, 0);
+            })));
+
+        // Non-visual features - use EmptyElement
+        public static final Holder<Codec<? extends FeatureProvider>> SOUND = FEATURE_TYPES.register("sound", () ->
+            Codec.unit(() -> new FeatureProvider(joshie.enchiridion.gui.book.element.EmptyElement.INSTANCE, 0, 0, 0, 0)));
+
+        public static final Holder<Codec<? extends FeatureProvider>> JUMP = FEATURE_TYPES.register("jump", () ->
+            Codec.unit(() -> new FeatureProvider(joshie.enchiridion.gui.book.element.EmptyElement.INSTANCE, 0, 0, 0, 0)));
+
         // Features with special behavior - keep wrapper classes
         public static final Holder<Codec<? extends FeatureProvider>> TEXT = FEATURE_TYPES.register("text", () -> FeatureText.CODEC);
-        public static final Holder<Codec<? extends FeatureProvider>> IMAGE = FEATURE_TYPES.register("image", () -> FeatureImage.CODEC);
-        public static final Holder<Codec<? extends FeatureProvider>> ITEM = FEATURE_TYPES.register("item", () -> FeatureItem.CODEC);
-        public static final Holder<Codec<? extends FeatureProvider>> ICON = FEATURE_TYPES.register("icon", () -> FeatureIcon.CODEC);
-        public static final Holder<Codec<? extends FeatureProvider>> RECIPE = FEATURE_TYPES.register("recipe", () -> FeatureRecipe.CODEC);
         public static final Holder<Codec<? extends FeatureProvider>> BUTTON = FEATURE_TYPES.register("button", () -> FeatureButton.CODEC);
-        public static final Holder<Codec<? extends FeatureProvider>> LINE = FEATURE_TYPES.register("line", () -> FeatureLine.CODEC);
-        public static final Holder<Codec<? extends FeatureProvider>> SHAPE = FEATURE_TYPES.register("shape", () -> FeatureShape.CODEC);
+        public static final Holder<Codec<? extends FeatureProvider>> RECIPE = FEATURE_TYPES.register("recipe", () -> FeatureRecipe.CODEC);
         public static final Holder<Codec<? extends FeatureProvider>> ENTITY = FEATURE_TYPES.register("entity", () -> FeatureEntity.CODEC);
         public static final Holder<Codec<? extends FeatureProvider>> JS = FEATURE_TYPES.register("js", () -> FeatureJS.CODEC);
-        public static final Holder<Codec<? extends FeatureProvider>> FLUID = FEATURE_TYPES.register("fluid", () -> FeatureFluid.CODEC);
         public static final Holder<Codec<? extends FeatureProvider>> MODEL = FEATURE_TYPES.register("model", () -> FeatureModel.CODEC);
-        public static final Holder<Codec<? extends FeatureProvider>> SOUND = FEATURE_TYPES.register("sound", () -> FeatureSound.CODEC);
         public static final Holder<Codec<? extends FeatureProvider>> PREVIEW_WINDOW = FEATURE_TYPES.register("preview_window", () -> FeaturePreviewWindow.CODEC);
     }
 

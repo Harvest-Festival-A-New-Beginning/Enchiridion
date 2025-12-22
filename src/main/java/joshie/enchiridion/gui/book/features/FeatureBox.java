@@ -7,10 +7,10 @@ import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
 import joshie.enchiridion.gui.book.GuiSimpleEditorColor;
+import joshie.enchiridion.gui.book.element.BoxElement;
 import joshie.enchiridion.util.IColorable;
-import net.minecraft.client.gui.GuiGraphics;
 
-public class FeatureBox extends joshie.enchiridion.data.book.FeatureProvider implements IColorable {
+public class FeatureBox extends FeatureProvider implements IColorable {
     public static final Codec<FeatureBox> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.STRING.optionalFieldOf("color", "FFFFFFFF").forGetter(f -> f.color)
     ).apply(instance, (color) -> {
@@ -74,11 +74,8 @@ public class FeatureBox extends joshie.enchiridion.data.book.FeatureProvider imp
     public void update(joshie.enchiridion.api.book.IPage page) {
         super.update(page);
         attemptToParseColor();
-    }
-
-    @Override
-    protected void drawFeature(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        guiGraphics.fill(getX(), getY(), getRight(), getBottom(), colorI);
+        // Update element with parsed color
+        this.element = new BoxElement(colorI);
     }
 
     @Override
@@ -92,7 +89,10 @@ public class FeatureBox extends joshie.enchiridion.data.book.FeatureProvider imp
         this.color = color;
         if (attemptToParseColor()) {
             this.color = color;
-        } else this.color = previous;
+            this.element = new BoxElement(colorI);
+        } else {
+            this.color = previous;
+        }
     }
 
     @Override

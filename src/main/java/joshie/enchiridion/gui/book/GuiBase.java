@@ -36,8 +36,8 @@ public class GuiBase extends Book implements IDrawHelper {
 
     @Override
     public void render(GuiGraphics guiGraphics, int x2, int y2, float partialTicks) {
-        // leftPos and topPos are set by parent AbstractContainerScreen.init()
         TOOLTIP.clear();
+        super.render(guiGraphics, x2, y2, partialTicks);
     }
 
     @Override

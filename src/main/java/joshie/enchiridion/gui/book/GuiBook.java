@@ -282,7 +282,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     private transient boolean wasControlPressedBefore = false;
 
-    public void selectLayer(FeatureProvider feature) {
+    public void selectLayer(FeatureProvider feature, int mouseX, int mouseY) {
         if (selected != null) selected.deselect();
         selected = feature;
         selected.select(mouseX, mouseY + page.getScroll());
@@ -308,6 +308,10 @@ public class GuiBook extends GuiBase implements IBookHelper {
     @Override
     public boolean mouseClicked(double x, double y, int mouseButton) {
         super.mouseClicked(x, y, mouseButton);
+        // Convert screen coordinates to GUI-relative coordinates
+        int mouseX = (int) x - leftPos;
+        int mouseY = (int) y - topPos;
+
         //Perform clicks for the overlays
         if (isEditMode) {
             for (AbstractGuiOverlay overlay : overlays) {
@@ -321,7 +325,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
         for (FeatureProvider feature : page.getFeatures()) {
             if (feature.mouseClicked(mouseX, mouseY + page.getScroll(), mouseButton, this)) {
                 if (isEditMode && mouseButton == 0) {
-                    selectLayer(feature);
+                    selectLayer(feature, mouseX, mouseY);
                 }
                 return false;
             }
@@ -338,6 +342,10 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public boolean mouseReleased(double x, double y, int button) {
+        // Convert screen coordinates to GUI-relative coordinates
+        int mouseX = (int) x - leftPos;
+        int mouseY = (int) y - topPos;
+
         isGroupMoveMode = false;
         for (FeatureProvider provider : page.getFeatures()) {
             provider.mouseReleased(mouseX, mouseY + page.getScroll(), button);
@@ -354,6 +362,10 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public boolean mouseDragged(double mX, double mY, int p_mouseDragged_5_, double p_mouseDragged_6_, double p_mouseDragged_8_) {
+        // Convert screen coordinates to GUI-relative coordinates
+        int mouseX = (int) mX - leftPos;
+        int mouseY = (int) mY - topPos;
+
         if (!layers.isDragging()) {
             for (FeatureProvider provider : group) {
                 provider.follow(mouseX, mouseY + page.getScroll(), isGroupMoveMode, this);
@@ -364,6 +376,10 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public boolean mouseScrolled(double mX, double mY, double deltaX, double deltaY) {
+        // Convert screen coordinates to GUI-relative coordinates
+        int mouseX = (int) mX - leftPos;
+        int mouseY = (int) mY - topPos;
+
         if (deltaY != 0) {
             boolean down = deltaY < 0;
             if (isEditMode) {

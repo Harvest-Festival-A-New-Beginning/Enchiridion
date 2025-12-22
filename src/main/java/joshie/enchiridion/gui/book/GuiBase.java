@@ -20,8 +20,9 @@ import java.util.List;
 
 public class GuiBase extends Book implements IDrawHelper {
     public final List<String> TOOLTIP = new ArrayList<>();
-    public int mouseX = 0;
-    public int mouseY = 0;
+    // Mouse position cache for IDrawHelper methods (populated from render())
+    protected int mouseX = 0;
+    protected int mouseY = 0;
     private int renderX;
     private int renderY;
     private double renderWidth;
@@ -36,18 +37,11 @@ public class GuiBase extends Book implements IDrawHelper {
 
     @Override
     public void render(GuiGraphics guiGraphics, int x2, int y2, float partialTicks) {
+        // Cache mouse position for IDrawHelper methods
+        this.mouseX = x2;
+        this.mouseY = y2;
         TOOLTIP.clear();
         super.render(guiGraphics, x2, y2, partialTicks);
-    }
-
-    @Override
-    public void mouseMoved(double mX, double mY) {
-        Minecraft mc = Minecraft.getInstance();
-        final double x = mc.mouseHandler.xpos() * ((double) mc.getWindow().getGuiScaledWidth() / mc.getWindow().getScreenWidth());
-        final double y = mc.mouseHandler.ypos() * ((double) mc.getWindow().getGuiScaledHeight() / mc.getWindow().getScreenHeight());
-
-        mouseX = (int) (x - (width - imageWidth) / 2);
-        mouseY = (int) (y - (height - imageHeight) / 2);
     }
 
     @Override

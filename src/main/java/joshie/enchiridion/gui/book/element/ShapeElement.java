@@ -126,4 +126,9 @@ public class ShapeElement implements FeatureElement {
     public Codec<? extends FeatureElement> codec() {
         return CODEC;
     }
+
+    @Override
+    public FeatureElement copy() {
+        return new ShapeElement(shape, color, filled);
+    }
 }

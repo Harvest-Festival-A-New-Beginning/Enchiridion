@@ -43,6 +43,11 @@ public class ItemElement implements FeatureElement {
         return CODEC;
     }
 
+    @Override
+    public FeatureElement copy() {
+        return new ItemElement(itemString);
+    }
+
     public String getItemString() {
         return itemString;
     }

@@ -112,12 +112,16 @@ public class FeatureProvider extends AbstractWidget {
     public void update(Page page) {
         this.pageContainer = page;
         this.pageContainer.sort();
-        // Subclasses can override if they need custom update logic
+        // Delegate to element for element-specific update logic
+        if (element != null) {
+            element.onUpdate(page);
+        }
     }
 
-    /** Create a copy of this feature - subclasses should override for proper copying */
+    /** Create a copy of this feature - delegates to element if present */
     public FeatureProvider copy() {
-        FeatureProvider copy = new FeatureProvider(element, 0, 0, getWidth(), getHeight());
+        FeatureElement copiedElement = element != null ? element.copy() : null;
+        FeatureProvider copy = new FeatureProvider(copiedElement, 0, 0, getWidth(), getHeight());
         copy.isLocked = this.isLocked;
         copy.visible = this.visible;
         copy.isFromTemplate = this.isFromTemplate;
@@ -181,24 +185,25 @@ public class FeatureProvider extends AbstractWidget {
     }
 
     public void addTooltip(List<String> tooltip, int mouseX, int mouseY) {
-        // Default implementation - subclasses can override
+        // Delegate to element if present
+        if (element != null) {
+            element.addTooltip(tooltip, mouseX, mouseY);
+        }
     }
 
     public boolean keyTyped(char character, int key, Object gui) {
         joshie.enchiridion.gui.book.GuiBook guiBook = (joshie.enchiridion.gui.book.GuiBook) gui;
         if (isEditing) {
-            handleKeyTyped(character, key);
+            // Delegate to element if present
+            if (element != null && element.onKeyPress(character, key, gui)) {
+                return true;
+            }
         } else if (isSelected && key == 211 && !TextEditor.INSTANCE.isEditing()) {
             guiBook.getSimpleEditor().setEditor(null); //Reset the editor
             TextEditor.INSTANCE.clearEditable();
             return true;
         }
         return false;
-    }
-
-    // Hook for subclasses to handle key input when editing
-    protected void handleKeyTyped(char character, int key) {
-        // Default implementation - subclasses can override
     }
 
 
@@ -211,12 +216,15 @@ public class FeatureProvider extends AbstractWidget {
         if (!EventHelper.isFeatureVisible(getPage(), isVisible(), layerIndex)) return false;
         if (isOverFeature(mouseX, mouseY)) {
             if (button == 0 && guiBook.isEditMode() && !isLocked()) {
-                isEditing = getAndSetEditMode(guiBook);
+                // Delegate to element for edit mode handling
+                isEditing = element != null ? element.enterEditMode(guiBook) : false;
             }
 
-            //Perform clicks
+            //Perform clicks - delegate to element
             if (!guiBook.isEditMode() || button != 0) {
-                if (performClick(mouseX, mouseY, button, guiBook)) return true;
+                if (element != null && element.onClick(mouseX, mouseY, button, guiBook)) {
+                    return true;
+                }
             }
 
             return !isLocked;
@@ -234,7 +242,10 @@ public class FeatureProvider extends AbstractWidget {
         dragBottomRight = false;
 
         if (!EventHelper.isFeatureVisible(getPage(), isVisible(), layerIndex)) return;
-        performRelease(mouseX, mouseY, button);
+        // Delegate to element
+        if (element != null) {
+            element.onRelease(mouseX, mouseY, button);
+        }
     }
 
     
@@ -268,13 +279,19 @@ public class FeatureProvider extends AbstractWidget {
         dragTopRight = false;
         dragBottomLeft = false;
         dragBottomRight = false;
-        onDeselected();
+        // Delegate to element
+        if (element != null) {
+            element.onDeselected();
+        }
     }
 
-    
+
     public void scroll(int mouseX, int mouseY, boolean down) {
         if (isOverFeature(mouseX, mouseY)) {
-            scroll(down, 10);
+            // Delegate to element
+            if (element != null) {
+                element.onScroll(down, 10);
+            }
         }
     }
 
@@ -460,33 +477,19 @@ public class FeatureProvider extends AbstractWidget {
         this.isFromTemplate = b;
     }
 
-    // ===== Feature default implementations =====
-
-    public boolean getAndSetEditMode(Object gui) {
-        return false;
-    }
-
-    public boolean performClick(int mouseX, int mouseY, int button, Object gui) {
-        return false;
-    }
-
-    public void performRelease(int mouseX, int mouseY, int button) {
-    }
-
-    public void follow(int mouseX, int mouseY, Object gui) {
-    }
-
-    public void scroll(boolean down, int amount) {
-    }
-
-    public void onDeselected() {
-    }
-
+    /**
+     * Get the display name for this feature (for layers panel)
+     * Delegates to element if present
+     */
     public String getName() {
-        return getClass().getSimpleName();
+        return element != null ? element.getName() : getClass().getSimpleName();
     }
 
-    /** Get codec for this feature - subclasses should override */
+    /**
+     * Get codec for this feature
+     * For legacy features that extend FeatureProvider, subclasses must override
+     * For element-based features, this will be handled by the registry dispatch codec
+     */
     public Codec<? extends FeatureProvider> codec() {
         throw new UnsupportedOperationException("Feature must provide codec: " + getClass().getName());
     }

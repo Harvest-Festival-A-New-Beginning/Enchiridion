@@ -40,4 +40,9 @@ public class ButtonElement implements FeatureElement {
     public Codec<? extends FeatureElement> codec() {
         return CODEC;
     }
+
+    @Override
+    public FeatureElement copy() {
+        return new ButtonElement(textureNormal, textureHover);
+    }
 }

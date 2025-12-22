@@ -31,6 +31,11 @@ public class ImageElement implements FeatureElement {
         return CODEC;
     }
 
+    @Override
+    public FeatureElement copy() {
+        return new ImageElement(resource);
+    }
+
     public ResourceLocation getResource() {
         return resource;
     }

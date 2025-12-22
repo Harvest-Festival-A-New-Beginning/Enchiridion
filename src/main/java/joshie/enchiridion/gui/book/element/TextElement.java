@@ -54,6 +54,11 @@ public class TextElement implements FeatureElement {
         return CODEC;
     }
 
+    @Override
+    public FeatureElement copy() {
+        return new TextElement(text, size, color);
+    }
+
     public String getText() {
         return text;
     }

@@ -24,4 +24,9 @@ public class EmptyElement implements FeatureElement {
     public Codec<? extends FeatureElement> codec() {
         return CODEC;
     }
+
+    @Override
+    public FeatureElement copy() {
+        return INSTANCE;
+    }
 }

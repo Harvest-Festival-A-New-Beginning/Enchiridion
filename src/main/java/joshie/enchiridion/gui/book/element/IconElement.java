@@ -32,6 +32,11 @@ public class IconElement implements FeatureElement {
         return CODEC;
     }
 
+    @Override
+    public FeatureElement copy() {
+        return new IconElement(icon);
+    }
+
     public Icon getIcon() {
         return icon;
     }

@@ -47,6 +47,11 @@ public class LineElement implements FeatureElement {
         return CODEC;
     }
 
+    @Override
+    public FeatureElement copy() {
+        return new LineElement(x2, y2, thickness, color);
+    }
+
     public int getX2() {
         return x2;
     }

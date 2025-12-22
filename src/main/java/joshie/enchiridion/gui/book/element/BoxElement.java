@@ -31,6 +31,11 @@ public class BoxElement implements FeatureElement {
         return CODEC;
     }
 
+    @Override
+    public FeatureElement copy() {
+        return new BoxElement(color);
+    }
+
     public int getColor() {
         return color;
     }

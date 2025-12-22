@@ -7,6 +7,7 @@ import joshie.enchiridion.api.book.Page;
 import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.gui.book.GuiGrid;
 import joshie.enchiridion.gui.book.GuiSimpleEditor;
+import joshie.enchiridion.gui.book.GuiSimpleEditorAbstract;
 import joshie.enchiridion.gui.book.element.FeatureElement;
 import joshie.enchiridion.helpers.EventHelper;
 import joshie.enchiridion.lib.EnchiridionRegistries;
@@ -216,7 +217,13 @@ public class FeatureProvider extends AbstractWidget {
         if (isOverFeature(mouseX, mouseY)) {
             if (button == 0 && guiBook.isEditMode() && !isLocked()) {
                 // Delegate to element for edit mode handling
-                isEditing = element != null ? element.enterEditMode(guiBook) : false;
+                if (element != null) {
+                    GuiSimpleEditorAbstract editor = element.getEditor(guiBook);
+                    if (editor != null) {
+                        guiBook.getSimpleEditor().setEditor(editor);
+                        isEditing = true;
+                    }
+                }
             }
 
             //Perform clicks - delegate to element

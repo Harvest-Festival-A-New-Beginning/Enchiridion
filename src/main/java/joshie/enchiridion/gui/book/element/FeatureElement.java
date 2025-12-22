@@ -3,6 +3,7 @@ package joshie.enchiridion.gui.book.element;
 import com.mojang.serialization.Codec;
 import joshie.enchiridion.api.book.Page;
 import joshie.enchiridion.gui.book.GuiBook;
+import joshie.enchiridion.gui.book.GuiSimpleEditorAbstract;
 import net.minecraft.client.gui.GuiGraphics;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -69,10 +70,12 @@ public interface FeatureElement {
     /**
      * Enter edit mode for this element
      * @param guiBook The GuiBook instance
-     * @return true if element has special edit mode (yellow corners), false for normal selection (blue corners)
+     * @return The editor to use, or null for normal selection (blue corners).
+     *         Non-null editor shows yellow corners and opens the editor panel.
      */
-    default boolean enterEditMode(GuiBook guiBook) {
-        return false;
+    @Nullable
+    default GuiSimpleEditorAbstract getEditor(GuiBook guiBook) {
+        return null;
     }
 
     /**

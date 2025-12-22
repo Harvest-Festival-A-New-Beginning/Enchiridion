@@ -2,8 +2,9 @@ package joshie.enchiridion.gui.book.buttons;
 
 import joshie.enchiridion.EConfig;
 import joshie.enchiridion.api.book.Page;
+import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.gui.book.GuiBook;
-import joshie.enchiridion.gui.book.features.FeatureRecipe;
+import joshie.enchiridion.gui.book.element.RecipeElement;
 
 public class ButtonInsertRecipe extends ButtonAbstract {
     public ButtonInsertRecipe() {
@@ -13,7 +14,8 @@ public class ButtonInsertRecipe extends ButtonAbstract {
     @Override
     public void performAction(GuiBook guiBook) {
         Page current = guiBook.getPage();
-        FeatureRecipe feature = new FeatureRecipe(EConfig.getDefaultItem());
+        RecipeElement element = new RecipeElement(EConfig.getDefaultItem());
+        FeatureProvider feature = new FeatureProvider(element, 0, current.getScroll(), 160, 80);
         current.addFeature(feature, 0, current.getScroll(), 160D, 80D, false, false, false);
     }
 }

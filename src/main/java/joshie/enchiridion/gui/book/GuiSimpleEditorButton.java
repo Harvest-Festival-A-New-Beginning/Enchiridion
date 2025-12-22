@@ -6,7 +6,7 @@ import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IButtonAction;
 
 import joshie.enchiridion.gui.book.GuiSimpleEditorGeneric.WrappedEditable;
-import joshie.enchiridion.gui.book.features.FeatureButton;
+import joshie.enchiridion.gui.book.element.ActionButtonElement;
 import joshie.enchiridion.helpers.FileCopier;
 import joshie.enchiridion.helpers.FileHelper;
 import joshie.enchiridion.lib.EInfo;
@@ -36,7 +36,7 @@ public class GuiSimpleEditorButton extends GuiSimpleEditorAbstract {
     private ArrayList<IButtonAction> sorted = new ArrayList<>();
     private HashMap<String, WrappedEditable> fieldCache = new HashMap<>();
     private HashMap<Object, String[]> fieldNameCache = new HashMap<>();
-    private FeatureButton button = null;
+    private ActionButtonElement button = null;
 
     protected GuiSimpleEditorButton() {
     }
@@ -45,7 +45,7 @@ public class GuiSimpleEditorButton extends GuiSimpleEditorAbstract {
         actions.add(action);
     }
 
-    public AbstractGuiOverlay setButton(FeatureButton button) {
+    public AbstractGuiOverlay setButton(ActionButtonElement button) {
         this.button = button;
         this.fieldCache = new HashMap<>();
         this.fieldNameCache = new HashMap<>();

@@ -40,19 +40,19 @@ public class ActionButtonElement implements FeatureElement {
         // action field will be added when IButtonAction codec system is complete
     ).apply(instance, ActionButtonElement::new));
 
-    private final ResourceLocation textureNormal;
-    private final ResourceLocation textureHover;
+    private ResourceLocation textureNormal;
+    private ResourceLocation textureHover;
     private float size;
-    private final boolean leftClick;
-    private final boolean rightClick;
-    private final boolean otherClick;
-    private final String tooltip;
-    private final String hoverText;
-    private final int hoverXOffset;
-    private final int hoverYOffset;
-    private final String unhoveredText;
-    private final int unhoveredXOffset;
-    private final int unhoveredYOffset;
+    private boolean leftClick;
+    private boolean rightClick;
+    private boolean otherClick;
+    private String tooltip;
+    private String hoverText;
+    private int hoverXOffset;
+    private int hoverYOffset;
+    private String unhoveredText;
+    private int unhoveredXOffset;
+    private int unhoveredYOffset;
 
     private transient IButtonAction action;
     private transient boolean isInit = false;
@@ -165,9 +165,8 @@ public class ActionButtonElement implements FeatureElement {
     }
 
     @Override
-    public boolean enterEditMode(GuiBook guiBook) {
-        guiBook.getSimpleEditor().setEditor(GuiSimpleEditorButton.INSTANCE.setButton(this));
-        return true;
+    public GuiSimpleEditorAbstract getEditor(GuiBook guiBook) {
+        return GuiSimpleEditorButton.INSTANCE.setButton(this);
     }
 
     @Override
@@ -218,5 +217,18 @@ public class ActionButtonElement implements FeatureElement {
 
     public String getUnhoveredText() {
         return unhoveredText;
+    }
+
+    // Setters for editor
+    public void setResourceLocation(boolean isHovered, ResourceLocation resource) {
+        if (isHovered) {
+            textureHover = resource;
+        } else {
+            textureNormal = resource;
+        }
+    }
+
+    public ResourceLocation getResource(boolean isHovered) {
+        return isHovered ? textureHover : textureNormal;
     }
 }

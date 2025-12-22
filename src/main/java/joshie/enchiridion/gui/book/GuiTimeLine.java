@@ -65,8 +65,8 @@ public class GuiTimeLine extends AbstractGuiOverlay {
 
     @Override
     public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY, GuiBook guiBookParam) {
-        int offsetX = guiBook.leftPos;
-        int offsetY = guiBook.topPos;
+        int offsetX = guiBook.getLeftPos();
+        int offsetY = guiBook.getTopPos();
 
         // Draw TOOLBAR image
         int left = -9;

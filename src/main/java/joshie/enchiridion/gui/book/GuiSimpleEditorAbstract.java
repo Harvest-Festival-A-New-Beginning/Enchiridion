@@ -17,8 +17,8 @@ public abstract class GuiSimpleEditorAbstract extends AbstractGuiOverlay {
         int bottom = EConfig.SETTINGS.toolbarYPos.get() + y2;
         int w = right - left;
         int h = bottom - top;
-        int offsetX = guiBook.leftPos;
-        int offsetY = guiBook.topPos;
+        int offsetX = guiBook.getLeftPos();
+        int offsetY = guiBook.getTopPos();
         guiGraphics.blit(location, offsetX + left, offsetY + top, 0, 0, w, h, w, h);
     }
 
@@ -27,8 +27,8 @@ public abstract class GuiSimpleEditorAbstract extends AbstractGuiOverlay {
         int top = EConfig.SETTINGS.toolbarYPos.get() + y;
         int right = EConfig.SETTINGS.editorXPos + x2;
         int bottom = EConfig.SETTINGS.toolbarYPos.get() + y2;
-        int offsetX = guiBook.leftPos;
-        int offsetY = guiBook.topPos;
+        int offsetX = guiBook.getLeftPos();
+        int offsetY = guiBook.getTopPos();
         guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + bottom, colorI);
         guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + top + 1, colorB);
         guiGraphics.fill(offsetX + left, offsetY + bottom - 1, offsetX + right, offsetY + bottom, colorB);
@@ -41,16 +41,16 @@ public abstract class GuiSimpleEditorAbstract extends AbstractGuiOverlay {
         int top = EConfig.SETTINGS.toolbarYPos.get() + y;
         int right = EConfig.SETTINGS.editorXPos + x2;
         int bottom = EConfig.SETTINGS.toolbarYPos.get() + y2;
-        int offsetX = guiBook.leftPos;
-        int offsetY = guiBook.topPos;
+        int offsetX = guiBook.getLeftPos();
+        int offsetY = guiBook.getTopPos();
         guiGraphics.fill(offsetX + left, offsetY + top, offsetX + right, offsetY + bottom, colorI);
     }
 
     public void drawSplitScaledString(GuiGraphics guiGraphics, String text, int x, int y, int color, float scale, GuiBook guiBook) {
         int left = EConfig.SETTINGS.editorXPos + x;
         int top = EConfig.SETTINGS.toolbarYPos.get() + y;
-        int offsetX = guiBook.leftPos;
-        int offsetY = guiBook.topPos;
+        int offsetX = guiBook.getLeftPos();
+        int offsetY = guiBook.getTopPos();
         PoseStack poseStack = guiGraphics.pose();
         poseStack.pushPose();
         poseStack.translate(offsetX, offsetY, 0);

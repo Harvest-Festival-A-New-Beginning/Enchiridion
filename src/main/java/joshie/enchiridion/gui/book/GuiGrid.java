@@ -58,8 +58,8 @@ public class GuiGrid extends AbstractGuiOverlay {
     @Override
     public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY, GuiBook guiBookParam) {
         if (isActivated()) {
-            int offsetX = guiBook.leftPos;
-            int offsetY = guiBook.topPos;
+            int offsetX = guiBook.getLeftPos();
+            int offsetY = guiBook.getTopPos();
 
             if (pixelGrid) {
                 int xOffset = -1;

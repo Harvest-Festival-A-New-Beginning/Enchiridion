@@ -88,6 +88,15 @@ public class GuiBook extends GuiBase implements IBookHelper {
         return simpleEditor;
     }
 
+    // Public getters for protected position fields (needed by overlay classes)
+    public int getLeftPos() {
+        return leftPos;
+    }
+
+    public int getTopPos() {
+        return topPos;
+    }
+
     public GuiTimeLine getTimeLine() {
         return timeLine;
     }
@@ -170,7 +179,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
         // Render tooltips if any
         if (!TOOLTIP.isEmpty()) {
-            guiGraphics.renderTooltip(this.font, TOOLTIP.stream().map(Component::literal).toList(), x2, y2);
+            guiGraphics.renderTooltip(this.font, TOOLTIP.stream().map(s -> Component.literal(s).getVisualOrderText()).toList(), x2, y2);
         }
     }
 

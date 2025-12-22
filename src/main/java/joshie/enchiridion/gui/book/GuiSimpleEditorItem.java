@@ -36,8 +36,8 @@ public class GuiSimpleEditorItem extends AbstractGuiOverlay {
 
     @Override
     public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY, GuiBook guiBook) {
-        int offsetX = guiBook.leftPos;
-        int offsetY = guiBook.topPos;
+        int offsetX = guiBook.getLeftPos();
+        int offsetY = guiBook.getTopPos();
         int backgroundColor = 0xFFB0A483; //0xFF48453C
         int fontColor = 0xCE48433D;
         if (mouseX >= EConfig.SETTINGS.editorXPos + 2 && mouseX <= EConfig.SETTINGS.editorXPos + 83) {

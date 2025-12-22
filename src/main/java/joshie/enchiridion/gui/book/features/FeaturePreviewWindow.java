@@ -146,30 +146,20 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
             int scale = (int) Minecraft.getInstance().getWindow().getGuiScale();
             GL11.glEnable(GL11.GL_SCISSOR_TEST);
             RenderSystem.clear(GlConst.GL_DEPTH_BUFFER_BIT, false);
-            GL11.glScissor((guiBook.leftPos + getX()) * scale, (int) (guiBook.topPos + 217 - getY() - getHeight()) * scale, (int) getWidth() * scale, (int) getHeight() * scale);
+            GL11.glScissor((guiBook.getLeftPos() + getX()) * scale, (int) (guiBook.getTopPos() + 217 - getY() - getHeight()) * scale, (int) getWidth() * scale, (int) getHeight() * scale);
 
             for (FeatureProvider feature : Lists.reverse(page.getFeatures())) {
                 if (feature instanceof FeaturePreviewWindow) continue; //No Cascading
-                int y = guiBook.topPos;
-                if (page.getScroll() > 0) {
-                    guiBook.topPos -= page.getScroll();
-                }
+                // Note: Directly manipulating guiBook position is problematic since topPos is protected
+                // TODO: This rendering approach needs refactoring - should not modify parent GUI position
 
                 boolean isMouseHovering = isOverFeature(xMouse, yMouse);
                 int mouseX = isMouseHovering ? xMouse : Short.MAX_VALUE;
                 int mouseY = isMouseHovering ? yMouse + page.getScroll() : Short.MAX_VALUE;
-                int originalY = yMouse;
-                if (isMouseHovering) {
-                    yMouse = yMouse + page.getScroll();
-                }
 
                 feature.draw(mouseX, mouseY);
                 feature.addTooltip(guiBook.TOOLTIP, mouseX, mouseY);
-                if (isMouseHovering) {
-                    yMouse = originalY;
-                }
 
-                guiBook.topPos = y;
                 RenderSystem.clear(GlConst.GL_DEPTH_BUFFER_BIT, false);
             }
 

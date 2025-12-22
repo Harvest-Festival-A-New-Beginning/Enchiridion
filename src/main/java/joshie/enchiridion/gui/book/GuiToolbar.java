@@ -31,8 +31,8 @@ public class GuiToolbar extends AbstractGuiOverlay {
 
     @Override
     public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY, GuiBook guiBookParam) {
-        int offsetX = guiBook.x;
-        int offsetY = guiBook.y;
+        int offsetX = guiBook.leftPos;
+        int offsetY = guiBook.topPos;
 
         //Draw toolbar background
         int left = -10;

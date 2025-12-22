@@ -135,6 +135,10 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public void render(GuiGraphics guiGraphics, int x2, int y2, float partialTicks) {
+        // Convert screen coordinates to GUI-relative coordinates
+        int mouseX = x2 - leftPos;
+        int mouseY = y2 - topPos;
+
         // Update feature positions before rendering (handles scroll offset)
         if (page != null) {
             int bookX = this.leftPos;
@@ -164,8 +168,10 @@ public class GuiBook extends GuiBase implements IBookHelper {
             }
         }
 
-        Minecraft mc = Minecraft.getInstance();
-        renderTooltip(TOOLTIP, x2, y2, mc.font);
+        // Render tooltips if any
+        if (!TOOLTIP.isEmpty()) {
+            guiGraphics.renderTooltip(this.font, TOOLTIP.stream().map(Component::literal).toList(), x2, y2);
+        }
     }
 
     @Override

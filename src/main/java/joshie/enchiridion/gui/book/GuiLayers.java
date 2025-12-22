@@ -42,8 +42,8 @@ public class GuiLayers extends AbstractGuiOverlay {
 
     @Override
     public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY, GuiBook guiBookParam) {
-        int offsetX = guiBook.x;
-        int offsetY = guiBook.y;
+        int offsetX = guiBook.leftPos;
+        int offsetY = guiBook.topPos;
 
         // Draw SIDEBAR image
         int left = EConfig.SETTINGS.layersXPos.get() - 3;
@@ -247,7 +247,7 @@ public class GuiLayers extends AbstractGuiOverlay {
             if (!provider.isLocked() && isOverLayer(layerY, mouseX, mouseY)) {
                 yStart = mouseY;
                 dragged = features.get(i);
-                guiBook.selectLayer(dragged);
+                guiBook.selectLayer(dragged, mouseX, mouseY);
                 return true;
             }
         }

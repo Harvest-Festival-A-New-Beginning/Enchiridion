@@ -125,9 +125,11 @@ public abstract class RecipeHandlerRecipeBase extends RecipeHandlerBase {
         if (!(gui instanceof joshie.enchiridion.gui.book.GuiBook)) return;
         joshie.enchiridion.gui.book.GuiBook guiBook = (joshie.enchiridion.gui.book.GuiBook) gui;
 
-        com.mojang.blaze3d.systems.RenderSystem.setShaderTexture(0, LOCATION);
+        // TODO: Removed drawTexturedRectangle - needs refactoring to use GuiGraphics directly
+        // Recipe backgrounds will not render until reimplemented
+        /*com.mojang.blaze3d.systems.RenderSystem.setShaderTexture(0, LOCATION);
         guiBook.drawTexturedRectangle(0D, 0D, 0, 0, 58, 58, 1F);
-        guiBook.drawTexturedRectangle(84D, 42D, 1, 63, 20, 14, 1F);
+        guiBook.drawTexturedRectangle(84D, 42D, 1, 63, 20, 14, 1F);*/
     }
 
     /*@Nonnull

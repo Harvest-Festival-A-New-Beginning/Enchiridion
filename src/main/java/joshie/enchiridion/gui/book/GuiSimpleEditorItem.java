@@ -36,8 +36,8 @@ public class GuiSimpleEditorItem extends AbstractGuiOverlay {
 
     @Override
     public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY, GuiBook guiBook) {
-        int offsetX = guiBook.x;
-        int offsetY = guiBook.y;
+        int offsetX = guiBook.leftPos;
+        int offsetY = guiBook.topPos;
         int backgroundColor = 0xFFB0A483; //0xFF48453C
         int fontColor = 0xCE48433D;
         if (mouseX >= EConfig.SETTINGS.editorXPos + 2 && mouseX <= EConfig.SETTINGS.editorXPos + 83) {
@@ -82,7 +82,7 @@ public class GuiSimpleEditorItem extends AbstractGuiOverlay {
             for (int i = position; i < position + 132; i++) {
                 if (i >= 0 && i < sorted.size()) {
                     //1F > 0.75F, 4 > 5, 16 > 13 + EConfig.SETTINGS.editorXPos + 4, -30 > + EConfig.SETTINGS. toolBarYPos + 12
-                    guiBook.drawStack(sorted.get(i), (j * 12) + EConfig.SETTINGS.editorXPos + 7, (k * 12) + EConfig.SETTINGS.toolbarYPos.get() + 26, 0.75F);
+                    joshie.enchiridion.helpers.ClientStackHelper.drawStack(sorted.get(i), offsetX + (j * 12) + EConfig.SETTINGS.editorXPos + 7, offsetY + (k * 12) + EConfig.SETTINGS.toolbarYPos.get() + 26, 0.75F);
 
                     j++;
 

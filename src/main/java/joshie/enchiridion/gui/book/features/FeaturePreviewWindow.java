@@ -86,16 +86,16 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
         if (page != null && page != thisPage) {
             for (FeatureProvider feature : Lists.reverse(page.getFeatures())) {
                 if (feature instanceof FeaturePreviewWindow) continue; //No Cascading
-                mouseY = guiBook.mouseY + page.getScroll();
-                if (feature.mouseClicked(mouseX, mouseY, button, guiBook)) return true;
+                int scrollAdjustedMouseY = mouseY + page.getScroll();
+                if (feature.mouseClicked(mouseX, scrollAdjustedMouseY, button, guiBook)) return true;
             }
 
 
             int scrollMax = page.getScrollbarMax(getBottom() - 5);
             int pos = (int) ((page.getScroll() * (getHeight() - 10)) / scrollMax);
-            if (isOverScrollY(pos, mouseX, guiBook.mouseY)) {
+            if (isOverScrollY(pos, mouseX, mouseY)) {
                 isDragging = true;
-                startY = guiBook.mouseY;
+                startY = mouseY;
                 return true;
             }
         }
@@ -131,13 +131,13 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
         if (page != null && page != thisPage) {
             int scrollMax = page.getScrollbarMax(getBottom() - 5);
             if (isDragging) {
-                if (startY != guiBook.mouseY) {
-                    int scrollPosition = (int) (((guiBook.mouseY - getY()) * (scrollMax)) / getHeight());
+                if (startY != yMouse) {
+                    int scrollPosition = (int) (((yMouse - getY()) * (scrollMax)) / getHeight());
                     page.updateMaximumScroll(getBottom() - 5); //Update the max
                     page.setScrollPosition(scrollPosition);
                 }
 
-                startY = guiBook.mouseY;
+                startY = yMouse;
             }
 
             // TODO: This needs major refactoring for GuiGraphics in 1.20.4
@@ -146,30 +146,30 @@ public class FeaturePreviewWindow extends joshie.enchiridion.data.book.FeaturePr
             int scale = (int) Minecraft.getInstance().getWindow().getGuiScale();
             GL11.glEnable(GL11.GL_SCISSOR_TEST);
             RenderSystem.clear(GlConst.GL_DEPTH_BUFFER_BIT, false);
-            GL11.glScissor((guiBook.x + getX()) * scale, (int) (guiBook.y + 217 - getY() - getHeight()) * scale, (int) getWidth() * scale, (int) getHeight() * scale);
+            GL11.glScissor((guiBook.leftPos + getX()) * scale, (int) (guiBook.topPos + 217 - getY() - getHeight()) * scale, (int) getWidth() * scale, (int) getHeight() * scale);
 
             for (FeatureProvider feature : Lists.reverse(page.getFeatures())) {
                 if (feature instanceof FeaturePreviewWindow) continue; //No Cascading
-                int y = guiBook.y;
+                int y = guiBook.topPos;
                 if (page.getScroll() > 0) {
-                    guiBook.y -= page.getScroll();
+                    guiBook.topPos -= page.getScroll();
                 }
 
                 boolean isMouseHovering = isOverFeature(xMouse, yMouse);
-                int mouseX = isMouseHovering ? guiBook.mouseX : Short.MAX_VALUE;
-                int mouseY = isMouseHovering ? guiBook.mouseY + page.getScroll() : Short.MAX_VALUE;
-                int originalY = guiBook.mouseY;
+                int mouseX = isMouseHovering ? xMouse : Short.MAX_VALUE;
+                int mouseY = isMouseHovering ? yMouse + page.getScroll() : Short.MAX_VALUE;
+                int originalY = yMouse;
                 if (isMouseHovering) {
-                    guiBook.mouseY = guiBook.mouseY + page.getScroll();
+                    yMouse = yMouse + page.getScroll();
                 }
 
                 feature.draw(mouseX, mouseY);
                 feature.addTooltip(guiBook.TOOLTIP, mouseX, mouseY);
                 if (isMouseHovering) {
-                    guiBook.mouseY = originalY;
+                    yMouse = originalY;
                 }
 
-                guiBook.y = y;
+                guiBook.topPos = y;
                 RenderSystem.clear(GlConst.GL_DEPTH_BUFFER_BIT, false);
             }
 

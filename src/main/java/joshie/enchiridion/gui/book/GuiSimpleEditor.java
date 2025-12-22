@@ -69,8 +69,8 @@ public class GuiSimpleEditor extends AbstractGuiOverlay {
             int bottom = EConfig.SETTINGS.timelineYPos.get() + 13;
             int w = right - left;
             int h = bottom - top;
-            int offsetX = guiBook.x;
-            int offsetY = guiBook.y;
+            int offsetX = guiBook.leftPos;
+            int offsetY = guiBook.topPos;
             guiGraphics.blit(SIDEBAR, offsetX + left, offsetY + top, 0, 0, w, h, w, h);
 
             // Draw bordered rectangles

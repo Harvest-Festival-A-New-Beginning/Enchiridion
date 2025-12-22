@@ -72,10 +72,12 @@ public class RecipeHandlerFurnace extends RecipeHandlerBase {
         if (!(gui instanceof joshie.enchiridion.gui.book.GuiBook)) return;
         joshie.enchiridion.gui.book.GuiBook guiBook = (joshie.enchiridion.gui.book.GuiBook) gui;
 
-        com.mojang.blaze3d.systems.RenderSystem.setShaderTexture(0, LOCATION);
+        // TODO: Removed drawTexturedRectangle and drawTexturedReversedRectangle
+        // Furnace recipe backgrounds will not render until reimplemented with GuiGraphics
+        /*com.mojang.blaze3d.systems.RenderSystem.setShaderTexture(0, LOCATION);
         guiBook.drawTexturedRectangle(55D, 38D, 1, 63, 20, 14, 1.75F);
         int i1 = getBurnTimeRemainingScaled(13);
         guiBook.drawTexturedReversedRectangle(44D, 56D, 0, 85, 14, 14, 1.75F);
-        guiBook.drawTexturedReversedRectangle(44D, 46D + 12D, 14, 98 - i1, 14, i1 + 1, 1.75F);
+        guiBook.drawTexturedReversedRectangle(44D, 46D + 12D, 14, 98 - i1, 14, i1 + 1, 1.75F);*/
     }
 }

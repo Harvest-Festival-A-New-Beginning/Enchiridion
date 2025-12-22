@@ -34,7 +34,9 @@ public abstract class RecipeHandlerBase implements IRecipeHandler {
         if (!(gui instanceof joshie.enchiridion.gui.book.GuiBook)) return;
         joshie.enchiridion.gui.book.GuiBook guiBook = (joshie.enchiridion.gui.book.GuiBook) gui;
 
-        for (IItemStack stack : stackList) {
+        // TODO: Removed isMouseOverIItemStack - needs refactoring for mouse hit detection
+        // Recipe tooltips will not work until this is reimplemented
+        /*for (IItemStack stack : stackList) {
             if (stack == null || stack.getItemStack().isEmpty()) continue;
             if (guiBook.isMouseOverIItemStack(stack)) {
                 // TODO: TooltipContext API changed in 1.20.4 - needs proper Item.TooltipContext
@@ -42,7 +44,7 @@ public abstract class RecipeHandlerBase implements IRecipeHandler {
                 list.add(stack.getItemStack().getHoverName().getString());
                 break; //Only permit one item to display
             }
-        }
+        }*/
     }
 
 
@@ -63,9 +65,11 @@ public abstract class RecipeHandlerBase implements IRecipeHandler {
         joshie.enchiridion.gui.book.GuiBook guiBook = (joshie.enchiridion.gui.book.GuiBook) gui;
 
         drawBackground(guiBook);
-        for (IItemStack stack : stackList) {
+        // TODO: Removed drawIItemStack - needs refactoring to use GuiGraphics directly
+        // Recipe items will not render until this is reimplemented
+        /*for (IItemStack stack : stackList) {
             guiBook.drawIItemStack(stack);
-        }
+        }*/
     }
 
     protected abstract void drawBackground(Object gui);

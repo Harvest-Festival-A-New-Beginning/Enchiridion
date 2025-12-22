@@ -128,8 +128,14 @@ public class EnchiridionRegistries {
         public static final Holder<Codec<? extends FeatureProvider>> JUMP = FEATURE_TYPES.register("jump", () ->
             Codec.unit(() -> new FeatureProvider(joshie.enchiridion.gui.book.element.EmptyElement.INSTANCE, 0, 0, 0, 0)));
 
+        public static final Holder<Codec<? extends FeatureProvider>> TEXT = FEATURE_TYPES.register("text", () ->
+            RecordCodecBuilder.create(instance -> instance.group(
+                Codec.STRING.optionalFieldOf("text", "").forGetter(f -> f.element instanceof joshie.enchiridion.gui.book.element.TextElement ? ((joshie.enchiridion.gui.book.element.TextElement)f.element).getText() : ""),
+                Codec.FLOAT.optionalFieldOf("size", 1F).forGetter(f -> f.element instanceof joshie.enchiridion.gui.book.element.TextElement ? ((joshie.enchiridion.gui.book.element.TextElement)f.element).getSize() : 1F),
+                Codec.INT.optionalFieldOf("color", 0x555555).forGetter(f -> f.element instanceof joshie.enchiridion.gui.book.element.TextElement ? ((joshie.enchiridion.gui.book.element.TextElement)f.element).getColor() : 0x555555)
+            ).apply(instance, (text, size, color) -> new FeatureProvider(new joshie.enchiridion.gui.book.element.TextElement(text, size, color), 0, 0, 0, 0))));
+
         // Features with special behavior - keep wrapper classes
-        public static final Holder<Codec<? extends FeatureProvider>> TEXT = FEATURE_TYPES.register("text", () -> FeatureText.CODEC);
         @SuppressWarnings("unchecked")
         public static final Holder<Codec<? extends FeatureProvider>> BUTTON = FEATURE_TYPES.register("button", () -> (Codec<? extends FeatureProvider>) (Codec<?>) FeatureButton.CODEC);
         @SuppressWarnings("unchecked")

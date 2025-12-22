@@ -6,7 +6,7 @@ import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.api.book.IPage;
 import joshie.enchiridion.gui.book.GuiSimpleEditorTemplate;
-import joshie.enchiridion.gui.book.features.FeatureError;
+import joshie.enchiridion.gui.book.element.ErrorElement;
 import joshie.enchiridion.helpers.DefaultHelper;
 import joshie.enchiridion.helpers.CodecHelper;
 import joshie.enchiridion.helpers.FileHelper;
@@ -167,7 +167,7 @@ public class BookRegistry {
 
         //Now that all that is done, let's go through and remove all the errored features
         for (IPage page : book.getPages()) {
-            page.getFeatures().removeIf(iFeatureProvider -> iFeatureProvider.getFeature() instanceof FeatureError);
+            page.getFeatures().removeIf(iFeatureProvider -> iFeatureProvider.element instanceof ErrorElement);
         }
         return book;
     }

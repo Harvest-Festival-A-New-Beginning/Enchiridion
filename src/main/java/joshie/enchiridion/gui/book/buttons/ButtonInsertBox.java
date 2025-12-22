@@ -1,8 +1,9 @@
 package joshie.enchiridion.gui.book.buttons;
 
 import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.gui.book.GuiBook;
-import joshie.enchiridion.gui.book.features.FeatureBox;
+import joshie.enchiridion.gui.book.element.BoxElement;
 
 public class ButtonInsertBox extends ButtonAbstract {
     public ButtonInsertBox() {
@@ -13,7 +14,8 @@ public class ButtonInsertBox extends ButtonAbstract {
     public void performAction(Object gui) {
         GuiBook guiBook = (GuiBook) gui;
         IPage current = guiBook.getPage();
-        FeatureBox feature = new FeatureBox("ff000000");
+        int color = (int) Long.parseLong("ff000000", 16);
+        FeatureProvider feature = new FeatureProvider(new BoxElement(color), 0, 0, 50, 5);
         current.addFeature(feature, 0, current.getScroll(), 50D, 5D, false, false, false);
     }
 }

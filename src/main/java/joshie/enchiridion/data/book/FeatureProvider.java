@@ -59,7 +59,7 @@ public class FeatureProvider extends AbstractWidget {
 
     // Rendering element - null for features not yet converted to element pattern
     @Nullable
-    protected FeatureElement element;
+    public FeatureElement element;
 
     // Widget properties
     public boolean isLocked;

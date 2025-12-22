@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
-public class FeatureButton extends FeatureJump {
+public class FeatureButton extends FeatureProvider {
     // TODO: Complete codec implementation with IButtonAction support
     public static final Codec<FeatureButton> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.FLOAT.optionalFieldOf("size", 1F).forGetter(f -> f.size),
@@ -67,9 +67,11 @@ public class FeatureButton extends FeatureJump {
     public int unhoveredYOffset;
 
     public FeatureButton() {
+        super(0, 0, 0, 0);
     }
 
     public FeatureButton(IButtonAction action) {
+        super(0, 0, 0, 0);
         this.action = action;
         setResourceLocation(true, new ELocation("arrow_left_on")); //Default
         setResourceLocation(false, new ELocation("arrow_left_off")); //Default
@@ -92,8 +94,8 @@ public class FeatureButton extends FeatureJump {
     }
 
     @Override
-    public FeatureButton copy() {
-        FeatureButton button = new FeatureButton(action.copy());
+    public FeatureProvider copy() {
+        FeatureButton button = new FeatureButton(action != null ? action.copy() : null);
         button.hovered = hovered;
         button.unhovered = unhovered;
         button.size = size;
@@ -306,7 +308,7 @@ public class FeatureButton extends FeatureJump {
 
     @Override
     public String getName() {
-        return action != null && action.isVisible() ? this.getAction().getName().replace(" ", "") : super.getName();
+        return action != null && action.isVisible() ? this.getAction().getName().replace(" ", "") : "button";
     }
 
     @Override

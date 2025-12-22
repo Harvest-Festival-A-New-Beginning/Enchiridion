@@ -1,11 +1,13 @@
 package joshie.enchiridion.gui.book.buttons;
 
 import joshie.enchiridion.api.book.IPage;
+import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.gui.book.GuiBook;
-import joshie.enchiridion.gui.book.features.FeatureImage;
+import joshie.enchiridion.gui.book.element.ImageElement;
 import joshie.enchiridion.helpers.FileCopier;
 import joshie.enchiridion.helpers.FileHelper;
 import joshie.enchiridion.lib.EInfo;
+import net.minecraft.resources.ResourceLocation;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -32,7 +34,8 @@ public class ButtonInsertImage extends ButtonAbstract {
                     path = modid + ":textures/books/images/" + file.getName();
                 }
 
-                FeatureImage feature = new FeatureImage(EInfo.MODID + ":images/" + folderName + "/" + file.getName());
+                ResourceLocation resourcePath = ResourceLocation.parse(EInfo.MODID + ":images/" + folderName + "/" + file.getName());
+                FeatureProvider feature = new FeatureProvider(new ImageElement(resourcePath, 0, 0, 1.0f), 0, 0, 100, 100);
                 BufferedImage buffered = ImageIO.read(file);
                 int width = buffered.getWidth();
                 int height = buffered.getHeight();

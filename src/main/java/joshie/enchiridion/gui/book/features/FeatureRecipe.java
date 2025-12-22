@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeatureRecipe extends FeatureItem {
+public class FeatureRecipe extends FeatureProvider {
     public static final Codec<FeatureRecipe> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.STRING.optionalFieldOf("item_string", "").forGetter(f -> f.itemString),
         Codec.BOOL.optionalFieldOf("hide_tooltip", false).forGetter(f -> f.hideTooltip),
@@ -33,15 +33,23 @@ public class FeatureRecipe extends FeatureItem {
 
     public transient static final ArrayList<IRecipeHandler> HANDLERS = new ArrayList<>();
 
+    // Fields from deleted FeatureItem
+    protected String itemString = "";
+    protected boolean hideTooltip = false;
+    protected ItemStack stack = ItemStack.EMPTY;
+    protected float size = 1.0f;
+
     protected String ingredients = "plankWood:plankWood:plankWood:cobblestone:ingotAluminum:cobblestone:cobblestone:dustRedstone:cobblestone";
     protected String recipeType = "ShapedOreRecipe";
     protected transient int index = 0;
     protected transient IRecipeHandler handler;
 
     public FeatureRecipe() {
+        super(0, 0, 0, 0);
     }
 
     public FeatureRecipe(@Nonnull ItemStack stack) {
+        super(0, 0, 0, 0);
         setItemStack(stack);
     }
 
@@ -98,14 +106,13 @@ public class FeatureRecipe extends FeatureItem {
         return true;
     }
 
-    @Override
     public void setItemStack(@Nonnull ItemStack stack) {
         if (ItemStack.isSameItem(stack, this.stack)) {
             index++;
         } else index = 0;
 
         IRecipeHandler previous = handler;
-        super.setItemStack(stack);
+        this.stack = stack;
         buildRecipe(false);
         if (previous == handler) {
             index = 0;

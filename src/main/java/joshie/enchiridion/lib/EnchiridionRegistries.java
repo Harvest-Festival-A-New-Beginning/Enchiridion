@@ -130,8 +130,10 @@ public class EnchiridionRegistries {
 
         // Features with special behavior - keep wrapper classes
         public static final Holder<Codec<? extends FeatureProvider>> TEXT = FEATURE_TYPES.register("text", () -> FeatureText.CODEC);
-        public static final Holder<Codec<? extends FeatureProvider>> BUTTON = FEATURE_TYPES.register("button", () -> FeatureButton.CODEC);
-        public static final Holder<Codec<? extends FeatureProvider>> RECIPE = FEATURE_TYPES.register("recipe", () -> FeatureRecipe.CODEC);
+        @SuppressWarnings("unchecked")
+        public static final Holder<Codec<? extends FeatureProvider>> BUTTON = FEATURE_TYPES.register("button", () -> (Codec<? extends FeatureProvider>) (Codec<?>) FeatureButton.CODEC);
+        @SuppressWarnings("unchecked")
+        public static final Holder<Codec<? extends FeatureProvider>> RECIPE = FEATURE_TYPES.register("recipe", () -> (Codec<? extends FeatureProvider>) (Codec<?>) FeatureRecipe.CODEC);
         public static final Holder<Codec<? extends FeatureProvider>> ENTITY = FEATURE_TYPES.register("entity", () -> FeatureEntity.CODEC);
         public static final Holder<Codec<? extends FeatureProvider>> JS = FEATURE_TYPES.register("js", () -> FeatureJS.CODEC);
         public static final Holder<Codec<? extends FeatureProvider>> MODEL = FEATURE_TYPES.register("model", () -> FeatureModel.CODEC);

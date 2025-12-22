@@ -56,16 +56,6 @@ public interface FeatureElement {
     }
 
     /**
-     * Called when mouse is released over this element
-     * @param guiBook The GuiBook instance
-     * @param mouseX Mouse X position
-     * @param mouseY Mouse Y position
-     * @param button Mouse button
-     */
-    default void onRelease(GuiBook guiBook, int mouseX, int mouseY, int button) {
-    }
-
-    /**
      * Called when a key is typed while this element is selected
      * @param guiBook The GuiBook instance
      * @param character The character typed
@@ -74,15 +64,6 @@ public interface FeatureElement {
      */
     default boolean onKeyPress(GuiBook guiBook, char character, int key) {
         return false;
-    }
-
-    /**
-     * Called when scrolling over this element
-     * @param guiBook The GuiBook instance
-     * @param down True if scrolling down
-     * @param amount Amount to scroll
-     */
-    default void onScroll(GuiBook guiBook, boolean down, int amount) {
     }
 
     /**

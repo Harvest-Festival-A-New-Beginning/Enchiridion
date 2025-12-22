@@ -239,12 +239,7 @@ public class FeatureProvider extends AbstractWidget {
         dragTopRight = false;
         dragBottomLeft = false;
         dragBottomRight = false;
-
-        if (!EventHelper.isFeatureVisible(getPage(), isVisible(), layerIndex)) return;
-        // Delegate to element - need GuiBook here
-        if (element != null && currentGui != null) {
-            element.onRelease(currentGui, mouseX, mouseY, button);
-        }
+        // No element callback needed - elements don't care about release
     }
 
     
@@ -290,14 +285,10 @@ public class FeatureProvider extends AbstractWidget {
             // Delegate to element
             if (element != null && currentGui != null) {
                 element.onScroll(currentGui, down, 10);
-            }
-        }
+    public void scroll(int mouseX, int mouseY, boolean down) {
+        // No element callback - elements don't need scroll events
+        // (PreviewWindowElement handles its own internal scrolling)
     }
-
-
-    public void follow(int mouseX, int mouseY, boolean force, GuiBook guiBook) {
-        if (isHeld || force) {
-            if (force) {
                 isSelected = true;
             }
 

@@ -12,10 +12,11 @@ public class ButtonInsertBox extends ButtonAbstract {
 
     @Override
     public void performAction(GuiBook guiBook) {
-        
         Page current = guiBook.getPage();
         int color = (int) Long.parseLong("ff000000", 16);
         FeatureProvider feature = new FeatureProvider(new BoxElement(color), 0, 0, 50, 5);
         current.addFeature(feature, 0, current.getScroll(), 50D, 5D, false, false, false);
+        feature.init(guiBook);
+        guiBook.addRenderableWidget(feature);
     }
 }

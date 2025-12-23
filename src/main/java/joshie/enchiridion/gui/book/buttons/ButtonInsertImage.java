@@ -40,6 +40,8 @@ public class ButtonInsertImage extends ButtonAbstract {
                 int width = buffered.getWidth();
                 int height = buffered.getHeight();
                 guiBook.getPage().addFeature(feature, 0, current.getScroll(), width, height, false, false, false);
+                feature.init(guiBook);
+                guiBook.addRenderableWidget(feature);
             } catch (Exception e) {
                 e.printStackTrace();
             }

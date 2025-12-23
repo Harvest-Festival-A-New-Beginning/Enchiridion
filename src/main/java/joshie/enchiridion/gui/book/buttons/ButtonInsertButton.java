@@ -17,5 +17,7 @@ public class ButtonInsertButton extends ButtonAbstract {
         ActionButtonElement element = new ActionButtonElement(new ActionJumpPage().create(guiBook));
         FeatureProvider feature = new FeatureProvider(element, 0, current.getScroll(), 18, 10);
         current.addFeature(feature, 0, current.getScroll(), 18D, 10D, false, false, false);
+        feature.init(guiBook);
+        guiBook.addRenderableWidget(feature);
     }
 }

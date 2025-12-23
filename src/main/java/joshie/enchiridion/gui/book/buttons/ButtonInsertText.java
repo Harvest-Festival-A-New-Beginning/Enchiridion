@@ -17,5 +17,7 @@ public class ButtonInsertText extends ButtonAbstract {
         TextElement element = new TextElement(EConfig.SETTINGS.defaultText.get(), 1F, 0x555555);
         FeatureProvider feature = new FeatureProvider(element, 0, current.getScroll(), 200, 80);
         current.addFeature(feature, 0, current.getScroll(), 200D, 80D, false, false, false);
+        feature.init(guiBook);
+        guiBook.addRenderableWidget(feature);
     }
 }

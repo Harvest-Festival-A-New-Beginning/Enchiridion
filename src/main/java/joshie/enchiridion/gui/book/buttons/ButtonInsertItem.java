@@ -19,5 +19,7 @@ public class ButtonInsertItem extends ButtonAbstract {
         String itemString = StackHelper.getStringFromStack(EConfig.getDefaultItem());
         FeatureProvider feature = new FeatureProvider(new ItemElement(itemString), 0, 0, 16, 16);
         current.addFeature(feature, 0, current.getScroll(), 16D, 16D, false, false, false);
+        feature.init(guiBook);
+        guiBook.addRenderableWidget(feature);
     }
 }

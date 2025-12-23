@@ -17,5 +17,7 @@ public class ButtonInsertRecipe extends ButtonAbstract {
         RecipeElement element = new RecipeElement(EConfig.getDefaultItem());
         FeatureProvider feature = new FeatureProvider(element, 0, current.getScroll(), 160, 80);
         current.addFeature(feature, 0, current.getScroll(), 160D, 80D, false, false, false);
+        feature.init(guiBook);
+        guiBook.addRenderableWidget(feature);
     }
 }

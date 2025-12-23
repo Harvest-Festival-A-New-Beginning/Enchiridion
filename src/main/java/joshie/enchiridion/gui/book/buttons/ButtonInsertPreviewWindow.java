@@ -16,6 +16,8 @@ public class ButtonInsertPreviewWindow extends ButtonAbstract {
         PreviewWindowElement element = new PreviewWindowElement(0);
         FeatureProvider feature = new FeatureProvider(element, 0, current.getScroll(), 100, 100);
         current.addFeature(feature, 0, current.getScroll(), 100D, 100D, false, false, false);
+        feature.init(guiBook);
+        guiBook.addRenderableWidget(feature);
         guiBook.getSimpleEditor().setEditor(null);
     }
 }

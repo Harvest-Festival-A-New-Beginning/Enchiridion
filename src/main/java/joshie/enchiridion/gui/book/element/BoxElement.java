@@ -40,3 +40,4 @@ public class BoxElement implements FeatureElement {
         return color;
     }
 }
+

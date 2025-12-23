@@ -102,8 +102,14 @@ public class GuiBookCreate extends GuiBase {
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partial) {
-        super.render(guiGraphics, mouseX, mouseY, partial);
+        // Render default background instead of calling super (which would try to load book textures)
+        this.renderBackground(guiGraphics, mouseX, mouseY, partial);
 
         this.textField.render(guiGraphics, mouseX, mouseY, partial);
+    }
+
+    @Override
+    protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
+        // Don't render book background - this is just a simple text input dialog
     }
 }

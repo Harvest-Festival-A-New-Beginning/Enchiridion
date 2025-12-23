@@ -8,7 +8,6 @@ import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.data.book.Template;
 import joshie.enchiridion.data.library.ModdedBook;
 import joshie.enchiridion.gui.book.element.FeatureElement;
-import joshie.enchiridion.gui.book.features.*;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -135,15 +134,41 @@ public class EnchiridionRegistries {
                 Codec.INT.optionalFieldOf("color", 0x555555).forGetter(f -> f.element instanceof joshie.enchiridion.gui.book.element.TextElement ? ((joshie.enchiridion.gui.book.element.TextElement)f.element).getColor() : 0x555555)
             ).apply(instance, (text, size, color) -> new FeatureProvider(new joshie.enchiridion.gui.book.element.TextElement(text, size, color), 0, 0, 0, 0))));
 
-        // Features with special behavior - keep wrapper classes
-        @SuppressWarnings("unchecked")
-        public static final Holder<Codec<? extends FeatureProvider>> BUTTON = FEATURE_TYPES.register("button", () -> (Codec<? extends FeatureProvider>) (Codec<?>) FeatureButton.CODEC);
-        @SuppressWarnings("unchecked")
-        public static final Holder<Codec<? extends FeatureProvider>> RECIPE = FEATURE_TYPES.register("recipe", () -> (Codec<? extends FeatureProvider>) (Codec<?>) FeatureRecipe.CODEC);
-        public static final Holder<Codec<? extends FeatureProvider>> ENTITY = FEATURE_TYPES.register("entity", () -> FeatureEntity.CODEC);
-        public static final Holder<Codec<? extends FeatureProvider>> JS = FEATURE_TYPES.register("js", () -> FeatureJS.CODEC);
-        public static final Holder<Codec<? extends FeatureProvider>> MODEL = FEATURE_TYPES.register("model", () -> FeatureModel.CODEC);
-        public static final Holder<Codec<? extends FeatureProvider>> PREVIEW_WINDOW = FEATURE_TYPES.register("preview_window", () -> FeaturePreviewWindow.CODEC);
+        // Complex features - now use element-based codecs (Feature* classes deleted)
+        public static final Holder<Codec<? extends FeatureProvider>> BUTTON = FEATURE_TYPES.register("button", () ->
+            RecordCodecBuilder.create(instance -> instance.group(
+                joshie.enchiridion.gui.book.element.ActionButtonElement.CODEC.fieldOf("element").forGetter(f -> (joshie.enchiridion.gui.book.element.ActionButtonElement) f.element)
+            ).apply(instance, (element) -> new FeatureProvider(element, 0, 0, 18, 10))));
+
+        public static final Holder<Codec<? extends FeatureProvider>> RECIPE = FEATURE_TYPES.register("recipe", () ->
+            RecordCodecBuilder.create(instance -> instance.group(
+                joshie.enchiridion.gui.book.element.RecipeElement.CODEC.fieldOf("element").forGetter(f -> (joshie.enchiridion.gui.book.element.RecipeElement) f.element)
+            ).apply(instance, (element) -> new FeatureProvider(element, 0, 0, 160, 80))));
+
+        public static final Holder<Codec<? extends FeatureProvider>> PREVIEW_WINDOW = FEATURE_TYPES.register("preview_window", () ->
+            RecordCodecBuilder.create(instance -> instance.group(
+                joshie.enchiridion.gui.book.element.PreviewWindowElement.CODEC.fieldOf("element").forGetter(f -> (joshie.enchiridion.gui.book.element.PreviewWindowElement) f.element)
+            ).apply(instance, (element) -> new FeatureProvider(element, 0, 0, 100, 100))));
+
+        public static final Holder<Codec<? extends FeatureProvider>> ENTITY = FEATURE_TYPES.register("entity", () ->
+            RecordCodecBuilder.create(instance -> instance.group(
+                joshie.enchiridion.gui.book.element.EntityElement.CODEC.fieldOf("element").forGetter(f -> (joshie.enchiridion.gui.book.element.EntityElement) f.element)
+            ).apply(instance, (element) -> new FeatureProvider(element, 0, 0, 64, 64))));
+
+        public static final Holder<Codec<? extends FeatureProvider>> MODEL = FEATURE_TYPES.register("model", () ->
+            RecordCodecBuilder.create(instance -> instance.group(
+                joshie.enchiridion.gui.book.element.ModelElement.CODEC.fieldOf("element").forGetter(f -> (joshie.enchiridion.gui.book.element.ModelElement) f.element)
+            ).apply(instance, (element) -> new FeatureProvider(element, 0, 0, 64, 64))));
+
+        public static final Holder<Codec<? extends FeatureProvider>> JS = FEATURE_TYPES.register("js", () ->
+            RecordCodecBuilder.create(instance -> instance.group(
+                joshie.enchiridion.gui.book.element.JSElement.CODEC.fieldOf("element").forGetter(f -> (joshie.enchiridion.gui.book.element.JSElement) f.element)
+            ).apply(instance, (element) -> new FeatureProvider(element, 0, 0, 200, 80))));
+
+        public static final Holder<Codec<? extends FeatureProvider>> RESOURCE = FEATURE_TYPES.register("resource", () ->
+            RecordCodecBuilder.create(instance -> instance.group(
+                joshie.enchiridion.gui.book.element.ResourceElement.CODEC.fieldOf("element").forGetter(f -> (joshie.enchiridion.gui.book.element.ResourceElement) f.element)
+            ).apply(instance, (element) -> new FeatureProvider(element, 0, 0, 100, 100))));
     }
 
     public static void register(IEventBus eventBus) {

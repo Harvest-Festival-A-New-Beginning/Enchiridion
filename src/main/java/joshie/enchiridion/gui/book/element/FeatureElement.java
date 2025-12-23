@@ -1,7 +1,7 @@
 package joshie.enchiridion.gui.book.element;
 
 import com.mojang.serialization.Codec;
-import joshie.enchiridion.api.book.Page;
+import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.gui.book.GuiSimpleEditorAbstract;
 import net.minecraft.client.gui.GuiGraphics;

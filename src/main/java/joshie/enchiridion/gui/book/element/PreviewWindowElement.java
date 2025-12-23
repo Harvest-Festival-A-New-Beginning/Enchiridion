@@ -7,7 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.book.IBook;
-import joshie.enchiridion.api.book.Page;
+import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.api.gui.ISimpleEditorFieldProvider;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.gui.book.GuiBook;
@@ -201,7 +201,7 @@ public class PreviewWindowElement implements FeatureElement, ISimpleEditorFieldP
 
     @Override
     public GuiSimpleEditorAbstract getEditor(GuiBook guiBook) {
-        return GuiSimpleEditorGeneric.INSTANCE.setFeature(this);
+        return (GuiSimpleEditorAbstract) GuiSimpleEditorGeneric.INSTANCE.setFeature(this);
     }
 
     @Override

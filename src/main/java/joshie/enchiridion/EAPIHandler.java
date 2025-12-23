@@ -13,7 +13,7 @@ import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.gui.book.GuiSimpleEditorButton;
 import joshie.enchiridion.gui.book.GuiSimpleEditorTemplate;
 import joshie.enchiridion.gui.book.GuiToolbar;
-import joshie.enchiridion.gui.book.features.FeatureRecipe;
+import joshie.enchiridion.gui.book.element.RecipeElement;
 import joshie.enchiridion.network.PacketHandler;
 import joshie.enchiridion.network.packet.PacketOpenBook;
 import net.minecraft.world.entity.player.Player;
@@ -77,7 +77,7 @@ public class EAPIHandler implements IEnchiridionAPI {
 
     @Override
     public void registerRecipeHandler(IRecipeHandler handler) {
-        FeatureRecipe.HANDLERS.add(handler);
+        RecipeElement.HANDLERS.add(handler);
         Enchiridion.log(Level.INFO, "Registered a new recipe handler: " + handler.getRecipeName());
     }
 

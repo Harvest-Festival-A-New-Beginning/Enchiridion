@@ -1,6 +1,6 @@
 package joshie.enchiridion.gui.book.features.script;
 
-import joshie.enchiridion.api.book.Page;
+import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.data.book.FeatureProvider;
 
 /**

@@ -3,7 +3,7 @@ package joshie.enchiridion.gui.book;
 import com.mojang.blaze3d.vertex.PoseStack;
 import joshie.enchiridion.EConfig;
 import joshie.enchiridion.api.EnchiridionAPI;
-import joshie.enchiridion.api.book.Page;
+import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.helpers.DefaultHelper;
 import joshie.enchiridion.helpers.JumpHelper;

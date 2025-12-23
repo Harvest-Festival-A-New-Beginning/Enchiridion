@@ -1,7 +1,7 @@
 package joshie.enchiridion.helpers;
 
 import joshie.enchiridion.api.book.IBook;
-import joshie.enchiridion.api.book.Page;
+import joshie.enchiridion.data.book.Page;
 
 public class JumpHelper {
     public static Page getPageByNumber(IBook book, int number) {

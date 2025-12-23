@@ -1,7 +1,7 @@
 package joshie.enchiridion.gui.book.buttons;
 
 import joshie.enchiridion.EConfig;
-import joshie.enchiridion.api.book.Page;
+import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.data.book.FeatureProvider;
 import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.gui.book.element.ItemElement;

@@ -2,7 +2,7 @@ package joshie.enchiridion.gui.book.element;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import joshie.enchiridion.api.book.Page;
+import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.api.recipe.IRecipeHandler;
 import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.helpers.StackHelper;

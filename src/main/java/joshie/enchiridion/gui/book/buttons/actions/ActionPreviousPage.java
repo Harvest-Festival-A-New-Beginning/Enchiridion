@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IButtonAction;
 import joshie.enchiridion.gui.book.GuiBook;
-import joshie.enchiridion.api.book.Page;
+import joshie.enchiridion.data.book.Page;
 
 import java.util.Collections;
 import java.util.List;

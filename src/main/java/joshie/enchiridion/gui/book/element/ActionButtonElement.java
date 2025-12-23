@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.api.book.IButtonAction;
 import joshie.enchiridion.gui.book.GuiBook;
+import joshie.enchiridion.gui.book.GuiSimpleEditorAbstract;
 import joshie.enchiridion.gui.book.GuiSimpleEditorButton;
 import joshie.enchiridion.helpers.MCClientHelper;
 import net.minecraft.client.Minecraft;

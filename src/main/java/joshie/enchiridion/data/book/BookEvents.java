@@ -2,7 +2,7 @@ package joshie.enchiridion.data.book;
 
 import com.google.common.collect.HashMultimap;
 import joshie.enchiridion.api.book.IBook;
-import joshie.enchiridion.api.book.Page;
+import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.api.event.FeatureVisibleEvent;
 import joshie.enchiridion.lib.EInfo;
 import net.neoforged.bus.api.SubscribeEvent;

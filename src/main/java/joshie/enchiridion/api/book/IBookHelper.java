@@ -1,6 +1,7 @@
 package joshie.enchiridion.api.book;
 
 import joshie.enchiridion.data.book.FeatureProvider;
+import joshie.enchiridion.data.book.Page;
 
 public interface IBookHelper {
     //GETTERS

@@ -1,7 +1,7 @@
 package joshie.enchiridion.gui.book.buttons;
 
 import com.google.common.collect.Lists;
-import joshie.enchiridion.api.book.Page;
+import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.gui.book.GuiBook;
 
 import java.util.List;

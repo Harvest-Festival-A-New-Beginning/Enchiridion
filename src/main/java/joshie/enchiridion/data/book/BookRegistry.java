@@ -4,7 +4,7 @@ import joshie.enchiridion.EConfig;
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.data.book.FeatureProvider;
-import joshie.enchiridion.api.book.Page;
+import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.gui.book.GuiSimpleEditorTemplate;
 import joshie.enchiridion.gui.book.element.ErrorElement;
 import joshie.enchiridion.helpers.DefaultHelper;

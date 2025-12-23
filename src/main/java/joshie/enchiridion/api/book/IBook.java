@@ -1,5 +1,6 @@
 package joshie.enchiridion.api.book;
 
+import joshie.enchiridion.data.book.Page;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
 

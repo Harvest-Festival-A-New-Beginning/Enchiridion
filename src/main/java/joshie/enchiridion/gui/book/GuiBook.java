@@ -9,9 +9,8 @@ import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IBook;
 import joshie.enchiridion.api.book.IBookHelper;
 import joshie.enchiridion.data.book.FeatureProvider;
-import joshie.enchiridion.api.book.Page;
 import joshie.enchiridion.data.book.Page;
-import joshie.enchiridion.gui.book.features.FeaturePreviewWindow;
+import joshie.enchiridion.gui.book.element.PreviewWindowElement;
 import joshie.enchiridion.helpers.*;
 import joshie.enchiridion.lib.EInfo;
 import joshie.enchiridion.util.TextEditor;
@@ -40,7 +39,7 @@ import java.util.Set;
 public class GuiBook extends GuiBase implements IBookHelper {
     //Page Number Cache - shared across all instances
     private static HashMap<String, Integer> pageCache = new HashMap<>();
-    private static HashMap<String, FeaturePreviewWindow> scrollFeatures = new HashMap<>();
+    private static HashMap<String, PreviewWindowElement> scrollFeatures = new HashMap<>();
 
     private Set<AbstractGuiOverlay> overlays = new HashSet<>();
     private boolean isEditMode = false; // Whether we are in edit mode or not
@@ -117,7 +116,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
         return pageCache;
     }
 
-    public static HashMap<String, FeaturePreviewWindow> getScrollFeatures() {
+    public static HashMap<String, PreviewWindowElement> getScrollFeatures() {
         return scrollFeatures;
     }
 

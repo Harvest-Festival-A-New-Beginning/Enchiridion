@@ -1,6 +1,6 @@
 package joshie.enchiridion.helpers;
 
-import joshie.enchiridion.api.book.Page;
+import joshie.enchiridion.data.book.Page;
 import joshie.enchiridion.api.event.FeatureVisibleEvent;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;

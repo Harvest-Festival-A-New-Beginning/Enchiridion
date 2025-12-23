@@ -322,13 +322,11 @@ public class GuiBook extends GuiBase implements IBookHelper {
     @Override
     public boolean mouseClicked(double x, double y, int mouseButton) {
         super.mouseClicked(x, y, mouseButton);
-        int mouseX = (int) x;
-        int mouseY = (int) y;
 
         //Perform clicks for the overlays
         if (isEditMode) {
             for (AbstractGuiOverlay overlay : overlays) {
-                if (overlay.mouseClicked(mouseX, mouseY, this)) {
+                if (overlay.mouseClicked((int) x, (int) y, this)) {
                     return false;
                 }
             }
@@ -336,9 +334,9 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
         //Perform clicks for the features
         for (FeatureProvider feature : page.getFeatures()) {
-            if (feature.mouseClicked(mouseX, mouseY + page.getScroll(), mouseButton, this)) {
+            if (feature.mouseClicked((int) x, (int) y + page.getScroll(), mouseButton, this)) {
                 if (isEditMode && mouseButton == 0) {
-                    selectLayer(feature, mouseX, mouseY);
+                    selectLayer(feature, (int) x, (int) y);
                 }
                 return false;
             }
@@ -355,18 +353,15 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public boolean mouseReleased(double x, double y, int button) {
-        int mouseX = (int) x;
-        int mouseY = (int) y;
-
         isGroupMoveMode = false;
         for (FeatureProvider provider : page.getFeatures()) {
-            provider.mouseReleased(mouseX, mouseY + page.getScroll(), button);
+            provider.mouseReleased((int) x, (int) y + page.getScroll(), button);
         }
 
         //Perform releases for the overlays
         if (isEditMode) {
             for (AbstractGuiOverlay overlay : overlays) {
-                overlay.mouseReleased(mouseX, mouseY, this);
+                overlay.mouseReleased((int) x, (int) y, this);
             }
         }
         return super.mouseReleased(x, y, button);
@@ -374,12 +369,9 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public boolean mouseDragged(double mX, double mY, int p_mouseDragged_5_, double p_mouseDragged_6_, double p_mouseDragged_8_) {
-        int mouseX = (int) mX;
-        int mouseY = (int) mY;
-
         if (!layers.isDragging()) {
             for (FeatureProvider provider : group) {
-                provider.follow(mouseX, mouseY + page.getScroll(), isGroupMoveMode, this);
+                provider.follow((int) mX, (int) mY + page.getScroll(), isGroupMoveMode, this);
             }
         }
         return true;
@@ -387,19 +379,16 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
     @Override
     public boolean mouseScrolled(double mX, double mY, double deltaX, double deltaY) {
-        int mouseX = (int) mX;
-        int mouseY = (int) mY;
-
         if (deltaY != 0) {
             boolean down = deltaY < 0;
             if (isEditMode) {
                 for (AbstractGuiOverlay overlay : overlays) {
-                    overlay.scroll(down, mouseX, mouseY);
+                    overlay.scroll(down, (int) mX, (int) mY);
                 }
             }
 
             for (FeatureProvider provider : page.getFeatures()) {
-                provider.scroll(mouseX, mouseY, down);
+                provider.scroll((int) mX, (int) mY, down);
             }
 
             page.updateMaximumScroll(0); //Called constantly

@@ -321,10 +321,14 @@ public class GuiBook extends GuiBase implements IBookHelper {
     public boolean mouseClicked(double x, double y, int mouseButton) {
         super.mouseClicked(x, y, mouseButton);
 
+        // Convert screen coordinates to GUI-relative coordinates
+        int mouseX = (int) x - leftPos;
+        int mouseY = (int) y - topPos;
+
         //Perform clicks for the overlays
         if (isEditMode) {
             for (AbstractGuiOverlay overlay : overlays) {
-                if (overlay.mouseClicked((int) x, (int) y, this)) {
+                if (overlay.mouseClicked(mouseX, mouseY, this)) {
                     return false;
                 }
             }
@@ -358,8 +362,11 @@ public class GuiBook extends GuiBase implements IBookHelper {
 
         //Perform releases for the overlays
         if (isEditMode) {
+            // Convert screen coordinates to GUI-relative coordinates for overlays
+            int mouseX = (int) x - leftPos;
+            int mouseY = (int) y - topPos;
             for (AbstractGuiOverlay overlay : overlays) {
-                overlay.mouseReleased((int) x, (int) y, this);
+                overlay.mouseReleased(mouseX, mouseY, this);
             }
         }
         return super.mouseReleased(x, y, button);

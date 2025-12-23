@@ -77,14 +77,10 @@ public class EClientHandler {
         // Note: Overlays and buttons are now registered in GuiBook constructor
         // The toolbar buttons will be registered via the API to a list that GuiBook reads
 
-        //Left aligned buttons
-        EnchiridionAPI.instance.registerToolbarButton(new ButtonInsertText());
-        EnchiridionAPI.instance.registerToolbarButton(new ButtonInsertImage());
-        EnchiridionAPI.instance.registerToolbarButton(new ButtonInsertButton());
-        EnchiridionAPI.instance.registerToolbarButton(new ButtonInsertBox());
-        EnchiridionAPI.instance.registerToolbarButton(new ButtonInsertItem());
-        EnchiridionAPI.instance.registerToolbarButton(new ButtonInsertRecipe());
-        EnchiridionAPI.instance.registerToolbarButton(new ButtonInsertPreviewWindow());
+        //Left aligned buttons - auto-generated from ToolbarRegistry
+        for (joshie.enchiridion.gui.book.element.ToolbarMetadata metadata : joshie.enchiridion.gui.book.element.ToolbarRegistry.getAll()) {
+            EnchiridionAPI.instance.registerToolbarButton(new ToolbarButton(metadata));
+        }
 
         //Right aligned
         EnchiridionAPI.instance.registerToolbarButton(new ButtonDeletePage());

@@ -286,18 +286,14 @@ public class FeatureProvider extends AbstractWidget {
         }
     }
 
-
-    public void scroll(int mouseX, int mouseY, boolean down) {
-        if (isOverFeature(mouseX, mouseY)) {
-            // Delegate to element
-            if (element != null && currentGui != null) {
-                element.onScroll(currentGui, down, 10);
     public void scroll(int mouseX, int mouseY, boolean down) {
         // No element callback - elements don't need scroll events
         // (PreviewWindowElement handles its own internal scrolling)
     }
-                isSelected = true;
-            }
+
+    public void follow(int mouseX, int mouseY, boolean force, GuiBook guiBook) {
+        if (isOverFeature(mouseX, mouseY)) {
+            isSelected = true;
 
             int changeX = (mouseX - prevX);
             int changeY = (mouseY - prevY);

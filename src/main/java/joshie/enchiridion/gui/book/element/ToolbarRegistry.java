@@ -16,7 +16,7 @@ public class ToolbarRegistry {
         // Register all toolbar elements in sort order
         register(new ToolbarMetadata(1, icon("text"), () -> new TextElement(EConfig.SETTINGS.defaultText.get(), 1F, 0x555555), 200, 80));
         register(new ToolbarMetadata(5, icon("box"), () -> new BoxElement(0xFFFFFFFF), 50, 5));
-        register(new ToolbarMetadata(10, icon("image"), () -> new ImageElement(new ResourceLocation("minecraft", "textures/block/dirt.png")), 100, 100));
+        register(new ToolbarMetadata(10, icon("picture"), () -> new ImageElement(new ResourceLocation("minecraft", "textures/block/dirt.png")), 100, 100));
         register(new ToolbarMetadata(15, icon("item"), () -> new ItemElement("minecraft:dirt"), 16, 16));
         register(new ToolbarMetadata(20, icon("arrow"), () -> new ActionButtonElement(null), 18, 10));
         register(new ToolbarMetadata(30, icon("crafting"), () -> new RecipeElement(EConfig.getDefaultItem()), 160, 80));
@@ -30,7 +30,7 @@ public class ToolbarRegistry {
     }
 
     private static ResourceLocation icon(String name) {
-        return new ResourceLocation("enchiridion", "textures/gui/toolbar/" + name + ".png");
+        return new ResourceLocation("enchiridion", "textures/books/" + name + "_dftl.png");
     }
 
     public static void register(ToolbarMetadata metadata) {

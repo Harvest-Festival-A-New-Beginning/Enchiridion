@@ -18,9 +18,9 @@ public class BookDefinition implements ReloadableRegistry.PenguinRegistry<BookDe
             ResourceLocation.CODEC.listOf().fieldOf("tabs").forGetter(b -> b.tabs),
             Codec.STRING.optionalFieldOf("title", "").forGetter(b -> b.title),
             ResourceLocation.CODEC.optionalFieldOf("background_left",
-                    new ResourceLocation(PenguinLib.MODID, "textures/gui/book_left.png")).forGetter(b -> b.backgroundLeft),
+                    new ResourceLocation("enchiridion", "textures/books/guide_page_left.png")).forGetter(b -> b.backgroundLeft),
             ResourceLocation.CODEC.optionalFieldOf("background_right",
-                    new ResourceLocation(PenguinLib.MODID, "textures/gui/book_right.png")).forGetter(b -> b.backgroundRight),
+                    new ResourceLocation("enchiridion", "textures/books/guide_page_right.png")).forGetter(b -> b.backgroundRight),
             Codec.INT.optionalFieldOf("font_color_1", 0x857754).forGetter(b -> b.fontColor1),
             Codec.INT.optionalFieldOf("font_color_2", 4210752).forGetter(b -> b.fontColor2),
             Codec.INT.optionalFieldOf("line_color_1", 0xFFB0A483).forGetter(b -> b.lineColor1),
@@ -51,8 +51,8 @@ public class BookDefinition implements ReloadableRegistry.PenguinRegistry<BookDe
 
     public BookDefinition() {
         this(List.of(), "",
-             new ResourceLocation(PenguinLib.MODID, "textures/gui/book_left.png"),
-             new ResourceLocation(PenguinLib.MODID, "textures/gui/book_right.png"),
+             new ResourceLocation("enchiridion", "textures/books/guide_page_left.png"),
+             new ResourceLocation("enchiridion", "textures/books/guide_page_right.png"),
              0x857754, 4210752, 0xFFB0A483, 0xFF9C8C63);
     }
 

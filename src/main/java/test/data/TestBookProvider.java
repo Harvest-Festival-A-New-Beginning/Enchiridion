@@ -104,8 +104,8 @@ public class TestBookProvider implements DataProvider {
         books.put(exampleBookId, new BookDefinition(
             List.of(exampleTabId),
             "example_book",
-            new ResourceLocation(PenguinLib.MODID, "textures/gui/book_left.png"),
-            new ResourceLocation(PenguinLib.MODID, "textures/gui/book_right.png"),
+            new ResourceLocation("enchiridion", "textures/books/guide_page_left.png"),
+            new ResourceLocation("enchiridion", "textures/books/guide_page_right.png"),
             0x857754, 4210752, 0xFFB0A483, 0xFF9C8C63
         ));
     }

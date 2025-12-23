@@ -115,7 +115,12 @@ public class EClientHandler {
     }
 
     public static void openGuiBookCreate() {
-        Minecraft.getInstance().setScreen(new GuiBookCreate(null, null));
+        Player player = Minecraft.getInstance().player;
+        if (player != null) {
+            // Create a dummy menu for the book creation screen
+            BookMenu menu = new BookMenu(EGuis.BOOK_CONTAINER.get(), 0);
+            Minecraft.getInstance().setScreen(new GuiBookCreate(player.getInventory(), menu));
+        }
     }
 
     public static void openWriteableBook(Player player, int slot, InteractionHand hand) {

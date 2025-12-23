@@ -1,7 +1,6 @@
 package joshie.enchiridion.api;
 
 import joshie.enchiridion.api.book.IBook;
-import joshie.enchiridion.gui.book.AbstractGuiOverlay;
 import joshie.enchiridion.api.recipe.IRecipeHandler;
 import net.minecraft.world.entity.player.Player;
 
@@ -24,9 +23,6 @@ public interface IEnchiridionAPI {
 
     /** Register a recipe handler, Client Side only **/
     void registerRecipeHandler(IRecipeHandler handler);
-
-    /** Register an editor overlay, Client Side only **/
-    void registerEditorOverlay(AbstractGuiOverlay overlay);
 
     /** Call this to get a book from it's id **/
     IBook getBook(String bookID);

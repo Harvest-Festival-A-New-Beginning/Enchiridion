@@ -3,7 +3,6 @@ package joshie.enchiridion;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.IEnchiridionAPI;
 import joshie.enchiridion.api.book.IBook;
-import joshie.enchiridion.gui.book.AbstractGuiOverlay;
 import joshie.enchiridion.api.recipe.IRecipeHandler;
 import joshie.enchiridion.data.book.BookRegistry;
 import joshie.enchiridion.gui.book.element.RecipeElement;
@@ -45,12 +44,6 @@ public class EAPIHandler implements IEnchiridionAPI {
             File jar = mod.getOwningFile().getFile().getFilePath().toFile(); //TODO Test
             BookRegistry.INSTANCE.registerMod(assetsPath, jar);
         }
-    }
-
-    @Override
-    public void registerEditorOverlay(AbstractGuiOverlay overlay) {
-        // Editor overlays are now created in GuiBook constructor
-        // This method is kept for API compatibility but overlays are built-in
     }
 
     @Override

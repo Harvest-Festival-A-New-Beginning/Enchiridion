@@ -63,7 +63,16 @@ runs {
     }
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources' }
+sourceSets {
+    main {
+        java {
+            exclude 'test/**'
+        }
+        resources {
+            srcDir 'src/generated/resources'
+        }
+    }
+}
 
 configurations {
     runtimeClasspath.extendsFrom localRuntime

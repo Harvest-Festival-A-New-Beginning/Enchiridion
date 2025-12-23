@@ -2,6 +2,8 @@ package joshie.enchiridion;
 
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IBook;
+import joshie.enchiridion.data.book.Page;
+import joshie.enchiridion.data.book.Template;
 import joshie.enchiridion.gui.book.*;
 import joshie.enchiridion.gui.book.buttons.*;
 import joshie.enchiridion.gui.book.features.recipe.RecipeHandlerFurnace;
@@ -94,6 +96,10 @@ public class EClientHandler {
         EnchiridionAPI.instance.registerRecipeHandler(new RecipeHandlerFurnace());
         //attemptToRegisterRecipeHandler(RecipeHandlerMTAdvancedShaped.class, "crafttweaker");
         //attemptToRegisterRecipeHandler(RecipeHandlerMTAdvancedShapeless.class, "crafttweaker");
+
+        //Register default button template (used when creating new books)
+        Template defaultTemplate = new Template(new ResourceLocation(EInfo.MODID, "enchiridion_default_buttons"), "Turn Page Arrows", new ELocation("default_buttons_thumbnail"), DefaultHelper.addArrows(new Page(0)));
+        GuiSimpleEditorTemplate.INSTANCE.registerTemplate(defaultTemplate);
 
         //Register the Enchiridion Book
         EnchiridionAPI.instance.registerModWithBooks(EInfo.MODID);

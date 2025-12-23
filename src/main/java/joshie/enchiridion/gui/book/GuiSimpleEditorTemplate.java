@@ -53,7 +53,12 @@ public class GuiSimpleEditorTemplate extends GuiSimpleEditorAbstract {
     }
 
     public List<FeatureProvider> getFeaturesFromString(String unique) {
-        return templates.get(unique).getFeatures();
+        ITemplate template = templates.get(unique);
+        if (template == null) {
+            Enchiridion.log(org.apache.logging.log4j.Level.WARN, "Template with unique name '" + unique + "' not found. Available templates: " + templates.keySet());
+            return new ArrayList<>();
+        }
+        return template.getFeatures();
     }
 
     private boolean isOverPosition(int x1, int y1, int x2, int y2, int mouseX, int mouseY) {

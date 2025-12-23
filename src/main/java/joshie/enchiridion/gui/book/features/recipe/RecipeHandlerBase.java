@@ -3,6 +3,7 @@ package joshie.enchiridion.gui.book.features.recipe;
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.recipe.IItemStack;
 import joshie.enchiridion.api.recipe.IRecipeHandler;
+import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.util.ELocation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.TooltipFlag;
@@ -30,7 +31,7 @@ public abstract class RecipeHandlerBase implements IRecipeHandler {
     }
 
     @Override
-    public void addTooltip(List<String> list, joshie.enchiridion.gui.book.GuiBook guiBook) {
+    public void addTooltip(List<String> list, GuiBook guiBook) {
         // TODO: Removed isMouseOverIItemStack - needs refactoring for mouse hit detection
         // Recipe tooltips will not work until this is reimplemented
         /*for (IItemStack stack : stackList) {
@@ -57,7 +58,7 @@ public abstract class RecipeHandlerBase implements IRecipeHandler {
     }
 
     @Override
-    public void draw(joshie.enchiridion.gui.book.GuiBook guiBook) {
+    public void draw(GuiBook guiBook) {
         drawBackground(guiBook);
         // TODO: Removed drawIItemStack - needs refactoring to use GuiGraphics directly
         // Recipe items will not render until this is reimplemented
@@ -66,5 +67,5 @@ public abstract class RecipeHandlerBase implements IRecipeHandler {
         }*/
     }
 
-    protected abstract void drawBackground(joshie.enchiridion.gui.book.GuiBook guiBook);
+    protected abstract void drawBackground(GuiBook guiBook);
 }

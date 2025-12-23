@@ -121,7 +121,7 @@ public abstract class RecipeHandlerRecipeBase extends RecipeHandlerBase {
     }
 
     @Override
-    protected void drawBackground(joshie.enchiridion.gui.book.GuiBook guiBook) {
+    protected void drawBackground(GuiBook guiBook) {
         // TODO: Removed drawTexturedRectangle - needs refactoring to use GuiGraphics directly
         // Recipe backgrounds will not render until reimplemented
         /*com.mojang.blaze3d.systems.RenderSystem.setShaderTexture(0, LOCATION);

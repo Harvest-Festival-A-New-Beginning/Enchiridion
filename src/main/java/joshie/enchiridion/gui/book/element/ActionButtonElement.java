@@ -167,7 +167,7 @@ public class ActionButtonElement implements FeatureElement {
 
     @Override
     public GuiSimpleEditorAbstract getEditor(GuiBook guiBook) {
-        return GuiSimpleEditorButton.INSTANCE.setButton(this);
+        return (GuiSimpleEditorAbstract) GuiSimpleEditorButton.INSTANCE.setButton(this);
     }
 
     @Override

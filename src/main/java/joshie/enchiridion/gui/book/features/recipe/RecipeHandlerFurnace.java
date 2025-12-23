@@ -68,7 +68,7 @@ public class RecipeHandlerFurnace extends RecipeHandlerBase {
     }
 
     @Override
-    protected void drawBackground(joshie.enchiridion.gui.book.GuiBook guiBook) {
+    protected void drawBackground(GuiBook guiBook) {
         // TODO: Removed drawTexturedRectangle and drawTexturedReversedRectangle
         // Furnace recipe backgrounds will not render until reimplemented with GuiGraphics
         /*com.mojang.blaze3d.systems.RenderSystem.setShaderTexture(0, LOCATION);

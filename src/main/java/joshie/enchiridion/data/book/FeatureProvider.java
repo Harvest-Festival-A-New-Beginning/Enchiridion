@@ -480,10 +480,49 @@ public class FeatureProvider extends AbstractWidget {
 
     /**
      * Get codec for this feature
-     * For legacy features that extend FeatureProvider, subclasses must override
-     * For element-based features, this will be handled by the registry dispatch codec
+     * Returns the appropriate codec from the registry based on element type
      */
     public Codec<? extends FeatureProvider> codec() {
-        throw new UnsupportedOperationException("Feature must provide codec: " + getClass().getName());
+        if (element == null) {
+            return EnchiridionRegistries.Features.ERROR.value();
+        }
+
+        // Map element types to their feature codecs
+        if (element instanceof joshie.enchiridion.gui.book.element.TextElement) {
+            return EnchiridionRegistries.Features.TEXT.value();
+        } else if (element instanceof joshie.enchiridion.gui.book.element.BoxElement) {
+            return EnchiridionRegistries.Features.BOX.value();
+        } else if (element instanceof joshie.enchiridion.gui.book.element.ImageElement) {
+            return EnchiridionRegistries.Features.IMAGE.value();
+        } else if (element instanceof joshie.enchiridion.gui.book.element.ItemElement) {
+            return EnchiridionRegistries.Features.ITEM.value();
+        } else if (element instanceof joshie.enchiridion.gui.book.element.ActionButtonElement) {
+            return EnchiridionRegistries.Features.BUTTON.value();
+        } else if (element instanceof joshie.enchiridion.gui.book.element.RecipeElement) {
+            return EnchiridionRegistries.Features.RECIPE.value();
+        } else if (element instanceof joshie.enchiridion.gui.book.element.PreviewWindowElement) {
+            return EnchiridionRegistries.Features.PREVIEW_WINDOW.value();
+        } else if (element instanceof joshie.enchiridion.gui.book.element.LineElement) {
+            return EnchiridionRegistries.Features.LINE.value();
+        } else if (element instanceof joshie.enchiridion.gui.book.element.IconElement) {
+            return EnchiridionRegistries.Features.ICON.value();
+        } else if (element instanceof joshie.enchiridion.gui.book.element.ShapeElement) {
+            return EnchiridionRegistries.Features.SHAPE.value();
+        } else if (element instanceof joshie.enchiridion.gui.book.element.FluidElement) {
+            return EnchiridionRegistries.Features.FLUID.value();
+        } else if (element instanceof joshie.enchiridion.gui.book.element.EntityElement) {
+            return EnchiridionRegistries.Features.ENTITY.value();
+        } else if (element instanceof joshie.enchiridion.gui.book.element.ModelElement) {
+            return EnchiridionRegistries.Features.MODEL.value();
+        } else if (element instanceof joshie.enchiridion.gui.book.element.JSElement) {
+            return EnchiridionRegistries.Features.JS.value();
+        } else if (element instanceof joshie.enchiridion.gui.book.element.ResourceElement) {
+            return EnchiridionRegistries.Features.RESOURCE.value();
+        } else if (element instanceof joshie.enchiridion.gui.book.element.EmptyElement) {
+            // Could be sound or jump - default to error
+            return EnchiridionRegistries.Features.ERROR.value();
+        } else {
+            return EnchiridionRegistries.Features.ERROR.value();
+        }
     }
 }

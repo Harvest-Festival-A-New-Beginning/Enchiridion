@@ -1,4 +1,4 @@
-package joshie.enchiridion.api.book;
+package joshie.enchiridion.data.book;
 
 import net.minecraft.resources.ResourceLocation;
 
@@ -15,5 +15,5 @@ public interface ITemplate {
     ResourceLocation getIcon();
 
     /** Returns a list of all the features in this template **/
-    List<joshie.enchiridion.data.book.FeatureProvider> getFeatures();
+    List<FeatureProvider> getFeatures();
 }

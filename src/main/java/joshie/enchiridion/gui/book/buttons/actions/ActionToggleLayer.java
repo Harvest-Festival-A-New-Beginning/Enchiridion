@@ -1,7 +1,7 @@
 package joshie.enchiridion.gui.book.buttons.actions;
 
 import joshie.enchiridion.api.EnchiridionAPI;
-import joshie.enchiridion.api.book.IButtonAction;
+import joshie.enchiridion.gui.book.buttons.IButtonAction;
 import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.data.book.BookEvents;
 import joshie.enchiridion.util.ELocation;

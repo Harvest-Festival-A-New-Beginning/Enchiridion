@@ -3,7 +3,7 @@ package joshie.enchiridion.gui.book.element;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import joshie.enchiridion.api.book.IButtonAction;
+import joshie.enchiridion.gui.book.buttons.IButtonAction;
 import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.gui.book.GuiSimpleEditorAbstract;
 import joshie.enchiridion.gui.book.GuiSimpleEditorButton;

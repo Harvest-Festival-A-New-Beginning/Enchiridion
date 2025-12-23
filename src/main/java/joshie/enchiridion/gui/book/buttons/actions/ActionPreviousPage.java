@@ -2,7 +2,7 @@ package joshie.enchiridion.gui.book.buttons.actions;
 
 import com.google.common.collect.Lists;
 import joshie.enchiridion.api.EnchiridionAPI;
-import joshie.enchiridion.api.book.IButtonAction;
+import joshie.enchiridion.gui.book.buttons.IButtonAction;
 import joshie.enchiridion.gui.book.GuiBook;
 import joshie.enchiridion.data.book.Page;
 

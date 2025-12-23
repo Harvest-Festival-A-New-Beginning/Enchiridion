@@ -1,14 +1,9 @@
 package joshie.enchiridion.api;
 
 import joshie.enchiridion.api.book.IBook;
-import joshie.enchiridion.api.book.IButtonAction;
-import joshie.enchiridion.api.book.ITemplate;
-import joshie.enchiridion.api.gui.IToolbarButton;
 import joshie.enchiridion.gui.book.AbstractGuiOverlay;
 import joshie.enchiridion.api.recipe.IRecipeHandler;
 import net.minecraft.world.entity.player.Player;
-
-import java.util.List;
 
 public interface IEnchiridionAPI {
     /** Registering your mod, will have the mod search your assets folder
@@ -32,24 +27,6 @@ public interface IEnchiridionAPI {
 
     /** Register an editor overlay, Client Side only **/
     void registerEditorOverlay(AbstractGuiOverlay overlay);
-
-    /** Register a toolbar button, Client Side only **/
-    void registerToolbarButton(IToolbarButton button);
-
-    /** Get the list of registered toolbar buttons **/
-    List<IToolbarButton> getToolbarButtons();
-
-    /** Register a button action, Client Side only **/
-    void registerButtonAction(IButtonAction action);
-
-    /** Get the list of registered button actions **/
-    List<IButtonAction> getButtonActions();
-
-    /** Register a custom template **/
-    void registerTemplate(ITemplate template);
-
-    /** Get the list of registered templates **/
-    List<ITemplate> getTemplates();
 
     /** Call this to get a book from it's id **/
     IBook getBook(String bookID);

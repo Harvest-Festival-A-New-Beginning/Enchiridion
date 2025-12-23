@@ -75,11 +75,9 @@ public class GuiBook extends GuiBase implements IBookHelper {
         registerOverlay(layers);
         registerOverlay(simpleEditor);
 
-        // Register toolbar buttons from API
-        for (Object button : EnchiridionAPI.instance.getToolbarButtons()) {
-            if (button instanceof joshie.enchiridion.api.gui.IToolbarButton) {
-                toolbar.registerButton((joshie.enchiridion.api.gui.IToolbarButton) button);
-            }
+        // Register toolbar buttons from internal registry
+        for (joshie.enchiridion.api.gui.IToolbarButton button : ToolbarButtonRegistry.getAll()) {
+            toolbar.registerButton(button);
         }
     }
 

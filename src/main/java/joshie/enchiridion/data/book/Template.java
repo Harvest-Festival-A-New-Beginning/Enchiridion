@@ -3,7 +3,7 @@ package joshie.enchiridion.data.book;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import joshie.enchiridion.data.book.Page;
-import joshie.enchiridion.api.book.ITemplate;
+import joshie.enchiridion.data.book.ITemplate;
 import joshie.enchiridion.lib.EInfo;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

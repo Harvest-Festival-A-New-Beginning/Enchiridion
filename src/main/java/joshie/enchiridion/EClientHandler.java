@@ -2,11 +2,8 @@ package joshie.enchiridion;
 
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.book.IBook;
-import joshie.enchiridion.data.book.Page;
-import joshie.enchiridion.data.book.Template;
 import joshie.enchiridion.gui.book.*;
 import joshie.enchiridion.gui.book.buttons.*;
-import joshie.enchiridion.gui.book.buttons.actions.*;
 import joshie.enchiridion.gui.book.features.recipe.RecipeHandlerFurnace;
 import joshie.enchiridion.gui.book.features.recipe.RecipeHandlerShapedVanilla;
 import joshie.enchiridion.gui.book.features.recipe.RecipeHandlerShapelessVanilla;
@@ -74,30 +71,20 @@ public class EClientHandler {
         //NeoForge.EVENT_BUS.register(new SmartLibrary());
         EnchiridionAPI.editor = new EditHelper();
 
-        // Note: Overlays and buttons are now registered in GuiBook constructor
-        // The toolbar buttons will be registered via the API to a list that GuiBook reads
-
+        // Register toolbar buttons internally (not via API)
         //Left aligned buttons - auto-generated from ToolbarRegistry
         for (joshie.enchiridion.gui.book.element.ToolbarMetadata metadata : joshie.enchiridion.gui.book.element.ToolbarRegistry.getAll()) {
-            EnchiridionAPI.instance.registerToolbarButton(new ToolbarButton(metadata));
+            ToolbarButtonRegistry.register(new ToolbarButton(metadata));
         }
 
         //Right aligned
-        EnchiridionAPI.instance.registerToolbarButton(new ButtonDeletePage());
-        EnchiridionAPI.instance.registerToolbarButton(new ButtonChangeBackground());
-        EnchiridionAPI.instance.registerToolbarButton(new ButtonChangeIcon());
-        EnchiridionAPI.instance.registerToolbarButton(new ButtonToggleGrid());
-        EnchiridionAPI.instance.registerToolbarButton(new ButtonToggleScrollable());
-        EnchiridionAPI.instance.registerToolbarButton(new ButtonSaveTemplate());
-        EnchiridionAPI.instance.registerToolbarButton(new ButtonInsertTemplate());
-
-        //Register button actions
-        EnchiridionAPI.instance.registerButtonAction(new ActionJumpPage());
-        EnchiridionAPI.instance.registerButtonAction(new ActionNextPage());
-        EnchiridionAPI.instance.registerButtonAction(new ActionPreviousPage());
-        EnchiridionAPI.instance.registerButtonAction(new ActionOpenWebpage());
-        EnchiridionAPI.instance.registerButtonAction(new ActionToggleLayer());
-        EnchiridionAPI.instance.registerButtonAction(new ActionExecuteCommand());
+        ToolbarButtonRegistry.register(new ButtonDeletePage());
+        ToolbarButtonRegistry.register(new ButtonChangeBackground());
+        ToolbarButtonRegistry.register(new ButtonChangeIcon());
+        ToolbarButtonRegistry.register(new ButtonToggleGrid());
+        ToolbarButtonRegistry.register(new ButtonToggleScrollable());
+        ToolbarButtonRegistry.register(new ButtonSaveTemplate());
+        ToolbarButtonRegistry.register(new ButtonInsertTemplate());
 
         //Register Recipe Handlers
         EnchiridionAPI.instance.registerRecipeHandler(new RecipeHandlerShapedVanilla());
@@ -107,10 +94,6 @@ public class EClientHandler {
         EnchiridionAPI.instance.registerRecipeHandler(new RecipeHandlerFurnace());
         //attemptToRegisterRecipeHandler(RecipeHandlerMTAdvancedShaped.class, "crafttweaker");
         //attemptToRegisterRecipeHandler(RecipeHandlerMTAdvancedShapeless.class, "crafttweaker");
-
-        //Register Button Template
-        Template template = new Template(new ResourceLocation(EInfo.MODID, "enchiridion_default_buttons"), "Turn Page Arrows", new ELocation("default_buttons_thumbnail"), DefaultHelper.addArrows(new Page(0)));
-        EnchiridionAPI.instance.registerTemplate(template);
 
         //Register the Enchiridion Book
         EnchiridionAPI.instance.registerModWithBooks(EInfo.MODID);

@@ -3,7 +3,7 @@ package joshie.enchiridion.gui.book;
 import joshie.enchiridion.EConfig;
 import joshie.enchiridion.Enchiridion;
 import joshie.enchiridion.api.EnchiridionAPI;
-import joshie.enchiridion.api.book.IButtonAction;
+import joshie.enchiridion.gui.book.buttons.IButtonAction;
 
 import joshie.enchiridion.gui.book.GuiSimpleEditorGeneric.WrappedEditable;
 import joshie.enchiridion.gui.book.element.ActionButtonElement;

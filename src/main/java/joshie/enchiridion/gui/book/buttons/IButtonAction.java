@@ -1,4 +1,4 @@
-package joshie.enchiridion.api.book;
+package joshie.enchiridion.gui.book.buttons;
 
 import joshie.enchiridion.api.gui.ISimpleEditorFieldProvider;
 import joshie.enchiridion.gui.book.GuiBook;

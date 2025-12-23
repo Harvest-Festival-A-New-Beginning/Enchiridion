@@ -1,5 +1,6 @@
 package joshie.enchiridion.api.recipe;
 
+import joshie.enchiridion.gui.book.GuiBook;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -11,8 +12,8 @@ public interface IRecipeHandler {
     void addRecipes(@Nonnull ItemStack output, List<IRecipeHandler> list, Level world);
 
     /** Draw this recipe in the book
-     *  @param gui the GuiBook instance providing drawing capabilities **/
-    void draw(Object gui);
+     *  @param guiBook the GuiBook instance providing drawing capabilities **/
+    void draw(GuiBook guiBook);
 
     /** @return the height of this recipe handler, based on the width **/
     int getHeight(int width);
@@ -31,6 +32,6 @@ public interface IRecipeHandler {
 
     /** Add Tooltip
      *  @param list the tooltip list
-     *  @param gui the GuiBook instance providing drawing capabilities **/
-    void addTooltip(List<String> list, Object gui);
+     *  @param guiBook the GuiBook instance providing drawing capabilities **/
+    void addTooltip(List<String> list, GuiBook guiBook);
 }

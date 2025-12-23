@@ -30,10 +30,7 @@ public abstract class RecipeHandlerBase implements IRecipeHandler {
     }
 
     @Override
-    public void addTooltip(List<String> list, Object gui) {
-        if (!(gui instanceof joshie.enchiridion.gui.book.GuiBook)) return;
-        joshie.enchiridion.gui.book.GuiBook guiBook = (joshie.enchiridion.gui.book.GuiBook) gui;
-
+    public void addTooltip(List<String> list, joshie.enchiridion.gui.book.GuiBook guiBook) {
         // TODO: Removed isMouseOverIItemStack - needs refactoring for mouse hit detection
         // Recipe tooltips will not work until this is reimplemented
         /*for (IItemStack stack : stackList) {
@@ -60,10 +57,7 @@ public abstract class RecipeHandlerBase implements IRecipeHandler {
     }
 
     @Override
-    public void draw(Object gui) {
-        if (!(gui instanceof joshie.enchiridion.gui.book.GuiBook)) return;
-        joshie.enchiridion.gui.book.GuiBook guiBook = (joshie.enchiridion.gui.book.GuiBook) gui;
-
+    public void draw(joshie.enchiridion.gui.book.GuiBook guiBook) {
         drawBackground(guiBook);
         // TODO: Removed drawIItemStack - needs refactoring to use GuiGraphics directly
         // Recipe items will not render until this is reimplemented
@@ -72,5 +66,5 @@ public abstract class RecipeHandlerBase implements IRecipeHandler {
         }*/
     }
 
-    protected abstract void drawBackground(Object gui);
+    protected abstract void drawBackground(joshie.enchiridion.gui.book.GuiBook guiBook);
 }

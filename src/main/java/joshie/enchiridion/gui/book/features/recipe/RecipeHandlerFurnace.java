@@ -2,6 +2,7 @@ package joshie.enchiridion.gui.book.features.recipe;
 
 import joshie.enchiridion.api.EnchiridionAPI;
 import joshie.enchiridion.api.recipe.IRecipeHandler;
+import joshie.enchiridion.gui.book.GuiBook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;

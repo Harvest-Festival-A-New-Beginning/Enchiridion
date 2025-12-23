@@ -1,6 +1,7 @@
 package joshie.enchiridion.api.book;
 
 import joshie.enchiridion.api.gui.ISimpleEditorFieldProvider;
+import joshie.enchiridion.gui.book.GuiBook;
 import net.minecraft.resources.ResourceLocation;
 
 public interface IButtonAction extends ISimpleEditorFieldProvider {

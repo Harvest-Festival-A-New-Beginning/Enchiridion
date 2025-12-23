@@ -321,11 +321,15 @@ public class GuiBook extends GuiBase implements IBookHelper {
     public boolean mouseClicked(double x, double y, int mouseButton) {
         super.mouseClicked(x, y, mouseButton);
 
-        // Convert screen coordinates to GUI-relative coordinates
+        // COORDINATE SYSTEMS:
+        // - Overlays use GUI-relative coordinates (0,0 = top-left of book window)
+        // - Features use screen coordinates (positioned via setX/setY with absolute screen positions)
+
+        // Convert screen coordinates to GUI-relative coordinates for overlays
         int mouseX = (int) x - leftPos;
         int mouseY = (int) y - topPos;
 
-        //Perform clicks for the overlays
+        //Perform clicks for the overlays (GUI-relative coordinates)
         if (isEditMode) {
             for (AbstractGuiOverlay overlay : overlays) {
                 if (overlay.mouseClicked(mouseX, mouseY, this)) {
@@ -334,7 +338,7 @@ public class GuiBook extends GuiBase implements IBookHelper {
             }
         }
 
-        //Perform clicks for the features
+        //Perform clicks for the features (screen coordinates)
         for (FeatureProvider feature : page.getFeatures()) {
             if (feature.mouseClicked((int) x, (int) y + page.getScroll(), mouseButton, this)) {
                 if (isEditMode && mouseButton == 0) {
@@ -356,13 +360,14 @@ public class GuiBook extends GuiBase implements IBookHelper {
     @Override
     public boolean mouseReleased(double x, double y, int button) {
         isGroupMoveMode = false;
+
+        // Features use screen coordinates
         for (FeatureProvider provider : page.getFeatures()) {
             provider.mouseReleased((int) x, (int) y + page.getScroll(), button);
         }
 
-        //Perform releases for the overlays
+        // Overlays use GUI-relative coordinates
         if (isEditMode) {
-            // Convert screen coordinates to GUI-relative coordinates for overlays
             int mouseX = (int) x - leftPos;
             int mouseY = (int) y - topPos;
             for (AbstractGuiOverlay overlay : overlays) {
